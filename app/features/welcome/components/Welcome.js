@@ -66,6 +66,11 @@ type State = {
      * If this is not a url it will be treated as room name for default domain.
      */
     url: string;
+
+    /**
+     * JSON Web Token used for authentication.
+     */
+    jwt: string;
 };
 
 /**
@@ -103,6 +108,7 @@ class Welcome extends Component<Props, State> {
         // Bind event handlers.
         this._animateRoomnameChanging = this._animateRoomnameChanging.bind(this);
         this._onURLChange = this._onURLChange.bind(this);
+        this._onJWTChange = this._onJWTChange.bind(this);
         this._onFormSubmit = this._onFormSubmit.bind(this);
         this._onJoin = this._onJoin.bind(this);
         this._updateRoomname = this._updateRoomname.bind(this);
@@ -214,6 +220,8 @@ class Welcome extends Component<Props, State> {
         const inputURL = this.state.url || this.state.generatedRoomname;
         const conference = createConferenceObjectFromURL(inputURL);
 
+        conference.jwt = this.state.jwt;
+
         // Don't navigate if conference couldn't be created
         if (!conference) {
             return;
@@ -236,6 +244,23 @@ class Welcome extends Component<Props, State> {
             url: event.currentTarget.value
         });
     }
+
+
+    _onJWTChange: (*) => void;
+
+    /**
+     * Keeps JWT input value and JWT in state in sync.
+     *
+     * @param {SyntheticInputEvent<HTMLInputElement>} event - Event by which
+     * this function is called.
+     * @returns {void}
+     */
+    _onJWTChange(event: SyntheticInputEvent<HTMLInputElement>) {
+        this.setState({
+            jwt: event.currentTarget.value
+        });
+    }
+
 
     /**
      * Renders the body for the welcome page.
@@ -265,23 +290,29 @@ class Welcome extends Component<Props, State> {
                 <SpotlightTarget name = 'conference-url'>
                     <Form onSubmit = { this._onFormSubmit }>
                         <Label>{ t('enterConferenceNameOrUrl') } </Label>
-                        <FieldWrapper>
-                            <FieldTextStateless
-                                autoFocus = { true }
-                                isInvalid = { locationError }
-                                isLabelHidden = { true }
-                                onChange = { this._onURLChange }
-                                placeholder = { this.state.roomPlaceholder }
-                                shouldFitContainer = { true }
-                                type = 'text'
-                                value = { this.state.url } />
-                            <Button
-                                appearance = 'primary'
-                                onClick = { this._onJoin }
-                                type = 'button'>
-                                { t('go') }
-                            </Button>
-                        </FieldWrapper>
+                        <FieldTextStateless
+                            autoFocus = { true }
+                            isInvalid = { locationError }
+                            isLabelHidden = { true }
+                            onChange = { this._onURLChange }
+                            placeholder = { this.state.roomPlaceholder }
+                            shouldFitContainer = { true }
+                            type = 'text'
+                            value = { this.state.url } />
+                        <FieldTextStateless
+                            autoFocus = { true }
+                            isLabelHidden = { true }
+                            onChange = { this._onJWTChange }
+                            placeholder = 'JWT (optional)'
+                            shouldFitContainer = { true }
+                            type = 'text'
+                            value = { this.state.jwt } />
+                        <Button
+                            appearance = 'primary'
+                            onClick = { this._onJoin }
+                            type = 'button'>
+                            { t('go') }
+                        </Button>
                     </Form>
                 </SpotlightTarget>
             </Header>

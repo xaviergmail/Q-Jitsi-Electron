@@ -122,6 +122,7 @@ class Conference extends Component<Props, State> {
      */
     componentDidMount() {
         const room = this.props.location.state.room;
+        const jwt = this.props.location.state.jwt;
         const serverTimeout = this.props._serverTimeout || config.defaultServerTimeout;
         const serverURL = this.props.location.state.serverURL
             || this.props._serverURL
@@ -129,7 +130,8 @@ class Conference extends Component<Props, State> {
 
         this._conference = {
             room,
-            serverURL
+            serverURL,
+            jwt
         };
 
         this._loadConference();
@@ -145,7 +147,9 @@ class Conference extends Component<Props, State> {
                     type: 'error'
                 },
                 room,
-                serverURL);
+                serverURL,
+                jwt
+            );
         }, serverTimeout * 1000);
     }
 
@@ -202,6 +206,7 @@ class Conference extends Component<Props, State> {
     _loadConference() {
         const url = new URL(this._conference.room, this._conference.serverURL);
         const roomName = url.pathname.split('/').pop();
+        const jwt = this._conference.jwt;
         const host = this._conference.serverURL.replace(/https?:\/\//, '');
         const searchParameters = Object.fromEntries(url.searchParams);
         const locale = { lng: i18n.language };
@@ -219,7 +224,8 @@ class Conference extends Component<Props, State> {
             configOverwrite,
             onload: this._onIframeLoad,
             parentNode: this._ref.current,
-            roomName
+            roomName,
+            jwt
         };
 
         this._api = new JitsiMeetExternalAPI(host, {
@@ -285,13 +291,15 @@ class Conference extends Component<Props, State> {
      * @param {Event} event - Event by which the function is called.
      * @param {string} room - Room name.
      * @param {string} serverURL - Server URL.
+     * @param {string} jwt - The JWT.
      * @returns {void}
      */
-    _navigateToHome(event: Event, room: ?string, serverURL: ?string) {
+    _navigateToHome(event: Event, room: ?string, serverURL: ?string, jwt: ?string) {
         this.props.dispatch(push('/', {
             error: event.type === 'error',
             room,
-            serverURL
+            serverURL,
+            jwt
         }));
     }
 
