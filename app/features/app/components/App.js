@@ -11,7 +11,18 @@ import { Conference } from '../../conference';
 import config from '../../config';
 import { history } from '../../router';
 import { createConferenceObjectFromURL } from '../../utils';
-import { QApp } from '../../../../Q/frontend/src/App';
+
+import QApp from '../../../../frontend';
+
+/**
+ * Something about stuff.
+ *
+ * @returns {ReactElement}
+ */
+function QApp2() {
+    return <div>omg it works</div>;
+}
+
 
 /**
  * Main component encapsulating the entire application.
@@ -91,13 +102,14 @@ class App extends Component<*> {
      * @returns {ReactElement}
      */
     render() {
-        return (
+        return <QApp />;
+
+        /* return (
             <AtlasKitThemeProvider mode = 'dark'>
                 <Router history = { history }>
                     <Switch>
                         <Route
                             component = { QApp }
-                            exact = { true }
                             path = '/' />
                         <Route
                             component = { Conference }
@@ -105,7 +117,7 @@ class App extends Component<*> {
                     </Switch>
                 </Router>
             </AtlasKitThemeProvider>
-        );
+        );*/
     }
 }
 

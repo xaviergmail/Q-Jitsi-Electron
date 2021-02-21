@@ -1,0 +1,314 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+body {
+  margin: 0;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap');
+* {
+  box-sizing: border-box;
+}
+
+nav {
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 100%;
+  height: 0px;
+  overflow: hidden;
+  border: 1px solid black;
+  transition: all 0.5s;
+  display: flex;
+  font-size: 40px;
+  justify-content: space-between;
+  backdrop-filter: blur(2px);
+}
+
+nav ~ span {
+  position: fixed;
+  margin: 0 auto;
+  top: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+nav ~ span svg {
+  height: 1em;
+  color: white;
+}
+
+nav ~ span:hover ~ nav,
+nav.show,
+nav:hover {
+  height: 60px;
+}
+
+nav.show ~ span,
+nav:hover ~ span {
+  display: none;
+}
+
+main {
+  font-family: sans-serif;
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  min-height: 100vh;
+  font-family: 'Montserrat', sans-serif;
+  background: white;
+}
+
+/* .navbar-pad {
+  margin-top: 75px;
+} */
+
+main a {
+  color: rgb(0, 117, 255);
+}
+
+.call-to-action {
+  font-size: 1.3rem;
+  padding: 1rem;
+  text-decoration: none;
+  transition: all 1s;
+}
+.call-to-action:hover {
+}
+
+.home h1{
+  font-size:  4rem;
+
+}
+
+.home strong{
+  font-size:  2rem;
+}
+.call-to-action a {
+  text-decoration: none;
+}
+
+.home strong {
+  padding: 2rem;
+}
+
+
+div.home{
+  /* border: 1px solid red; */
+}
+
+li.post {
+  color: black;
+  /* border:2px solid slateblue; */
+  padding: 1rem;
+  /* margin: 2px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+  /* margin-top: 100px; */
+}
+li.post a:hover{
+  text-decoration: none;
+}
+li.post:nth-child(even){
+  background: #ddd;
+
+}
+.post section {
+  background: black;
+  width: 100vw;
+
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+
+  min-height: 400px;
+}
+
+.stream {
+  width: 15vw;
+  height: 10vw;
+  transition: all 0.3s;
+}
+.dashboard.page {
+  padding-top: 100px;
+}
+
+.dashboard .noneyet {
+  text-align: center;
+}
+
+.profile.page h2 {
+  font-size: 40px;
+}
+
+.post:nth-child(odd) {
+  background-color: #eee;
+}
+.post input {
+  transform: scale(1.5);
+  margin: 1rem;
+}
+.post:hover .stream {
+  border: 1px solid white;
+  width: 15.5vw;
+  height: 10.5vw;
+}
+.post:hover .stream:hover::after {
+  /* border:1px solid black; */
+  /* background-color: white !important; */
+  /* content: ' الآلآ ن '; */
+  content: '🐮';
+
+}
+.post-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 1rem;
+}
+.post .message, .post .bounty{
+  display:  inline;
+}
+
+#pay {
+  padding: 1rem;
+}
+
+
+.posts {
+    padding-top: 2rem;
+    margin: 5rem 0;
+    font-size: 1.5rem;
+    line-height: 4rem;
+}
+
+
+.posts li:nth-child(odd){
+  background:#eee;
+}
+
+.posts a {
+  text-decoration: none;
+}
+
+.posts li:hover{
+  background: #ddd;
+  text-decoration: underline;
+} 
+
+nav a {
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border-left: 1px solid black;
+  transition: all 0.33s;
+  background-color:#87CEFA;
+  background:#7c0a02;
+  background-color:  #4cbd63
+
+}
+
+nav a:hover {
+  background-color: #6c0a03;
+  background-color: #347f43;
+}
+
+nav a:active {
+  background-color:  #24a13d;
+ 
+}
+
+ul {
+  padding: 0;
+}
+
+ul#transactions {
+  list-style-type: none;
+}
+
+ul#transactions {
+  text-align: left;
+}
+
+ul#transactions li {
+  /* box-shadow: 1px solid #000; */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 20px 100px;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  white-space: nowrap;
+}
+
+ul#transaction li div {
+}
+
+.stream {
+  display: flex;
+  flex-direction: column;
+}
+.post img {
+  object-fit: contain;
+  height: 0%;
+  flex-grow: 1;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile #addPost {
+  display: flex;
+  flex-direction: column;
+}
+
+#createRoom {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: space-around;
+  padding: 50px;
+  justify-content: space-evenly;
+  /* align-items: center; */
+  padding: 50px;
+  height: 300px;
+}
+
+#createRoom input{ 
+  text-align: center;
+  font-size: 1rem;
+  padding: 1rem;
+}
+#createRoom button {
+  font-size: 2rem;
+}
+
+#user-details{
+  margin-top:5rem;
+}
+
+
