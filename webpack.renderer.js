@@ -48,6 +48,7 @@ module.exports = {
                     plugins: [
                         require.resolve('@babel/plugin-transform-flow-strip-types'),
                         require.resolve('@babel/plugin-proposal-class-properties'),
+                        require.resolve('@babel/plugin-proposal-optional-chaining'),
                         require.resolve('@babel/plugin-proposal-export-namespace-from')
                     ]
                 },
