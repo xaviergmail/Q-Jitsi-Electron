@@ -11,7 +11,7 @@ import { Conference } from '../../conference';
 import config from '../../config';
 import { history } from '../../router';
 import { createConferenceObjectFromURL } from '../../utils';
-import { Welcome } from '../../welcome';
+import { QApp } from '../../../../Q/frontend/src/App';
 
 /**
  * Main component encapsulating the entire application.
@@ -96,7 +96,7 @@ class App extends Component<*> {
                 <Router history = { history }>
                     <Switch>
                         <Route
-                            component = { Welcome }
+                            component = { QApp }
                             exact = { true }
                             path = '/' />
                         <Route
