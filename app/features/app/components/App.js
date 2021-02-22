@@ -1,5 +1,6 @@
 // @flow
 
+
 import { AtlasKitThemeProvider } from '@atlaskit/theme';
 
 import React, { Component } from 'react';
@@ -101,10 +102,14 @@ class App extends Component<*> {
      * @inheritdoc
      * @returns {ReactElement}
      */
-    render() {
-        return <QApp />;
 
-        /* return (
+
+    render() {
+        console.log(process.env, ' batman')
+
+        // return <QApp />;
+
+        return (
             <AtlasKitThemeProvider mode = 'dark'>
                 <Router history = { history }>
                     <Switch>
@@ -117,7 +122,7 @@ class App extends Component<*> {
                     </Switch>
                 </Router>
             </AtlasKitThemeProvider>
-        );*/
+        )
     }
 }
 

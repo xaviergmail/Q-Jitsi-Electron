@@ -15,7 +15,7 @@ import { conferenceEnded, conferenceJoined } from '../actions';
 import JitsiMeetExternalAPI from '../external_api';
 import { LoadingIndicator, Wrapper } from '../styled';
 
-const ENABLE_REMOTE_CONTROL = false;
+const ENABLE_REMOTE_CONTROL = true;
 
 type Props = {
 
@@ -191,8 +191,8 @@ class Conference extends Component<Props, State> {
      */
     render() {
         return (
-            <Wrapper innerRef = { this._ref }>
-                { this._maybeRenderLoadingIndicator() }
+            <Wrapper innerRef={this._ref}>
+                {this._maybeRenderLoadingIndicator()}
             </Wrapper>
         );
     }
@@ -279,7 +279,7 @@ class Conference extends Component<Props, State> {
         if (this.state.isLoading) {
             return (
                 <LoadingIndicator>
-                    <Spinner size = 'large' />
+                    <Spinner size='large' />
                 </LoadingIndicator>
             );
         }

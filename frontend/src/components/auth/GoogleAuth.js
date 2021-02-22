@@ -22,8 +22,9 @@ const responseGoogle = (props) => {
   }
   return (
     <>
+    {console.log(process.env, ' no doubt')}
       <GoogleLogin
-        clientId={process.env.ELECTRON_WEBPACK_APP_GOOGLEID}
+        clientId={'956237608940-ne8lji466kjr51in8oldqvau9v1l8mjk.apps.googleusercontent.com'}
         buttonText="Log In"
         onSuccess={onResponse}
         onFailure={onResponse}

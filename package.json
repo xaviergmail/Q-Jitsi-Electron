@@ -125,7 +125,7 @@
     "mousetrap": "1.6.2",
     "random-words": "^1.1.1",
     "react": "16.8.0",
-    "react-dom": "16.8.0",
+    "react-dom": "^16.13.1",
     "react-google-login": "^5.1.21",
     "react-i18next": "11.5.1",
     "react-loading": "^2.0.3",
@@ -139,6 +139,7 @@
     "redux-logger": "3.0.6",
     "redux-persist": "5.10.0",
     "redux-persist-electron-storage": "2.0.0",
+    "scheduler": "^0.14.0",
     "socket.io-client": "^3.1.1",
     "source-map-support": "0.5.16",
     "styled-components": "3.4.0"

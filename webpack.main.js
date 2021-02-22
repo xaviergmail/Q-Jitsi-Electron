@@ -2,6 +2,7 @@ const path = require('path');
 
 require('dotenv').config();
 
+console.log(process.env, 'show me the $s')
 module.exports = {
     target: 'electron-main',
     entry: { main: './main.js',
