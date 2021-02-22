@@ -91,9 +91,12 @@ API.interceptors.response.use(
   (response) => response,
   (error) => {
     console.error(error?.response?.data)
-    if (error?.response?.data.name !== 'JsonWebTokenError')
-      NotificationManager.error(String(error?.response?.data.message))
-    else NotificationManager.error('Please signup or login')
+    NotificationManager.error(String(error?.response?.data?.message || error?.response?.data?.msg))
+    if (error?.response?.status == 403 || error?.response?.status == 401) {
+      localStorage.removeItem("token")
+      localStorage.removeItem("googletoken")
+    }
+    
   }
 )
 

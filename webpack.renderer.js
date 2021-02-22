@@ -25,7 +25,7 @@ module.exports = {
             cert: fs.readFileSync('./fullchain.pem'),
             host: '0.0.0.0'
         },
-        open: { app: [ 'npm', 'run', 'electronapp' ] },
+        open: { app: [ 'npm', 'run', 'electronappdelay' ] },
         host: 'local.plshelp.live'
     },
     plugins: [

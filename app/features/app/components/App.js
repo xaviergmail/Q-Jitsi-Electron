@@ -105,6 +105,7 @@ class App extends Component<*> {
                     <Switch>
                         <Route
                             component = { QApp }
+                            exact = { true }
                             path = '/' />
                         <Route
                             component = { Conference }

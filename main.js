@@ -176,12 +176,13 @@ function createJitsiMeetWindow() {
     const basePath = isDev ? __dirname : app.getAppPath();
 
     // URL for index.html which will be our entry point.
-    let indexURL = URL.format({
+    const indexURL = URL.format({
         pathname: path.resolve(basePath, './build/index.html'),
         protocol: 'file:',
         slashes: true
     });
 
+    /* Enable only if you desperately need react / redux devtools
     if (process.env.NODE_ENV !== 'production') {
         const host = 'local.plshelp.live'; // process.env.ELECTRON_WEBPACK_WDS_HOST;
         const port = process.env.ELECTRON_WEBPACK_WDS_PORT || 8080;
@@ -190,6 +191,7 @@ function createJitsiMeetWindow() {
 
         console.log('opening indexurl', indexURL);
     }
+    */
 
     // Options used when creating the main Jitsi Meet window.
     // Use a preload script in order to provide node specific functionality
@@ -209,6 +211,8 @@ function createJitsiMeetWindow() {
             enableRemoteModule: true,
             nativeWindowOpen: true,
             nodeIntegration: false,
+            plugins: true,
+            webSecurity: true,
             preload: path.resolve(basePath, './build/preload.js')
         }
     };

@@ -4,6 +4,7 @@ import { NotificationManager } from 'react-notifications'
 import moment from 'moment'
 import { connect } from 'react-redux';
 
+import gotoRoom from "../../room"
 
 import TheContext from '../../TheContext'
 import actions from '../../api'
@@ -136,7 +137,7 @@ const AddPost = connect()(({ history, posts, dispatch }) => {
       </h3>
         <form id="createRoom" onSubmit={handleSubmit}>
 
-          <label for="bounty">
+          <label htmlFor="bounty">
             <h2>Need help?</h2>
             Type your question below
         </label>
