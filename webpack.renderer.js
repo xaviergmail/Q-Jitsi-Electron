@@ -18,12 +18,14 @@ module.exports = {
         maxEntrypointSize: 1.5 * 1024 * 1024
     },
     devServer: {
+        contentBase: path.resolve('./public'),
         allowedHosts: [ 'local.plshelp.live' ],
         https: {
             key: fs.readFileSync('./privkey.pem'),
             cert: fs.readFileSync('./fullchain.pem'),
             host: '0.0.0.0'
         },
+        open: { app: [ 'npm', 'run', 'electronapp' ] },
         host: 'local.plshelp.live'
     },
     plugins: [

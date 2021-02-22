@@ -1,6 +1,6 @@
 // @flow
 
-import { createStore } from 'redux';
+import { createStore, compose } from 'redux';
 import { persistReducer } from 'redux-persist';
 
 import middleware from './middleware';
@@ -18,4 +18,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
-export default createStore(persistedReducer, middleware);
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+export default createStore(persistedReducer, composeEnhancers(middleware));

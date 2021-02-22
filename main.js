@@ -184,9 +184,11 @@ function createJitsiMeetWindow() {
 
     if (process.env.NODE_ENV !== 'production') {
         const host = 'local.plshelp.live'; // process.env.ELECTRON_WEBPACK_WDS_HOST;
-        const port = process.env.ELECTRON_WEBPACK_WDS_PORT;
+        const port = process.env.ELECTRON_WEBPACK_WDS_PORT || 8080;
 
         indexURL = `https://${host}:${port}/index.html`;
+
+        console.log('opening indexurl', indexURL);
     }
 
     // Options used when creating the main Jitsi Meet window.
@@ -370,7 +372,10 @@ ipcMain.on('renderer-ready', () => {
 
 import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer';
 app.whenReady().then(() => {
-    installExtension([ REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS ])
+    installExtension(REACT_DEVELOPER_TOOLS)
+        .then(name => console.log(`Added Extension:  ${name}`))
+        .catch(err => console.log('An error occurred: ', err));
+    installExtension(REDUX_DEVTOOLS)
         .then(name => console.log(`Added Extension:  ${name}`))
         .catch(err => console.log('An error occurred: ', err));
 });

@@ -1,0 +1,12 @@
+{
+"commonDistDirectory": "build",
+    "main": {
+      "sourceDirectory": "app",
+      "webpackConfig": "webpack.main.js"
+    },
+
+    "renderer": {
+      "sourceDirectory": "app",
+      "webpackConfig": "webpack.renderer.js"
+    }
+}
