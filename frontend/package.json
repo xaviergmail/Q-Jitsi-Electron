@@ -2,7 +2,7 @@
   "name": "cowbellfrontend",
   "version": "0.0.0",
   "private": true,
-  "main": "src/App.js",
+  "main": "src/QApp.js",
   "dependencies": {
     "@slack/bolt": "^3.2.0",
     "axios": "^0.21.1",

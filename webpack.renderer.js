@@ -2,17 +2,32 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const ELECTRON_VERSION = require('./package.json').devDependencies.electron;
+const fs = require('fs');
+
+require('dotenv').config();
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
     // The renderer code rus in BrowserWindow without node support so we must
     // target a web platform.
     target: 'web',
     entry: { app: './app/index.js' },
+    devtool: 'source-map',
     performance: {
         maxAssetSize: 1.5 * 1024 * 1024,
         maxEntrypointSize: 1.5 * 1024 * 1024
     },
+    devServer: {
+        allowedHosts: [ 'local.plshelp.live' ],
+        https: {
+            key: fs.readFileSync('./privkey.pem'),
+            cert: fs.readFileSync('./fullchain.pem'),
+            host: '0.0.0.0'
+        },
+        host: 'local.plshelp.live'
+    },
     plugins: [
+        new Dotenv(),
         new HtmlWebpackPlugin({
             template: './app/index.html'
         })
@@ -60,6 +75,18 @@ module.exports = {
                     { loader: 'css-loader' }
                 ],
                 test: /\.css$/
+            },
+            {
+                test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'fonts/'
+                        }
+                    }
+                ]
             },
             {
                 use: 'file-loader',

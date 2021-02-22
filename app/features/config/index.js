@@ -13,18 +13,18 @@ export default {
     /**
      * Application name.
      */
-    appName: 'Ironhack Q',
+    appName: 'Cowbell Club',
 
     /**
     * The prefix for application protocol.
     * You will also need to replace this in package.json.
     */
-    appProtocolPrefix: 'ironhack-q',
+    appProtocolPrefix: 'cowbell',
 
     /**
      * The default server URL of Jitsi Meet Deployment that will be used.
      */
-    defaultServerURL: 'https://q.ironhack.com',
+    defaultServerURL: process.env.ELECTRON_WEBPACK_APP_JITSI_URL || 'https://cowbell.club',
 
     /**
      * The default server Timeout in seconds.

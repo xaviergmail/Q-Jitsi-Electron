@@ -26,6 +26,12 @@ const pkgJson = require('./package.json');
 
 const showDevTools = Boolean(process.env.SHOW_DEV_TOOLS) || (process.argv.indexOf('--show-dev-tools') > -1);
 
+const _env = require('dotenv').config();
+
+ipcMain.on('get-env', event => {
+    event.sender.send('get-env-reply', _env);
+});
+
 // We need this because of https://github.com/electron/electron/issues/18214
 app.commandLine.appendSwitch('disable-site-isolation-trials');
 
@@ -170,11 +176,18 @@ function createJitsiMeetWindow() {
     const basePath = isDev ? __dirname : app.getAppPath();
 
     // URL for index.html which will be our entry point.
-    const indexURL = URL.format({
+    let indexURL = URL.format({
         pathname: path.resolve(basePath, './build/index.html'),
         protocol: 'file:',
         slashes: true
     });
+
+    if (process.env.NODE_ENV !== 'production') {
+        const host = 'local.plshelp.live'; // process.env.ELECTRON_WEBPACK_WDS_HOST;
+        const port = process.env.ELECTRON_WEBPACK_WDS_PORT;
+
+        indexURL = `https://${host}:${port}/index.html`;
+    }
 
     // Options used when creating the main Jitsi Meet window.
     // Use a preload script in order to provide node specific functionality
@@ -354,3 +367,49 @@ ipcMain.on('renderer-ready', () => {
             .send('protocol-data-msg', protocolDataForFrontApp);
     }
 });
+
+import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer';
+app.whenReady().then(() => {
+    installExtension([ REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS ])
+        .then(name => console.log(`Added Extension:  ${name}`))
+        .catch(err => console.log('An error occurred: ', err));
+});
+import ElectronGoogleOAuth2 from '@getstation/electron-google-oauth2';
+
+const myApiOauth = new ElectronGoogleOAuth2(
+process.env.ELECTRON_WEBPACK_APP_GOOGLEID,
+process.env.ELECTRON_WEBPACK_APP_GOOGLESECRET,
+    [ 'profile email' ],
+    {
+        successRedirectURL: ''
+    }
+);
+
+
+let curToken = null;
+
+ipcMain.on('gauth-rq', () => {
+    console.log('got google auth request!!!!!!!!!!');
+    if (curToken) {
+        mainWindow
+            .webContents
+            .send('gauth-tk', JSON.stringify(curToken));
+
+        return;
+    }
+
+    myApiOauth.openAuthWindowAndGetTokens()
+
+    .then(token => {
+        console.log('got token!!', token);
+        curToken = token;
+        mainWindow
+            .webContents
+            .send('gauth-tk', JSON.stringify(token));
+    })
+    .catch(err => {
+        console.log('err in promise', err);
+    });
+});
+
+console.log('Wooooo we loaded!!!');

@@ -2,6 +2,8 @@ import React, { Fragment, useEffect, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { NotificationManager } from 'react-notifications'
 import moment from 'moment'
+import { connect } from 'react-redux';
+
 
 import TheContext from '../../TheContext'
 import actions from '../../api'
@@ -100,7 +102,7 @@ function humanizeDuration(input, units) {
   return duration.format(format)
 }
 
-const AddPost = ({ history, posts }) => {
+const AddPost = connect()(({ history, posts, dispatch }) => {
   const [message, setMessage] = useState('')
   const [bounty, setBounty] = useState(10)
 
@@ -120,7 +122,7 @@ const AddPost = ({ history, posts }) => {
         console.log(res)
         setUser(res?.data.user)
         NotificationManager.info(`You've submitted a new issue`)
-        history.push('/room/' + res.data.posted._id)
+        gotoRoom(dispatch, res.data.posted._id);
         // window.open(baseURL + '/' + res.data.posted._id + '?jwt=' + localStorage.getItem('token'))
       })
       .catch((err) => console.error(err))
@@ -192,6 +194,6 @@ const AddPost = ({ history, posts }) => {
     </div>
 
   )
-}
+})
 
 export default Profile

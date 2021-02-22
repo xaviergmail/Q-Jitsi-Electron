@@ -16,16 +16,6 @@ import { createConferenceObjectFromURL } from '../../utils';
 import QApp from '../../../../frontend';
 
 /**
- * Something about stuff.
- *
- * @returns {ReactElement}
- */
-function QApp2() {
-    return <div>omg it works</div>;
-}
-
-
-/**
  * Main component encapsulating the entire application.
  */
 class App extends Component<*> {
@@ -105,7 +95,7 @@ class App extends Component<*> {
 
 
     render() {
-        console.log(process.env, ' batman')
+        console.log(process.env, ' batman');
 
         // return <QApp />;
 
@@ -122,7 +112,7 @@ class App extends Component<*> {
                     </Switch>
                 </Router>
             </AtlasKitThemeProvider>
-        )
+        );
     }
 }
 

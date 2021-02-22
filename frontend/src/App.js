@@ -9,12 +9,12 @@ import Post from './components/post/Post'
 import Dashboard from './components/dashboard/Dashboard'
 import ReactLoading from 'react-loading'
 
+import 'react-notifications/lib/notifications.css'
+import './index.css'
+
 import actions from './api/index'
-import GoogleAuth from './components/auth/GoogleAuth'
 import { NotificationContainer /*NotificationManager */ } from 'react-notifications'
 import io from 'socket.io-client'
-import { BrowserRouter } from 'react-router-dom';
-
 
 // const { token } = sessionStorage;
 
@@ -46,6 +46,30 @@ const App = () => {
   const [jwt, setJwt] = useState(localStorage.getItem('token'))
   let [loadingUser, setLoadingUser] = useState(jwt != null)
 
+  async function getUser() {
+    let user = await actions.getUser()
+    console.log('user is', user)
+    if (user) {
+      setUser(user?.data)
+    }
+    setLoadingUser(false)
+  }
+
+  async function updateToken(evt, resp) {
+    const token = JSON.parse(resp)
+    const user = await actions.logIn(token.id_token)
+    setUser(user?.data)
+  }
+
+  window.jitsiNodeAPI.ipc.on('gauth-tk', updateToken) // send notification to main process
+
+  if (!jwt && !localStorage.getItem("googletoken")) {
+    console.log('requesting login')
+    setTimeout(function () {
+      window.jitsiNodeAPI.ipc.send('gauth-rq')
+    }, 1000)
+  }
+
   useEffect(() => {
     console.log('use effect')
 
@@ -56,15 +80,6 @@ const App = () => {
       //   return newPosts
       // })
     })
-
-    async function getUser() {
-      let user = await actions.getUser()
-      console.log('user is', user)
-      if (user) {
-        setUser(user?.data)
-      }
-      setLoadingUser(false)
-    }
 
     if (jwt && !user) {
       getUser().then(() => {})
@@ -95,9 +110,10 @@ const App = () => {
   const history = useHistory()
   console.log(user, '?')
 
+  console.log("history is ", history)
+
   return (
-    <BrowserRouter>
-    <TheContext.Provider value={{ history, user, setUser, posts, jwt }}>
+      <TheContext.Provider value={{ history, user, setUser, posts, jwt }}>
         <NavBar />
 
         <main>
@@ -147,13 +163,12 @@ const App = () => {
                   />
                 </Switch>
               )}
-              {!user && <GoogleAuth setJwt={setJwt} />}
+              {!user && <p>Please sign in through google using the popup window</p>}
             </>
           )}
         </main>
         <NotificationContainer />
-    </TheContext.Provider>
-</BrowserRouter>
+      </TheContext.Provider>
   )
 }
 export default App

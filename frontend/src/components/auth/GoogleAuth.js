@@ -2,6 +2,8 @@ import React from 'react'
 import actions from '../../api/index'
 import { GoogleLogin } from 'react-google-login'
 
+
+
 const responseGoogle = (props) => {
   const onResponse = (response) => {
     console.log(response, 'googlsignuplol')
@@ -20,15 +22,15 @@ const responseGoogle = (props) => {
         .catch((response) => console.error(response))
     }
   }
+  
   return (
     <>
-    {console.log(process.env, ' no doubt')}
       <GoogleLogin
-        clientId={'956237608940-ne8lji466kjr51in8oldqvau9v1l8mjk.apps.googleusercontent.com'}
+        clientId={process.env.ELECTRON_WEBPACK_APP_GOOGLEID}
         buttonText="Log In"
         onSuccess={onResponse}
         onFailure={onResponse}
-        cookiePolicy={'single_host_origin'}
+        cookiePolicy={'none'}
       />
       <iframe style={{ pointerEvents: 'none' }} src="https://giphy.com/embed/whOs1JywNpe6c" width="480" height="360" />
     </>

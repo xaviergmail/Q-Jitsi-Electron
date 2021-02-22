@@ -36,7 +36,13 @@ const API = axios.create({
 
 const actions = {
   getUser: async () => {
-    const user = await API.get(`/user`, resetHead())
+    let user
+    try {
+      user = await API.get(`/user`, resetHead())
+    } catch (err) {
+      console.error("Failed to get user data please log in again", err)
+      localStorage.removeItem("token")
+    }
     // await notificationHandler.register()
     return user
   },
