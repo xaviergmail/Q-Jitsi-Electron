@@ -4,8 +4,6 @@ import { NotificationManager } from 'react-notifications'
 import moment from 'moment'
 import { connect } from 'react-redux';
 
-import gotoRoom from "../../room"
-
 import TheContext from '../../TheContext'
 import actions from '../../api'
 
@@ -119,9 +117,7 @@ const AddPost = ({ posts }) => {
       .then((res) => {
         setUser(res?.data.user)
         NotificationManager.info(`You've submitted a new issue`)
-        // gotoRoom(dispatch, res.data.posted._id);
         history.push(`/room/${res.data.posted._id}`)
-        // window.open(baseURL + '/' + res.data.posted._id + '?jwt=' + localStorage.getItem('token'))
       })
       .catch((err) => console.error(err))
   }

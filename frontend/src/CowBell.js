@@ -12,6 +12,8 @@ import Room from './components/Room'
 import 'react-notifications/lib/notifications.css'
 import './index.css'
 
+import 'semantic-ui-css/semantic.min.css'
+
 import actions from './api/index'
 import { NotificationContainer /*NotificationManager */ } from 'react-notifications'
 import io from 'socket.io-client'
@@ -115,54 +117,54 @@ const CowBell = ({children}) => {
 
   return (
       <TheContext.Provider value={{ history, user, setUser, posts, jwt }}>
-        <NavBar />
+        <NavBar>
+          <main>
+            {loadingUser ? (
+              <ReactLoading type="bars" color="rgb(0, 117, 255)" height="128px" width="128px" />
+            ) : (
+              <>
+                {user && (
+                  <Switch>
+                    <Route
+                      exact
+                      path="/"
+                      component={Home}
+                    />
+                    <Route
+                      exact
+                      path="/dashboard"
+                      component={Dashboard}
+                    />
 
-        <main>
-          {loadingUser ? (
-            <ReactLoading type="bars" color="rgb(0, 117, 255)" height="128px" width="128px" />
-          ) : (
-            <>
-              {user && (
-                <Switch>
-                  <Route
-                    exact
-                    path="/"
-                    component={Home}
-                  />
-                  <Route
-                    exact
-                    path="/dashboard"
-                    component={Dashboard}
-                  />
+                    <Route
+                      exact
+                      path="/profile"
+                      component={Profile}
+                    />
 
-                  <Route
-                    exact
-                    path="/profile"
-                    component={Profile}
-                  />
+                    <Route
+                      path="/post/:id"
+                      render={(props) => <Post {...props} user={user} />}
+                    />
 
-                  <Route
-                    path="/post/:id"
-                    render={(props) => <Post {...props} user={user} />}
-                  />
+                    {/* {children} */}
+                    <Route path="/room/:roomName" render={(props) => <Room roomId={props.match.params.id} jitsiApp={children} {...props} />} />
 
-                  {/* {children} */}
-                  <Route path="/room/:roomName" render={(props) => <Room roomId={props.match.params.id} jitsiApp={children} {...props} />} />
+                    {/* <Route path="/room/:roomName" render={(props) => <JitsiRoom {...props} />} /> */}
 
-                  {/* <Route path="/room/:roomName" render={(props) => <JitsiRoom {...props} />} /> */}
-
-                  <Route
-                    component={NotFound}
-                  />
+                    <Route
+                      component={NotFound}
+                    />
 
 
-                </Switch>
-              )}
-              {!user && <p>Please sign in through google using the popup window</p>}
-            </>
-          )}
-        </main>
-        <NotificationContainer />
+                  </Switch>
+                )}
+                {!user && <p>Please sign in through google using the popup window</p>}
+              </>
+            )}
+          </main>
+          <NotificationContainer />
+        </NavBar>
       </TheContext.Provider>
   )
 }

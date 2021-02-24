@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router';
 import { connect } from 'react-redux';
 import { ConnectedRouter as Router, push } from 'react-router-redux';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 import { Conference } from '../../conference';
 import config from '../../config';
@@ -101,8 +101,6 @@ class App extends Component<*> {
         // return <QApp />;
 
         return (
-
-
 
 
             <AtlasKitThemeProvider mode = 'dark'>

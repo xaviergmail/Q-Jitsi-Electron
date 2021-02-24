@@ -12,9 +12,9 @@ function Room({jitsiApp, roomId, dispatch}) {
         gotoRoom(dispatch, roomId)
     }, [])
     return (
-        <div>
+        <>
             {jitsiApp}
-        </div>
+        </>
     );
 }
 

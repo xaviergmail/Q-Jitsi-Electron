@@ -45,8 +45,8 @@ function JitsiRoomFrame({ roomName, user, jwt }) {
         const _jitsi = new window.JitsiMeetExternalAPI(jitsiURL, {
           roomName,
           jwt,
-          // width: '100%',
-          // height: '100%',
+          width: '100%',
+          height: '100%',
           userInfo: {
             displayName: user.name,
             avatar: user.imageUrl,
@@ -76,8 +76,9 @@ function JitsiRoomFrame({ roomName, user, jwt }) {
       )}
       <div
         id={jitsiContainerId}
+        data-test="OMG!!!!"
         style={{ 
-          // height: '100vh', width: '100%', 
+          height: '100vh', width: '100%', 
           display: loading ? 'none' : 'block' 
         }}
       ></div>
