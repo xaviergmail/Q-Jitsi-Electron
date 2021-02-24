@@ -18,7 +18,6 @@ const Profile = (props) => {
     actions
       .getMyPosts()
       .then((posts) => {
-        console.log(posts)
         if (posts) setPosts(posts.data.reverse())
       })
       .catch((err) => console.error(err))
@@ -26,7 +25,6 @@ const Profile = (props) => {
     actions
       .getMyTransactions()
       .then((transactions) => {
-        console.log(transactions)
         if (transactions) setTransactions(transactions.data.reverse())
       })
       .catch((err) => console.error(err))
@@ -42,7 +40,6 @@ const Profile = (props) => {
       .catch((err) => console.error(err))
   }
 
-  console.log(transactions)
   return (
     <div className="page profile">
       <AddPost {...props} posts={posts} />
@@ -103,11 +100,11 @@ function humanizeDuration(input, units) {
   return duration.format(format)
 }
 
-const AddPost = connect()(({ history, posts, dispatch }) => {
+const AddPost = ({ posts }) => {
   const [message, setMessage] = useState('')
   const [bounty, setBounty] = useState(10)
 
-  let { user, setUser } = useContext(TheContext)
+  let { user, setUser, history} = useContext(TheContext)
 
   let outOfPoints = user?.points <= 0
 
@@ -120,10 +117,10 @@ const AddPost = connect()(({ history, posts, dispatch }) => {
     actions
       .addPost({ message, bounty })
       .then((res) => {
-        console.log(res)
         setUser(res?.data.user)
         NotificationManager.info(`You've submitted a new issue`)
-        gotoRoom(dispatch, res.data.posted._id);
+        // gotoRoom(dispatch, res.data.posted._id);
+        history.push(`/room/${res.data.posted._id}`)
         // window.open(baseURL + '/' + res.data.posted._id + '?jwt=' + localStorage.getItem('token'))
       })
       .catch((err) => console.error(err))
@@ -195,6 +192,6 @@ const AddPost = connect()(({ history, posts, dispatch }) => {
     </div>
 
   )
-})
+}
 
 export default Profile

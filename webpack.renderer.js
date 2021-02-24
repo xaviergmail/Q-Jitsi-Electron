@@ -8,7 +8,7 @@ require('dotenv').config();
 const Dotenv = require('dotenv-webpack');
 
 module.exports = {
-    // The renderer code rus in BrowserWindow without node support so we must
+    // The renderer code runs in BrowserWindow without node support so we must
     // target a web platform.
     target: 'web',
     entry: { app: './app/index.js' },

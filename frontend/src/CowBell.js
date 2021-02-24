@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react'
-import { Switch, Route, NavLink, useHistory, Link } from 'react-router-dom'
+import { Switch, Route, NavLink, useHistory, Link, HashRouter } from 'react-router-dom'
 import TheContext from './TheContext'
 import Home from './components/home/Home'
 import { NavBar } from './components/home/NavBar'
@@ -8,7 +8,7 @@ import Profile from './components/profile/Profile'
 import Post from './components/post/Post'
 import Dashboard from './components/dashboard/Dashboard'
 import ReactLoading from 'react-loading'
-
+import Room from './components/Room'
 import 'react-notifications/lib/notifications.css'
 import './index.css'
 
@@ -16,12 +16,10 @@ import actions from './api/index'
 import { NotificationContainer /*NotificationManager */ } from 'react-notifications'
 import io from 'socket.io-client'
 
-// const { token } = sessionStorage;
 
 //Make connection to server just once on page load.
 import baseURL from './api/config'
 import JitsiRoom from './components/jitsi/JitsiRoom'
-console.log('baseURL', baseURL)
 const socket = io(baseURL)
 /*
 const publicIp = require('public-ip')
@@ -33,13 +31,17 @@ const iplocation = require('iplocation')
 })()
 */
 
-function Pad(render) {
-  return (...args) => {
-    return <div className="navbar-pad">{render(...args)}</div>
-  }
-}
 
-const App = () => {
+/***Add padding to content */
+// function Pad(render) {
+//   return (...args) => {
+//     return <div className="navbar-pad">{render(...args)}</div>
+//   }
+// }
+
+
+const CowBell = ({children}) => {
+  console.log(children)
   let [user, setUser] = useState(null)
   let [posts, setPosts] = useState({})
 
@@ -48,7 +50,7 @@ const App = () => {
 
   async function getUser() {
     let user = await actions.getUser()
-    console.log('user is', user)
+    console.log('user is', user?.data.name)
     if (user) {
       setUser(user?.data)
     }
@@ -64,14 +66,16 @@ const App = () => {
   window.jitsiNodeAPI.ipc.on('gauth-tk', updateToken) // send notification to main process
 
   if (!jwt && !localStorage.getItem("googletoken")) {
-    console.log('requesting login')
     setTimeout(function () {
       window.jitsiNodeAPI.ipc.send('gauth-rq')
     }, 1000)
   }
 
+
+
+
   useEffect(() => {
-    console.log('use effect')
+
 
     socket.on('post', (post) => {
       // setPosts(function (posts) {
@@ -88,7 +92,6 @@ const App = () => {
     actions
       .getAllPosts()
       .then((res) => {
-        console.log('WE GOT ALL POSTSTFOM API', res.data)
         const postsById = {}
         for (let post of res.data) {
           postsById[post._id] = post
@@ -108,16 +111,13 @@ const App = () => {
   }
 
   const history = useHistory()
-  console.log(user, '?')
 
-  console.log("history is ", history)
 
   return (
       <TheContext.Provider value={{ history, user, setUser, posts, jwt }}>
         <NavBar />
 
         <main>
-          {console.log('user, loadinguser, jwt', user, loadingUser, jwt)}
           {loadingUser ? (
             <ReactLoading type="bars" color="rgb(0, 117, 255)" height="128px" width="128px" />
           ) : (
@@ -127,40 +127,35 @@ const App = () => {
                   <Route
                     exact
                     path="/"
-                    render={Pad((props) => (
-                      <Home {...props} className="navbar-pad" />
-                    ))}
+                    component={Home}
                   />
                   <Route
                     exact
                     path="/dashboard"
-                    render={Pad(() => (
-                      <Dashboard />
-                    ))}
+                    component={Dashboard}
                   />
 
                   <Route
                     exact
                     path="/profile"
-                    render={Pad((props) => (
-                      <Profile {...props} />
-                    ))}
+                    component={Profile}
                   />
 
                   <Route
                     path="/post/:id"
-                    render={Pad((props) => (
-                      <Post {...props} user={user} />
-                    ))}
+                    render={(props) => <Post {...props} user={user} />}
                   />
 
-                  <Route path="/room/:roomName" render={(props) => <JitsiRoom {...props} />} />
+                  {/* {children} */}
+                  <Route path="/room/:roomName" render={(props) => <Room roomId={props.match.params.id} jitsiApp={children} {...props} />} />
+
+                  {/* <Route path="/room/:roomName" render={(props) => <JitsiRoom {...props} />} /> */}
 
                   <Route
-                    render={Pad(() => (
-                      <NotFound />
-                    ))}
+                    component={NotFound}
                   />
+
+
                 </Switch>
               )}
               {!user && <p>Please sign in through google using the popup window</p>}
@@ -171,4 +166,26 @@ const App = () => {
       </TheContext.Provider>
   )
 }
-export default App
+export default function CowBellWithRouter (props){ 
+  return <HashRouter><CowBell {...props} /></HashRouter> 
+}
+
+// export default (props) => <HashRouter><CowBell {...props} /></HashRouter> 
+
+
+
+
+
+//  function gotoRoom(dispatch, roomID) {
+  
+//   const conference = createConferenceObjectFromURL(process.env.ELECTRON_WEBPACK_APP_JITSI_URL + "/" + roomID);
+//   conference.jwt = localStorage.token
+//   console.log("dispatch", dispatch)
+//   console.log("push", push)
+//   console.log("conference", conference)
+//   window._conference = conference
+//   window._push = push
+//   window._dispatch = dispatch
+
+//   dispatch(push('/conference', conference))
+// }

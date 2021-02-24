@@ -7,14 +7,15 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router';
 import { connect } from 'react-redux';
 import { ConnectedRouter as Router, push } from 'react-router-redux';
+import { Link } from 'react-router-dom'
 
 import { Conference } from '../../conference';
 import config from '../../config';
 import { history } from '../../router';
 import { createConferenceObjectFromURL } from '../../utils';
 
-import QApp from '../../../../frontend';
-
+// import QApp from '../../../../frontend';
+// import Nav from '../../../../frontend/src/components/home/NavBar';
 /**
  * Main component encapsulating the entire application.
  */
@@ -100,13 +101,22 @@ class App extends Component<*> {
         // return <QApp />;
 
         return (
+
+
+
+
             <AtlasKitThemeProvider mode = 'dark'>
                 <Router history = { history }>
+                    {/* <nav>
+                        <Link to="/">Home</Link>
+                        <Link to="/profile">Profile</Link>
+                        <Link to="/dashboard">Dashboard</Link>
+                    </nav> */}
                     <Switch>
-                        <Route
+                        {/* <Route
                             component = { QApp }
                             exact = { true }
-                            path = '/' />
+                            path = '/' /> */}
                         <Route
                             component = { Conference }
                             path = '/conference' />

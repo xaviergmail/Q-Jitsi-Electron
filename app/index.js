@@ -18,6 +18,8 @@ import { persistor, store } from './features/redux';
 
 import './i18n';
 
+import CowBellWithRouter from '../frontend/src/CowBell'
+
 /**
  * Component encapsulating App component with redux store using provider.
  */
@@ -35,7 +37,7 @@ class Root extends Component<*> {
                     persistor = { persistor }>
                     <SpotlightManager>
                         <Suspense fallback = { <Spinner /> } >
-                            <App />
+                        <CowBellWithRouter cool="beans"> <App /></CowBellWithRouter>
                         </Suspense>
                     </SpotlightManager>
                 </PersistGate>
@@ -49,4 +51,4 @@ class Root extends Component<*> {
  *
  * $FlowFixMe.
  */
-render(<Root />, document.getElementById('app'));
+render(<Root />,document.getElementById('app'));

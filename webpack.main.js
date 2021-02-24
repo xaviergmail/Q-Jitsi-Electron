@@ -6,7 +6,7 @@ module.exports = {
     target: 'electron-main',
     entry: { main: './main.js',
         preload: './app/preload/preload.js' },
-    devtool: 'source-map',
+    // devtool: 'source-map',
     output: {
         path: path.resolve('./build'),
         filename: '[name].js'
