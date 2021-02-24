@@ -8,7 +8,7 @@ import '@atlaskit/css-reset';
 import Spinner from '@atlaskit/spinner';
 import { SpotlightManager } from '@atlaskit/onboarding';
 
-import React, { Component, Suspense } from 'react';
+import React, { Component, Suspense, useEffect } from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -30,6 +30,10 @@ class Root extends Component<*> {
      * @returns {ReactElement}
      */
     render() {
+        function CoolElement(){
+            console.log('COOOL!')
+            return <p>{Math.random()}</p>
+        }
         return (
             <Provider store = { store }>
                 <PersistGate
@@ -37,7 +41,7 @@ class Root extends Component<*> {
                     persistor = { persistor }>
                     <SpotlightManager>
                         <Suspense fallback = { <Spinner /> } >
-                        <CowBellWithRouter cool="beans"> <App /></CowBellWithRouter>
+                        <CowBellWithRouter ><App cool="beans"><CoolElement/></App></CowBellWithRouter>
                         </Suspense>
                     </SpotlightManager>
                 </PersistGate>

@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 
 function Room({jitsiApp, roomId, dispatch}) {
-    console.log(jitsiApp)
+    console.log(jitsiApp, '-=-=-=-=-')
     useEffect(() => {
         gotoRoom(dispatch, roomId)
     }, [])

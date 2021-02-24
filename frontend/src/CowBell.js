@@ -169,6 +169,7 @@ const CowBell = ({children}) => {
   )
 }
 export default function CowBellWithRouter (props){ 
+  console.log(props)
   return <HashRouter><CowBell {...props} /></HashRouter> 
 }
 
