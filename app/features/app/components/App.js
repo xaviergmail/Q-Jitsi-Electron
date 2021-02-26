@@ -14,8 +14,6 @@ import config from '../../config';
 import { history } from '../../router';
 import { createConferenceObjectFromURL } from '../../utils';
 
-// import QApp from '../../../../frontend';
-// import Nav from '../../../../frontend/src/components/home/NavBar';
 /**
  * Main component encapsulating the entire application.
  */

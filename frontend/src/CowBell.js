@@ -9,10 +9,12 @@ import Post from './components/post/Post'
 import Dashboard from './components/dashboard/Dashboard'
 import ReactLoading from 'react-loading'
 import Room from './components/Room'
+
+
 import 'react-notifications/lib/notifications.css'
+import 'semantic-ui-css/semantic.min.css'
 import './index.css'
 
-import 'semantic-ui-css/semantic.min.css'
 
 import actions from './api/index'
 import { NotificationContainer /*NotificationManager */ } from 'react-notifications'
@@ -23,29 +25,18 @@ import io from 'socket.io-client'
 import baseURL from './api/config'
 import JitsiRoom from './components/jitsi/JitsiRoom'
 const socket = io(baseURL)
-/*
-const publicIp = require('public-ip')
-const iplocation = require('iplocation')
 
-(async () => {
-  let res = await iplocation(await publicIp.v4())
-  console.log(res)
-})()
-*/
-
-
-/***Add padding to content */
-// function Pad(render) {
-//   return (...args) => {
-//     return <div className="navbar-pad">{render(...args)}</div>
-//   }
-// }
 
 
 const CowBell = ({children}) => {
-  console.log(children)
+
   let [user, setUser] = useState(null)
   let [posts, setPosts] = useState({})
+
+
+  const [visible, setVisible] = React.useState(true)
+
+
 
   const [jwt, setJwt] = useState(localStorage.getItem('token'))
   let [loadingUser, setLoadingUser] = useState(jwt != null)
@@ -80,11 +71,11 @@ const CowBell = ({children}) => {
 
 
     socket.on('post', (post) => {
-      // setPosts(function (posts) {
-      //   let newPosts = { ...posts }
-      //   newPosts[post._id] = post
-      //   return newPosts
-      // })
+      setPosts(function (posts) {
+        let newPosts = { ...posts }
+        newPosts[post._id] = post
+        return newPosts
+      })
     })
 
     if (jwt && !user) {
@@ -117,7 +108,7 @@ const CowBell = ({children}) => {
 
   return (
       <TheContext.Provider value={{ history, user, setUser, posts, jwt }}>
-        <NavBar>
+        <NavBar visible={visible} setVisible={setVisible}> 
           <main>
             {loadingUser ? (
               <ReactLoading type="bars" color="rgb(0, 117, 255)" height="128px" width="128px" />

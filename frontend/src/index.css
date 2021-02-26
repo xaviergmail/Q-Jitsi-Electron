@@ -243,3 +243,34 @@ ul#transaction li div {
 }
 
 
+
+
+
+
+/* SINCE ELECTRON & semantic css**/
+
+nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  /*Dont love this*/
+  margin-top: 25px;
+}
+
+  /*Dont love this*/
+nav a {
+  background: white;
+  padding: 0px 20px;
+  transition: all .2s;
+
+}
+
+nav a:focus{
+  outline: none;
+}
+
+nav a:hover {
+  color:blue;
+  text-decoration: underline;
+}

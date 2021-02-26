@@ -10,21 +10,55 @@ import {
   Segment,
   Sidebar,
 } from 'semantic-ui-react'
-export function NavBar(props) {
-  const [visible, setVisible] = React.useState(false)
+export function NavBar({children, setVisible, visible}) {
+  // const [visible, setVisible] = React.useState(false)
+
+
+  let [t, setT] = useState(false)
+
+
+  window.onmousemove = e => {
+      if (!visible) {
+          //make show
+          setTimeout(function () {
+            setVisible(true)
+          }, 0)
+
+      } else {
+          //do nothing
+          clearTimeout(t)
+          t = setTimeout(function () {
+            setVisible(false)
+          }, 1500)
+          setT(t)
+
+      }
+  }
+
+
   return (
-    <Grid columns={2}>
-      <Grid.Column>
-        <Checkbox
+    <Grid columns={1}>
+
+        <nav>
+          <Link to="/">Home</Link>
+          <Link to="/profile">Profile</Link>
+          <Link to="/dashboard">Dashboard</Link>
+        </nav>
+        {/* <Checkbox
           checked={visible}
           label={{ children: <code>visible</code> }}
           onChange={(e, data) => setVisible(data.checked)}
-        />
-      </Grid.Column>
+        /> */}
+      
 
-      <Grid.Column>
+      <Grid.Column
+        // onMouseEnter={() => setVisible(true)} 
+        // onMouseEnter={() => setVisible(true)} 
+        // onMouseLeave={() => setTimeout(() => setVisible(false), 1000)} 
+      >
         <Sidebar.Pushable as={Segment}>
           <Sidebar
+          
             as={Menu}
             animation='overlay'
             icon='labeled'
@@ -40,7 +74,7 @@ export function NavBar(props) {
             </Menu.Item>
             <Menu.Item as='a'>
               <Icon name='gamepad' />
-              Games
+              Games:)
             </Menu.Item>
             <Menu.Item as='a'>
               <Icon name='camera' />
@@ -48,9 +82,9 @@ export function NavBar(props) {
             </Menu.Item>
           </Sidebar>
 
-          <Sidebar.Pusher dimmed={visible}>
+          <Sidebar.Pusher dimmed={false}>
             <Segment basic>
-{props.children}
+              {children}
             </Segment>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
