@@ -32,9 +32,7 @@ const CowBell = ({children}) => {
 
   let [user, setUser] = useState(null)
   let [posts, setPosts] = useState({})
-
-
-  const [visible, setVisible] = React.useState(true)
+  const [visible, setVisible] = useState(true)
 
 
 
@@ -104,11 +102,11 @@ const CowBell = ({children}) => {
   }
 
   const history = useHistory()
-
+  console.log(history)
 
   return (
       <TheContext.Provider value={{ history, user, setUser, posts, jwt }}>
-        <NavBar visible={visible} setVisible={setVisible}> 
+        <NavBar visible={visible} setVisible={setVisible} history={history} > 
           <main>
             {loadingUser ? (
               <ReactLoading type="bars" color="rgb(0, 117, 255)" height="128px" width="128px" />
