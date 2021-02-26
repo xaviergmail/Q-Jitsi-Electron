@@ -125,7 +125,7 @@ const AddPost = ({ posts }) => {
     <div id="addPost">
 
       <section>
-        <h3>
+        <h3 id="player_stats">
           Welcome, <span>{user.name}</span>! You have: {user.points} cowbells 💰
       </h3>
         <form id="createRoom" onSubmit={handleSubmit}>
