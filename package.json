@@ -26,6 +26,7 @@
     "appId": "club.cowbell",
     "productName": "Cowbell Club",
     "generateUpdatesFilesForAllChannels": true,
+    "extends": null,
     "files": [
       "**/*",
       "resources",
