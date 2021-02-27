@@ -56,11 +56,13 @@ const CowBell = ({children}) => {
 
   window.jitsiNodeAPI.ipc.on('gauth-tk', updateToken) // send notification to main process
 
-  if (!jwt && !localStorage.getItem("googletoken")) {
-    setTimeout(function () {
-      window.jitsiNodeAPI.ipc.send('gauth-rq')
-    }, 1000)
-  }
+  useEffect(() => {
+    if (!jwt && !localStorage.getItem("googletoken")) {
+      setTimeout(function () {
+        window.jitsiNodeAPI.ipc.send('gauth-rq')
+      }, 1000)
+    }
+  }, [])
 
 
 
@@ -102,7 +104,6 @@ const CowBell = ({children}) => {
   }
 
   const history = useHistory()
-
 
   return (
       <TheContext.Provider value={{ history, user, setUser, posts, jwt }}>

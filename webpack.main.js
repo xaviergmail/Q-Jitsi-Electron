@@ -1,6 +1,7 @@
 const path = require('path');
 
 require('dotenv').config();
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
     target: 'electron-main',
@@ -19,6 +20,9 @@ module.exports = {
         'electron-debug': 'require(\'electron-debug\')',
         'electron-reload': 'require(\'electron-reload\')'
     } ],
+    plugins: [
+        new Dotenv(),
+    ],
     resolve: {
         modules: [
             path.resolve('./node_modules')
