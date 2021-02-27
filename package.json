@@ -1,9 +1,9 @@
 {
-  "name": "ironhack-q",
+  "name": "cowbell.club",
   "version": "2.4.2",
-  "description": "Electron application for Ironhack Q",
+  "description": "Electron application for Cowbell Club",
   "main": "./build/main.js",
-  "productName": "Ironhack Q",
+  "productName": "Cowbell Club",
   "scripts": {
     "start": "webpack --config ./webpack.main.js --mode development && concurrently \"npm:watch\" \"npm:electron\"",
     "start2": "webpack --config ./webpack.main.js --mode development && npm run watch",
@@ -23,8 +23,8 @@
     "node": ">=12.0.0"
   },
   "build": {
-    "appId": "com.ironhack.q",
-    "productName": "Ironhack Q",
+    "appId": "club.cowbell",
+    "productName": "Cowbell Club",
     "generateUpdatesFilesForAllChannels": true,
     "files": [
       "**/*",
@@ -33,22 +33,22 @@
       "!main.js"
     ],
     "mac": {
-      "artifactName": "ironhack-q.${ext}",
+      "artifactName": "cowbell.club.${ext}",
       "category": "public.app-category.video",
       "darkModeSupport": true,
       "hardenedRuntime": true,
       "entitlements": "entitlements.mac.plist",
       "entitlementsInherit": "entitlements.mac.plist",
       "extendInfo": {
-        "NSCameraUsageDescription": "Ironhack Q requires access to your camera in order to make video-calls.",
-        "NSMicrophoneUsageDescription": "Ironhack Q requires access to your microphone in order to make calls (audio/video)."
+        "NSCameraUsageDescription": "Cowbell Club requires access to your camera in order to make video-calls.",
+        "NSMicrophoneUsageDescription": "Cowbell Club requires access to your microphone in order to make calls (audio/video)."
       }
     },
     "linux": {
-      "artifactName": "ironhack-q-${arch}.${ext}",
+      "artifactName": "cowbell.club-${arch}.${ext}",
       "category": "VideoConference;AudioVideo;Audio;Video;Network",
-      "description": "Ironhack Q Desktop App",
-      "executableName": "ironhack-q",
+      "description": "Cowbell Club Desktop App",
+      "executableName": "cowbell.club",
       "target": [
         {
           "arch": "x64",
@@ -57,7 +57,7 @@
       ]
     },
     "win": {
-      "artifactName": "ironhack-q.${ext}",
+      "artifactName": "cowbell.club.${ext}",
       "target": [
         {
           "arch": [
@@ -76,7 +76,7 @@
         "name": "jitsi-protocol",
         "role": "Viewer",
         "schemes": [
-          "ironhack-q"
+          "cowbell.club"
         ]
       }
     ]
@@ -95,7 +95,7 @@
     "electron",
     "jitsi-meet",
     "ironhack",
-    "ironhack-q"
+    "cowbell.club"
   ],
   "author": "Jitsi Team <support@jitsi.org>",
   "readmeFilename": "README.md",
@@ -166,6 +166,7 @@
     "@babel/preset-env": "7.9.0",
     "@babel/preset-flow": "7.9.0",
     "@babel/preset-react": "7.9.4",
+    "@electron-forge/cli": "^6.0.0-beta.54",
     "@svgr/webpack": "5.4.0",
     "@webpack-cli/serve": "^1.3.0",
     "babel-eslint": "10.0.3",
@@ -177,8 +178,10 @@
     "electron": "10.1.6",
     "electron-builder": "22.7.0",
     "electron-devtools-installer": "^3.1.1",
+    "electron-packager": "^15.2.0",
     "electron-react-devtools": "0.5.3",
     "electron-webpack": "^2.8.2",
+    "electron-windows-store": "^2.1.0",
     "eslint": "6.5.1",
     "eslint-config-jitsi": "github:jitsi/eslint-config-jitsi#1.0.2",
     "eslint-plugin-flowtype": "4.7.0",
