@@ -102,7 +102,7 @@ const CowBell = ({children}) => {
   }
 
   const history = useHistory()
-  console.log(history)
+
 
   return (
       <TheContext.Provider value={{ history, user, setUser, posts, jwt }}>
