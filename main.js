@@ -212,7 +212,7 @@ function createJitsiMeetWindow() {
             enableBlinkFeatures: 'RTCInsertableStreams,WebAssemblySimd',
             enableRemoteModule: true,
             nativeWindowOpen: true,
-            nodeIntegration: false,
+            nodeIntegration: true,
             plugins: true,
             webSecurity: true,
             preload: path.resolve(basePath, './build/preload.js')
@@ -427,7 +427,7 @@ import ElectronGoogleOAuth2 from '@getstation/electron-google-oauth2';
 
 const myApiOauth = new ElectronGoogleOAuth2(
 process.env.ELECTRON_WEBPACK_APP_GOOGLEID,
-process.env.ELECTRON_WEBPACK_APP_GOOGLESECRET,
+process.env.ELECTRON_WEBPACK_APP_GOOGLEID2,
     [ 'profile email' ],
     {
         successRedirectURL: ''
