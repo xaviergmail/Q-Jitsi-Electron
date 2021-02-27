@@ -1,5 +1,5 @@
 /* global __dirname, process */
-
+console.log(process.env, 'penguin')
 const {
     BrowserWindow,
     Menu,
