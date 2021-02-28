@@ -1,6 +1,6 @@
 {
   "name": "cowbell.club",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "Electron application for Cowbell Club",
   "main": "./build/main.js",
   "productName": "Cowbell Club",
@@ -11,13 +11,14 @@
     "clean": "rm -rf node_modules build dist",
     "lint": "eslint . && flow",
     "build": "webpack --config ./webpack.main.js --mode production && webpack --config ./webpack.renderer.js --mode production",
-    "dist": "npm run build && electron-builder",
+    "dist": "npm run build && electron-builder --publish always",
     "postinstall": "patch-package && electron-builder install-app-deps",
     "watch": "webpack --config ./webpack.renderer.js --mode development --watch",
     "watch_https": "webpack --config ./webpack.renderer.js --mode development",
     "start_wdev": "electron-webpack dev",
     "electron": "electron ./build/main.js",
-    "electronappdelay": "sleep 2 && electron ./build/main.js"
+    "electronappdelay": "sleep 2 && electron ./build/main.js",
+    "release": "electron-builder"
   },
   "engines": {
     "node": ">=12.0.0"
@@ -65,7 +66,7 @@
             "ia32",
             "x64"
           ],
-          "target": "appx"
+          "target": "nsis"
         }
       ]
     },
@@ -87,7 +88,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/xaviergmail/jitsi-meet-electron.git"
+    "url": "git://github.com/xaviergmail/Q-Jitsi-Electron.git"
   },
   "keywords": [
     "jingle",
@@ -98,7 +99,7 @@
     "ironhack",
     "cowbell.club"
   ],
-  "author": "Jitsi Team <support@jitsi.org>",
+  "author": "Cowbell Club <niko.tzikas@gmail.com>",
   "readmeFilename": "README.md",
   "license": "Apache-2.0",
   "dependencies": {

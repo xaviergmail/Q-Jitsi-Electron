@@ -46,7 +46,7 @@ const Home = (props) => {
 
   return (
     <div className="home">
-      <h1>🐮   <strong>Cow Bell</strong>   🔔</h1>
+      <h1>🐮   <strong>Cow Bell 1.0.4</strong>   🔔</h1>
       <button className="call-to-action">
         <Link to="/profile">Ring for help...</Link>
       </button>
