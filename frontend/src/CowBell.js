@@ -26,6 +26,7 @@ import baseURL from './api/config'
 import JitsiRoom from './components/jitsi/JitsiRoom'
 const socket = io(baseURL)
 
+console.log(socket, ' to me ', baseURL)
 
 //require('devtron').install()
 //require('react-devtools-electron').install()
@@ -83,6 +84,7 @@ const CowBell = ({children}) => {
 
 
     socket.on('post', (post) => {
+      console.log('post', post, ' kiwi')
       setPosts(function (posts) {
         let newPosts = { ...posts }
         newPosts[post._id] = post

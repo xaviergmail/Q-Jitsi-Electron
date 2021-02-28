@@ -9,5 +9,5 @@ import { middleware as routerMiddleware } from '../router';
 export default applyMiddleware(
     onboardingMiddleware,
     routerMiddleware,
-    createLogger()
+    // createLogger()
 );
