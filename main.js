@@ -394,7 +394,6 @@ ipcMain.on('renderer-ready', () => {
     }
 });
 
-
 app.on('ready', () => {
   
     mainWindow.webContents.on("did-frame-finish-load", async () => {
@@ -404,25 +403,17 @@ app.on('ready', () => {
     });
 });
 
+import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer';
 async function installExtensions() {
-    const installer = require('electron-devtools-installer');
-    const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-    const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS'];
+    // const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
+    // installExtension(REACT_DEVELOPER_TOOLS)
+    //     .then(name => console.log(`[REACT_DEVELOPER_TOOLS] Added Extension:  ${name}`))
+    //     .catch(err => console.log('[REACT_DEVELOPER_TOOLS] An error occurred: ', err));
 
-    return Promise.all(
-        extensions.map(name => installer.default(installer[name], forceDownload))
-    ).catch(err => console.log(err));
+    // installExtension(REDUX_DEVTOOLS)
+    //     .then(name => console.log(`[REDUX_DEVTOOLS] Added Extension:  ${name}`))
+    //     .catch(err => console.log('[REDUX_DEVTOOLS] An error occurred: ', err));
 }
-
-// import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer';
-// app.whenReady().then(() => {
-//     installExtension(REACT_DEVELOPER_TOOLS)
-//         .then(name => console.log(`Added Extension:  ${name}`))
-//         .catch(err => console.log('An error occurred: ', err));
-//     installExtension(REDUX_DEVTOOLS)
-//         .then(name => console.log(`Added Extension:  ${name}`))
-//         .catch(err => console.log('An error occurred: ', err));
-// });
 import ElectronGoogleOAuth2 from '@getstation/electron-google-oauth2';
 
 const myApiOauth = new ElectronGoogleOAuth2(

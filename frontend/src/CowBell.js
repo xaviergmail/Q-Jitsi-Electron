@@ -27,6 +27,10 @@ import JitsiRoom from './components/jitsi/JitsiRoom'
 const socket = io(baseURL)
 
 
+//require('devtron').install()
+//require('react-devtools-electron').install()
+
+
 
 const CowBell = ({children}) => {
 
@@ -54,18 +58,26 @@ const CowBell = ({children}) => {
     setUser(user?.data)
   }
 
-  window.jitsiNodeAPI.ipc.on('gauth-tk', updateToken) // send notification to main process
+  function reauth() {
+    window.jitsiNodeAPI.ipc.send('gauth-rq')
+  }
 
   useEffect(() => {
-    if (!jwt && !localStorage.getItem("googletoken")) {
-      setTimeout(function () {
-        window.jitsiNodeAPI.ipc.send('gauth-rq')
-      }, 1000)
+    window.jitsiNodeAPI.ipc.on('gauth-tk', updateToken) // send notification to main process
+
+    if (!jwt) {
+      const googleToken = localStorage.getItem("googletoken")
+      if (!googleToken) {
+        setTimeout(function () {
+          reauth()
+        }, 1000)
+      } else {
+        actions.logIn(googleToken).then(function (user) {
+          setUser(user?.data)
+        })
+      }
     }
   }, [])
-
-
-
 
   useEffect(() => {
 
@@ -149,7 +161,7 @@ const CowBell = ({children}) => {
 
                   </Switch>
                 )}
-                {!user && <p>Please sign in through google using the popup window</p>}
+                {!user && <p>Please sign in through google using the popup window. <a onClick={reauth}>Click here</a> if the window did not open.</p>}
               </>
             )}
           </main>
