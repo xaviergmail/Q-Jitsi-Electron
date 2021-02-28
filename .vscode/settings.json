@@ -2,4 +2,9 @@
   "editor.formatOnSave": false,
   "javascript.validate.enable": false,
   "flow.lazyMode": "ide",
+  "files.exclude": {
+    "dist": true,
+    "build": true,
+    "node_modules": true,
+  }
 }
