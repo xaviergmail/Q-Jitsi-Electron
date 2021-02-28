@@ -88,7 +88,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/xaviergmail/jitsi-meet-electron.git"
+    "url": "git://github.com/xaviergmail/Q-Jitsi-Electron.git"
   },
   "keywords": [
     "jingle",
