@@ -1,3 +1,11 @@
+import Logger  from "jitsi-meet-logger";
+
+var logger = Logger.getLogger();
+
+Logger.setLogLevel(Logger.levels.WARN)
+
+Logger.level = 0
+
 import React, { Fragment, useState, useEffect } from 'react'
 import { Switch, Route, NavLink, useHistory, Link, HashRouter } from 'react-router-dom'
 import TheContext from './TheContext'
@@ -44,6 +52,7 @@ const CowBell = ({children}) => {
   const [jwt, setJwt] = useState(localStorage.getItem('token'))
   let [loadingUser, setLoadingUser] = useState(jwt != null)
 
+
   async function getUser() {
     let user = await actions.getUser()
     console.log('user is', user?.data.name)
@@ -62,6 +71,10 @@ const CowBell = ({children}) => {
   function reauth() {
     window.jitsiNodeAPI.ipc.send('gauth-rq')
   }
+
+
+  // useEffect(() => console.log('a'), [])
+  // useEffect(() => console.log('b'), [])
 
   useEffect(() => {
     window.jitsiNodeAPI.ipc.on('gauth-tk', updateToken) // send notification to main process
@@ -93,7 +106,7 @@ const CowBell = ({children}) => {
     })
 
     if (jwt && !user) {
-      getUser().then(() => {})
+      getUser()//.then(() => {})
     }
 
     actions
@@ -119,11 +132,19 @@ const CowBell = ({children}) => {
 
   const history = useHistory()
 
+
+  
+  Logger.setLogLevel(Logger.levels.WARN)
+  
+  Logger.level = 0 
+  
+
+
   return (
       <TheContext.Provider value={{ history, user, setUser, posts, jwt }}>
         <NavBar visible={visible} setVisible={setVisible} history={history} > 
           <main>
-            {loadingUser ? (
+            {jwt == null ? (
               <ReactLoading type="bars" color="rgb(0, 117, 255)" height="128px" width="128px" />
             ) : (
               <>
@@ -152,7 +173,7 @@ const CowBell = ({children}) => {
                     />
 
                     {/* {children} */}
-                    <Route path="/room/:roomName" render={(props) => <Room roomId={props.match.params.id} jitsiApp={children} {...props} />} />
+                    <Route path="/room/:roomName" render={(props) => <Room roomId={props.match.params.roomName} jitsiApp={children} {...props} />} />
 
                     {/* <Route path="/room/:roomName" render={(props) => <JitsiRoom {...props} />} /> */}
 
@@ -173,7 +194,6 @@ const CowBell = ({children}) => {
   )
 }
 export default function CowBellWithRouter (props){ 
-  console.log(props)
   return <HashRouter><CowBell {...props} /></HashRouter> 
 }
 

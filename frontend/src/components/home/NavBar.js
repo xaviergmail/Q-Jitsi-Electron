@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
+import TheContext from '../../TheContext'
 import {
   Checkbox,
   Grid,
@@ -13,27 +14,41 @@ import {
 export function NavBar({children, setVisible, visible, history}) {
   // const [visible, setVisible] = React.useState(false)
 
-
+  const { posts } = useContext(TheContext)
   let [t, setT] = useState(false)
 
 
-  window.onmousemove = e => {
-      if (!visible) {
-          //make show
-          setTimeout(function () {
-            setVisible(true)
-          }, 0)
+  // window.onmousemove = e => {
+  //     if (!visible) {
+  //         //make show
+  //         setTimeout(function () {
+  //           setVisible(true)
+  //         }, 0)
 
-      } else {
-          //do nothing
-          clearTimeout(t)
-          t = setTimeout(function () {
-            setVisible(false)
-          }, 2000)
-          setT(t)
+  //     } else {
+  //         //do nothing
+  //         clearTimeout(t)
+  //         t = setTimeout(function () {
+  //           setVisible(false)
+  //         }, 2000)
+  //         setT(t)
 
-      }
-  }
+  //     }
+  // }
+
+  const showPosts = () => {
+    console.log(posts)
+    return Object.values(posts).filter(eachPost => eachPost.active).map(eachPost => (
+      <Menu.Item as='a'>
+          {eachPost.message}
+
+          <Icon name='home' />
+   
+          {eachPost.bounty}
+      </Menu.Item>
+    )
+    )
+  } 
 
 
   return (
@@ -68,71 +83,12 @@ export function NavBar({children, setVisible, visible, history}) {
             animation='overlay'
             icon='labeled'
             inverted
-            onHide={() => setVisible(false)}
+            // onHide={() => setVisible(false)}
             vertical
             visible={visible}
             width='thin'
           >
-            <Menu.Item as='a'>
-              <Icon name='home' />
-              Home
-            </Menu.Item>
-            <Menu.Item as='a'>
-              <Icon name='gamepad' />
-              Games:)
-            </Menu.Item>
-            <Menu.Item as='a'>
-              <Icon name='camera' />
-              Channels
-            </Menu.Item>
-            <Menu.Item as='a'>
-              <Icon name='home' />
-              Home
-            </Menu.Item>
-            <Menu.Item as='a'>
-              <Icon name='gamepad' />
-              Games:)
-            </Menu.Item>
-            <Menu.Item as='a'>
-              <Icon name='camera' />
-              Channels
-            </Menu.Item>
-            <Menu.Item as='a'>
-              <Icon name='home' />
-              Home
-            </Menu.Item>
-            <Menu.Item as='a'>
-              <Icon name='gamepad' />
-              Games:)
-            </Menu.Item>
-            <Menu.Item as='a'>
-              <Icon name='camera' />
-              Channels
-            </Menu.Item>
-            <Menu.Item as='a'>
-              <Icon name='home' />
-              Home
-            </Menu.Item>
-            <Menu.Item as='a'>
-              <Icon name='gamepad' />
-              Games:)
-            </Menu.Item>
-            <Menu.Item as='a'>
-              <Icon name='camera' />
-              Channels
-            </Menu.Item>
-            <Menu.Item as='a'>
-              <Icon name='home' />
-              Home
-            </Menu.Item>
-            <Menu.Item as='a'>
-              <Icon name='gamepad' />
-              Games:)
-            </Menu.Item>
-            <Menu.Item as='a'>
-              <Icon name='camera' />
-              Channels
-            </Menu.Item>
+            {showPosts()}
           </Sidebar>
 
           <Sidebar.Pusher dimmed={false}>

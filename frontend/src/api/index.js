@@ -51,7 +51,6 @@ const actions = {
 
     options.headers['X-Google-Token'] = tokenId
     let res = await API.post('/login', '', options)
-    console.log('res', res)
     window.localStorage.setItem('googletoken', tokenId)
     if (res?.data?.token) window.localStorage.setItem('token', res?.data?.token)
     return res

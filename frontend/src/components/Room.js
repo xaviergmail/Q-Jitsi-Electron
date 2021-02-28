@@ -6,14 +6,20 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 
-function Room({jitsiApp, roomId, dispatch}) {
-    console.log(jitsiApp, '-=-=-=-=-')
+function Room({jitsiApp, roomId, dispatch, location}) {
+    console.log(location)
     useEffect(() => {
+        //Change song that i want to play
         gotoRoom(dispatch, roomId)
-    }, [])
+
+        //CHANGE THE DAMN SONG >>> Forget everything you know 
+        return () => dispatch(push('/'))
+    }, [roomId])
+
+    //Play song that i selected unless i already started playing
     return (
         <>
-            {jitsiApp}
+            {jitsiApp} 
         </>
     );
 }
@@ -24,12 +30,11 @@ export default connect()(Room);
   
   const conference = createConferenceObjectFromURL(process.env.ELECTRON_WEBPACK_APP_JITSI_URL + "/" + roomID);
   conference.jwt = localStorage.token
-  console.log("dispatch", dispatch)
-  console.log("push", push)
-  console.log("conference", conference)
+
   window._conference = conference
   window._push = push
   window._dispatch = dispatch
 
+  //Play a new song / change song 
   dispatch(push('/conference', conference))
 }

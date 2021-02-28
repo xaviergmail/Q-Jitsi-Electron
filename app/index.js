@@ -31,7 +31,6 @@ class Root extends Component<*> {
      */
     render() {
         function CoolElement(){
-            console.log('COOOL!')
             return <p>{Math.random()}</p>
         }
         return (
