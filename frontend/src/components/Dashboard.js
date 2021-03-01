@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import randomWords from 'random-words'
 import moment from 'moment'
-import actions from '../../api'
+import actions from '../api'
 
 function Dashboard(props) {
   let [transactions, setTransactions] = useState([])
@@ -46,7 +46,7 @@ function Dashboard(props) {
           <h2>{tran.postId?.message}</h2>
           {/* <h2>{tran.message}</h2> */}
 
-          <span className>{moment(tran.createdAt).fromNow()}</span>
+          <span>{moment(tran.createdAt).fromNow()}</span>
           <div>
             <h6>{tran.kind}</h6>
             <h2>{tran.amount}💰</h2>
@@ -54,8 +54,8 @@ function Dashboard(props) {
           {tran.resolved ? (
             <h5>Already Claimed</h5>
           ) : (
-              <button onClick={() => cashTransaction(tran._id)}>Cash Out</button>
-            )}
+            <button onClick={() => cashTransaction(tran._id)}>Cash Out</button>
+          )}
         </li>
       )
     })
@@ -67,10 +67,8 @@ function Dashboard(props) {
   const ShowPosts = ({ posts }) => {
     return posts.map((post) => {
       return (
-        <Link to={`/post/${post._id}`}>
-          <li key={post._id}>
-            {post.message}
-          </li>
+        <Link to={`/post/${post._id}`} key={post._id}>
+          <li>{post.message}</li>
         </Link>
       )
     })

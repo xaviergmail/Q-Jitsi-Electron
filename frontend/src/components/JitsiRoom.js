@@ -77,9 +77,10 @@ function JitsiRoomFrame({ roomName, user, jwt }) {
       <div
         id={jitsiContainerId}
         data-test="OMG!!!!"
-        style={{ 
-          height: '100vh', width: '100%', 
-          display: loading ? 'none' : 'block' 
+        style={{
+          height: '100%',
+          width: '100%',
+          display: loading ? 'none' : 'block',
         }}
       ></div>
     </>

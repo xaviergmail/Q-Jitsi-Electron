@@ -5,7 +5,7 @@
   "main": "./build/main.js",
   "productName": "Cowbell Club",
   "scripts": {
-    "start": "webpack --config ./webpack.main.js --mode development && concurrently \"npm:watch\" \"npm:electron\"",
+    "start": "webpack --config ./webpack.main.js --mode development && concurrently \"echo Waiting on webpack > ./build/index.html\" \"npm:watch\" \"npm:electron\"",
     "start2": "webpack --config ./webpack.main.js --mode development && npm run watch",
     "start_https": "webpack --config ./webpack.main.js --mode development && npm run watch_https",
     "clean": "rm -rf node_modules build dist",

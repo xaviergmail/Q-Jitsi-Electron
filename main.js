@@ -328,7 +328,7 @@ app.on('certificate-error',
 app.on('ready', createJitsiMeetWindow);
 
 if (isDev) {
-    app.on('ready', createWebRTCInternalsWindow);
+    // app.on('ready', createWebRTCInternalsWindow);
 }
 
 app.on('second-instance', (event, commandLine) => {

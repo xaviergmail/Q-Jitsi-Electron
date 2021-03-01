@@ -5,7 +5,7 @@ import TheContext from '../TheContext'
 
 const PostPreview = ({ post }) => (
   <li className="post" key={post._id}>
-    <div class="post-info">
+    <div className="post-info">
       <h2 className="message"> {post.message} </h2> <h2 className="bounty"> {post.bounty} 💰 </h2>
     </div>
     {/* // <p> Total Users: {post.activeUsers.length} </p> */}

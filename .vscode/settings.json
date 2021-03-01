@@ -1,6 +1,7 @@
 {
-  "editor.formatOnSave": false,
-  "javascript.validate.enable": false,
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "modifications",
+  "javascript.validate.enable": true,
   "flow.lazyMode": "ide",
   "files.exclude": {
     "dist": true,

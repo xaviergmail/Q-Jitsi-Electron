@@ -4,8 +4,8 @@ import { NotificationManager } from 'react-notifications'
 import moment from 'moment'
 import { connect } from 'react-redux';
 
-import TheContext from '../../TheContext'
-import actions from '../../api'
+import TheContext from '../TheContext'
+import actions from '../api'
 
 const Profile = (props) => {
   const [posts, setPosts] = useState([])
@@ -152,12 +152,11 @@ const AddPost = ({ posts }) => {
             max={user.points}
             defaultValue={bounty}
             onChange={(e) => setBounty(e.target.value)}
-            value={bounty}
             step="10"
             placeholder={outOfPoints ? "Sorry, you're all out of points" : `Put your bounty here`}
             disabled={outOfPoints}
           />
-          <label for="cowbell">Bounty: {bounty} cowbells</label>
+          <label htmlFor="cowbell">Bounty: {bounty} cowbells</label>
           <br />
 
           <button disabled={outOfPoints}>Create Post</button>
