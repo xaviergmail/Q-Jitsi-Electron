@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import actions from '../../api'
+import actions from '../api'
 import moment from 'moment'
 
 const Post = ({ history, match, user }) => {

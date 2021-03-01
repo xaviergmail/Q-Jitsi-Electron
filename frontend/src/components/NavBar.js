@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import TheContext from '../../TheContext'
+import TheContext from '../TheContext'
 import {
   Checkbox,
   Grid,

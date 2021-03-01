@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 
-import TheContext from '../../TheContext'
+import TheContext from '../TheContext'
 
 const PostPreview = ({ post }) => (
   <li className="post" key={post._id}>

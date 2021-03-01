@@ -9,11 +9,11 @@ Logger.level = 0
 import React, { Fragment, useState, useEffect } from 'react'
 import { Switch, Route, NavLink, useHistory, Link, HashRouter } from 'react-router-dom'
 import TheContext from './TheContext'
-import Home from './components/home/Home'
-import { NavBar } from './components/home/NavBar'
-import NotFound from './components/404/NotFound.js'
+import Home from './components/Home'
+import { NavBar } from './components/NavBar'
+import NotFound from './components/NotFound.js'
 import Profile from './components/profile/Profile'
-import Post from './components/post/Post'
+import Post from './components/Post'
 import Dashboard from './components/dashboard/Dashboard'
 import ReactLoading from 'react-loading'
 import Room from './components/Room'
@@ -31,7 +31,7 @@ import io from 'socket.io-client'
 
 //Make connection to server just once on page load.
 import baseURL from './api/config'
-import JitsiRoom from './components/jitsi/JitsiRoom'
+import JitsiRoom from './components/JitsiRoom'
 const socket = io(baseURL)
 
 console.log(socket, ' to me ', baseURL)

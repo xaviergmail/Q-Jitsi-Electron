@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 
-import TheContext from '../../TheContext'
-import { jitsiURL } from '../../api/config'
+import TheContext from '../TheContext'
+import { jitsiURL } from '../api/config'
 import ReactLoading from 'react-loading'
 
 class JitsiRoomManager {
