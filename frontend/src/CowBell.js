@@ -101,7 +101,7 @@ function VideoBottomRight() {
       autoPlay=""
       id="video"
       ref={ref}
-      style={{ transform: 'none', display: hasVideo ? 'block' : 'none' }}
+      style={{ transform: 'none', display: hasVideo ? 'block' : 'none', cursor: 'pointer' }}
       muted
       onClick={() => gotoRoom(room)}
     ></video>
@@ -238,7 +238,7 @@ const CowBell = ({ children }) => {
     <TheContext.Provider
       value={{ history, user, setUser, posts, jwt, activeRooms, room, gotoRoom }}
     >
-      <SideBar video={video} />
+      <SideBar video={!isInRoomRoute && video} />
       <div className="container">
         <NavBar history={history} />
         <StackLayer>
@@ -246,7 +246,7 @@ const CowBell = ({ children }) => {
             {roomElement}
           </Stacked>
 
-          <Stacked style={{background: "white", display: isInRoomRoute ? 'none' : 'block'}}>
+          <Stacked style={{ background: 'white', display: isInRoomRoute ? 'none' : 'block' }}>
             {jwt == null ? (
               <ReactLoading type="bars" color="rgb(0, 117, 255)" height="128px" width="128px" />
             ) : (

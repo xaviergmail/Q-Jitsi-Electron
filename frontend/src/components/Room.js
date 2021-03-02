@@ -10,7 +10,8 @@ function Room({jitsiApp, roomId, dispatch, location}) {
     console.log(location)
     useEffect(() => {
         //Change song that i want to play
-        gotoRoom(dispatch, roomId)
+        dispatch(push('/'))
+        requestAnimationFrame(() => gotoRoom(dispatch, roomId))
 
         //CHANGE THE DAMN SONG >>> Forget everything you know 
         return () => dispatch(push('/'))
