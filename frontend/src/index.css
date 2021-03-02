@@ -18,8 +18,12 @@ code {
   overflow: auto;
 }
 
-#app, .container, main, main>* {
+#app, .container, .room, .room>* {
   height: 100%;
+}
+
+.videobottomright {
+  width: 100%;
 }
 
 html,
@@ -275,12 +279,4 @@ nav a:focus{
 nav a:hover {
   color:blue;
   text-decoration: underline;
-}
-
-
-#player_stats{
-  border: 1px solid red;
-  position: fixed;
-  top: 0;
-  z-index: 232323;
 }

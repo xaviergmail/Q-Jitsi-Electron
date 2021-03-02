@@ -3,14 +3,16 @@ import { Link } from 'react-router-dom'
 
 import TheContext from '../TheContext'
 
-const PostPreview = ({ post }) => (
+const PostPreview = ({ post }) => {
+  const { gotoRoom } = useContext(TheContext)
+  return (
   <li className="post" key={post._id}>
     <div className="post-info">
       <h2 className="message"> {post.message} </h2> <h2 className="bounty"> {post.bounty} 💰 </h2>
     </div>
     {/* // <p> Total Users: {post.activeUsers.length} </p> */}
 
-    <Link to={`/room/${post._id}`}>
+    <button onClick={() => gotoRoom(post._id)}>
       <section>
         {post?.activeUsers?.length ? (
           <>
@@ -29,10 +31,10 @@ const PostPreview = ({ post }) => (
           </>
         ) : null}
       </section>
-    </Link>
+    </button>
     {/* <Link to={`post/${post._id}`}>Details </Link> */}
   </li>
-)
+) }
 
 const Home = (props) => {
   let { posts } = useContext(TheContext)

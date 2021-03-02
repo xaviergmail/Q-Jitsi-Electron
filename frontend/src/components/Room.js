@@ -26,7 +26,7 @@ function Room({jitsiApp, roomId, dispatch, location}) {
 
 export default connect()(Room);
 
- function gotoRoom(dispatch, roomID) {
+function gotoRoom(dispatch, roomID) {
   
   const conference = createConferenceObjectFromURL(process.env.ELECTRON_WEBPACK_APP_JITSI_URL + "/" + roomID);
   conference.jwt = localStorage.token

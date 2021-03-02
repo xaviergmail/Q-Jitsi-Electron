@@ -17,17 +17,17 @@ module.exports = {
         maxAssetSize: 1.5 * 1024 * 1024,
         maxEntrypointSize: 1.5 * 1024 * 1024
     },
-    devServer: {
-        contentBase: path.resolve('./public'),
-        allowedHosts: [ 'local.plshelp.live' ],
-        https: {
-            key: fs.readFileSync('./privkey.pem'),
-            cert: fs.readFileSync('./fullchain.pem'),
-            host: '0.0.0.0'
-        },
-        open: { app: [ 'npm', 'run', 'electronappdelay' ] },
-        host: 'local.plshelp.live'
-    },
+    // devServer: {
+    //     contentBase: path.resolve('./public'),
+    //     allowedHosts: [ 'local.plshelp.live' ],
+    //     https: {
+    //         key: fs.readFileSync('./privkey.pem'),
+    //         cert: fs.readFileSync('./fullchain.pem'),
+    //         host: '0.0.0.0'
+    //     },
+    //     open: { app: [ 'npm', 'run', 'electronappdelay' ] },
+    //     host: 'local.plshelp.live'
+    // },
     plugins: [
         new Dotenv(),
         new HtmlWebpackPlugin({

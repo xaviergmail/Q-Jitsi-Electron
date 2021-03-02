@@ -224,6 +224,8 @@ class Conference extends Component<Props, State> {
             configOverwrite,
             onload: this._onIframeLoad,
             parentNode: this._ref.current,
+            logLevel: "warn",
+            apiLogLevels: ['warn', 'error'],
             roomName,
             jwt
         };
@@ -232,6 +234,8 @@ class Conference extends Component<Props, State> {
             ...options,
             ...urlParameters
         });
+
+        window.jitsiMeetExternalAPI = this._api
 
 
         this._api.on('suspendDetected', this._onVideoConferenceEnded);
@@ -263,7 +267,7 @@ class Conference extends Component<Props, State> {
 
         // Allow window to be on top if enabled in settings
         if (this.props._alwaysOnTopWindowEnabled) {
-            setupAlwaysOnTopRender(this._api);
+            setupAlwaysOnTopRender(this._api, ['error']);
         }
 
         setupWiFiStats(iframe);

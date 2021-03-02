@@ -6,8 +6,16 @@ Logger.setLogLevel(Logger.levels.WARN)
 
 Logger.level = 0
 
-import React, { Fragment, useState, useEffect } from 'react'
-import { Switch, Route, NavLink, useHistory, Link, HashRouter } from 'react-router-dom'
+import React, { Fragment, useState, useEffect, useMemo, createRef, useContext } from 'react'
+import {
+  Switch,
+  Route,
+  NavLink,
+  useHistory,
+  Link,
+  HashRouter,
+  useRouteMatch,
+} from 'react-router-dom'
 import TheContext from './TheContext'
 import Home from './components/Home'
 import { NavBar } from './components/NavBar'
@@ -31,7 +39,74 @@ import io from 'socket.io-client'
 import baseURL from './api/config'
 
 // TODO: Convert this into a reusable useSocket or something
-let _setPosts = function () { }
+let _setPosts = function () {}
+
+import styled from 'styled-components'
+
+const StackLayer = styled.div`
+  position: relative;
+  height: 100%;
+  width: 100%;
+`
+
+const Stacked = styled.div`
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+`
+
+function VideoBottomRight() {
+  const [stream, setStream] = useState()
+  const [transform, setTransform] = useState()
+  const [hasVideo, setHasVideo] = useState(false)
+
+  const { room, gotoRoom } = useContext(TheContext)
+  
+  const api = window.jitsiMeetExternalAPI
+
+  const ref = createRef()
+
+  useEffect(() => {
+    if (api) {
+      const speakerChanged = (evt) => {
+        const largeVideo = api._getLargeVideo()
+        setHasVideo(largeVideo)
+        setStream(largeVideo?.srcObject)
+        setTransform(largeVideo?.style?.transform)
+      }
+      speakerChanged()
+
+      api.on('largeVideoChanged', speakerChanged)
+      return () => {
+        api.removeListener('largeVideoChanged', speakerChanged)
+      }
+    }
+  }, [api])
+
+  useEffect(() => {
+    ref.current.srcObject = stream
+    ref.current.style.transform = transform
+    ref.current.play()
+  }, [stream, transform])
+
+  console.log('stream', stream)
+
+  return (
+    <video
+      className="videobottomright"
+      autoPlay=""
+      id="video"
+      ref={ref}
+      style={{ transform: 'none', display: hasVideo ? 'block' : 'none' }}
+      muted
+      onClick={() => gotoRoom(room)}
+    ></video>
+  )
+}
 
 const socket = io(baseURL)
 socket.on('post', (post) => {
@@ -43,20 +118,50 @@ socket.on('post', (post) => {
   })
 })
 
-
 console.log(socket, ' to me ', baseURL)
 
-
+const MemoizedRoom = React.memo(
+  function ({ room, children }) {
+    console.log('RECREATING ROOM IFRAME!', room, children)
+    return <Room roomId={room} jitsiApp={children} />
+  },
+  (a, b) => a.room == b.room
+)
 
 //require('devtron').install()
 //require('react-devtools-electron').install()
+function PersistentRoom(room, children) {
+  if (room) {
+    return <MemoizedRoom {...{ room, children }} />
+  }
+}
 
 const CowBell = ({ children }) => {
   let [user, setUser] = useState(null)
   let [posts, setPosts] = useState({})
   _setPosts = setPosts
 
-  const [visible, setVisible] = useState(true)
+  const isInRoomRoute = useRouteMatch('/room/:id')
+  const routeRoom = isInRoomRoute?.params?.id
+  let [room, setRoom] = useState(routeRoom)
+
+  if (isInRoomRoute) {
+    if (room != routeRoom) {
+      setRoom(routeRoom)
+    }
+    room = routeRoom
+  }
+
+  console.log('CURRENT ROOM', room)
+
+  const history = useHistory()
+
+  function gotoRoom(id) {
+    history.push(`/room/${id}`)
+    setRoom(id)
+  }
+
+  const roomElement = PersistentRoom(room, children)
 
   const [jwt, setJwt] = useState(localStorage.getItem('token'))
   let [loadingUser, setLoadingUser] = useState(jwt != null)
@@ -122,59 +227,64 @@ const CowBell = ({ children }) => {
     setUser(null)
   }
 
-  const history = useHistory()
-
   Logger.setLogLevel(Logger.levels.WARN)
   Logger.level = 0
 
   const activeRooms = Object.values(posts).filter((x) => x.active)
 
+  const video = <VideoBottomRight />
+
   return (
-    <TheContext.Provider value={{ history, user, setUser, posts, jwt, activeRooms }}>
-      <SideBar />
+    <TheContext.Provider
+      value={{ history, user, setUser, posts, jwt, activeRooms, room, gotoRoom }}
+    >
+      <SideBar video={video} />
       <div className="container">
-        <NavBar visible={visible} setVisible={setVisible} history={history} />
-        <main>
-          {jwt == null ? (
-            <ReactLoading type="bars" color="rgb(0, 117, 255)" height="128px" width="128px" />
-          ) : (
-            <>
-              {user && (
-                <Switch>
-                  <Route exact path="/" component={Home} />
-                  <Route exact path="/dashboard" component={Dashboard} />
+        <NavBar history={history} />
+        <StackLayer>
+          <Stacked className="room" style={{ display: room && isInRoomRoute ? 'block' : 'hidden' }}>
+            {roomElement}
+          </Stacked>
 
-                  <Route exact path="/profile" component={Profile} />
+          <Stacked style={{background: "white", display: isInRoomRoute ? 'none' : 'block'}}>
+            {jwt == null ? (
+              <ReactLoading type="bars" color="rgb(0, 117, 255)" height="128px" width="128px" />
+            ) : (
+              <>
+                {user && (
+                  <Switch>
+                    <Route exact path="/" component={Home} />
+                    <Route exact path="/dashboard" component={Dashboard} />
 
-                  <Route path="/post/:id" render={(props) => <Post {...props} user={user} />} />
+                    <Route exact path="/profile" component={Profile} />
 
-                  {/* {children} */}
-                  <Route
-                    path="/room/:roomName"
-                    render={(props) => (
-                      <Room roomId={props.match.params.roomName} jitsiApp={children} {...props} />
-                    )}
-                  />
+                    <Route path="/post/:id" render={(props) => <Post {...props} user={user} />} />
 
-                  {/* <Route path="/room/:roomName" render={(props) => <JitsiRoom {...props} />} /> */}
+                    <Route path="/room/:roomName" render={(props) => <div></div>} />
 
-                  <Route component={NotFound} />
-                </Switch>
-              )}
-              {!user && (
-                <p>
-                  Please sign in through google using the popup window.{' '}
-                  <a onClick={reauth}>Click here</a> if the window did not open.
-                </p>
-              )}
-            </>
-          )}
-        </main>
+                    {/* <Route path="/room/:roomName" render={(props) => <JitsiRoom {...props} />} /> */}
+
+                    <Route component={NotFound} />
+                  </Switch>
+                )}
+
+                {!user && (
+                  <p>
+                    Please sign in through google using the popup window.{' '}
+                    <a onClick={reauth}>Click here</a> if the window did not open.
+                  </p>
+                )}
+              </>
+            )}
+          </Stacked>
+        </StackLayer>
       </div>
+
       <NotificationContainer />
     </TheContext.Provider>
   )
 }
+
 export default function CowBellWithRouter(props) {
   return (
     <HashRouter>

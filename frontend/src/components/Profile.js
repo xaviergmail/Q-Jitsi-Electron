@@ -102,7 +102,7 @@ const AddPost = ({ posts }) => {
   const [message, setMessage] = useState('')
   const [bounty, setBounty] = useState(10)
 
-  let { user, setUser, history} = useContext(TheContext)
+  let { user, setUser, history, gotoRoom } = useContext(TheContext)
 
   let outOfPoints = user?.points <= 0
 
@@ -117,7 +117,7 @@ const AddPost = ({ posts }) => {
       .then((res) => {
         setUser(res?.data.user)
         NotificationManager.info(`You've submitted a new issue`)
-        history.push(`/room/${res.data.posted._id}`)
+        gotoRoom(res.data.posted._id)
       })
       .catch((err) => console.error(err))
   }

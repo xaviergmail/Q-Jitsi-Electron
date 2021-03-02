@@ -62,6 +62,7 @@ function JitsiRoomFrame({ roomName, user, jwt }) {
         })
 
         window._jitsi = _jitsi
+        window.jitsiMeetExternalAPI = _jitsi
         setJitsi(_jitsi)
       })()
     }

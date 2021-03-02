@@ -14,9 +14,11 @@ const Participant = (participant) => {
   )
 }
 
-const Room = (room) => {
+const Room = ({ room }) => {
+  const { gotoRoom } = useContext(TheContext)
+
   return (
-    <Menu.Item header key={room._id} width="250px">
+    <Menu.Item header width="250px" onClick={() => gotoRoom(room._id)} link>
       <Header as="h2" inverted>
         {room.message}
       </Header>
@@ -25,8 +27,9 @@ const Room = (room) => {
   )
 }
 
-export default function SideBar() {
+export default function SideBar({ video }) {
   const { activeRooms } = useContext(TheContext)
+  
   return (
     <Sidebar
       as={Menu}
@@ -38,7 +41,11 @@ export default function SideBar() {
       visible
       style={{ width: '250px' }}
     >
-      {activeRooms.map(Room)}
+      <Menu.Item>
+        <Header inverted>Home</Header>
+      </Menu.Item>
+      {video}
+      {activeRooms.map(room => <Room room={room} key={room._id} />)}
     </Sidebar>
   )
 }
