@@ -7,16 +7,19 @@ const fs = require('fs');
 require('dotenv').config();
 const Dotenv = require('dotenv-webpack');
 
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+const smp = new SpeedMeasurePlugin();
+
 module.exports = {
     // The renderer code runs in BrowserWindow without node support so we must
     // target a web platform.
-    target: 'web',
+    target: 'electron-renderer',
     entry: { app: './app/index.js' },
-    devtool: 'source-map',
-    performance: {
-        maxAssetSize: 1.5 * 1024 * 1024,
-        maxEntrypointSize: 1.5 * 1024 * 1024
-    },
+    // devtool: 'source-map',
+    // performance: {
+    //     maxAssetSize: 1.5 * 1024 * 1024,
+    //     maxEntrypointSize: 1.5 * 1024 * 1024
+    // },
     // devServer: {
     //     contentBase: path.resolve('./public'),
     //     allowedHosts: [ 'local.plshelp.live' ],
@@ -116,5 +119,5 @@ module.exports = {
             path.resolve('./node_modules')
         ]
     }
-};
+}
 

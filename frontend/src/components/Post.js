@@ -36,7 +36,7 @@ const Post = ({ history, match, user }) => {
       .resolvePost({ participants, post })
       .then((res) => {
         console.log(res)
-        history.push('/profile')
+        history.push('/create-room')
       })
       .catch(console.error)
   }

@@ -111,6 +111,7 @@ li.post:nth-child(even){
 }
 .dashboard.page {
   padding-top: 100px;
+  display: block;
 }
 
 .dashboard .noneyet {

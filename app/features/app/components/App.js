@@ -106,7 +106,7 @@ class App extends Component<*> {
                     {/* <nav>
                         <Link to="/">Home</Link>
                         <Link to="/profile">Profile</Link>
-                        <Link to="/dashboard">Dashboard</Link>
+                        <Link to="/">Dashboard</Link>
                     </nav> */}
                     <Switch>
                         {/* <Route
