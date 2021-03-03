@@ -20,3 +20,7 @@ matrix:
 
 script:
   - npm run dist
+
+branches:
+  only:
+  - master

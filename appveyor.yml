@@ -13,3 +13,7 @@ install:
 
 build_script:
   - npm run dist
+
+branches:
+  only:
+    - master
