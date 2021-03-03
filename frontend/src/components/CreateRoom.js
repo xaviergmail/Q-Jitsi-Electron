@@ -2,12 +2,12 @@ import React, { Fragment, useEffect, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { NotificationManager } from 'react-notifications'
 import moment from 'moment'
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 
 import TheContext from '../TheContext'
 import actions from '../api'
 
-const Profile = (props) => {
+const CreateRoom = (props) => {
   const [posts, setPosts] = useState([])
   const [transactions, setTransactions] = useState([])
 
@@ -123,17 +123,15 @@ const AddPost = ({ posts }) => {
   }
   return (
     <div id="addPost">
-
       <section>
         <h3 id="player_stats">
-          Welcome, <span>{user.name}</span>! You have: {user.points} cowbells 💰
-      </h3>
+          Welcome, <span>{user.name}</span>! You have: {user.points.toFixed(0)} cowbells 💰
+        </h3>
         <form id="createRoom" onSubmit={handleSubmit}>
-
           <label htmlFor="bounty">
             <h2>Need help?</h2>
             Type your question below
-        </label>
+          </label>
           <br />
           <input
             disabled={outOfPoints}
@@ -164,29 +162,25 @@ const AddPost = ({ posts }) => {
       </section>
 
       <section id="user-details">
-
         <h3>
           {user.encounters ? (
             <span>
               You've had {user.encounters.amount} encounter{user.encounters.amount != 1 ? 's' : ''}{' '}
               with a total time of
-            {humanizeDuration(user.encounters.totalTime, 'hms')}
+              {humanizeDuration(user.encounters.totalTime, 'hms')}
             </span>
           ) : (
-              <span>Encounters not yet loaded</span>
-            )}
+            <span>Encounters not yet loaded</span>
+          )}
         </h3>
-
 
         <h3>
           You are logged in as <span>{user.email}</span>
         </h3>
         {/* <h4>Qs are {Math.round(100 - (100 / process.env.ELECTRON_WEBPACK_APP_SALE))}% off.  {process.env.ELECTRON_WEBPACK_APP_BOUNTY} reward for only {Math.round(Number(process.env.ELECTRON_WEBPACK_APP_BOUNTY) / Number(process.env.ELECTRON_WEBPACK_APP_SALE))} points</h4> */}
       </section>
-
     </div>
-
   )
 }
 
-export default Profile
+export default CreateRoom

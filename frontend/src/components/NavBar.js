@@ -7,15 +7,15 @@ export function NavBar() {
   console.log('location', pathname)
   return (
     <Menu pointing secondary>
-      <Link to="/profile">
-        <Menu.Item link active={pathname == '/profile'}>
-          Profile
+      <Link to="/create-room">
+        <Menu.Item link active={pathname == '/create-room'}>
+          Create a Room
         </Menu.Item>
       </Link>
 
       <Link to="/dashboard">
         <Menu.Item link active={pathname == '/dashboard'}>
-          Dashboard
+          Profile
         </Menu.Item>
       </Link>
     </Menu>

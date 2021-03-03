@@ -443,6 +443,7 @@ ipcMain.on('gauth-rq', () => {
     .then(token => {
         console.log('got token!!', token);
         curToken = token;
+        setTimeout(() => curToken = null, 30*60 * 1000)
         mainWindow
             .webContents
             .send('gauth-tk', JSON.stringify(token));
