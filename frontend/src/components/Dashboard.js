@@ -54,8 +54,8 @@ function Dashboard(props) {
           {tran.resolved ? (
             <h5>Already Claimed</h5>
           ) : (
-            <button onClick={() => cashTransaction(tran._id)}>Cash Out</button>
-          )}
+              <button onClick={() => cashTransaction(tran._id)}>Cash Out</button>
+            )}
         </li>
       )
     })
@@ -68,7 +68,7 @@ function Dashboard(props) {
     return posts.map((post) => {
       return (
         <Link to={`/post/${post._id}`} key={post._id}>
-          <li>{post.message}</li>
+          <li>{post.message} Paid:{JSON.stringify(post.paid)}</li>
         </Link>
       )
     })
@@ -90,14 +90,13 @@ function Dashboard(props) {
           )}
       </ul>
 
-      <ul className="posts">
-        {posts.length > 0 ? (
-          <>
-            Posts that you need to resolve
+      {posts.length > 0 ? (
+        <ul className="posts">
+          Posts that you need to resolve
             <ShowPosts {...props} posts={posts} />
-          </>
-        ) : null}
-      </ul>
+        </ul>
+      ) : null}
+
     </div>
   )
 }

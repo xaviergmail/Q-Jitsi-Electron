@@ -26,7 +26,7 @@ import Dashboard from './components/Dashboard'
 import ReactLoading from 'react-loading'
 import Room from './components/Room'
 import SideBar from './components/SideBar'
-
+import GoogleAuth from './components/GoogleAuth'
 import 'react-notifications/lib/notifications.css'
 import 'semantic-ui-css/semantic.min.css'
 import './index.css'
@@ -39,9 +39,10 @@ import io from 'socket.io-client'
 import baseURL from './api/config'
 
 // TODO: Convert this into a reusable useSocket or something
-let _setPosts = function () {}
+let _setPosts = function () { }
 
 import styled from 'styled-components'
+import JitsiRoom from './components/JitsiRoom'
 
 const StackLayer = styled.div`
   position: relative;
@@ -135,7 +136,11 @@ console.log(socket, ' to me ', baseURL)
 const MemoizedRoom = React.memo(
   function ({ room, children }) {
     console.log('RECREATING ROOM IFRAME!', room, children)
-    return <Room roomId={room} jitsiApp={children} />
+    if (window.jitsiNodeAPI) { //If its electron 
+      return <Room roomId={room} jitsiApp={children} />
+    } else {
+      return <JitsiRoom roomName={room} />
+    }
   },
   (a, b) => a.room == b.room
 )
@@ -171,7 +176,7 @@ const CowBell = ({ children }) => {
   }
 
   const history = useHistory()
-  
+
   useEffect(() => {
     const api = window.jitsiMeetExternalAPI
     if (api) {
@@ -198,7 +203,7 @@ const CowBell = ({ children }) => {
       }
     }
   }, [window.jitsiMeetExternalAPI, history])
-  
+
   console.log('CURRENT ROOM', room)
 
   function gotoRoom(id) {
@@ -232,15 +237,18 @@ const CowBell = ({ children }) => {
   }
 
   function reauth() {
-    window.jitsiNodeAPI.ipc.send('gauth-rq')
+    if (window.jitsiNodeAPI) { //electron
+      window.jitsiNodeAPI.ipc.send('gauth-rq')
+    }
   }
 
   // useEffect(() => console.log('a'), [])
   // useEffect(() => console.log('b'), [])
 
   useEffect(() => {
-    window.jitsiNodeAPI.ipc.on('gauth-tk', updateToken) // send notification to main process
-
+    if (window.jitsiNodeAPI) { //electron
+      window.jitsiNodeAPI.ipc.on('gauth-tk', updateToken) // send notification to main process
+    }
     if (!jwt) {
       const googleToken = localStorage.getItem('googletoken')
       if (!googleToken) {
@@ -324,11 +332,15 @@ const CowBell = ({ children }) => {
   ) : jwt == null ? (
     <ReactLoading type="bars" color="rgb(0, 117, 255)" height="128px" width="128px" />
   ) : (
-    <p>
-      Please sign in through google using the popup window. <a onClick={reauth}>Click here</a> if
-      the window did not open.
-    </p>
-  )
+        window.jitsiNodeAPI ?
+          <p>
+            Please sign in through google using the popup window. <a onClick={reauth}>Click here</a> if
+            the window did not open. </p>
+          :
+          <p>
+            <GoogleAuth setJwt={setJwt} /> </p>
+
+      )
 }
 
 export default function CowBellWithRouter(props) {

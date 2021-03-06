@@ -198,7 +198,7 @@ ul#transactions li {
   display: flex;
   flex-direction: column;
   align-items: center;
-  white-space: nowrap;
+  /* white-space: nowrap; */
 }
 
 ul#transaction li div {

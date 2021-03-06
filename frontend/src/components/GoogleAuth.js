@@ -22,11 +22,11 @@ const responseGoogle = (props) => {
         .catch((response) => console.error(response))
     }
   }
-  
+
   return (
     <>
       <GoogleLogin
-        clientId={process.env.ELECTRON_WEBPACK_APP_GOOGLEID}
+        clientId={process.env.ELECTRON_WEBPACK_APP_GOOGLEID3}
         buttonText="Log In"
         onSuccess={onResponse}
         onFailure={onResponse}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src * 'self'; style-src * 'self' 'unsafe-inline'"> -->
+    <style>
+        body,
+        html {
+            overflow: hidden;
+        }
+    </style>
+    <script>
+
+        /**
+         * Pretending that the jitsi node api works so that the react jitsi stuff doesn't freak out when it's run in the browser.
+         *
+
+        if (!window.jitsiNodeAPI) {
+            window.jitsiNodeAPI = {
+                createElectronStorage: function () {
+                    return {
+                        getItem: (key) => {
+                            return new Promise((resolve) => {
+                                resolve(localStorage.getItem(key))
+                            })
+                        },
+                        setItem: (key, item) => {
+                            return new Promise((resolve) => {
+                                resolve(localStorage.setItem(key, item))
+                            })
+                        },
+                        removeItem: (key) => {
+                            return new Promise((resolve) => {
+                                resolve(localStorage.deleteItem(key))
+                            })
+                        }
+                    }
+                },
+                osUserInfo: function () { return {} },
+                openExternalLink: {},
+                jitsiMeetElectronUtils: {},
+                getLocale: function () { return 'en-US' },
+                ipc: {
+                    on: console.log,
+                    send: console.log,
+                    removeListener: console.log,
+                }
+            };
+        }
+        */
+    </script>
+</head>
+
+<body>
+    <div id="app"></div>
+<script src="app.js"></script></body>
+
+</html>
