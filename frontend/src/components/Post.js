@@ -65,14 +65,27 @@ const Post = ({ history, match, user }) => {
       .map((enc) => {
         return (
           <li className="post" key={enc._id}>
-            <p>{enc.email} visited you on {moment(enc.join_time).format('MMMM Do YYYY, h:mm:ss')} for  {moment.utc(moment.duration(new Date(enc.leave_time).getTime() - new Date(enc.join_time), "minutes").asMilliseconds()).format("HH:mm")} minutes...</p>
+            <p>
+              {enc.email} visited you on {moment(enc.join_time).format('MMMM Do YYYY, h:mm:ss')} for{' '}
+              {moment
+                .utc(
+                  moment
+                    .duration(
+                      (new Date(enc.leave_time).getTime() - new Date(enc.join_time)) / 1000,
+                      'minutes'
+                    )
+                    .asMilliseconds()
+                )
+                .format('HH:mm')}{' '}
+              minutes...
+            </p>
             {/* <i>
               {console.log(typeof enc.leave_time, enc.leave_time, new Date(enc.leave_time).getTime())}
               <h2>{humanizeDuration(new Date(enc.leave_time).getTime() - new Date(enc.join_time), 'hms')}</h2>
               came in from {moment(enc.join_time).format('MMMM Do YYYY, h:mm:ss a')} until{' '}
               {moment(enc.leave_time).format('MMMM Do YYYY, h:mm:ss a')}
             </i> */}
-            <input type="checkbox" onChange={toggleHelpers(enc)} /> {enc.email}  helped me.
+            <input type="checkbox" onChange={toggleHelpers(enc)} /> {enc.email} helped me.
           </li>
         )
       })
@@ -107,21 +120,21 @@ const Post = ({ history, match, user }) => {
   return (
     <div>
       <section>
-        <h1>Post??</h1>
+        <h1>Viewing details for your post:</h1>
         <h2>{post?.message}</h2>
         <h3>Bounty {post?.bounty}</h3>
         <ul>{showHelpers()}</ul>
         {participants.length > 0 ? (
-          <button id="pay" onClick={resolveThePost}>Pay Helpers & Resolve Post</button>
+          <button id="pay" onClick={resolveThePost}>
+            Pay Helpers & Resolve Post
+          </button>
         ) : null}
       </section>
       {/* <section>
                 <div>Transactions</div>
                 {showTransactions()}
             </section> */}
-      <section>
-        {showEncounters()}
-      </section>
+      <section>{showEncounters()}</section>
     </div>
   )
 }

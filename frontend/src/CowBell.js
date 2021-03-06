@@ -27,6 +27,8 @@ import ReactLoading from 'react-loading'
 import Room from './components/Room'
 import SideBar from './components/SideBar'
 import GoogleAuth from './components/GoogleAuth'
+import VideoPreview from './components/VideoPreview/VideoPreview'
+
 import 'react-notifications/lib/notifications.css'
 import 'semantic-ui-css/semantic.min.css'
 import './index.css'
@@ -60,66 +62,7 @@ const Stacked = styled.div`
   bottom: 0;
 `
 
-function VideoBottomRight() {
-  const [stream, setStream] = useState()
-  const [transform, setTransform] = useState()
-  const [hasVideo, setHasVideo] = useState(false)
 
-  const { room, gotoRoom } = useContext(TheContext)
-
-
-  const ref = createRef()
-
-  useEffect(() => {
-    const api = window.jitsiMeetExternalAPI
-
-    if (api) {
-      const listeners = {
-        speakerChanged: (evt) => {
-          const largeVideo = api._getLargeVideo()
-          setHasVideo(largeVideo)
-          setStream(largeVideo?.srcObject)
-          setTransform(largeVideo?.style?.transform)
-        },
-
-      }
-
-      listeners.speakerChanged()
-
-      for (const [k, v] of Object.entries(listeners)) {
-        api.on(k, v)
-      }
-
-      return () => {
-        if (api && typeof api.removeListeners == "function") {
-          for (const [k, v] of Object.entries(listeners)) {
-            api.removeListeners(k, v)
-          }
-        }
-      }
-    }
-  }, [window.jitsiMeetExternalAPI])
-
-  useEffect(() => {
-    ref.current.srcObject = stream
-    ref.current.style.transform = transform
-    ref.current.play()
-  }, [stream, transform])
-
-  console.log('stream', stream)
-
-  return (
-    <video
-      className="videobottomright"
-      autoPlay=""
-      id="video"
-      ref={ref}
-      style={{ transform: 'none', display: hasVideo ? 'block' : 'none', cursor: 'pointer' }}
-      muted
-      onClick={() => gotoRoom(room)}
-    ></video>
-  )
-}
 
 const socket = io(baseURL)
 socket.on('post', (post) => {
@@ -167,6 +110,7 @@ const CowBell = ({ children }) => {
   const isInRoomRoute = useRouteMatch('/room/:id')
   const routeRoom = isValidRoom(isInRoomRoute?.params?.id)
   let [room, setRoom] = useState(routeRoom)
+  const history = useHistory()
 
   if (isInRoomRoute) {
     if (room != routeRoom) {
@@ -176,6 +120,9 @@ const CowBell = ({ children }) => {
   }
 
   const history = useHistory()
+  if (posts[room] && !posts[room].active) {
+    gotoRoom('lobby')
+  }
 
   useEffect(() => {
     const api = window.jitsiMeetExternalAPI
@@ -195,7 +142,7 @@ const CowBell = ({ children }) => {
       }
 
       return () => {
-        if (api && typeof api.removeListeners == "function") {
+        if (api && typeof api.removeListeners == 'function') {
           for (const [k, v] of Object.entries(listeners)) {
             api.removeListeners(k, v)
           }
@@ -292,7 +239,7 @@ const CowBell = ({ children }) => {
     (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
   )
 
-  const video = <VideoBottomRight />
+  const video = <VideoPreview />
 
   const context = { history, user, setUser, posts, jwt, activeRooms, room, gotoRoom }
   window._context = context
@@ -302,12 +249,18 @@ const CowBell = ({ children }) => {
       <SideBar video={!isInRoomRoute && video} />
       <div className="container">
         <NavBar history={history} />
-        <StackLayer>
+        <StackLayer style={{ overflow: 'hidden' }}>
           <Stacked className="room" style={{ display: room && isInRoomRoute ? 'block' : 'hidden' }}>
             {roomElement}
           </Stacked>
 
-          <Stacked style={{ background: 'white', display: isInRoomRoute ? 'none' : 'block' }}>
+          <Stacked
+            style={{
+              overflow: 'auto',
+              background: 'white',
+              display: isInRoomRoute ? 'none' : 'block',
+            }}
+          >
             <Switch>
               <Route exact path="/dashboard" component={Dashboard} />
 
@@ -329,7 +282,7 @@ const CowBell = ({ children }) => {
 
       <NotificationContainer />
     </TheContext.Provider>
-  ) : jwt == null ? (
+  ) : jwt ? (
     <ReactLoading type="bars" color="rgb(0, 117, 255)" height="128px" width="128px" />
   ) : (
         window.jitsiNodeAPI ?
