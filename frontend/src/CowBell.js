@@ -1,10 +1,10 @@
-import Logger from 'jitsi-meet-logger'
+// import Logger from 'jitsi-meet-logger'
 
-var logger = Logger.getLogger()
+// var logger = Logger.getLogger()
 
-Logger.setLogLevel(Logger.levels.WARN)
+// Logger.setLogLevel(Logger.levels.WARN)
 
-Logger.level = 0
+// Logger.level = 0
 
 import React, { Fragment, useState, useEffect, useMemo, createRef, useContext } from 'react'
 import {
@@ -28,6 +28,7 @@ import Room from './components/Room'
 import SideBar from './components/SideBar'
 import GoogleAuth from './components/GoogleAuth'
 import VideoPreview from './components/VideoPreview/VideoPreview'
+import Profile from './components/Profile'
 
 import 'react-notifications/lib/notifications.css'
 import 'semantic-ui-css/semantic.min.css'
@@ -43,6 +44,7 @@ import baseURL from './api/config'
 // TODO: Convert this into a reusable useSocket or something
 let _setPosts = function () { }
 
+//Styled components && semantic UI ?? WUT 
 import styled from 'styled-components'
 import JitsiRoom from './components/JitsiRoom'
 
@@ -104,7 +106,9 @@ function isValidRoom(room) {
 
 const CowBell = ({ children }) => {
   let [user, setUser] = useState(null)
-  let [posts, setPosts] = useState({})
+  let [myPosts, setMyPosts] = useState([])
+  let [myTransactions, setMyTransactions] = useState([])
+  let [posts, setPosts] = useState([])
   _setPosts = setPosts
 
   const isInRoomRoute = useRouteMatch('/room/:id')
@@ -119,10 +123,17 @@ const CowBell = ({ children }) => {
     room = routeRoom
   }
 
-  const history = useHistory()
+  /**WUT  -- Sends all users to lobby if host leaves room?**/
   if (posts[room] && !posts[room].active) {
-    gotoRoom('lobby')
+    //gotoRoom('lobby')
+    console.log(`/gotoRoom('lobby')`)
   }
+
+  //Sends user to lobby instead of 404 onload >>> Should maybe be inside use effect? >> Could prob be done better when login is inside of app 
+  // if (location.hash != "#/room/lobby" || location.hash.replace('#/', '').length === 0) {
+  //   gotoRoom('lobby')
+  // }
+
 
   useEffect(() => {
     const api = window.jitsiMeetExternalAPI
@@ -213,6 +224,30 @@ const CowBell = ({ children }) => {
   useEffect(() => {
     if (jwt && !user) {
       getUser() //.then(() => {})
+
+      //Possibly combine getUser with below using populate
+
+
+      actions
+        .getMyTransactions()
+        .then((res) => {
+          setMyTransactions(res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
+
+      actions
+        .getMyPosts()
+        .then(res => {
+          setMyPosts(res.data)
+        }).catch((err) => {
+          console.log(err)
+        })
+
+
+
     }
 
     actions
@@ -232,8 +267,8 @@ const CowBell = ({ children }) => {
     setUser(null)
   }
 
-  Logger.setLogLevel(Logger.levels.WARN)
-  Logger.level = 0
+  // Logger.setLogLevel(Logger.levels.WARN)
+  // Logger.level = 0
 
   const activeRooms = Object.values(posts).filter(
     (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
@@ -241,14 +276,14 @@ const CowBell = ({ children }) => {
 
   const video = <VideoPreview />
 
-  const context = { history, user, setUser, posts, jwt, activeRooms, room, gotoRoom }
+  const context = { history, user, setUser, posts, jwt, activeRooms, room, gotoRoom, setMyPosts, myPosts, setMyTransactions, myTransactions }
   window._context = context
 
   return user ? (
     <TheContext.Provider value={context}>
       <SideBar video={!isInRoomRoute && video} />
       <div className="container">
-        <NavBar history={history} />
+        <NavBar history={history} user={user} />
         <StackLayer style={{ overflow: 'hidden' }}>
           <Stacked className="room" style={{ display: room && isInRoomRoute ? 'block' : 'hidden' }}>
             {roomElement}
@@ -270,7 +305,10 @@ const CowBell = ({ children }) => {
 
               <Route path="/post/:id" render={(props) => <Post {...props} user={user} />} />
 
-              <Route path="/room/:roomName" render={(props) => <div></div>} />
+              <Route path="/profile" component={Profile} />
+
+              {/**WUT**/}
+              <Route path="/room/:roomName" render={(props) => <div>HMMMMM</div>} />
 
               {/* <Route path="/room/:roomName" render={(props) => <JitsiRoom {...props} />} /> */}
 

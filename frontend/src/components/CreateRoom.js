@@ -124,9 +124,7 @@ const AddPost = ({ posts }) => {
   return (
     <div id="addPost">
       <section>
-        <h3 id="player_stats">
-          Welcome, <span>{user.name}</span>! You have: {user.points.toFixed(0)} cowbells 💰
-        </h3>
+
         <form id="createRoom" onSubmit={handleSubmit}>
           <label htmlFor="bounty">
             <h2>Need help?</h2>
@@ -170,8 +168,8 @@ const AddPost = ({ posts }) => {
               {humanizeDuration(user.encounters.totalTime, 'hms')}
             </span>
           ) : (
-            <span>Encounters not yet loaded</span>
-          )}
+              <span>Encounters not yet loaded</span>
+            )}
         </h3>
 
         <h3>

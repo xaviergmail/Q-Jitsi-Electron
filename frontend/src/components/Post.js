@@ -4,7 +4,7 @@ import moment from 'moment'
 
 const Post = ({ history, match, user }) => {
   const [post, setPost] = useState({})
-  const [encounters, setEnctouners] = useState([])
+  const [encounters, setEncounters] = useState([])
   // const [transactions, setTransactions] = useState([]);
   const [participants, setParticipants] = useState([])
 
@@ -16,7 +16,7 @@ const Post = ({ history, match, user }) => {
         if (res) {
           setPost(res?.data)
           //   setTransactions(res?.data.transactions);
-          setEnctouners(res?.data.encounterIds)
+          setEncounters(res?.data?.encounterIds)
         }
       })
       .catch(console.error)
@@ -42,6 +42,7 @@ const Post = ({ history, match, user }) => {
   }
 
 
+
   function humanizeDuration(input, units) {
     // units is a string with possible values of y, M, w, d, h, m, s, ms
     var duration = moment().startOf('day').add(units, input),
@@ -57,7 +58,7 @@ const Post = ({ history, match, user }) => {
   }
 
   const showEncounters = () => {
-
+    if (!encounters) { return } //FIXME
     return encounters
       .filter((participant) => {
         return participant.email !== user?.email
@@ -119,22 +120,31 @@ const Post = ({ history, match, user }) => {
 
   return (
     <div>
+      {JSON.stringify(post)}
       <section>
         <h1>Viewing details for your post:</h1>
         <h2>{post?.message}</h2>
         <h3>Bounty {post?.bounty}</h3>
-        <ul>{showHelpers()}</ul>
-        {participants.length > 0 ? (
-          <button id="pay" onClick={resolveThePost}>
-            Pay Helpers & Resolve Post
+
+        {post?.paid ?
+          <h3>Post has been paid</h3>
+          :
+          <>
+            <ul>{showHelpers()}</ul>
+            {participants.length > 0 ? (
+              <button id="pay" onClick={resolveThePost}>
+                Pay Helpers & Resolve Post
           </button>
-        ) : null}
+            ) : null}
+          </>
+        }
+
       </section>
       {/* <section>
                 <div>Transactions</div>
                 {showTransactions()}
             </section> */}
-      <section>{showEncounters()}</section>
+      {post?.paid ? null : <section>{showEncounters()}</section>}
     </div>
   )
 }
