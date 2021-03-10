@@ -21,3 +21,5 @@ dist/
 
 
 dist.zip
+
+.env.apple

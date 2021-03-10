@@ -3,17 +3,17 @@ export default {
     /**
      * The URL with extra information about the app / service.
      */
-    aboutURL: 'https://jitsi.org/what-is-jitsi/',
+    aboutURL: 'https://github.com/xaviergmail/Q-Jitsi-Electron',
 
     /**
      * The URL to the source code repository.
      */
-    sourceURL: 'https://github.com/jitsi/jitsi-meet-electron',
+    sourceURL: 'https://github.com/xaviergmail/Q-Jitsi-Electron',
 
     /**
      * Application name.
      */
-    appName: 'Cowbell Club',
+    appName: 'CowBellClub',
 
     /**
     * The prefix for application protocol.

@@ -41,8 +41,8 @@ app.commandLine.appendSwitch('disable-gpu');
 // Needed until robot.js is fixed: https://github.com/octalmage/robotjs/issues/580
 app.allowRendererProcessReuse = false;
 
-autoUpdater.logger = require('electron-log');
-autoUpdater.logger.transports.file.level = 'info';
+// autoUpdater.logger = require('electron-log');
+// autoUpdater.logger.transports.file.level = 'info';
 
 // Enable context menu so things like copy and paste work in input fields.
 contextMenu({
@@ -94,7 +94,7 @@ let protocolDataForFrontApp = null;
  */
 function setApplicationMenu() {
     if (process.platform === 'darwin') {
-        const template = [ {
+        const template = [{
             label: app.name,
             submenu: [
                 {
@@ -110,7 +110,7 @@ function setApplicationMenu() {
             ]
         }, {
             label: 'Edit',
-            submenu: [ {
+            submenu: [{
                 label: 'Undo',
                 accelerator: 'CmdOrCtrl+Z',
                 selector: 'undo:'
@@ -142,7 +142,7 @@ function setApplicationMenu() {
                 label: 'Select All',
                 accelerator: 'CmdOrCtrl+A',
                 selector: 'selectAll:'
-            } ]
+            }]
         }, {
             label: '&Window',
             role: 'window',
@@ -150,7 +150,7 @@ function setApplicationMenu() {
                 { role: 'minimize' },
                 { role: 'close' }
             ]
-        } ];
+        }];
 
         Menu.setApplicationMenu(Menu.buildFromTemplate(template));
     } else {
@@ -166,7 +166,7 @@ function createJitsiMeetWindow() {
     setApplicationMenu();
 
     // Check for Updates.
-    autoUpdater.checkForUpdatesAndNotify();
+    // autoUpdater.checkForUpdatesAndNotify();
 
     // Load the previous window state with fallback to defaults.
     const windowState = windowStateKeeper({
@@ -366,7 +366,7 @@ if (isDev && process.platform === 'win32') {
     app.setAsDefaultProtocolClient(
         config.default.appProtocolPrefix,
         process.execPath,
-        [ path.resolve(process.argv[1]) ]
+        [path.resolve(process.argv[1])]
     );
 } else {
     app.setAsDefaultProtocolClient(config.default.appProtocolPrefix);
@@ -395,11 +395,11 @@ ipcMain.on('renderer-ready', () => {
 });
 
 app.on('ready', () => {
-  
+
     mainWindow.webContents.on("did-frame-finish-load", async () => {
-      if (process.env.NODE_ENV === 'development') {
-        await installExtensions();
-      }
+        if (process.env.NODE_ENV === 'development') {
+            await installExtensions();
+        }
     });
 });
 
@@ -417,9 +417,9 @@ async function installExtensions() {
 import ElectronGoogleOAuth2 from '@getstation/electron-google-oauth2';
 
 const myApiOauth = new ElectronGoogleOAuth2(
-process.env.ELECTRON_WEBPACK_APP_GOOGLEID,
-process.env.ELECTRON_WEBPACK_APP_GOOGLEID2,
-    [ 'profile email' ],
+    process.env.ELECTRON_WEBPACK_APP_GOOGLEID,
+    process.env.ELECTRON_WEBPACK_APP_GOOGLEID2,
+    ['profile email'],
     {
         successRedirectURL: ''
     }
@@ -440,17 +440,17 @@ ipcMain.on('gauth-rq', () => {
 
     myApiOauth.openAuthWindowAndGetTokens()
 
-    .then(token => {
-        console.log('got token!!', token);
-        curToken = token;
-        setTimeout(() => curToken = null, 30*60 * 1000)
-        mainWindow
-            .webContents
-            .send('gauth-tk', JSON.stringify(token));
-    })
-    .catch(err => {
-        console.log('err in promise', err);
-    });
+        .then(token => {
+            console.log('got token!!', token);
+            curToken = token;
+            setTimeout(() => curToken = null, 30 * 60 * 1000)
+            mainWindow
+                .webContents
+                .send('gauth-tk', JSON.stringify(token));
+        })
+        .catch(err => {
+            console.log('err in promise', err);
+        });
 });
 
 console.log('Wooooo we loaded!!!');

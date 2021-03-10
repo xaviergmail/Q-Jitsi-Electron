@@ -1,10 +1,10 @@
-import Logger from 'jitsi-meet-logger'
+// import Logger from 'jitsi-meet-logger'
 
-var logger = Logger.getLogger()
+// var logger = Logger.getLogger()
 
-Logger.setLogLevel(Logger.levels.WARN)
+// Logger.setLogLevel(Logger.levels.WARN)
 
-Logger.level = 0
+// Logger.level = 0
 
 import React, { Fragment, useState, useEffect, useMemo, createRef, useContext } from 'react'
 import {
@@ -26,7 +26,9 @@ import Dashboard from './components/Dashboard'
 import ReactLoading from 'react-loading'
 import Room from './components/Room'
 import SideBar from './components/SideBar'
+import GoogleAuth from './components/GoogleAuth'
 import VideoPreview from './components/VideoPreview/VideoPreview'
+import Profile from './components/Profile'
 
 import 'react-notifications/lib/notifications.css'
 import 'semantic-ui-css/semantic.min.css'
@@ -40,9 +42,12 @@ import io from 'socket.io-client'
 import baseURL from './api/config'
 
 // TODO: Convert this into a reusable useSocket or something
-let _setPosts = function () {}
+let _setPosts = function () { }
+let _setMyTransactions = function(){}
 
+//Styled components && semantic UI ?? WUT 
 import styled from 'styled-components'
+import JitsiRoom from './components/JitsiRoom'
 
 const StackLayer = styled.div`
   position: relative;
@@ -72,12 +77,28 @@ socket.on('post', (post) => {
   })
 })
 
+
+
+socket.on('transaction', transaction => {
+  console.log(transaction, ' phillipines')
+  _setMyTransactions(function (transactions) {
+    console.log(' dart board ', transactions)
+    let newTransactions = [...transactions]
+    newTransactions.push(transaction)
+    return newTransactions
+  })
+})
+
 console.log(socket, ' to me ', baseURL)
 
 const MemoizedRoom = React.memo(
   function ({ room, children }) {
     console.log('RECREATING ROOM IFRAME!', room, children)
-    return <Room roomId={room} jitsiApp={children} />
+    if (window.jitsiNodeAPI) { //If its electron 
+      return <Room roomId={room} jitsiApp={children} />
+    } else {
+      return <JitsiRoom roomName={room} />
+    }
   },
   (a, b) => a.room == b.room
 )
@@ -98,8 +119,12 @@ function isValidRoom(room) {
 
 const CowBell = ({ children }) => {
   let [user, setUser] = useState(null)
-  let [posts, setPosts] = useState({})
+  let [myPosts, setMyPosts] = useState([])
+  let [myTransactions, setMyTransactions] = useState([])
+  let [posts, setPosts] = useState([])
+
   _setPosts = setPosts
+  _setMyTransactions = setMyTransactions
 
   const isInRoomRoute = useRouteMatch('/room/:id')
   const routeRoom = isValidRoom(isInRoomRoute?.params?.id)
@@ -113,9 +138,17 @@ const CowBell = ({ children }) => {
     room = routeRoom
   }
 
+  /**WUT  -- Sends all users to lobby if host leaves room?**/
   if (posts[room] && !posts[room].active) {
-    gotoRoom('lobby')
+    //gotoRoom('lobby')
+    console.log(`/gotoRoom('lobby')`)
   }
+
+  //Sends user to lobby instead of 404 onload >>> Should maybe be inside use effect? >> Could prob be done better when login is inside of app 
+  // if (location.hash != "#/room/lobby" || location.hash.replace('#/', '').length === 0) {
+  //   gotoRoom('lobby')
+  // }
+
 
   useEffect(() => {
     const api = window.jitsiMeetExternalAPI
@@ -177,15 +210,18 @@ const CowBell = ({ children }) => {
   }
 
   function reauth() {
-    window.jitsiNodeAPI.ipc.send('gauth-rq')
+    if (window.jitsiNodeAPI) { //electron
+      window.jitsiNodeAPI.ipc.send('gauth-rq')
+    }
   }
 
   // useEffect(() => console.log('a'), [])
   // useEffect(() => console.log('b'), [])
 
   useEffect(() => {
-    window.jitsiNodeAPI.ipc.on('gauth-tk', updateToken) // send notification to main process
-
+    if (window.jitsiNodeAPI) { //electron
+      window.jitsiNodeAPI.ipc.on('gauth-tk', updateToken) // send notification to main process
+    }
     if (!jwt) {
       const googleToken = localStorage.getItem('googletoken')
       if (!googleToken) {
@@ -203,6 +239,30 @@ const CowBell = ({ children }) => {
   useEffect(() => {
     if (jwt && !user) {
       getUser() //.then(() => {})
+
+      //Possibly combine getUser with below using populate
+
+
+      actions
+        .getMyTransactions()
+        .then((res) => {
+          setMyTransactions(res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
+
+      actions
+        .getMyPosts()
+        .then(res => {
+          setMyPosts(res.data)
+        }).catch((err) => {
+          console.log(err)
+        })
+
+
+
     }
 
     actions
@@ -222,8 +282,8 @@ const CowBell = ({ children }) => {
     setUser(null)
   }
 
-  Logger.setLogLevel(Logger.levels.WARN)
-  Logger.level = 0
+  // Logger.setLogLevel(Logger.levels.WARN)
+  // Logger.level = 0
 
   const activeRooms = Object.values(posts).filter(
     (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
@@ -231,14 +291,14 @@ const CowBell = ({ children }) => {
 
   const video = <VideoPreview />
 
-  const context = { history, user, setUser, posts, jwt, activeRooms, room, gotoRoom }
+  const context = { history, user, setUser, posts, jwt, activeRooms, room, gotoRoom, setMyPosts, myPosts, setMyTransactions, myTransactions }
   window._context = context
 
   return user ? (
     <TheContext.Provider value={context}>
       <SideBar video={!isInRoomRoute && video} />
       <div className="container">
-        <NavBar history={history} />
+        <NavBar history={history} user={user} />
         <StackLayer style={{ overflow: 'hidden' }}>
           <Stacked className="room" style={{ display: room && isInRoomRoute ? 'block' : 'hidden' }}>
             {roomElement}
@@ -260,7 +320,10 @@ const CowBell = ({ children }) => {
 
               <Route path="/post/:id" render={(props) => <Post {...props} user={user} />} />
 
-              <Route path="/room/:roomName" render={(props) => <div></div>} />
+              <Route path="/profile" component={Profile} />
+
+              {/**WUT**/}
+              <Route path="/room/:roomName" render={(props) => <div>HMMMMM</div>} />
 
               {/* <Route path="/room/:roomName" render={(props) => <JitsiRoom {...props} />} /> */}
 
@@ -275,11 +338,15 @@ const CowBell = ({ children }) => {
   ) : jwt ? (
     <ReactLoading type="bars" color="rgb(0, 117, 255)" height="128px" width="128px" />
   ) : (
-    <p>
-      Please sign in through google using the popup window. <a onClick={reauth}>Click here</a> if
-      the window did not open.
-    </p>
-  )
+        window.jitsiNodeAPI ?
+          <p>
+            Please sign in through google using the popup window. <a onClick={reauth}>Click here</a> if
+            the window did not open. </p>
+          :
+          <p>
+            <GoogleAuth setJwt={setJwt} /> </p>
+
+      )
 }
 
 export default function CowBellWithRouter(props) {

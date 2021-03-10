@@ -4,13 +4,16 @@ import TheContext from '../TheContext'
 import { jitsiURL } from '../api/config'
 import ReactLoading from 'react-loading'
 
+
 class JitsiRoomManager {
   constructor(jitsi) {
     this.jitsi = jitsi
   }
 }
 
-function JitsiRoomFrame({ roomName, user, jwt }) {
+function JitsiRoomFrame({ roomName }) {
+  const { user, jwt } = useContext(TheContext)
+
   const jitsiContainerId = 'jitsi-container-id'
 
   console.log('roomName', roomName)
@@ -26,8 +29,9 @@ function JitsiRoomFrame({ roomName, user, jwt }) {
       resolveLoadJitsiScriptPromise = resolve
     })
 
+
     const script = document.createElement('script')
-    script.src = 'https://' + jitsiURL + '/external_api.js'
+    script.src = jitsiURL + '/external_api.js'
     script.async = true
     script.onload = resolveLoadJitsiScriptPromise
     document.body.appendChild(script)
@@ -37,12 +41,12 @@ function JitsiRoomFrame({ roomName, user, jwt }) {
 
   React.useEffect(() => {
     if (!jitsi) {
-      ;(async () => {
+      ; (async () => {
         if (!window.JitsiMeetExternalAPI) {
           await loadJitsiScript()
         }
 
-        const _jitsi = new window.JitsiMeetExternalAPI(jitsiURL, {
+        const _jitsi = new window.JitsiMeetExternalAPI(new URL(jitsiURL).host, {
           roomName,
           jwt,
           width: '100%',
@@ -96,7 +100,7 @@ function JitsiRoom(props) {
     history.push('/')
   }
 
-  return user && <JitsiRoomFrame {...{ roomName: props.match.params.roomName, user, jwt }} />
+  return user && <JitsiRoomFrame {...{ roomName: props.roomName, user, jwt }} />
 }
 
 export default JitsiRoom

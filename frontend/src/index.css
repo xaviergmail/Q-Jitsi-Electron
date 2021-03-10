@@ -105,14 +105,9 @@ li.post:nth-child(even){
   height: 10vw;
   transition: all 0.3s;
 }
-.dashboard.page {
-  padding-top: 100px;
-  display: block;
-}
 
-.dashboard .noneyet {
-  text-align: center;
-}
+
+
 
 .profile.page h2 {
   font-size: 40px;
@@ -174,31 +169,7 @@ li.post:nth-child(even){
   text-decoration: underline;
 } 
 
-ul {
-  padding: 0;
-}
 
-ul#transactions {
-  list-style-type: none;
-}
-
-ul#transactions {
-  text-align: left;
-}
-
-ul#transactions li {
-  /* box-shadow: 1px solid #000; */
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  padding: 20px 100px;
-  margin: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  white-space: nowrap;
-}
-
-ul#transaction li div {
-}
 
 .stream {
   display: flex;
@@ -252,28 +223,96 @@ ul#transaction li div {
 
 /* SINCE ELECTRON & semantic css**/
 
-nav {
-  display: flex;
-  justify-content: space-between;
+
+
+
+
+a#points{
+
+}
+
+a#create{
+  position: absolute;
+  left:0;
+}
+
+.top-nav a{
+  transition: all .5s
+}
+.top-nav{
+  background: #eee !important;/* How can i avoid important tags with semantic UI*/
+  display:flex;
+  justify-content: flex-end;
+  position: relative;
   align-items: center;
-  width: 100%;
-  /*Dont love this*/
-  margin-top: 25px;
 }
-
-  /*Dont love this*/
-nav a {
-  background: white;
-  padding: 0px 20px;
-  transition: all .2s;
-
-}
-
-nav a:focus{
+.top-nav a:focus{
   outline: none;
+} 
+
+
+
+.top-nav a:hover{
+  background: #ddd;
 }
 
-nav a:hover {
-  color:blue;
-  text-decoration: underline;
+
+
+.profile, .dashboard{
+  padding: 3rem;
+  text-align: left;
+}
+
+
+ul.resolved, ul.unresolved{
+  display:flex;
+  flex-direction: wrap !important;
+  list-style-type: none;
+  flex-wrap: wrap;
+  text-align: center;
+}
+ul.resolved li, ul.unresolved li{
+ 
+  margin: 0;
+  padding: 0;
+}
+
+
+
+
+
+ul {
+  padding: 0;
+}
+
+ul#transactions {
+  list-style-type: none;
+}
+
+ul#transactions {
+  text-align: left;
+}
+
+ul#transactions li {
+  /* box-shadow: 1px solid #000; */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 20px 100px;
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* white-space: nowrap; */
+}
+
+ul#transaction li div {
+}
+
+.dashboard h1{
+  display: inline-block;
+  font-size:50px;
+}
+
+.dashboard .ui.header{
+  display:flex;
+  align-items: center;
 }

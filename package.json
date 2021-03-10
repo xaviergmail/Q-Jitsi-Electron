@@ -1,9 +1,9 @@
 {
-  "name": "cowbell.club",
+  "name": "CowBellClub",
   "version": "1.0.7",
   "description": "Electron application for Cowbell Club",
   "main": "./build/main.js",
-  "productName": "Cowbell Club",
+  "productName": "CowbellClub",
   "scripts": {
     "start": "webpack --config ./webpack.main.js --mode development && concurrently \"echo Waiting on webpack > ./build/index.html\" \"npm:watch\" \"npm:electron\"",
     "start2": "webpack --config ./webpack.main.js --mode development && npm run watch",
@@ -18,14 +18,16 @@
     "start_wdev": "electron-webpack dev",
     "electron": "electron ./build/main.js",
     "electronappdelay": "sleep 2 && electron ./build/main.js",
-    "release": "electron-builder"
+    "release": "electron-builder",
+    "browser": "webpack serve --config ./webpack.browser.js"
   },
   "engines": {
     "node": ">=12.0.0"
   },
   "build": {
+    "afterSign": "notarize.js",
     "appId": "club.cowbell",
-    "productName": "Cowbell Club",
+    "productName": "CowbellClub",
     "generateUpdatesFilesForAllChannels": true,
     "extends": null,
     "files": [
@@ -34,6 +36,11 @@
       "!app",
       "!main.js"
     ],
+    "appx": {
+      "applicationId": "cowbell.club",
+      "displayName": "CowBellClub",
+      "publisherDisplayName": "CowBellClub"
+    },
     "mac": {
       "artifactName": "cowbell.club.${ext}",
       "category": "public.app-category.video",
@@ -41,6 +48,7 @@
       "hardenedRuntime": true,
       "entitlements": "entitlements.mac.plist",
       "entitlementsInherit": "entitlements.mac.plist",
+      "gatekeeperAssess": false,
       "extendInfo": {
         "NSCameraUsageDescription": "Cowbell Club requires access to your camera in order to make video-calls.",
         "NSMicrophoneUsageDescription": "Cowbell Club requires access to your microphone in order to make calls (audio/video)."
@@ -61,6 +69,13 @@
     "win": {
       "artifactName": "cowbell.club.${ext}",
       "target": [
+        {
+          "arch": [
+            "ia32",
+            "x64"
+          ],
+          "target": "appx"
+        },
         {
           "arch": [
             "ia32",
@@ -99,7 +114,7 @@
     "ironhack",
     "cowbell.club"
   ],
-  "author": "Cowbell Club <niko.tzikas@gmail.com>",
+  "author": "CowBellClub <niko.tzikas@gmail.com>",
   "readmeFilename": "README.md",
   "license": "Apache-2.0",
   "dependencies": {
@@ -157,6 +172,7 @@
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
     "socket.io-client": "^3.1.1",
+    "sockjs-client": "^1.5.0",
     "source-map-support": "0.5.16",
     "styled-components": "3.4.0"
   },
