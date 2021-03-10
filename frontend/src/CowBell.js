@@ -43,6 +43,7 @@ import baseURL from './api/config'
 
 // TODO: Convert this into a reusable useSocket or something
 let _setPosts = function () { }
+let _setMyTransactions = function(){}
 
 //Styled components && semantic UI ?? WUT 
 import styled from 'styled-components'
@@ -73,6 +74,18 @@ socket.on('post', (post) => {
     let newPosts = { ...posts }
     newPosts[post.id] = post
     return newPosts
+  })
+})
+
+
+
+socket.on('transaction', transaction => {
+  console.log(transaction, ' phillipines')
+  _setMyTransactions(function (transactions) {
+    console.log(' dart board ', transactions)
+    let newTransactions = [...transactions]
+    newTransactions.push(transaction)
+    return newTransactions
   })
 })
 
@@ -109,7 +122,9 @@ const CowBell = ({ children }) => {
   let [myPosts, setMyPosts] = useState([])
   let [myTransactions, setMyTransactions] = useState([])
   let [posts, setPosts] = useState([])
+
   _setPosts = setPosts
+  _setMyTransactions = setMyTransactions
 
   const isInRoomRoute = useRouteMatch('/room/:id')
   const routeRoom = isValidRoom(isInRoomRoute?.params?.id)

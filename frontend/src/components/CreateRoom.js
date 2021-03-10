@@ -116,6 +116,7 @@ const AddPost = ({ posts }) => {
       .addPost({ message, bounty })
       .then((res) => {
         setUser(res?.data.user)
+        console.log(res.data, ' <<>>> THIS ISH BUSNATCH')
         NotificationManager.info(`You've submitted a new issue`)
         gotoRoom(res.data.posted._id)
       })
