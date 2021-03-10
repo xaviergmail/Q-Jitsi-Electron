@@ -1,6 +1,6 @@
 {
   "name": "cowbell.club",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Electron application for Cowbell Club",
   "main": "./build/main.js",
   "productName": "Cowbell Club",
@@ -25,6 +25,7 @@
     "node": ">=12.0.0"
   },
   "build": {
+    "afterSign": "notarize.js",
     "appId": "club.cowbell",
     "productName": "Cowbell Club",
     "generateUpdatesFilesForAllChannels": true,
@@ -35,6 +36,9 @@
       "!app",
       "!main.js"
     ],
+    "dmg": {
+      "sign": false
+    },
     "mac": {
       "artifactName": "cowbell.club.${ext}",
       "category": "public.app-category.video",
@@ -42,6 +46,7 @@
       "hardenedRuntime": true,
       "entitlements": "entitlements.mac.plist",
       "entitlementsInherit": "entitlements.mac.plist",
+      "gatekeeperAssess": false,
       "extendInfo": {
         "NSCameraUsageDescription": "Cowbell Club requires access to your camera in order to make video-calls.",
         "NSMicrophoneUsageDescription": "Cowbell Club requires access to your microphone in order to make calls (audio/video)."
