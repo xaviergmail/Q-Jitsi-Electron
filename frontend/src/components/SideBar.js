@@ -1,20 +1,35 @@
 import React, { useContext } from 'react'
 
 import TheContext from '../TheContext'
-import { Header, Icon, Image, List, Menu, Sidebar } from 'semantic-ui-react'
+import { Divider, Header, Icon, Image, List, Menu, Sidebar } from 'semantic-ui-react'
 
 const Participant = ({ participant, host, yourRoom, gotoRoom }) => {
   const { user, socket } = useContext(TheContext)
 
   const style = { textAlign: "left", display: "flex", flexDirection: "row", alignItems: "center", padding: "4px" }
   return (
-    <List.Item className="participant" style={style}>
-      <Image avatar src={participant.avatar} style={{ background: "white"  }}/>
-      <List.Content verticalAlign="middle">
-        <List.Header>{participant.name}  {yourRoom && !host && <button className="remove-participant" onClick={() => socket.emit('remove', participant)}>X</button>}</List.Header>
-        {host && <List.Description>HOST</List.Description>} {yourRoom && host && <button className="close-room" onClick={() => console.log('Send everyone to lobby')} >Close</button>}
-      </List.Content>
-    </List.Item>
+    <li className="participant" style={style}>
+
+      <div className={host ? 'host' : 'not-host'} >{participant.name}</div>
+
+
+
+      <div className="flip-container">
+        <div className="flipper">
+          <div className="front">
+            <Image avatar src={participant.avatar} style={{ background: "white"  }}/>   
+          </div>
+          <div className="back">
+            {yourRoom && !host && <button className="remove-participant" onClick={() => socket.emit('remove', participant)}>X</button> || <span>Host</span>}
+          </div>
+        </div>
+      </div>
+
+
+
+
+      {/* {host && <span>HOST</span>} */}
+    </li>
   )
 }
 
@@ -22,11 +37,17 @@ const Room = ({ room }) => {
   const { gotoRoom, user } = useContext(TheContext)
   console.log('ROOM', room, user, user.email)
   const style = {}
-
+  const yourRoom = room.user.email == user.email
+  // let host = room.activeUsers.some(x => x.email == user.email)
   return (
     <Menu.Item className="menu-item-sidebar" style={style} header width="250px" onClick={() => gotoRoom(room.id, room)} link="#">
       <Header as="h5" inverted>
-        {room.message}
+        <span>{room.message}</span>
+        <span className='activeUsers'>{room.activeUsers.length}</span>
+
+
+        {yourRoom && <button className="close-room" onClick={() => console.log('Send everyone to lobby')} >X</button>}
+
       </Header>
       <List inverted>
         {room.activeUsers.length ? (
@@ -35,11 +56,9 @@ const Room = ({ room }) => {
               style.background = '#2b2b2b'
 
             }
-            return (
 
-              <Participant participant={x} host={x.email == room.user.email} yourRoom={room.user.email == user.email} key={x.email} gotoRoom={gotoRoom} />
+            return <Participant participant={x} host={x.email == user.email} yourRoom={yourRoom} key={x.email} gotoRoom={gotoRoom} />
 
-            )
           })
         ) : (
           <Header as="p" inverted>
