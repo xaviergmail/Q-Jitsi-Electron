@@ -35,7 +35,7 @@ import 'semantic-ui-css/semantic.min.css'
 import './index.css'
 
 import actions from './api/index'
-import { NotificationContainer /*NotificationManager */ } from 'react-notifications'
+import { NotificationContainer, NotificationManager } from 'react-notifications'
 import io from 'socket.io-client'
 
 //Make connection to server just once on page load.
@@ -68,7 +68,7 @@ const Stacked = styled.div`
 
 
 const socket = io(baseURL)
-socket.on('post', (post) => {
+socket.on('post', ({ post }) => {
   console.log('post', post, ' kiwi')
   _setPosts(function (posts) {
     let newPosts = { ...posts }
@@ -79,17 +79,33 @@ socket.on('post', (post) => {
 
 
 
-socket.on('transaction', transaction => {
-  console.log(transaction, ' phillipines')
+socket.on('transaction', ({ transaction, post }) => {
+  console.log(transaction, ' phillipines', post)
+
+
+  NotificationManager.info('Info message', `${transaction.email} has a transaction for ${transaction.amount} 💰`);
+
+
+
   _setMyTransactions(function (transactions) {
     console.log(' dart board ', transactions)
     let newTransactions = [...transactions]
-    newTransactions.push(transaction)
+    newTransactions.push({ ...transaction, ...post })
     return newTransactions
   })
 })
 
+
+socket.on('encounter', ({ encounter }) => {
+  console.log(encounter, ' vaccine')
+  NotificationManager.info('Info message', `${encounter.email} has an encounter`);
+
+})
+
 console.log(socket, ' to me ', baseURL)
+
+
+
 
 const MemoizedRoom = React.memo(
   function ({ room, children }) {
@@ -129,6 +145,8 @@ const CowBell = ({ children }) => {
   const isInRoomRoute = useRouteMatch('/room/:id')
   const routeRoom = isValidRoom(isInRoomRoute?.params?.id)
   let [room, setRoom] = useState(routeRoom)
+
+
   const history = useHistory()
 
   if (isInRoomRoute) {
@@ -179,7 +197,8 @@ const CowBell = ({ children }) => {
 
   console.log('CURRENT ROOM', room)
 
-  function gotoRoom(id) {
+  function gotoRoom(id, room) {
+    console.log(room, ' gimme dat name')
     if (id) {
       history.push(`/room/${id}`)
       setRoom(id)
@@ -242,24 +261,24 @@ const CowBell = ({ children }) => {
 
       //Possibly combine getUser with below using populate
 
+      //I thought this would be more efficient but i'm having issue WUT 
+      // actions
+      //   .getMyTransactions()
+      //   .then((res) => {
+      //     setMyTransactions(res.data)
+      //   })
+      //   .catch((err) => {
+      //     console.log(err)
+      //   })
 
-      actions
-        .getMyTransactions()
-        .then((res) => {
-          setMyTransactions(res.data)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
 
-
-      actions
-        .getMyPosts()
-        .then(res => {
-          setMyPosts(res.data)
-        }).catch((err) => {
-          console.log(err)
-        })
+      // actions
+      //   .getMyPosts()
+      //   .then(res => {
+      //     setMyPosts(res.data)
+      //   }).catch((err) => {
+      //     console.log(err)
+      //   })
 
 
 
@@ -291,7 +310,7 @@ const CowBell = ({ children }) => {
 
   const video = <VideoPreview />
 
-  const context = { history, user, setUser, posts, jwt, activeRooms, room, gotoRoom, setMyPosts, myPosts, setMyTransactions, myTransactions }
+  const context = { history, user, setUser, posts, jwt, activeRooms, room, gotoRoom, setMyPosts, myPosts, setMyTransactions, myTransactions, socket }
   window._context = context
 
   return user ? (

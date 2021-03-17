@@ -8,32 +8,33 @@ import { Accordion, Header, Icon, Image, List, Menu, Sidebar, Card, Container } 
 import TheContext from '../TheContext'
 
 function Dashboard(props) {
-  // let [transactions, setTransactions] = useState([])
-  // let [posts, setPosts] = useState([])
+  let [transactions, setTransactions] = useState([])
+  let [posts, setPosts] = useState([])
 
   const { user, setUser, setMyPosts, myPosts, setMyTransactions, myTransactions } = useContext(TheContext)
 
-  // useEffect(() => {
-  //   actions
-  //     .getMyTransactions()
-  //     .then((res) => {
-  //       setTransactions(res.data)
-  //     })
-  //     .catch((err) => {
-  //       console.log(err)
-  //     })
+  useEffect(() => {
+    console.log('use use effect')
+    actions
+      .getMyTransactions()
+      .then((res) => {
+        setTransactions(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
 
 
-  //   actions
-  //     .getMyPosts()
-  //     .then(res => {
-  //       setPosts(res.data)
-  //     }).catch((err) => {
-  //       console.log(err)
-  //     })
+    actions
+      .getMyPosts()
+      .then(res => {
+        setPosts(res.data)
+      }).catch((err) => {
+        console.log(err)
+      })
 
 
-  // }, [])
+  }, [])
 
   const cashTransaction = (id) => {
     actions
@@ -43,23 +44,23 @@ function Dashboard(props) {
         setUser(res.data.user)
         let i = 0;
         while (i < res.data.user.points) {
-          console.log(i)
+          //console.log(i)
           i++
           // setTimeout(() => setUser(res.data.user), i*100)
         }
 
-        setMyTransactions(myTransactions.filter((each) => each._id !== res.data.transaction._id))
+        setTransactions(transactions.filter((each) => each._id !== res.data.transaction._id))
       })
       .catch((err) => console.error)
   }
 
   const ShowTransactions = () => {
-    return myTransactions.map((tran) => {
+    return transactions.map((tran) => {
       if (!tran.resolved) {
         return (
           <li key={tran._id}>
-            <h2>{tran.postId?.message}</h2>
-            {/* <h2>{tran.message}</h2> */}
+            {/* <h2>{tran.postId?.message}</h2> */}
+            <h2>{tran.postId?.message ? tran.postId?.message : tran.message}</h2>
 
             <span>{moment(tran.createdAt).fromNow()}</span>
             <div>
@@ -152,22 +153,22 @@ function Dashboard(props) {
     <section className="page dashboard">
       <Header as='h3'>
 
-        <h1>💰</h1> You have {user.points} Cowbells
+        <span id="money">💰</span> You have {user.points} Cowbells
       </Header>
       <Container></Container>
-      {myPosts.length > 0 ? (
+      {posts.length > 0 ? (
 
         <>
           <h4>Posts that you need to resolve:</h4>
           <ul className="unresolved">
 
-            <ShowUnresolvedPosts {...props} posts={myPosts} />
+            <ShowUnresolvedPosts {...props} posts={posts} />
           </ul>
         </>
 
       ) : null}
 
-      {myTransactions.length > 0 ? (
+      {transactions.length > 0 ? (
         <>
           <h4>Transactions</h4>
           <ul id="transactions">
@@ -176,7 +177,7 @@ function Dashboard(props) {
         </>
       ) : (
           <div className="noneyet">
-            <h2>No transactions yet!</h2>
+            <h2>No transactions yet?</h2>
             <p>Go ask a question or help some people out!</p>
           </div>
         )}

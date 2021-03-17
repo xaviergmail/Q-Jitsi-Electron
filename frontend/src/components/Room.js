@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 
 function Room({ jitsiApp, roomId, dispatch, location }) {
-    console.log(location)
+    console.log(location, roomId, 'weblack')
 
     useEffect(() => {
         //Change song that i want to play

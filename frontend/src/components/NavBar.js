@@ -11,6 +11,7 @@ export function NavBar({ user }) {
         <Menu.Item link active={pathname == '/create-room'}>
           Create a Room ＋
         </Menu.Item>
+        <input type="text" />
       </Link>
 
       <Link to="/profile">

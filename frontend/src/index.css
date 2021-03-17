@@ -316,3 +316,24 @@ ul#transaction li div {
   display:flex;
   align-items: center;
 }
+
+
+
+
+.menu-item-sidebar { 
+  border: 1px solid black;
+}
+.menu-item-sidebar .participant {
+  border: 1px solid green;
+}
+.remove-participant{
+  border: 1px solid pink;
+}
+.close-room {
+  border: 1px solid red;
+}
+
+.menu-item-sidebar:hover {
+  background: red i !important;
+}
+

@@ -1,12 +1,40 @@
-import React, { useContext, useEffect } from 'react';
-import TheContext from '../TheContext';
+import React, { useContext, useEffect, useState } from 'react';
 import { Accordion, Header, Icon, Image, List, Menu, Sidebar, Card, Container } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
-
+import TheContext from '../TheContext';
+import actions from '../api'
 
 function Profile(props) {
     const { user, setUser, myTransactions, myPosts } = useContext(TheContext)
+
+
+    let [transactions, setTransactions] = useState([])
+    let [posts, setPosts] = useState([])
+
+
+    useEffect(() => {
+        actions
+            .getMyTransactions()
+            .then((res) => {
+                setTransactions(res.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+
+        actions
+            .getMyPosts()
+            .then(res => {
+                setPosts(res.data)
+            }).catch((err) => {
+                console.log(err)
+            })
+
+
+    }, [])
+
 
     const ShowResolvedPosts = ({ posts }) => {
         return posts.filter(p => p.paid).map((post) => {
@@ -56,7 +84,7 @@ function Profile(props) {
 
 
     const ShowTransactions = () => {
-        return myTransactions.map((tran) => {
+        return transactions.map((tran) => {
             if (tran.resolved) {
                 return (
                     <li key={tran._id}>
@@ -81,6 +109,8 @@ function Profile(props) {
             }
         })
     }
+
+    console.log(transactions, posts, 'argh webpack')
     return (
         <section className="profile">
             <Header as='h3'>
@@ -102,7 +132,7 @@ function Profile(props) {
 
 
             <ul>
-                {myTransactions.length > 0 ? (
+                {transactions.length > 0 ? (
                     <>
                         <h4>Past Transactions</h4>
                         <ul id="transactions">
@@ -119,7 +149,7 @@ function Profile(props) {
 
             <h4>Past Posts </h4>
             <ul className="resolved">
-                <ShowResolvedPosts {...props} posts={myPosts} />
+                <ShowResolvedPosts {...props} posts={posts} />
             </ul>
         </section>
     );
@@ -132,11 +162,11 @@ export default Profile;
 
 // const ShowResolvedPosts = ({ posts }) => {
 //     return posts.filter(p => p.paid).map((post) => {
-//         return [...new Set(post.encounterIds.map(e => { 
-//             if( e.email != user.email) { 
-//                 return e 
-//             } 
-//             }))]
-//         })
-//     }
+//         return [...new Set(post.encounterIds.map(e => {
+//             if (e.email != user.email) {
+//                 return e
+//             }
+//         }))]
+//     })
+// }
 
