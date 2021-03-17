@@ -1,19 +1,22 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu, Image } from 'semantic-ui-react'
+import Search from './Search'
 import TheContext from '../TheContext'
 export function NavBar({ user }) {
   const { pathname } = useLocation()
   console.log('location', pathname)
   return (
     <Menu pointing secondary className="top-nav">
-      <Link to="/create-room" id="create">
+      {/* <Link to="/create-room" id="create">
         <Menu.Item link active={pathname == '/create-room'}>
           Create a Room ＋
         </Menu.Item>
-        <input type="text" />
-      </Link>
 
+      </Link> */}
+      <Search />
+
+      
       <Link to="/profile">
         <Menu.Item link active={pathname == '/profile'}>
           <Image avatar src={user.avatar} style={{ background: "white" }} />

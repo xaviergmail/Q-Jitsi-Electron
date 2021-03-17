@@ -191,14 +191,13 @@ li.post:nth-child(even){
   flex-direction: column;
 }
 
-#createRoom {
+/* #createRoom {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: space-around;
   padding: 50px;
   justify-content: space-evenly;
-  /* align-items: center; */
   padding: 50px;
   height: 300px;
 }
@@ -210,7 +209,7 @@ li.post:nth-child(even){
 }
 #createRoom button {
   font-size: 2rem;
-}
+} */
 
 #user-details{
   margin-top:5rem;
@@ -462,4 +461,18 @@ ul#transaction li div {
 /* back, initially hidden pane */
 .back {
 	transform: rotateY(180deg);
+}
+
+.top-nav #addPost #createRoom {
+  display:flex;
+  flex-direction: column;
+}
+
+.top-nav  #createRoom button {
+  padding: 1rem;
+}
+
+.top-nav #createRoom .details {
+  display:flex;
+  flex-direction: column;
 }

@@ -83,7 +83,7 @@ socket.on('transaction', ({ transaction, post }) => {
   console.log(transaction, ' phillipines', post)
 
 
-  NotificationManager.info('Info message', `${transaction.email} has a transaction for ${transaction.amount} 💰`);
+  // NotificationManager.info('Info message', `${transaction.email} has a transaction for ${transaction.amount} 💰`);
 
 
 
@@ -98,7 +98,7 @@ socket.on('transaction', ({ transaction, post }) => {
 
 socket.on('encounter', ({ encounter }) => {
   console.log(encounter, ' vaccine')
-  NotificationManager.info('Info message', `${encounter.email} has an encounter`);
+  // NotificationManager.info('Info message', `${encounter.email} has an encounter`);
 
 })
 
@@ -138,6 +138,7 @@ const CowBell = ({ children }) => {
   let [myPosts, setMyPosts] = useState([])
   let [myTransactions, setMyTransactions] = useState([])
   let [posts, setPosts] = useState([])
+  let [query, setQuery] = useState('')
 
   _setPosts = setPosts
   _setMyTransactions = setMyTransactions
@@ -304,13 +305,19 @@ const CowBell = ({ children }) => {
   // Logger.setLogLevel(Logger.levels.WARN)
   // Logger.level = 0
 
+  const filterRooms = (query) => {
+    console.log(query, ' to filter by ')
+    setQuery(query)
+  }
+
   const activeRooms = Object.values(posts).filter(
-    (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
+    (x) => x.message.toLowerCase().includes(query.toLowerCase()) && (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
+    // (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
   )
 
   const video = <VideoPreview />
 
-  const context = { history, user, setUser, posts, jwt, activeRooms, room, gotoRoom, setMyPosts, myPosts, setMyTransactions, myTransactions, socket }
+  const context = { history, user, setUser, posts, jwt, activeRooms, room, gotoRoom, setMyPosts, myPosts, setMyTransactions, myTransactions, socket, filterRooms }
   window._context = context
 
   return user ? (
