@@ -1,5 +1,9 @@
+const fs = require ("fs")
 require('dotenv').config();
-require('dotenv').config({ path: `.env.apple` })
+
+if (fs.existsSync('./env.apple')) {
+    require('dotenv').config({ path: '.env.apple' })
+}
 
 console.log(process.env, process.env.apple)
 
