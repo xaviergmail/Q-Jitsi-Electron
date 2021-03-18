@@ -42,10 +42,10 @@ import io from 'socket.io-client'
 import baseURL from './api/config'
 
 // TODO: Convert this into a reusable useSocket or something
-let _setPosts = function () { }
-let _setMyTransactions = function(){}
+let _setPosts = function () {}
+let _setMyTransactions = function () {}
 
-//Styled components && semantic UI ?? WUT 
+//Styled components && semantic UI ?? WUT
 import styled from 'styled-components'
 import JitsiRoom from './components/JitsiRoom'
 
@@ -65,52 +65,15 @@ const Stacked = styled.div`
   bottom: 0;
 `
 
-
-
 const socket = io(baseURL)
-socket.on('post', ({ post }) => {
-  console.log('post', post, ' kiwi')
-  _setPosts(function (posts) {
-    let newPosts = { ...posts }
-    newPosts[post.id] = post
-    return newPosts
-  })
-})
-
-
-
-socket.on('transaction', ({ transaction, post }) => {
-  console.log(transaction, ' phillipines', post)
-
-
-  // NotificationManager.info('Info message', `${transaction.email} has a transaction for ${transaction.amount} 💰`);
-
-
-
-  _setMyTransactions(function (transactions) {
-    console.log(' dart board ', transactions)
-    let newTransactions = [...transactions]
-    newTransactions.push({ ...transaction, ...post })
-    return newTransactions
-  })
-})
-
-
-socket.on('encounter', ({ encounter }) => {
-  console.log(encounter, ' vaccine')
-  // NotificationManager.info('Info message', `${encounter.email} has an encounter`);
-
-})
 
 console.log(socket, ' to me ', baseURL)
-
-
-
 
 const MemoizedRoom = React.memo(
   function ({ room, children }) {
     console.log('RECREATING ROOM IFRAME!', room, children)
-    if (window.jitsiNodeAPI) { //If its electron 
+    if (window.jitsiNodeAPI) {
+      //If its electron
       return <Room roomId={room} jitsiApp={children} />
     } else {
       return <JitsiRoom roomName={room} />
@@ -145,8 +108,7 @@ const CowBell = ({ children }) => {
 
   const isInRoomRoute = useRouteMatch('/room/:id')
   const routeRoom = isValidRoom(isInRoomRoute?.params?.id)
-  let [room, setRoom] = useState(routeRoom)
-
+  let [room, setRoom] = useState(routeRoom || "lobby")
 
   const history = useHistory()
 
@@ -157,44 +119,104 @@ const CowBell = ({ children }) => {
     room = routeRoom
   }
 
+  if (!room) {
+    room = "lobby"
+    setRoom("lobby")
+  }
+
   /**WUT  -- Sends all users to lobby if host leaves room?**/
   if (posts[room] && !posts[room].active) {
     //gotoRoom('lobby')
     console.log(`/gotoRoom('lobby')`)
   }
 
-  //Sends user to lobby instead of 404 onload >>> Should maybe be inside use effect? >> Could prob be done better when login is inside of app 
+  //Sends user to lobby instead of 404 onload >>> Should maybe be inside use effect? >> Could prob be done better when login is inside of app
   // if (location.hash != "#/room/lobby" || location.hash.replace('#/', '').length === 0) {
   //   gotoRoom('lobby')
   // }
 
-
   useEffect(() => {
     const api = window.jitsiMeetExternalAPI
+    let isMounted = true
+    let listeners = {}
     if (api) {
-      const listeners = {
+      listeners = {
         log: (evt) => {
           evt.preventDefault()
         },
 
         readyToClose: (evt) => {
-          gotoRoom(null)
+          gotoRoom("lobby")
         },
       }
 
       for (const [k, v] of Object.entries(listeners)) {
         api.on(k, v)
       }
+    }
 
-      return () => {
-        if (api && typeof api.removeListeners == 'function') {
-          for (const [k, v] of Object.entries(listeners)) {
-            api.removeListeners(k, v)
-          }
+    const socketEvents = {
+      lobby: (email) => {
+        if (!isMounted) {
+          return
+        }
+
+        if (email === user?.email) {
+          window.jitsiMeetExternalAPI.executeCommand('hangup')
+        }
+      },
+
+      post: ({ post }) => {
+        if (!isMounted) {
+          return
+        }
+
+        console.log('post', post, ' kiwi')
+        _setPosts(function (posts) {
+          let newPosts = { ...posts }
+          newPosts[post.id] = post
+          return newPosts
+        })
+      },
+
+      transaction: ({ transaction, post }) => {
+        if (!isMounted) {
+          return
+        }
+        console.log(transaction, ' phillipines', post)
+
+        // NotificationManager.info('Info message', `${transaction.email} has a transaction for ${transaction.amount} 💰`);
+
+        _setMyTransactions(function (transactions) {
+          console.log(' dart board ', transactions)
+          let newTransactions = [...transactions]
+          newTransactions.push({ ...transaction, ...post })
+          return newTransactions
+        })
+      },
+    }
+
+    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+    for (const [k, v] of Object.entries(socketEvents)) {
+      socket.on(k, v)
+      console.log("RESGISNETING EWOSCKET '", k)
+    }
+
+    return () => {
+      console.log("oOOOOOOOOOOOOOOOOOOOOOOOOoooooooooooOOO")
+      isMounted = false
+
+      if (api && typeof api.removeListener == 'function') {
+        for (const [k, v] of Object.entries(listeners)) {
+          api.removeListener(k, v)
         }
       }
+
+      for (const [k, v] of Object.entries(socketEvents)) {
+        socket.removeListener(k, v)
+      }
     }
-  }, [window.jitsiMeetExternalAPI, history])
+  }, [window.jitsiMeetExternalAPI, history, socket, user, room])
 
   console.log('CURRENT ROOM', room)
 
@@ -230,8 +252,9 @@ const CowBell = ({ children }) => {
   }
 
   function reauth() {
-    if (window.jitsiNodeAPI) { //electron
-      window.jitsiNodeAPI.ipc.send('gauth-rq')// send notification to main process
+    if (window.jitsiNodeAPI) {
+      //electron
+      window.jitsiNodeAPI.ipc.send('gauth-rq') // send notification to main process
     }
   }
 
@@ -239,8 +262,9 @@ const CowBell = ({ children }) => {
   // useEffect(() => console.log('b'), [])
 
   useEffect(() => {
-    if (window.jitsiNodeAPI) { //electron
-      window.jitsiNodeAPI.ipc.on('gauth-tk', updateToken) //Event listener for when google Auth logs ypu in. 
+    if (window.jitsiNodeAPI) {
+      //electron
+      window.jitsiNodeAPI.ipc.on('gauth-tk', updateToken) //Event listener for when google Auth logs ypu in.
     }
     if (!jwt) {
       const googleToken = localStorage.getItem('googletoken')
@@ -262,7 +286,7 @@ const CowBell = ({ children }) => {
 
       //Possibly combine getUser with below using populate
 
-      //I thought this would be more efficient but i'm having issue WUT 
+      //I thought this would be more efficient but i'm having issue WUT
       // actions
       //   .getMyTransactions()
       //   .then((res) => {
@@ -272,7 +296,6 @@ const CowBell = ({ children }) => {
       //     console.log(err)
       //   })
 
-
       // actions
       //   .getMyPosts()
       //   .then(res => {
@@ -280,9 +303,6 @@ const CowBell = ({ children }) => {
       //   }).catch((err) => {
       //     console.log(err)
       //   })
-
-
-
     }
 
     actions
@@ -311,13 +331,31 @@ const CowBell = ({ children }) => {
   }
 
   const activeRooms = Object.values(posts).filter(
-    (x) => x.message.toLowerCase().includes(query.toLowerCase()) && (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
+    (x) =>
+      (x.message.toLowerCase().includes(query.toLowerCase()) && x.active && x.activeUsers.length) ||
+      x.id == 'lobby' ||
+      x.isLobby
     // (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
   )
 
   const video = <VideoPreview />
 
-  const context = { history, user, setUser, posts, jwt, activeRooms, room, gotoRoom, setMyPosts, myPosts, setMyTransactions, myTransactions, socket, filterRooms }
+  const context = {
+    history,
+    user,
+    setUser,
+    posts,
+    jwt,
+    activeRooms,
+    room,
+    gotoRoom,
+    setMyPosts,
+    myPosts,
+    setMyTransactions,
+    myTransactions,
+    socket,
+    filterRooms,
+  }
   window._context = context
 
   return user ? (
@@ -338,9 +376,10 @@ const CowBell = ({ children }) => {
             }}
           >
             <Switch>
+              <Route exact path="/" render={(props) => <div>WUT</div>} />
               <Route exact path="/dashboard" component={Dashboard} />
 
-              <Route exact path="/create-room" component={CreateRoom} />
+              {/* <Route exact path="/create-room" component={CreateRoom} /> */}
 
               <Route exact path="/call-ended" component={CallEnded} />
 
@@ -363,16 +402,16 @@ const CowBell = ({ children }) => {
     </TheContext.Provider>
   ) : jwt ? (
     <ReactLoading type="bars" color="rgb(0, 117, 255)" height="128px" width="128px" />
+  ) : window.jitsiNodeAPI ? (
+    <p>
+      Please sign in through google using the popup window. <a onClick={reauth}>Click here</a> if
+      the window did not open.{' '}
+    </p>
   ) : (
-        window.jitsiNodeAPI ?
-          <p>
-            Please sign in through google using the popup window. <a onClick={reauth}>Click here</a> if
-            the window did not open. </p>
-          :
-          <p>
-            <GoogleAuth setJwt={setJwt} /> </p>
-
-      )
+    <p>
+      <GoogleAuth setJwt={setJwt} />{' '}
+    </p>
+  )
 }
 
 export default function CowBellWithRouter(props) {

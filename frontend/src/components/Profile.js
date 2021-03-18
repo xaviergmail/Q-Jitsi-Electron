@@ -124,7 +124,9 @@ function Profile(props) {
                     //window.localStorage.clear()
                     localStorage.removeItem("googletoken")
                     localStorage.removeItem("token")
-                    setUser(null)
+                    requestAnimationFrame(() => {
+                        setUser(null)
+                    })
 
                 }}>Log Out</button>
 

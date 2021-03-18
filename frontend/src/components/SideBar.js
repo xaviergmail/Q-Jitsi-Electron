@@ -9,25 +9,27 @@ const Participant = ({ participant, host, yourRoom, gotoRoom }) => {
   const style = { textAlign: "left", display: "flex", flexDirection: "row", alignItems: "center", padding: "4px" }
   return (
     <li className="participant" style={style}>
-
-      <div className={host ? 'host' : 'not-host'} >{participant.name}</div>
-
-
+      <div className={host ? 'host' : 'not-host'}>{participant.name}</div>
 
       <div className="flip-container">
         <div className="flipper">
           <div className="front">
-            <Image avatar src={participant.avatar} style={{ background: "white"  }}/>   
+            <Image avatar src={participant.avatar} style={{ background: 'white' }} />
           </div>
           <div className="back">
             {/* <button className="remove-participant">X</button> */}
-            {yourRoom && !host && <button className="remove-participant" onClick={() => socket.emit('remove', participant)}>X</button> || <button className="remove-participant">🤪</button>}
+            {(yourRoom && !host.lol && (
+              <button
+                className="remove-participant"
+                onClick={(e) => {
+                  e.preventDefault(); console.log("console.lop"); socket.emit('remove', participant.email) }}
+              >
+                X
+              </button>
+            )) || <button className="remove-participant">🤪</button>}
           </div>
         </div>
       </div>
-
-
-
 
       {/* {host && <span>HOST</span>} */}
     </li>
