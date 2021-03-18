@@ -20,7 +20,8 @@ const Participant = ({ participant, host, yourRoom, gotoRoom }) => {
             <Image avatar src={participant.avatar} style={{ background: "white"  }}/>   
           </div>
           <div className="back">
-            {yourRoom && !host && <button className="remove-participant" onClick={() => socket.emit('remove', participant)}>X</button> || <span>Host</span>}
+            {/* <button className="remove-participant">X</button> */}
+            {yourRoom && !host && <button className="remove-participant" onClick={() => socket.emit('remove', participant)}>X</button> || <button className="remove-participant">🤪</button>}
           </div>
         </div>
       </div>

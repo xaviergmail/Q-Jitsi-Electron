@@ -231,7 +231,7 @@ const CowBell = ({ children }) => {
 
   function reauth() {
     if (window.jitsiNodeAPI) { //electron
-      window.jitsiNodeAPI.ipc.send('gauth-rq')
+      window.jitsiNodeAPI.ipc.send('gauth-rq')// send notification to main process
     }
   }
 
@@ -240,7 +240,7 @@ const CowBell = ({ children }) => {
 
   useEffect(() => {
     if (window.jitsiNodeAPI) { //electron
-      window.jitsiNodeAPI.ipc.on('gauth-tk', updateToken) // send notification to main process
+      window.jitsiNodeAPI.ipc.on('gauth-tk', updateToken) //Event listener for when google Auth logs ypu in. 
     }
     if (!jwt) {
       const googleToken = localStorage.getItem('googletoken')

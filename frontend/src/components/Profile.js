@@ -119,6 +119,14 @@ function Profile(props) {
 
                 Welcome {user.name}
 
+                <button onClick={() => {
+                    window.jitsiNodeAPI.ipc.send('gauth-clear')
+                    //window.localStorage.clear()
+                    localStorage.removeItem("googletoken")
+                    localStorage.removeItem("token")
+                    setUser(null)
+
+                }}>Log Out</button>
 
             </Header>
 

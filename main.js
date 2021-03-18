@@ -428,6 +428,11 @@ const myApiOauth = new ElectronGoogleOAuth2(
 
 let curToken = null;
 
+ipcMain.on('gauth-clear', () => {
+    console.log('here')
+    curToken = null
+})
+
 ipcMain.on('gauth-rq', () => {
     console.log('got google auth request!!!!!!!!!!');
     if (curToken) {

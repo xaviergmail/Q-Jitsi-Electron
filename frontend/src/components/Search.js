@@ -114,7 +114,7 @@ const AddPost = ({ posts }) => {
                 // onBlur={() => setFocus(false)} 
                 onSubmit={handleSubmit}>
 
-
+            
                 <input
                     disabled={outOfPoints}
                     onChange={handleChange}
@@ -123,10 +123,15 @@ const AddPost = ({ posts }) => {
                     id="bounty"
                     type="text"
                 />
+                {focus ? <button disabled={outOfPoints}>+</button> : null}
+            </form>
 
                 {focus ?
+                <>
+                      
 
                     <div className="details">
+
                         <input
                             type="range"
                             id="cowbell"
@@ -142,10 +147,9 @@ const AddPost = ({ posts }) => {
                         <label htmlFor="cowbell">Bounty: {bounty} cowbells</label>
 
 
-                        <button disabled={outOfPoints}>Create Post</button>
                     </div>
-                    : null}
-            </form>
+                </>
+                : null}
         </section>
 
 
