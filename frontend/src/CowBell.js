@@ -174,7 +174,7 @@ const CowBell = ({ children }) => {
         console.log('post', post, ' kiwi')
         _setPosts(function (posts) {
           let newPosts = { ...posts }
-          newPosts[post.id] = post
+          newPosts[post?.id] = post
           return newPosts
         })
       },
