@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import actions from '../api'
-import moment from 'moment'
+import moment, { updateLocale } from 'moment'
 
 const Post = ({ history, match, user }) => {
   const [post, setPost] = useState({})
@@ -119,8 +119,7 @@ const Post = ({ history, match, user }) => {
   console.log(post, participants)
 
   return (
-    <div>
-      {JSON.stringify(post)}
+    <div className="post-detail">
       <section>
         <h1>Viewing details for your post:</h1>
         <h2>{post?.message}</h2>
@@ -144,7 +143,7 @@ const Post = ({ history, match, user }) => {
                 <div>Transactions</div>
                 {showTransactions()}
             </section> */}
-      {post?.paid ? null : <section>{showEncounters()}</section>}
+      {post?.paid ? null : <ul id="showEncounters">{showEncounters()}</ul>}
     </div>
   )
 }

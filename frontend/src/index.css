@@ -742,3 +742,20 @@ ul#myTransactions li{
 .unresolved, #transactions {
   position: relative;
 }
+
+.post-detail{
+  background:cornflowerblue;
+  display: flex;
+  /* justify-content: space-between; */
+  /* align-content: space-around; */
+  /* align-self: self-end; */
+  line-height: 10rem;
+  padding: 0rem;
+}
+
+
+#showEncounters{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-evenly;
+}

@@ -123,7 +123,6 @@ function Profile(props) {
       return trans
   }
 
-    console.log(transactions, posts, 'argh webpack')
     return (
         <section className="profile">
             <Header as='h3'>
