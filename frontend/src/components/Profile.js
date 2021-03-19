@@ -126,6 +126,7 @@ function Profile(props) {
                     localStorage.removeItem("token")
                     requestAnimationFrame(() => {
                         setUser(null)
+                        window.location.reload()
                     })
 
                 }}>Log Out</button>
@@ -141,27 +142,34 @@ function Profile(props) {
             </Container>
 
 
-            <ul>
+            <div className="profile-details">
+
+                <div className="trans">
                 {transactions.length > 0 ? (
-                    <>
-                        <h4>Past Transactions</h4>
-                        <ul id="transactions">
-                            <ShowTransactions />
-                        </ul>
-                    </>
+                        <>
+
+                            <div>You have had {transactions.length} transactions</div>
+
+                            <ul id="myTransactions">
+                                <ShowTransactions />
+                            </ul>
+                        </>
                 ) : (
                         <div className="noneyet">
                             <h2>No transactions yet!</h2>
                             <p>Go ask a question or help some people out!</p>
                         </div>
                     )}
-            </ul>
+                </div>
+                <div className="pooo">
+                    <h4>You have resolved {posts.length} rooms</h4>
+                    <ul className="resolved">
 
-            <h4>Past Posts </h4>
-            <ul className="resolved">
-                <ShowResolvedPosts {...props} posts={posts} />
-            </ul>
-        </section>
+                        <ShowResolvedPosts {...props} posts={posts} />
+                    </ul>
+                </div>
+            </div>
+            </section>
     );
 }
 

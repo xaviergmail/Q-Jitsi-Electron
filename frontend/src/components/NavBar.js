@@ -29,7 +29,7 @@ export function NavBar({ user }) {
 
       <Link id="points" to="/dashboard">
         <Menu.Item link active={pathname == '/dashboard'}>
-          {user.points.toFixed(0)} 💰
+            <span id="cash">💰</span>{user.points.toFixed(0)}
         </Menu.Item>
       </Link>
       </div>

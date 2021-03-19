@@ -237,58 +237,7 @@ a#points{
 } */
 
 
-ul.resolved, ul.unresolved{
-  display:flex;
-  flex-direction: wrap !important;
-  list-style-type: none;
-  flex-wrap: wrap;
-  text-align: center;
-}
-ul.resolved li, ul.unresolved li{
- 
-  margin: 0;
-  padding: 0;
-}
 
-
-
-
-
-ul {
-  padding: 0;
-}
-
-ul#transactions {
-  list-style-type: none;
-}
-
-ul#transactions {
-  text-align: left;
-}
-
-ul#transactions li {
-  /* box-shadow: 1px solid #000; */
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  padding: 20px 100px;
-  margin: 20px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* white-space: nowrap; */
-}
-
-ul#transaction li div {
-}
-
-.dashboard h1{
-  display: inline-block;
-  font-size:50px;
-}
-
-.dashboard .ui.header{
-  display:flex;
-  align-items: center;
-}
 
 
 
@@ -305,7 +254,7 @@ ul#transaction li div {
 }
 
 
-.menu-item-sidebar .activeUsers{
+.menu-item-sidebar .activeUsers {
   color: #666;
   border: 2px solid #666;
   border-radius: 50%;
@@ -318,6 +267,42 @@ ul#transaction li div {
   background: white;
   /* border-radius:100%; */
 }
+
+.top-nav  .item span#cash {
+  color: #666;
+  border-radius: 50%;
+  font-size: 1rem;
+  display: inline-flex;
+  margin: 1rem;
+  justify-content: center;
+  align-items: center;
+  width: 2em; 
+  height: 2em;
+  background: white;
+}
+
+.top-nav  .item{
+  display: flex;
+  justify-content:center;
+  align-items:center;
+  white-space: nowrap;
+}
+
+.top-nav  .item img.ui.avatar.image{
+  margin: 1rem;
+  display: inline-flex;
+}
+
+.top-nav  .active.item > img.ui.avatar.image,  .top-nav  .active.item > span#cash{
+  border: 1px solid #666;
+
+}
+
+
+.active.item{
+  border-bottom: 1px solid #666;
+}
+
 .menu-item-sidebar h5 button{
   display:none;
 }
@@ -453,7 +438,8 @@ a#create{
   transition: all .5s
 }
 .top-nav{
-  background: #eee !important;/* How can i avoid important tags with semantic UI*/
+  /*background: #eee #172B4D !important;/* How can i avoid important tags with semantic UI*/
+  background: #171717 !important;
   display:flex;
   justify-content: space-between;
   position: relative;
@@ -476,8 +462,14 @@ a#create{
 .top-nav #addPost #createRoom {
   display:flex;
   flex-direction: row;
+  width: 100%;
 }
 
+
+.top-nav div.search{
+    flex:2;
+
+}
 /* .top-nav  #createRoom button {
   padding: 1rem;
 } */
@@ -485,12 +477,44 @@ a#create{
 .top-nav #createRoom .details {
   display:flex;
   flex-direction: column;
+ 
+}
+
+.top-nav .details label {
+  color:white;
+}
+.top-nav > div{ 
+  /* border: 1px solid black; */
+  /* height: 100%; */
+
+}
+
+#createRoom input {
+  border: none;
+  width: 100%;
+  padding: 1rem;
+}
+
+#createRoom  i.add.icon {
+  display:flex;
+  justify-content: center;
+  width: 100%;
+}
+#createRoom label{
+  display:flex;
+}
+
+.details {
+  padding: 1rem;
+  display: flex;
+  justify-content:space-evenly
 }
 
 .top-nav .links {
   display: flex;
-  width: 50%;
+  flex:1;
   justify-content: flex-end;
+  align-items: center;
 }
 
 .top-nav .links a, .top-nav #createRoom{
@@ -498,4 +522,198 @@ a#create{
   padding: 1rem;
   width:50%;
 
+}
+
+
+.dashboard, .profile {
+  /** cornsilk ; **/
+  background:floralwhite;
+  padding: 1rem;
+  display:flex;
+  justify-content:center;
+  flex-direction: column;
+}
+
+.dashboard .ui.header.h3{
+  color: white !important;
+}
+
+.dashboard h1{
+  display: inline-block;
+  font-size:50px;
+}
+
+/* .dashboard .ui.header{
+  display:flex;
+  align-items: center;
+} */
+
+.ui.header{
+  margin: 1rem;
+}
+
+
+ul.resolved, ul.unresolved{
+  display:flex;
+  flex-direction: wrap !important;
+  list-style-type: none;
+  flex-wrap: wrap;
+  text-align: center;
+  justify-content:center;
+}
+ul.resolved li, ul.unresolved li{
+  margin: 1rem 2rem;
+  
+  padding: 0;
+}
+
+.dashboard li .ui.card{
+}
+
+
+
+.dashboard li .ui.card:hover  .header{
+  /* background: cornsilk */
+  color:rgb(0, 117, 255) !important;
+  text-decoration: underline !important;
+}
+
+
+
+
+ul {
+  padding: 0;
+}
+
+ul#transactions {
+  list-style-type: none;
+}
+
+ul#transactions {
+  text-align: left;
+}
+
+ul#transactions li {
+  /* box-shadow: 1px solid #000; */
+  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 20px 100px;
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center; */
+  /* white-space: nowrap; */
+}
+
+ul#transactions {    
+  display:flex;
+  flex-direction: wrap !important;
+  list-style-type: none;
+  flex-wrap: wrap;
+  text-align: center;
+  justify-content:center;
+
+
+}
+ul#transactions .ui.card {
+  /* width: 100%;
+  max-width: 600px;
+  text-align: left; */
+  background:cornsilk;
+  border-radius: 50%;
+  width: 15rem;
+  height: 15rem;
+  overflow:hidden;
+  margin: 1rem;
+}
+
+ul#transactions .ui.card button{
+
+}
+
+ul#transactions .ui.card:hover .description{
+    flex-direction: column;
+    display: flex;
+    color:rgba(0,0,0,.4);
+    justify-content: center;
+    align-items: center;
+}
+ul#transactions .ui.card:hover .description::before{
+  content:'Cash Out';
+  margin: 2px;
+}
+ul#transactions .ui.card button{
+  width: 3.5rem;
+  height: 3.5rem;
+}
+ul#transactions .ui.card .content{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+
+
+
+ul#myTransactions{
+  display:flex;
+  overflow-y: hidden;
+  overflow-x:scroll;
+  width: 20rem;
+  border: 1px solid black;
+  transform: scale(.5);
+  transform-origin: top left;
+}
+
+/* ul#myTransactions::-webkit-scrollbar {
+  display: none;
+} */
+ul#myTransactions li{
+  
+  padding: 1rem;
+  border-right: 1px solid rgba(0,0,0,.4);
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    padding: 0rem 3rem;
+    margin: 1rem 0;
+}
+
+/* .trans{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:center;
+ 
+} */
+
+.profile-details{
+  display:flex;
+
+  justify-content:center;
+  align-items:center;
+  border: 1px solid red;
+}
+
+.profile-details .pooo, .profile-details .trans{
+
+  border: 1px solid blue;
+  /* flex:1; */
+  width: 50%;
+}
+
+.profile-details ul{
+  display:flex;
+  justify-content:flex-start;
+}
+.pooo{
+  border: 1px solid green;
+  display:flex;
+  flex-direction:column;
+}
+
+.profile-details ul{
+display:flex;
+flex-wrap: nowrap;
+overflow-y: hidden;
+overflow-x:scroll;
 }

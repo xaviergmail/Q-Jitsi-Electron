@@ -3,9 +3,12 @@ import { Link } from 'react-router-dom'
 import { NotificationManager } from 'react-notifications'
 import moment from 'moment'
 import { connect } from 'react-redux'
+import { Icon } from 'semantic-ui-react'
 
 import TheContext from '../TheContext'
 import actions from '../api'
+// import OutsideClickHandler from 'react-outside-click-handler';
+
 
 const CreateRoom = (props) => {
     const [posts, setPosts] = useState([])
@@ -39,7 +42,8 @@ const CreateRoom = (props) => {
     }
 
     return (
-        <div className="page profile">
+
+        <div className="search">
             <AddPost {...props} posts={posts} />
         </div>
     )
@@ -123,7 +127,7 @@ const AddPost = ({ posts }) => {
                     id="bounty"
                     type="text"
                 />
-                {focus ? <button disabled={outOfPoints}>+</button> : null}
+                {focus ? <button disabled={outOfPoints}><Icon name="add" /> <label>Room</label></button> : null}
             </form>
 
                 {focus ?
@@ -131,6 +135,7 @@ const AddPost = ({ posts }) => {
                       
 
                     <div className="details">
+                        <label htmlFor="cowbell">Bounty: {bounty} 💰</label>
 
                         <input
                             type="range"
@@ -144,7 +149,6 @@ const AddPost = ({ posts }) => {
                             placeholder={outOfPoints ? "Sorry, you're all out of points" : `Put your bounty here`}
                             disabled={outOfPoints}
                         />
-                        <label htmlFor="cowbell">Bounty: {bounty} cowbells</label>
 
 
                     </div>
