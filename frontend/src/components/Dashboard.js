@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { createElement, useEffect, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import randomWords from 'random-words'
 import moment from 'moment'
@@ -56,34 +56,10 @@ function Dashboard(props) {
       .catch((err) => console.error)
   }
 
-  // const ShowTransactions = () => {
-  //   return transactions.map((tran) => {
-  //     if (!tran.resolved) {
-  //       return (
-  //         <li key={tran._id}>
-  //           {/* <h2>{tran.postId?.message}</h2> */}
-  //           <h2>{tran.postId?.message ? tran.postId?.message : tran.message}</h2>
 
-  //           <span>{moment(tran.createdAt).fromNow()}</span>
-  //           <div>
-  //             <h6>{tran.kind}</h6>
-  //             <h2>{tran.amount}💰</h2>
-  //           </div>
-  //           {/* {tran.resolved ? (
-  //           <h5>Already Claimed</h5>
-  //         ) : (
-  //             <button onClick={() => cashTransaction(tran._id)}>Cash Out</button>
-  //           )} */}
-  //           <button onClick={() => cashTransaction(tran._id)}>Cash Out</button>
-
-  //         </li>
-  //       )
-  //     }
-  //   })
-  // }
 
   const ShowTransactions = () => {
-    return transactions.map((tran) => {
+    const t = transactions.map((tran) => {
       if (!tran.resolved) {
         return (
           <Card key={tran._id}>
@@ -110,35 +86,26 @@ function Dashboard(props) {
           </Card>
         )
       }
-    })
+    }).filter(x => x)
+    t.unshift(createElement('div', { className: 'counter' }, `You've earned ${t.length} transaction${t.length > 1 ? 's' : ''}`))
+    return t
   }
 
 
 
-  // const ShowPosts = ({ posts }) => {
-  //   console.log(posts)
-  //   return posts.filter(p => !p.paid && p.encounterIds.filter(e => e.email != user.email).length > 0).map((post) => {
-  //     return (
-  //       <Link to={`/post/${post._id}`} key={post._id}>
-  //         <li>{post.message} Paid:{JSON.stringify(post.paid)}</li>
-  //       </Link>
-  //     )
-  //   })
-  // }
-
   const ShowUnresolvedPosts = ({ posts }) => {
-    return posts.filter(p => !p.paid).map((post) => {
+    const p = posts.filter(p => !p.paid).map((post) => {
 
       let helpers = []
       for (let enc of post.encounterIds) {
-        if (enc.email !== user.email && !helpers.find(each => each.email === enc.email) && enc.avatar) {
-          helpers.push(enc)
+        if (enc.email !== user.email && !helpers.find(each => each.email === enc.email) && enc.createdBy.avatar) {
+          helpers.push(enc.createdBy)
         }
       }
 
-
+      if (helpers.length > 0) {
       return (
-        <li>
+
           <Link to={`/post/${post._id}`} key={post._id}>
             {/* <li>{post.message} Paid:{JSON.stringify(post.paid)}</li> */}
             <Card>
@@ -168,9 +135,13 @@ function Dashboard(props) {
                     </Card.Content>
             </Card>
           </Link>
-        </li>
+
       )
-    })
+      }
+    }).filter(x => x)
+
+    p.unshift(createElement('div', { className: 'counter' }, `You need to resolve ${p.length} room${p.length > 1 ? 's' : ''}`))
+    return p
   }
 
 
@@ -191,7 +162,6 @@ function Dashboard(props) {
       {posts.length > 0 ? (
 
         <>
-          <h4>Rooms that you need to resolve</h4>
           <ul className="unresolved">
 
             <ShowUnresolvedPosts {...props} posts={posts} />
@@ -202,9 +172,8 @@ function Dashboard(props) {
 
       {transactions.length > 0 ? (
         <>
-          <h4>Transactions that you've earned</h4>
 
-                  <ul id="transactions">
+          <ul id="transactions">
 
             <ShowTransactions />
           </ul>

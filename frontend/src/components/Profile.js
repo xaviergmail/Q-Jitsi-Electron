@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, createElement } from 'react';
 import { Accordion, Header, Icon, Image, List, Menu, Sidebar, Card, Container } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
@@ -37,17 +37,16 @@ function Profile(props) {
 
 
     const ShowResolvedPosts = ({ posts }) => {
-        return posts.filter(p => p.paid).map((post) => {
+        const p = posts.filter(p => p.paid).map((post) => {
 
             let helpers = []
             for (let enc of post.encounterIds) {
-                if (enc.email !== user.email && !helpers.find(each => each.email === enc.email) && enc.avatar) {
+                if (enc.email !== user.email && !helpers.find(each => each.email === enc.email) && enc.createdBy.avatar) {
                     helpers.push(enc)
                 }
             }
 
             return (
-                <li>
                     <Link to={`/post/${post._id}`} key={post._id}>
                         {/* <li>{post.message} Paid:{JSON.stringify(post.paid)}</li> */}
                         <Card>
@@ -76,39 +75,53 @@ function Profile(props) {
 
                         </Card.Content>
                         </Card>
-                    </Link>
-                </li>
+                </Link>
             )
         })
+
+        p.unshift(createElement('div', { className: 'counter' }, `You've have resolved ${p.length} room${p.length > 1 ? 's' : ''}`))
+        return p
+
     }
 
 
-    const ShowTransactions = () => {
-        return transactions.map((tran) => {
-            if (tran.resolved) {
-                return (
-                    <li key={tran._id}>
-                        <h2>{tran.postId?.message}</h2>
-                        {/* <h2>{tran.message}</h2> */}
 
-                        <span>{moment(tran.createdAt).fromNow()}</span>
-                        <div>
-                            <h6>{tran.kind}</h6>
-                            <h2>{tran.amount}💰</h2>
-                        </div>
-                        {/* {tran.resolved ? (
-                <h5>Already Claimed</h5>
-              ) : (
-                  <button onClick={() => cashTransaction(tran._id)}>Cash Out</button>
-                )} */}
-                        {/* <button onClick={() => cashTransaction(tran._id)}>Cash Out</button> */}
-                        <h5>Already Claimed</h5>
 
-                    </li>
-                )
-            }
-        })
-    }
+  const ShowTransactions = () => {
+      const trans = transactions.map((tran) => {
+
+        if (tran.resolved) {
+        return (
+            <Card key={tran._id}>
+                {/* <Image src='/images/avatar/large/matthew.png' ui={false} /> */}
+                <Card.Content>
+                    <Card.Meta>
+                        <span className='date'>{tran.kind}</span>
+                    </Card.Meta>
+                    <Card.Meta>
+                        <span className='date'>{moment(tran.createdAt).fromNow()}</span>
+                    </Card.Meta>
+                    <Card.Header>{tran.postId?.message ? tran.postId?.message : tran.message}</Card.Header>
+                    <Card.Meta>
+                    </Card.Meta>
+                    <Card.Description>
+
+                        {/* <button onClick={() => cashTransaction(tran._id)}> */}
+                        <div>{tran.amount} 💰</div>
+
+                        {/* </button> */}
+
+                    </Card.Description>
+                </Card.Content>
+            </Card>
+        )
+      }
+
+    })
+
+      trans.unshift(createElement('div', { className: 'counter' }, `You've had ${trans.length} transaction${trans.length > 1 ? 's' : ''}`))
+      return trans
+  }
 
     console.log(transactions, posts, 'argh webpack')
     return (
@@ -118,6 +131,13 @@ function Profile(props) {
                 <Image src={user.avatar} avatar />
 
                 Welcome {user.name}
+
+
+
+            </Header>
+
+            <Container>
+                <h4>{user.email}</h4>
 
                 <button onClick={() => {
                     window.jitsiNodeAPI.ipc.send('gauth-clear')
@@ -131,14 +151,6 @@ function Profile(props) {
 
                 }}>Log Out</button>
 
-            </Header>
-
-            <Container>
-                <h4>{user.email}</h4>
-
-                <h4>{JSON.stringify(user.encounters)}</h4>
-
-
             </Container>
 
 
@@ -146,23 +158,17 @@ function Profile(props) {
 
                 <div className="trans">
                 {transactions.length > 0 ? (
-                        <>
-
-                            <div>You have had {transactions.length} transactions</div>
-
-                            <ul id="myTransactions">
+                        <ul id="transactions">
                                 <ShowTransactions />
-                            </ul>
-                        </>
+                        </ul>
                 ) : (
-                        <div className="noneyet">
+                            <>
                             <h2>No transactions yet!</h2>
                             <p>Go ask a question or help some people out!</p>
-                        </div>
+                            </>
                     )}
                 </div>
                 <div className="pooo">
-                    <h4>You have resolved {posts.length} rooms</h4>
                     <ul className="resolved">
 
                         <ShowResolvedPosts {...props} posts={posts} />
