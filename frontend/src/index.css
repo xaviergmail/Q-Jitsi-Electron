@@ -756,6 +756,7 @@ ul#myTransactions li{
 
 #showEncounters{
   display:flex;
+  margin:0;
   flex-direction:column;
   justify-content:space-evenly;
 }
