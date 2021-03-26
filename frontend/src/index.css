@@ -760,3 +760,29 @@ ul#myTransactions li{
   flex-direction:column;
   justify-content:space-evenly;
 }
+
+
+
+
+/**CHAT**/
+
+
+#chat main{
+  border: 1px solid green;
+  display:flex;
+}
+#chat main ul{
+  list-style-type: none;
+  border: 1px solid black;
+}
+
+#chat main ul li{
+  border: 1px solid #eee;
+}
+div#channels{
+  flex:1
+}
+
+div#messages{
+  flex:3
+}

@@ -14,7 +14,7 @@ const Post = ({ history, match, user }) => {
       .then((res) => {
         console.log(res)
         if (res) {
-          setPost(res?.data)
+          setPost(res?.data.post)
           //   setTransactions(res?.data.transactions);
           setEncounters(res?.data?.encounterIds)
         }

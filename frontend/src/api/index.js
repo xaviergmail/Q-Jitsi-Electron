@@ -84,6 +84,9 @@ const actions = {
   cashOut: async (data) => {
     return await API.post(`/cash-out`, data, resetHead())
   },
+  addMessage: async (data) => {
+    return await API.post(`/add-message`, data, resetHead())
+  }
 }
 
 API.interceptors.response.use(

@@ -1,5 +1,8 @@
 let baseURL
 export let jitsiURL
+console.log(process.env, ' gargantuan')
+
+console.log('NODE_ENV', process.env.NODE_ENV)
 if (process.env.NODE_ENV === 'production') {
   if (process.env.ELECTRON_WEBPACK_APP_API_URL) {
     baseURL = process.env.ELECTRON_WEBPACK_APP_API_URL

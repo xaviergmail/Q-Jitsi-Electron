@@ -32,6 +32,14 @@ export function NavBar({ user }) {
             <span id="cash">💰</span>{user.points.toFixed(0)}
         </Menu.Item>
       </Link>
+
+
+
+        <Link to="/chat">
+          <Menu.Item link active={pathname == '/chat'}>
+            Chat
+        </Menu.Item>
+        </Link>
       </div>
 
     </nav>

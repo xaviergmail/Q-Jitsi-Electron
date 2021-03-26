@@ -29,6 +29,7 @@ import SideBar from './components/SideBar'
 import GoogleAuth from './components/GoogleAuth'
 import VideoPreview from './components/VideoPreview/VideoPreview'
 import Profile from './components/Profile'
+import Chat from './components/Chat'
 
 import 'react-notifications/lib/notifications.css'
 import 'semantic-ui-css/semantic.min.css'
@@ -376,7 +377,9 @@ const CowBell = ({ children }) => {
             }}
           >
             <Switch>
+              {/* <Route exact path="/" render={(props) => <div>WUT</div>} /> */}
               <Route exact path="/" render={(props) => <div>WUT</div>} />
+
               <Route exact path="/dashboard" component={Dashboard} />
 
               {/* <Route exact path="/create-room" component={CreateRoom} /> */}
@@ -386,6 +389,8 @@ const CowBell = ({ children }) => {
               <Route path="/post/:id" render={(props) => <Post {...props} user={user} />} />
 
               <Route path="/profile" component={Profile} />
+
+              <Route path="/chat" component={Chat} />
 
               {/**WUT**/}
               <Route path="/room/:roomName" render={(props) => <div>HMMMMM</div>} />
