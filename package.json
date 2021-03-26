@@ -1,6 +1,6 @@
 {
   "name": "CowBellClub",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Electron application for Cowbell Club",
   "main": "./build/main.js",
   "productName": "CowbellClub",
@@ -69,13 +69,6 @@
     "win": {
       "artifactName": "cowbell.club.${ext}",
       "target": [
-        {
-          "arch": [
-            "ia32",
-            "x64"
-          ],
-          "target": "appx"
-        },
         {
           "arch": [
             "ia32",
