@@ -46,10 +46,15 @@ const Room = ({ room }) => {
   // console.log('ROOM', room, user, user.email)
   const style = {}
   const yourRoom = room.user.email == user.email
+  const currentRoom = room._id === location.hash.split('/').pop()
+  if (currentRoom) {
+    style.backgroundColor = '#2b2b2b'
+  }
   // let host = room.activeUsers.some(x => x.email == user.email)
   return (
-    <Link to={`/chat/${room.id}`}>
+    <Link to={`/chat/${room._id}`}>
       {/* onClick={() => gotoRoom(room.id, room)} */}
+
     <Menu.Item className="menu-item-sidebar" style={style} header width="250px"  link="#">
       <Header as="h5" inverted>
 
@@ -61,15 +66,33 @@ const Room = ({ room }) => {
 
       </Header>
 
+        {currentRoom && !yourRoom ? (
+          <div className="controls">
+            <button onClick={() => gotoRoom(room._id, room)}>
+              <Icon name="video" />
+            Video
+          </button>
+            <button onClick={() => gotoRoom(room._id, room)}>
+              <Icon name="laptop" />
+            Screen
+          </button>
+          </div>)
+
+          : null}
+
         {room.activeUsers.length !== 0 &&
 
       <List inverted>
         {room.activeUsers.length ? (
           room.activeUsers.map((x) => {
             if (x.email == user.email) {
-              style.background = '#2b2b2b'
-
+              // style.backgroundColor = '#2b2b2b'
+              style.color = 'green'
             }
+
+
+
+
 
             return <Participant participant={x} host={x.email == user.email} yourRoom={yourRoom} key={x.email} gotoRoom={gotoRoom} />
 

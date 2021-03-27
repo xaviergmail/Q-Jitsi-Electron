@@ -1,6 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react';
 import TheContext from '../TheContext'
 import actions from '../api/index'
+import { Divider, Header, Icon, Image, List, Menu, Sidebar } from 'semantic-ui-react'
 
 
 
@@ -14,12 +15,13 @@ function Chat(props) {
     let [message, setMessage] = useState('')
 
     useEffect(() => {
-
+        console.log('firigin', props.match.params.id)
         fetchChannel(props.match.params.id)
 
     }, [props.match.params.id])
 
     const fetchChannel = async (id) => {
+        console.log(id, ' looking here')
         let res = await actions.getPost(id)
         if (res) {
             setChannel(res.data.post)
@@ -31,10 +33,15 @@ function Chat(props) {
 
 
     const showMessages = () => {
-        return messages.map(({ message }) => (
-
-            <li>
-                {message}
+        console.log(messages, channel)
+        return messages.map(({ message, userId }) => (
+            
+            <li className="message">
+                <Image avatar src={userId?.avatar} style={{ background: 'white' }} />
+                <div>
+                    <b class="name">{userId?.name}</b>
+                    <p class="text">{message}</p>
+                </div>
             </li>
         ))
     }
@@ -56,12 +63,12 @@ function Chat(props) {
             })
             .catch(console.error)
     }
+    
 
     return (
         <section id="chat">
             <h1>{channel.message}</h1>
-            <button>Messages</button>
-            <button onClick={() => gotoRoom(channel.id, channel)}>=>Video</button>
+            <button onClick={() => gotoRoom(channel._id, channel)}>=>Video</button>
 
             <main>
                 {/* <div id="channels">

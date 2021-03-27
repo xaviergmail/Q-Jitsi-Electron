@@ -44,5 +44,9 @@ export default {
     /**
      * The URL of Terms and Conditions Page.
      */
-    termsAndConditionsURL: 'https://jitsi.org/meet/terms'
+    termsAndConditionsURL: 'https://jitsi.org/meet/terms',
+
+
+    startWithAudioMuted: true, //Not working 
+    startWithVideoMuted: true  //Not working 
 };

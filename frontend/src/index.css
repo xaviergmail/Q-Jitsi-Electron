@@ -766,10 +766,18 @@ ul#myTransactions li{
 
 /**CHAT**/
 
+#chat{
+  background: floralwhite;
+  padding: 1rem;
+}
 
 #chat main{
   border: 1px solid green;
   display:flex;
+  background:#3d3d3d;
+  color: white;
+
+
 }
 #chat main ul{
   list-style-type: none;
@@ -777,7 +785,9 @@ ul#myTransactions li{
 }
 
 #chat main ul li{
-  border: 1px solid #eee;
+  border-top: 1px solid #333;
+  margin: 0;
+  padding: 1rem;
 }
 div#channels{
   flex:1
@@ -785,6 +795,23 @@ div#channels{
 
 div#messages{
   flex:3
+}
+
+div#messages .message{
+  display:flex;
+  text-align:left;
+}
+
+div#messages .message{
+  text-indent: 1rem;
+}
+
+div#messages .message .name{
+  color: #777;
+}
+
+div#messages .message .text{
+  margin-top: 1rem;
 }
 
 /* ul#roomBah{
@@ -806,3 +833,33 @@ ul#roomBah li{
   height: 300px;
   display: flex;
       } */
+
+.header.link.item.menu-item-sidebar{
+      display:flex;
+      text-align:left;
+      /* flex-direction:row; */
+      /* justify-content:space-between */
+}
+
+.header.link.item.menu-item-sidebar .controls{
+  background: #3d3d3d;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding: .125rem;
+}
+.header.link.item.menu-item-sidebar .controls button{
+  background:#1b1c1d;
+  border: none;
+  color: whitesmoke;
+  padding: .5rem;
+  flex: 1;
+    margin: 1px;
+    
+}
+.header.link.item.menu-item-sidebar .controls button:hover{
+  color: green;
+}
+.header.link.item.menu-item-sidebar .controls button:focus{
+  outline:none;
+}

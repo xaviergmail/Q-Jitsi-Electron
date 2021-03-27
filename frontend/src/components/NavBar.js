@@ -8,14 +8,14 @@ import SideBar from './SideBar'
 
 export function NavBar({ user }) {
   const { pathname } = useLocation()
-  const { activeRooms, room, gotoRoom, history } = useContext(TheContext)
+
+  const { activeRooms, room, gotoRoom, history, lobby_id } = useContext(TheContext)
   // console.log('location', pathname)
   // <Menu pointing secondary 
-
   return (<>
     <nav className="top-nav">
       <button onClick={history.goBack}>Go Back</button>
-      <i style={{ color: 'white' }}>{pathname}</i>
+      <i style={{ color: 'white' }}>{pathname.split('/').pop() === lobby_id ? 'lobby' : pathname}</i>
       <div className="links">
 
         {/* <Link to="/chat">

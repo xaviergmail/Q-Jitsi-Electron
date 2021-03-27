@@ -123,21 +123,13 @@ const CowBell = ({ children }) => {
     room = routeRoom
   }
 
-  // if (!room) {
-  //   room = "lobby"
-  //   setRoom("lobby")
-  // }
+
 
   /**WUT  -- Sends all users to lobby if host leaves room?**/
   if (posts[room] && !posts[room].active) {
-    //gotoRoom('lobby')
-    console.log(`/gotoRoom('lobby')`)
+
   }
 
-  //Sends user to lobby instead of 404 onload >>> Should maybe be inside use effect? >> Could prob be done better when login is inside of app
-  // if (location.hash != "#/room/lobby" || location.hash.replace('#/', '').length === 0) {
-  //   gotoRoom('lobby')
-  // }
 
   useEffect(() => {
     const api = window.jitsiMeetExternalAPI
@@ -225,7 +217,7 @@ const CowBell = ({ children }) => {
   // console.log('CURRENT ROOM', room)
 
   function gotoRoom(id, room) {
-    console.log(room, ' gimme dat name')
+    console.log(room, id, ' gimme dat name')
     if (id) {
       history.push(`/room/${id}`)
       setRoom(id)
@@ -342,6 +334,9 @@ const CowBell = ({ children }) => {
     // (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
   )
 
+  const lobby_id = Object.values(posts).find(room => room.id === 'lobby')?._id
+
+  console.log(lobby_id, 'lobby_id')
   const video = <VideoPreview />
 
   const context = {
@@ -358,6 +353,7 @@ const CowBell = ({ children }) => {
     setMyTransactions,
     myTransactions,
     socket,
+    lobby_id,
     filterRooms,
   }
   window._context = context
@@ -382,7 +378,7 @@ const CowBell = ({ children }) => {
           >
             <Switch>
               {/* <Route exact path="/" render={(props) => <div>WUT</div>} /> */}
-              <Route exact path="/" render={(props) => <div>WUT</div>} />
+              <Route exact path="/" render={(props) => history.push(`/chat/${lobby_id}`)} />
 
               <Route exact path="/dashboard" component={Dashboard} />
 
