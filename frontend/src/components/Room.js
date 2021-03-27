@@ -33,7 +33,7 @@ export default connect()(Room);
 
 function gotoRoom(dispatch, roomID) {
 
-    const conference = createConferenceObjectFromURL(process.env.ELECTRON_WEBPACK_APP_JITSI_URL + "/" + roomID);
+    const conference = createConferenceObjectFromURL(process.env.ELECTRON_WEBPACK_APP_JITSI_URL + "/" + roomID + "#config.startWithVideoMuted=true");
     conference.jwt = localStorage.token
 
     window._conference = conference

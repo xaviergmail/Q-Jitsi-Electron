@@ -2,6 +2,11 @@ import React, { useContext } from 'react'
 
 import TheContext from '../TheContext'
 import { Divider, Header, Icon, Image, List, Menu, Sidebar } from 'semantic-ui-react'
+import Search from './Search'
+import { Link, useLocation } from 'react-router-dom'
+
+import Chat from './Chat'
+
 
 const Participant = ({ participant, host, yourRoom, gotoRoom }) => {
   const { user, socket } = useContext(TheContext)
@@ -38,20 +43,26 @@ const Participant = ({ participant, host, yourRoom, gotoRoom }) => {
 
 const Room = ({ room }) => {
   const { gotoRoom, user } = useContext(TheContext)
-  console.log('ROOM', room, user, user.email)
+  // console.log('ROOM', room, user, user.email)
   const style = {}
   const yourRoom = room.user.email == user.email
   // let host = room.activeUsers.some(x => x.email == user.email)
   return (
-    <Menu.Item className="menu-item-sidebar" style={style} header width="250px" onClick={() => gotoRoom(room.id, room)} link="#">
+    <Link to={`/chat/${room.id}`}>
+      {/* onClick={() => gotoRoom(room.id, room)} */}
+    <Menu.Item className="menu-item-sidebar" style={style} header width="250px"  link="#">
       <Header as="h5" inverted>
+
         <span>{room.message}</span>
-        <span className='activeUsers'>{room.activeUsers.length}</span>
+          {room.activeUsers.length !== 0 && <span className='activeUsers'>{room.activeUsers.length}</span>}
 
 
         {yourRoom && <button className="close-room" onClick={() => console.log('Send everyone to lobby')} >X</button>}
 
       </Header>
+
+        {room.activeUsers.length !== 0 &&
+
       <List inverted>
         {room.activeUsers.length ? (
           room.activeUsers.map((x) => {
@@ -71,14 +82,29 @@ const Room = ({ room }) => {
           </Header>
         )}
       </List>
+
+        }
     </Menu.Item>
+    </Link>
   )
 }
 
 export default function SideBar({ video }) {
-  const { activeRooms, room, gotoRoom } = useContext(TheContext)
+  const { activeRooms, room, gotoRoomm, posts } = useContext(TheContext)
+  // console.log(posts, ' -=-=-=-=-=-', activeRooms, '?', Object.values(posts))
 
+  const sortedRooms = Object.values(posts).sort((a, b) => a.active ? -1 : 1)
+
+
+  // const activeRooms = Object.values(posts).filter(
+  //   (x) =>
+  //     (x.message.toLowerCase().includes(query.toLowerCase()) && x.active && x.activeUsers.length) ||
+  //     x.id == 'lobby' ||
+  //     x.isLobby
+  //   // (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
+  // )
   return (
+    <>
     <Sidebar
       as={Menu}
       animation="overlay"
@@ -89,10 +115,15 @@ export default function SideBar({ video }) {
       visible
       style={{ width: '250px' }}
     >
+        <Search />
+
       {video}
-      {activeRooms.map((room) => (
+        {sortedRooms.map((room) => (
         <Room room={room} key={room.id} />
       ))}
     </Sidebar>
+      {/* <Chat /> */}
+
+    </>
   )
 }

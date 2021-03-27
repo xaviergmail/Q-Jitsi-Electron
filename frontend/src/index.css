@@ -786,3 +786,23 @@ div#channels{
 div#messages{
   flex:3
 }
+
+/* ul#roomBah{
+  display:flex;
+  justify-content:space-between;
+  list-style-type: none;
+}
+
+ul#roomBah li{
+  margin-top: 0 !important; 
+
+} */
+
+/* #chat{
+  position: absolute;
+  z-index: 23233232322;
+  background: white;
+  top: 200px;
+  height: 300px;
+  display: flex;
+      } */

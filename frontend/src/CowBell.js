@@ -30,6 +30,7 @@ import GoogleAuth from './components/GoogleAuth'
 import VideoPreview from './components/VideoPreview/VideoPreview'
 import Profile from './components/Profile'
 import Chat from './components/Chat'
+import Search from './components/Search'
 
 import 'react-notifications/lib/notifications.css'
 import 'semantic-ui-css/semantic.min.css'
@@ -43,8 +44,8 @@ import io from 'socket.io-client'
 import baseURL from './api/config'
 
 // TODO: Convert this into a reusable useSocket or something
-let _setPosts = function () {}
-let _setMyTransactions = function () {}
+let _setPosts = function () { }
+let _setMyTransactions = function () { }
 
 //Styled components && semantic UI ?? WUT
 import styled from 'styled-components'
@@ -109,7 +110,9 @@ const CowBell = ({ children }) => {
 
   const isInRoomRoute = useRouteMatch('/room/:id')
   const routeRoom = isValidRoom(isInRoomRoute?.params?.id)
-  let [room, setRoom] = useState(routeRoom || "lobby")
+  // let [room, setRoom] = useState(routeRoom || "lobby")
+
+  let [room, setRoom] = useState(routeRoom || null)
 
   const history = useHistory()
 
@@ -120,10 +123,10 @@ const CowBell = ({ children }) => {
     room = routeRoom
   }
 
-  if (!room) {
-    room = "lobby"
-    setRoom("lobby")
-  }
+  // if (!room) {
+  //   room = "lobby"
+  //   setRoom("lobby")
+  // }
 
   /**WUT  -- Sends all users to lobby if host leaves room?**/
   if (posts[room] && !posts[room].active) {
@@ -147,7 +150,9 @@ const CowBell = ({ children }) => {
         },
 
         readyToClose: (evt) => {
-          gotoRoom("lobby")
+          // console.log(evt, 'readyToClose', location, history, ' 9')
+          history.goBack()
+          //gotoRoom("lobby")
         },
       }
 
@@ -197,14 +202,12 @@ const CowBell = ({ children }) => {
       },
     }
 
-    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
     for (const [k, v] of Object.entries(socketEvents)) {
       socket.on(k, v)
       console.log("RESGISNETING EWOSCKET '", k)
     }
 
     return () => {
-      console.log("oOOOOOOOOOOOOOOOOOOOOOOOOoooooooooooOOO")
       isMounted = false
 
       if (api && typeof api.removeListener == 'function') {
@@ -219,7 +222,7 @@ const CowBell = ({ children }) => {
     }
   }, [window.jitsiMeetExternalAPI, history, socket, user, room])
 
-  console.log('CURRENT ROOM', room)
+  // console.log('CURRENT ROOM', room)
 
   function gotoRoom(id, room) {
     console.log(room, ' gimme dat name')
@@ -364,6 +367,7 @@ const CowBell = ({ children }) => {
       <SideBar video={!isInRoomRoute && video} />
       <div className="container">
         <NavBar history={history} user={user} />
+
         <StackLayer style={{ overflow: 'hidden' }}>
           <Stacked className="room" style={{ display: room && isInRoomRoute ? 'block' : 'hidden' }}>
             {roomElement}
@@ -390,7 +394,7 @@ const CowBell = ({ children }) => {
 
               <Route path="/profile" component={Profile} />
 
-              <Route path="/chat" component={Chat} />
+              <Route path="/chat/:id" component={Chat} />
 
               {/**WUT**/}
               <Route path="/room/:roomName" render={(props) => <div>HMMMMM</div>} />
@@ -401,7 +405,10 @@ const CowBell = ({ children }) => {
             </Switch>
           </Stacked>
         </StackLayer>
+        {/* <Search /> */}
+
       </div>
+
 
       <NotificationContainer />
     </TheContext.Provider>

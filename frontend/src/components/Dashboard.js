@@ -14,7 +14,6 @@ function Dashboard(props) {
   const { user, setUser, setMyPosts, myPosts, setMyTransactions, myTransactions } = useContext(TheContext)
 
   useEffect(() => {
-    console.log('use use effect')
     actions
       .getMyTransactions()
       .then((res) => {
@@ -48,7 +47,7 @@ function Dashboard(props) {
         // while (i < res.data.user.points) {
         //   //console.log(i)
         //   i++
-          // setTimeout(() => setUser(res.data.user), i*100)
+        // setTimeout(() => setUser(res.data.user), i*100)
         //}
 
         setTransactions(transactions.filter((each) => each._id !== res.data.transaction._id))
@@ -78,7 +77,7 @@ function Dashboard(props) {
 
                 <button onClick={() => cashTransaction(tran._id)}>
                   <div>{tran.amount} 💰</div>
-                  
+
                 </button>
 
               </Card.Description>
@@ -104,7 +103,7 @@ function Dashboard(props) {
       }
 
       if (helpers.length > 0) {
-      return (
+        return (
 
           <Link to={`/post/${post._id}`} key={post._id}>
             {/* <li>{post.message} Paid:{JSON.stringify(post.paid)}</li> */}
@@ -136,7 +135,7 @@ function Dashboard(props) {
             </Card>
           </Link>
 
-      )
+        )
       }
     }).filter(x => x)
 
@@ -179,11 +178,11 @@ function Dashboard(props) {
           </ul>
         </>
       ) : (
-          <div className="noneyet">
-            <h2>No transactions yet?</h2>
-            <p>Go ask a question or help some people out!</p>
-          </div>
-        )}
+        <div className="noneyet">
+          <h2>No transactions yet?</h2>
+          <p>Go ask a question or help some people out!</p>
+        </div>
+      )}
 
 
 

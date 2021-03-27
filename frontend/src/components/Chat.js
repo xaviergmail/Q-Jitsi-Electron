@@ -14,35 +14,20 @@ function Chat(props) {
     let [message, setMessage] = useState('')
 
     useEffect(() => {
-        actions
-            .getAllPosts()
-            .then((res) => {
-                console.log(res, ' let it be')
-                setChannels(res.data)
-            }).catch(console.error)
 
-    }, [])
+        fetchChannel(props.match.params.id)
 
-    const fetchChannel = ({ id }) => { //Maybe better as links in the future
-        console.log(id)
-        actions.getPost(id).then(res => {
-            console.log(res)
-            if (res) {
-                setChannel(res.data.post)
-                setMessages(res.data.messages)
-            }
-        }).catch(console.error)
+    }, [props.match.params.id])
+
+    const fetchChannel = async (id) => {
+        let res = await actions.getPost(id)
+        if (res) {
+            setChannel(res.data.post)
+            setMessages(res.data.messages)
+        }
     }
 
-    const showChannels = () => {
-        return channels.map(channel => (
 
-            <li onClick={() => fetchChannel(channel)}>
-                {channel.message}
-
-            </li>
-        ))
-    }
 
 
     const showMessages = () => {
@@ -74,14 +59,16 @@ function Chat(props) {
 
     return (
         <section id="chat">
-            <h1> Chat</h1>
+            <h1>{channel.message}</h1>
+            <button>Messages</button>
+            <button onClick={() => gotoRoom(channel.id, channel)}>=>Video</button>
 
             <main>
-                <div id="channels">
+                {/* <div id="channels">
                     <label>Channels {channel.message}</label>
                     <ul>
                         {showChannels()}
-                    </ul></div>
+                    </ul></div> */}
 
                 <div id="messages">
                     <label>Messages</label>
@@ -97,7 +84,9 @@ function Chat(props) {
                 <button>+</button>
             </form>
 
+            <style>
 
+            </style>
         </section>
     );
 }
