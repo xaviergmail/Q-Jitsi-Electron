@@ -338,6 +338,11 @@ const CowBell = ({ children }) => {
 
   console.log(lobby_id, 'lobby_id', room)
   const video = <VideoPreview />
+  
+
+  let [bounty, setBounty] = useState(10)
+  const [style, setStyle] = useState({ width: "250px" })
+
 
   const context = {
     history,
@@ -355,6 +360,10 @@ const CowBell = ({ children }) => {
     socket,
     lobby_id,
     filterRooms,
+    bounty,
+    setBounty,
+    style,
+    setStyle
   }
   window._context = context
 
@@ -364,7 +373,7 @@ const CowBell = ({ children }) => {
       <div className="container">
         <NavBar history={history} user={user} />
 
-        <StackLayer style={{ overflow: 'hidden' }}>
+        <StackLayer style={{ overflow: 'hidden' }} onClick={() => setStyle({ width: '250px' })}>
           <Stacked className="room" style={{ display: room && isInRoomRoute ? 'block' : 'hidden' }}>
             {roomElement}
           </Stacked>

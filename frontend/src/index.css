@@ -191,6 +191,8 @@ li.post:nth-child(even){
   flex-direction: column;
 }
 
+
+
 /* #createRoom {
   display: flex;
   flex-direction: column;
@@ -439,7 +441,7 @@ a#create{
 } */
 .top-nav{
   /*background: #eee #172B4D !important;/* How can i avoid important tags with semantic UI*/
-  background: #171717 !important;
+  background:#171717;
   display:flex;
   justify-content: space-between;
   position: relative;
@@ -459,11 +461,23 @@ a#create{
 
 
 
-.top-nav #addPost #createRoom {
+#addPost #createRoom {
   display:flex;
   flex-direction: row;
   width: 100%;
 }
+
+#addPost input:focus {
+  outline: none;
+}
+
+#addPost  button#addRoom {
+  outline: none;
+  background: white;
+  border: none;
+  color: #bbb;
+}
+
 
 
 .top-nav div.search{
@@ -474,11 +488,7 @@ a#create{
   padding: 1rem;
 } */
 
-.top-nav #createRoom .details {
-  display:flex;
-  flex-direction: column;
- 
-}
+
 
 .top-nav .details label {
   color:white;
@@ -507,7 +517,13 @@ a#create{
 .details {
   padding: 1rem;
   display: flex;
-  justify-content:space-evenly
+  justify-content:space-evenly;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  color: white;
+  font-size: 1.5em;
 }
 
 .top-nav .links {
@@ -715,8 +731,8 @@ ul#myTransactions li{
 
   flex-direction: row;
   flex-wrap: nowrap;
-  transform: scale(.8);
-  transform-origin: left;
+  /* transform: scale(.8); */
+  /* transform-origin: left; */
 
 }
   
@@ -992,3 +1008,12 @@ ul#roomBah li{
 }
 
  
+
+
+.ui.inverted.vertical.labeled.icon.ui.overlay.left.visible.sidebar.menu{
+  transition: .2s;
+}
+
+.videobottomright{
+  max-width:250px;
+}

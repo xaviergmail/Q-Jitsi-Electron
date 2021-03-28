@@ -23,6 +23,8 @@ function Chat(props) {
     const fetchChannel = async (id) => {
         console.log(id, ' looking here')
         let res = await actions.getPost(id)
+
+        console.log('reservour ', res)
         if (res) {
             setChannel(res.data.post)
             setMessages(res.data.messages.reverse())
@@ -53,13 +55,15 @@ function Chat(props) {
         actions
             .addMessage({ channel, message })
             .then(res => {
-                console.log(res)
+                console.log(res, ' do i see thissss')
 
                 let m = [...messages]
                 console.log(m, ' wtf')
-                m.unshift({ message: res.data.message.message })
+                m.unshift(res.data.message)
+                // m.unshift({ message: res.data.message.message })
                 console.log(m, ' holy cow')
                 setMessages(m)
+                setMessage('')
             })
             .catch(console.error)
     }
@@ -77,7 +81,7 @@ function Chat(props) {
 
                 <div id="messages">
                     <header className="message-title">
-                        <h1>{channel.message}</h1>
+                        <h1>{channel?.message}</h1>
                         <div className="controls">
                             <button onClick={() => gotoRoom(channel._id, channel)}>
                                 <Icon name="video" /> Video
@@ -98,7 +102,7 @@ function Chat(props) {
             </main>
 
             <form onSubmit={submitMessage}>
-                <input type="text" onChange={e => setMessage(e.target.value)} />
+                <input type="text" value={message} placeholder="Say something... Earn a CowBell" onChange={e => setMessage(e.target.value)} />
                 <button>+</button>
             </form>
 

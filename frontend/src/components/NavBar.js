@@ -9,7 +9,7 @@ import SideBar from './SideBar'
 export function NavBar({ user }) {
   const { pathname } = useLocation()
 
-  const { activeRooms, room, gotoRoom, history, lobby_id } = useContext(TheContext)
+  const { activeRooms, room, gotoRoom, history, lobby_id, bounty } = useContext(TheContext)
   // console.log('location', pathname)
   // <Menu pointing secondary 
   console.log('1b1b1b', room)
@@ -40,7 +40,7 @@ export function NavBar({ user }) {
 
         <Link id="points" to="/dashboard">
           <Menu.Item link active={pathname == '/dashboard'}>
-            <span id="cash">💰</span>{user.points.toFixed(0)}
+            <span id="cash">💰</span>{(user.points - bounty).toFixed(0)}
           </Menu.Item>
         </Link>
 

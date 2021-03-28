@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 
 import TheContext from '../TheContext'
 import { Divider, Header, Icon, Image, List, Menu, Sidebar } from 'semantic-ui-react'
@@ -114,7 +114,8 @@ const Room = ({ room }) => {
 }
 
 export default function SideBar({ video }) {
-  const { activeRooms, room, gotoRoomm, posts } = useContext(TheContext)
+  const { activeRooms, room, gotoRoomm, posts, setStyle, style } = useContext(TheContext)
+  // let [style, setStyle] = useState({ width: '250px' })
   // console.log(posts, ' -=-=-=-=-=-', activeRooms, '?', Object.values(posts))
 
   const sortedRooms = Object.values(posts).sort((a, b) => a.active ? -1 : 1)
@@ -137,9 +138,9 @@ export default function SideBar({ video }) {
       // onHide={() => setVisible(false)}
       vertical
       visible
-      style={{ width: '250px' }}
+        style={style}
     >
-        <Search />
+        <Search setStyle={setStyle} />
 
       {video}
         {sortedRooms.map((room) => (

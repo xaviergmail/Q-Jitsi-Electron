@@ -44,7 +44,7 @@ const CreateRoom = (props) => {
     return (
 
         <div className="search">
-            <AddPost {...props} posts={posts} />
+            <AddPost {...props} setStyle={props.setStyle} posts={posts} />
         </div>
     )
 }
@@ -79,12 +79,12 @@ function humanizeDuration(input, units) {
     return duration.format(format)
 }
 
-const AddPost = ({ posts }) => {
+const AddPost = ({ posts, setStyle }) => {
     const [message, setMessage] = useState('')
-    const [bounty, setBounty] = useState(10)
+    // const [bounty, setBounty] = useState(10)
     let [focus, setFocus] = useState(false)
 
-    let { user, setUser, history, gotoRoom, filterRooms } = useContext(TheContext)
+    let { bounty, setBounty, user, setUser, history, gotoRoom, filterRooms } = useContext(TheContext)
 
     let outOfPoints = user?.points <= 0
 
@@ -93,12 +93,24 @@ const AddPost = ({ posts }) => {
         filterRooms(e.target.value)
     }
 
+    const handleBlur = () => {
+        setFocus(false)
+        setStyle({ width: '250px' })
+    }
+    const handleFocus = () => {
+        setFocus(true);
+        setStyle({ width: '500px' })
+    }
+
+
     const handleSubmit = (e) => {
         e.preventDefault()
 
         // if (user?.calendly === "https://calendly.com/ Click here to set your calendly!")
         //     return alert('Please set your calendly before posting...')
         setFocus(false)
+        setStyle({ width: '250px' })
+
 
         actions
             .addPost({ message, bounty })
@@ -107,6 +119,7 @@ const AddPost = ({ posts }) => {
                 console.log(res.data, ' <<>>> THIS ISH BUSNATCH')
                 // NotificationManager.info(`You've submitted a new issue`)
                 gotoRoom(res.data.posted._id)
+                setBounty(10)
             })
             .catch((err) => console.error(err))
     }
@@ -114,8 +127,8 @@ const AddPost = ({ posts }) => {
         <section id="addPost">
 
 
-            <form id="createRoom" onFocus={() => setFocus(true)}
-                // onBlur={() => setFocus(false)} 
+            <form id="createRoom" onFocus={handleFocus}
+                // onBlur={handleBlur}
                 onSubmit={handleSubmit}>
 
             
@@ -127,7 +140,7 @@ const AddPost = ({ posts }) => {
                     id="bounty"
                     type="text"
                 />
-                {focus ? <button disabled={outOfPoints}><Icon name="add" /> <label>Room</label></button> : null}
+                {focus ? <button id="addRoom" disabled={outOfPoints}><Icon name="add" /> <label>room</label></button> : null}
             </form>
 
                 {focus ?
@@ -135,7 +148,7 @@ const AddPost = ({ posts }) => {
                       
 
                     <div className="details">
-                        <label htmlFor="cowbell">Bounty: {bounty} 💰</label>
+                        <label htmlFor="cowbell">{bounty} 💰</label>
 
                         <input
                             type="range"
