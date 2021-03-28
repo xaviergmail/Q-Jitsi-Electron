@@ -768,7 +768,13 @@ ul#myTransactions li{
 
 #chat{
   background: floralwhite;
-  /* min-height: 100vh; */
+  min-height: 100%;
+  border-top: 1px solid green;
+  background: #1b1b1b;
+  display:flex;
+  justify-content:space-between;
+  align-items:space-between;
+  flex-direction: column;
   /* padding: 1rem; */
 }
 
@@ -815,7 +821,7 @@ padding: .5rem;
 } */
 #chat main{
   display:flex;
-  background:#1b1b1b;
+  /* background:#1b1b1b; */
   color: white;
   /* margin-top: 2rem; */
 
@@ -882,7 +888,7 @@ div#messages .message .text{
 
 
 #chat ul{
-  height: 50vh;
+  height: 70vh;
   overflow: auto;
   display: flex;
   flex-direction: column-reverse;
@@ -937,3 +943,52 @@ ul#roomBah li{
 .header.link.item.menu-item-sidebar .controls button:focus,  #chat header .controls button:focus{
   outline:none;
 }
+
+
+#back{
+  max-width: 100px;
+  overflow:hidden;
+  display: flex;
+  justify-content: center;
+  flex-direction:column;
+  align-items:center;
+  color: white;
+}
+
+#back i.icon.arrow.left:before {
+  font-size: 2rem;
+}
+
+#address{
+  position: absolute;
+  color:rgba(255,255,255,.1);
+  top: 0;
+  font-size:.9rem;
+}
+
+#back i {
+
+}
+.links > * {
+  flex:1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin:0;
+  height: 60px;  
+  overflow:hidden;
+}
+
+.links > *:hover{
+  text-decoration:underline;
+  background: rgb(43, 43, 43);
+}
+
+#logo{
+
+  color:white;
+  flex:2;
+
+}
+
+ 

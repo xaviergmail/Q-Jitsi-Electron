@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, Image } from 'semantic-ui-react'
+import { Menu, Image, Icon } from 'semantic-ui-react'
 import Search from './Search'
 import TheContext from '../TheContext'
 import SideBar from './SideBar'
@@ -15,10 +15,16 @@ export function NavBar({ user }) {
   console.log('1b1b1b', room)
   return (<>
     <nav className="top-nav">
-      <button onClick={history.goBack}>Go Back</button>
-      <i style={{ color: 'white' }}>{pathname.split('/').pop() === lobby_id ? 'lobby' : pathname}</i>
-      <div className="links">
 
+
+      <div className="links">
+        <div id="back" onClick={history.goBack}>
+          <Icon name="arrow left" />
+          <span id="address">{pathname.split('/').pop() === lobby_id ? 'lobby' : pathname}</span>
+        </div>
+
+
+        <h1 id="logo" onClick={() => history.push('/')}>CowBell</h1>
         {/* <Link to="/chat">
           <Menu.Item link active={pathname == '/chat'}>
             Chat
