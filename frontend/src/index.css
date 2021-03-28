@@ -728,9 +728,9 @@ ul#myTransactions li{
   flex-direction:column;
 }
 
-.profile, .dashboard{
+.profile, .dashboard, #chat{
   justify-content: space-evenly;
-  min-height: calc(100vh - 7rem);
+  min-height: calc(100vh - 8rem);
 }
 .counter{
   position: absolute;
@@ -768,25 +768,66 @@ ul#myTransactions li{
 
 #chat{
   background: floralwhite;
+  /* min-height: 100vh; */
+  /* padding: 1rem; */
+}
+
+#chat header{
   padding: 1rem;
 }
 
-#chat main{
-  border: 1px solid green;
+#chat header {
   display:flex;
-  background:#3d3d3d;
-  color: white;
+  justify-content:space-between;
+  align-items: flex-end;
+  border-top: 1px solid #282828;
+  /* text-align: left; */
+  background:#171717;
+}
 
+#chat header h1{
+    flex: 2;
+    margin:0;
+    text-align: justify;
+    padding-right: 2rem;
+    font-size: 1.2rem;
+
+}
+
+
+div#messages .message-title h1{
+  opacity: 1;
+  padding: .5rem;
+  font-size: 1rem;
+
+  color: whitesmoke;
+
+  /* margin: 2px;*/
+  
+}
+/* 
+#chat header button{
+background:#1b1c1d;
+border: none;
+color: whitesmoke;
+padding: .5rem;
+  margin: 1px;
+} */
+#chat main{
+  display:flex;
+  background:#1b1b1b;
+  color: white;
+  /* margin-top: 2rem; */
 
 }
 #chat main ul{
   list-style-type: none;
-  border: 1px solid black;
+  /* border: 1px solid black; */
 }
 
 #chat main ul li{
   border-top: 1px solid #333;
-  margin: 0;
+  margin: 0px 30px;
   padding: 1rem;
 }
 div#channels{
@@ -806,14 +847,46 @@ div#messages .message{
   text-indent: 1rem;
 }
 
+div#messages .message div{
+  width: 100%;
+}
 div#messages .message .name{
   color: #777;
+  font-size: .8rem;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 div#messages .message .text{
   margin-top: 1rem;
 }
 
+
+#chat form {
+  /* position: fixed;
+  width: calc(100% - 250px);
+  bottom: 0;
+  right: 0; */
+  width: 100%;
+  padding: 1rem;
+  /* border-top:1px solid #383838; */
+
+}
+
+#chat form input {
+  border: none;
+  width: 100%;
+  padding: 1rem;
+}
+
+
+#chat ul{
+  height: 50vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column-reverse;
+}
 /* ul#roomBah{
   display:flex;
   justify-content:space-between;
@@ -841,14 +914,15 @@ ul#roomBah li{
       /* justify-content:space-between */
 }
 
-.header.link.item.menu-item-sidebar .controls{
+.header.link.item.menu-item-sidebar .controls, #chat header .controls{
   background: #3d3d3d;
   display:flex;
   justify-content:space-between;
   align-items:center;
   padding: .125rem;
+  flex: 1;
 }
-.header.link.item.menu-item-sidebar .controls button{
+.header.link.item.menu-item-sidebar .controls button,  #chat header .controls button{
   background:#1b1c1d;
   border: none;
   color: whitesmoke;
@@ -857,9 +931,9 @@ ul#roomBah li{
     margin: 1px;
     
 }
-.header.link.item.menu-item-sidebar .controls button:hover{
+.header.link.item.menu-item-sidebar .controls button:hover,  #chat header .controls button:hover{
   color: green;
 }
-.header.link.item.menu-item-sidebar .controls button:focus{
+.header.link.item.menu-item-sidebar .controls button:focus,  #chat header .controls button:focus{
   outline:none;
 }

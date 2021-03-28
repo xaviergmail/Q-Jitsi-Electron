@@ -2,7 +2,7 @@ import React, { useEffect, useContext, useState } from 'react';
 import TheContext from '../TheContext'
 import actions from '../api/index'
 import { Divider, Header, Icon, Image, List, Menu, Sidebar } from 'semantic-ui-react'
-
+import moment from 'moment'
 
 
 function Chat(props) {
@@ -25,7 +25,7 @@ function Chat(props) {
         let res = await actions.getPost(id)
         if (res) {
             setChannel(res.data.post)
-            setMessages(res.data.messages)
+            setMessages(res.data.messages.reverse())
         }
     }
 
@@ -34,12 +34,12 @@ function Chat(props) {
 
     const showMessages = () => {
         console.log(messages, channel)
-        return messages.map(({ message, userId }) => (
+        return messages.map(({ message, userId, createdAt }) => (
             
             <li className="message">
                 <Image avatar src={userId?.avatar} style={{ background: 'white' }} />
                 <div>
-                    <b class="name">{userId?.name}</b>
+                    <b class="name">{userId?.name} <i>{moment(createdAt).fromNow()}</i></b>
                     <p class="text">{message}</p>
                 </div>
             </li>
@@ -57,7 +57,7 @@ function Chat(props) {
 
                 let m = [...messages]
                 console.log(m, ' wtf')
-                m.push({ message: res.data.message.message })
+                m.unshift({ message: res.data.message.message })
                 console.log(m, ' holy cow')
                 setMessages(m)
             })
@@ -67,8 +67,6 @@ function Chat(props) {
 
     return (
         <section id="chat">
-            <h1>{channel.message}</h1>
-            <button onClick={() => gotoRoom(channel._id, channel)}>=>Video</button>
 
             <main>
                 {/* <div id="channels">
@@ -78,7 +76,20 @@ function Chat(props) {
                     </ul></div> */}
 
                 <div id="messages">
-                    <label>Messages</label>
+                    <header className="message-title">
+                        <h1>{channel.message}</h1>
+                        <div className="controls">
+                            <button onClick={() => gotoRoom(channel._id, channel)}>
+                                <Icon name="video" /> Video
+                            </button>
+                            <button onClick={() => gotoRoom(channel._id, channel)}>
+                                <Icon name="laptop" /> Screen
+                            </button>
+
+                        </div>
+                        {/* <h1>{channel.message}</h1> */}
+
+                    </header>
                     <ul>
                         {showMessages()}
                     </ul>
@@ -91,9 +102,7 @@ function Chat(props) {
                 <button>+</button>
             </form>
 
-            <style>
 
-            </style>
         </section>
     );
 }

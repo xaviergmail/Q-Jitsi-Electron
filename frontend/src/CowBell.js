@@ -336,7 +336,7 @@ const CowBell = ({ children }) => {
 
   const lobby_id = Object.values(posts).find(room => room.id === 'lobby')?._id
 
-  console.log(lobby_id, 'lobby_id')
+  console.log(lobby_id, 'lobby_id', room)
   const video = <VideoPreview />
 
   const context = {

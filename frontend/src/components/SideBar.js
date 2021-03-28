@@ -44,6 +44,7 @@ const Participant = ({ participant, host, yourRoom, gotoRoom }) => {
 const Room = ({ room }) => {
   const { gotoRoom, user } = useContext(TheContext)
   // console.log('ROOM', room, user, user.email)
+  console.log(room, 'jurassic park')
   const style = {}
   const yourRoom = room.user.email == user.email
   const currentRoom = room._id === location.hash.split('/').pop()
@@ -70,11 +71,11 @@ const Room = ({ room }) => {
           <div className="controls">
             <button onClick={() => gotoRoom(room._id, room)}>
               <Icon name="video" />
-            Video
+
           </button>
             <button onClick={() => gotoRoom(room._id, room)}>
               <Icon name="laptop" />
-            Screen
+
           </button>
           </div>)
 

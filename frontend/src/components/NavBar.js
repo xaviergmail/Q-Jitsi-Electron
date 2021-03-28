@@ -12,6 +12,7 @@ export function NavBar({ user }) {
   const { activeRooms, room, gotoRoom, history, lobby_id } = useContext(TheContext)
   // console.log('location', pathname)
   // <Menu pointing secondary 
+  console.log('1b1b1b', room)
   return (<>
     <nav className="top-nav">
       <button onClick={history.goBack}>Go Back</button>
