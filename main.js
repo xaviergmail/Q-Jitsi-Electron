@@ -166,7 +166,7 @@ function createJitsiMeetWindow() {
     setApplicationMenu();
 
     // Check for Updates.
-    // autoUpdater.checkForUpdatesAndNotify();
+    autoUpdater.checkForUpdatesAndNotify();
 
     // Load the previous window state with fallback to defaults.
     const windowState = windowStateKeeper({

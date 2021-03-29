@@ -114,11 +114,19 @@ const Room = ({ room }) => {
 }
 
 export default function SideBar({ video }) {
-  const { activeRooms, room, gotoRoomm, posts, setStyle, style } = useContext(TheContext)
+  const { activeRooms, room, gotoRoomm, posts, setStyle, style, query } = useContext(TheContext)
   // let [style, setStyle] = useState({ width: '250px' })
   // console.log(posts, ' -=-=-=-=-=-', activeRooms, '?', Object.values(posts))
 
-  const sortedRooms = Object.values(posts).sort((a, b) => a.active ? -1 : 1)
+  console.log(query, 'frisbee', posts)
+  const sortedRooms = Object.values(posts)
+    .filter(
+      (x) =>
+        (x.message.toLowerCase().includes(query.toLowerCase())) || //&& x.active && x.activeUsers.length) ||
+        x.id == 'lobby' ||
+        x.isLobby
+      // (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
+    ).sort((a, b) => a.active ? -1 : 1)
 
 
   // const activeRooms = Object.values(posts).filter(
