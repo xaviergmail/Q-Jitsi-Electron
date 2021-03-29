@@ -41,8 +41,8 @@ app.commandLine.appendSwitch('disable-gpu');
 // Needed until robot.js is fixed: https://github.com/octalmage/robotjs/issues/580
 app.allowRendererProcessReuse = false;
 
-// autoUpdater.logger = require('electron-log');
-// autoUpdater.logger.transports.file.level = 'info';
+autoUpdater.logger = require('electron-log');
+autoUpdater.logger.transports.file.level = 'info';
 
 // Enable context menu so things like copy and paste work in input fields.
 contextMenu({
