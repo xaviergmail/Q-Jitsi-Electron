@@ -7,24 +7,23 @@ import moment from 'moment'
 
 function Chat(props) {
 
-    const { activeRooms, room, gotoRoom } = useContext(TheContext)
-    console.log(activeRooms, room, ' activeRoomsactiveRoomsactiveRooms')
+    const { activeRooms, room, gotoRoom, posts } = useContext(TheContext)
     const [channels, setChannels] = useState([])
     const [channel, setChannel] = useState({})
     const [messages, setMessages] = useState([])
     let [message, setMessage] = useState('')
-
+    console.log(posts, ' what is happening!')
     useEffect(() => {
-        console.log('firigin', props.match.params.id)
+
         fetchChannel(props.match.params.id)
 
     }, [props.match.params.id])
 
     const fetchChannel = async (id) => {
-        console.log(id, ' looking here')
+
         let res = await actions.getPost(id)
 
-        console.log('reservour ', res)
+
         if (res) {
             setChannel(res.data.post)
             setMessages(res.data.messages.reverse())
@@ -35,34 +34,34 @@ function Chat(props) {
 
 
     const showMessages = () => {
-        console.log(messages, channel)
-        return messages.map(({ message, userId, createdAt }) => (
-            
-            <li className="message">
-                <Image avatar src={userId?.avatar} style={{ background: 'white' }} />
-                <div>
-                    <b class="name">{userId?.name} <i>{moment(createdAt).fromNow()}</i></b>
-                    <p class="text">{message}</p>
-                </div>
-            </li>
-        ))
+        let thisPost = posts[props.match.params.id];
+        if (thisPost) {
+            return [...thisPost.messageIds].reverse().map(({ message, userId, createdAt }) => (
+                <li className="message">
+                    <Image avatar src={userId?.avatar} style={{ background: 'white' }} />
+                    <div>
+                        <b class="name">{userId?.name} <i>{moment(createdAt).fromNow()}</i></b>
+                        <p class="text">{message}</p>
+                    </div>
+                </li>
+            ))
+        }
     }
 
 
     const submitMessage = e => {
         e.preventDefault()
-        console.log(message)
         actions
             .addMessage({ channel, message })
             .then(res => {
-                console.log(res, ' do i see thissss')
 
-                let m = [...messages]
-                console.log(m, ' wtf')
-                m.unshift(res.data.message)
-                // m.unshift({ message: res.data.message.message })
-                console.log(m, ' holy cow')
-                setMessages(m)
+
+                // let m = [...messages]
+
+                // m.unshift(res.data.message)
+                // // m.unshift({ message: res.data.message.message })
+
+                // setMessages(m)
                 setMessage('')
             })
             .catch(console.error)

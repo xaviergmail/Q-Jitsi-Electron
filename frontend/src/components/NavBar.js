@@ -24,7 +24,7 @@ export function NavBar({ user }) {
         </div>
 
 
-        <h1 id="logo" onClick={() => history.push('/')}>CowBell!?!?!?</h1>
+        <h1 id="logo" onClick={() => history.push('/')}>CowBell</h1>
         {/* <Link to="/chat">
           <Menu.Item link active={pathname == '/chat'}>
             Chat

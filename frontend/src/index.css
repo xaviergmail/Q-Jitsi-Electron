@@ -749,10 +749,10 @@ ul#myTransactions li{
   min-height: calc(100vh - 8rem);
 }
 .counter{
-  position: absolute;
+  /* position: absolute;
   top: -2rem;
   left: 2rem;
-  z-index: 1984;
+  z-index: 1984; */
 }
 
 .unresolved, #transactions {

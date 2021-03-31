@@ -73,7 +73,7 @@ console.log(socket, ' to me ', baseURL)
 
 const MemoizedRoom = React.memo(
   function ({ room, children }) {
-    console.log('RECREATING ROOM IFRAME!', room, children)
+    //console.log('RECREATING ROOM IFRAME!', room, children)
     if (window.jitsiNodeAPI) {
       //If its electron
       return <Room roomId={room} jitsiApp={children} />
@@ -104,6 +104,7 @@ const CowBell = ({ children }) => {
   let [myTransactions, setMyTransactions] = useState([])
   let [posts, setPosts] = useState([])
   let [query, setQuery] = useState('')
+
 
   _setPosts = setPosts
   _setMyTransactions = setMyTransactions
@@ -177,6 +178,11 @@ const CowBell = ({ children }) => {
         })
       },
 
+      message: ({ message }) => {
+        console.log(message, ' yoooooloooo')
+
+      },
+
       transaction: ({ transaction, post }) => {
         if (!isMounted) {
           return
@@ -186,7 +192,7 @@ const CowBell = ({ children }) => {
         // NotificationManager.info('Info message', `${transaction.email} has a transaction for ${transaction.amount} 💰`);
 
         _setMyTransactions(function (transactions) {
-          console.log(' dart board ', transactions)
+          //console.log(' dart board ', transactions)
           let newTransactions = [...transactions]
           newTransactions.push({ ...transaction, ...post })
           return newTransactions
@@ -196,7 +202,7 @@ const CowBell = ({ children }) => {
 
     for (const [k, v] of Object.entries(socketEvents)) {
       socket.on(k, v)
-      console.log("RESGISNETING EWOSCKET '", k)
+      //console.log("RESGISNETING EWOSCKET '", k)
     }
 
     return () => {
@@ -217,7 +223,7 @@ const CowBell = ({ children }) => {
   // console.log('CURRENT ROOM', room)
 
   function gotoRoom(id, room) {
-    console.log(room, id, ' gimme dat name')
+
     if (id) {
       history.push(`/room/${id}`)
       setRoom(id)
@@ -322,7 +328,7 @@ const CowBell = ({ children }) => {
   // Logger.level = 0
 
   const filterRooms = (query) => {
-    console.log(query, ' to filter by ')
+
     setQuery(query)
   }
 

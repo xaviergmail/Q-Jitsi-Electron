@@ -44,7 +44,7 @@ const Participant = ({ participant, host, yourRoom, gotoRoom }) => {
 const Room = ({ room }) => {
   const { gotoRoom, user } = useContext(TheContext)
   // console.log('ROOM', room, user, user.email)
-  console.log(room, 'jurassic park')
+  //console.log(room, 'jurassic park')
   const style = {}
   const yourRoom = room.user.email == user.email
   const currentRoom = room._id === location.hash.split('/').pop()

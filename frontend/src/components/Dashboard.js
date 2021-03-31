@@ -27,6 +27,7 @@ function Dashboard(props) {
     actions
       .getMyPosts()
       .then(res => {
+        console.log("inactive", res.data)
         setPosts(res.data)
       }).catch((err) => {
         console.log(err)
@@ -97,10 +98,15 @@ function Dashboard(props) {
 
       let helpers = []
       for (let enc of post.encounterIds) {
-        if (enc.email !== user.email && !helpers.find(each => each.email === enc.email) && enc.createdBy.avatar) {
+        console.log(enc.email, user.email, enc.createdBy)
+        if (enc.email !== user.email && !helpers.find(each => each.email === enc.email) && enc.createdBy?.avatar) {
           helpers.push(enc.createdBy)
         }
       }
+
+
+
+
 
       if (helpers.length > 0) {
         return (
@@ -124,7 +130,7 @@ function Dashboard(props) {
                   return (
                     <>
                       <h5>{h.name}</h5>
-                      <Image width="30" src={h.avatar} />
+                      <Image width="30" src={h?.avatar} />
                     </>
                   )
                 })}

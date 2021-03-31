@@ -12,11 +12,11 @@ const Post = ({ history, match, user }) => {
     actions
       .getPost(match.params.id)
       .then((res) => {
-        console.log(res)
+        console.log(res.data.post, ' patience')
         if (res) {
           setPost(res?.data.post)
           //   setTransactions(res?.data.transactions);
-          setEncounters(res?.data?.encounterIds)
+          setEncounters(res?.data.post?.encounterIds)
         }
       })
       .catch(console.error)
@@ -58,6 +58,7 @@ const Post = ({ history, match, user }) => {
   }
 
   const showEncounters = () => {
+    console.log(encounters, ' so much work')
     if (!encounters) { return } //FIXME
     return encounters
       .filter((participant) => {
