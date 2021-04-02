@@ -1,18 +1,47 @@
+@font-face {
+  font-family:"MilkyNice";
+  src: url("./fonts/milky_nice/MilkyNice-Clean.ttf") format("truetype");
+}
+
+@font-face {
+  font-family:"No Virus";
+  src: url("./fonts/no_virus/No Virus.ttf") format("truetype");
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap');
+
+
+
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap');
+
 * {
   box-sizing: border-box;
+
 }
+
+b.name{
+  font-family: 'Futura';
+  letter-spacing: 1px;
+
+}
+
+
 
 .ui.pointing.secondary.menu {
   margin-bottom: 0;
 }
+.ui.vertical.icon.menu.sidebar.menu{
+  width: 25vw;
+}
 
 .container {
-  margin-left: 250px;
+  margin-left: 25vw;
+  
   display: flex;
   flex-direction: column;
   overflow: auto;
@@ -244,8 +273,10 @@ a#points{
 
 
 
-.menu-item-sidebar { 
-  border: 1px solid black;
+
+.ui.inverted.menu .header.item.menu-item-sidebar { 
+  border-left: 1px solid black;
+  margin: 10 10px;
   transition: all .5s;
 }
 
@@ -446,6 +477,7 @@ a#create{
   justify-content: space-between;
   position: relative;
   align-items: center;
+  
 }
 .top-nav a:focus{
   outline: none;
@@ -455,9 +487,31 @@ a#create{
   width: 100%;
 } */
 
+.top-nav .links * {
+  transition: all .5s;
+
+}
 .top-nav a:hover{
   background: rgb(43, 43, 43);
 }
+
+.top-nav a{
+  font-family: 'Futura';
+  
+}
+
+
+/* #addPost {
+  color: black;
+  font-family: "MilkyNice";
+  width:100%;
+
+} */
+
+/* #addPost label{
+  color:white;
+  width:100%;
+} */
 
 
 
@@ -465,13 +519,15 @@ a#create{
   display:flex;
   flex-direction: row;
   width: 100%;
+  position:relative;
+  justify-content:center;
 }
 
 #addPost input:focus {
   outline: none;
 }
 
-#addPost  button#addRoom {
+#addPost  button#addRoom, button#addMessage {
   outline: none;
   background: white;
   border: none;
@@ -500,10 +556,84 @@ a#create{
 }
 
 #createRoom input {
+  transition: all .2s;
   border: none;
+  border-radius: 2px;
+  transition: all .2s;
+
+  padding: 1rem;
+  width:80%;
+  text-indent: 1rem;
+}
+
+#search{
+  height: 100%;
+    position: absolute;
+    vertical-align: c;
+    vertical-align: middle;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ccc;
+    padding: 1rem;
+}
+
+#createRoom input:focus {
   width: 100%;
+  /* padding: 1.2rem 1rem; */
+  /* margin: 0rem 0% 0 0%; */
+}
+
+#addRoom{
+  transition: all .2s;
+  opacity:0;  
+  position: absolute;
+  background: none !important;
+  z-index: 100;
+  right: 1rem;
+  bottom: 0;
+  top: 0;
+}
+#addPost{
+  display:flex;
+  flex-direction: column;
+  width: 95%;
+
+  margin: 1rem 5%;
+}
+#addRoom:hover {
+  color:black !important;
+}
+
+#addRoom i{
+  transition: all .2s
+}
+#addRoom:hover > i{
+  transform:rotate(90deg)
+}
+#eg{
+  
+  color: #aaa;
+  text-align: left;
+  /* text-indent: 1rem; */
+  font-style: italic;
   padding: 1rem;
 }
+#createRoom input:focus ~ #addRoom{
+  opacity:1;
+
+
+}
+/* .show#addRoom {
+  opacity: 1;
+}
+
+
+.hide#addRoom {
+  opacity: 0;
+} */
 
 #createRoom  i.add.icon {
   display:flex;
@@ -785,7 +915,7 @@ ul#myTransactions li{
 #chat{
   background: floralwhite;
   min-height: 100%;
-  border-top: 1px solid green;
+  border-top: 1px solid #4DAA57;
   background: #1b1b1b;
   display:flex;
   justify-content:space-between;
@@ -890,6 +1020,7 @@ div#messages .message .text{
   width: calc(100% - 250px);
   bottom: 0;
   right: 0; */
+  display:flex;
   width: 100%;
   padding: 1rem;
   /* border-top:1px solid #383838; */
@@ -954,7 +1085,7 @@ ul#roomBah li{
     
 }
 .header.link.item.menu-item-sidebar .controls button:hover,  #chat header .controls button:hover{
-  color: green;
+  color: #4DAA57;
 }
 .header.link.item.menu-item-sidebar .controls button:focus,  #chat header .controls button:focus{
   outline:none;
@@ -985,6 +1116,10 @@ ul#roomBah li{
 #back i {
 
 }
+
+.links a{
+  color: #6DAEDB;
+}
 .links > * {
   flex:1;
   display: flex;
@@ -1003,15 +1138,21 @@ ul#roomBah li{
 #logo{
 
   color:white;
+  color: #C9FBFF;
+  color: #D8973C;
   flex:2;
+  font-family: "MilkyNice";
 
 }
 
+.searchAdd {
+  border: 2px solid red !important;
+}
  
 
 
-.ui.inverted.vertical.labeled.icon.ui.overlay.left.visible.sidebar.menu{
-  transition: .1s;
+.ui.inverted.vertical.labeled.icon.ui.overlay.left.visible.sidebar.menu, .container{
+  transition: .2s ease-in-out;
 }
 
 .videobottomright{

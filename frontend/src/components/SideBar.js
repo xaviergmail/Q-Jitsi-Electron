@@ -114,7 +114,7 @@ const Room = ({ room }) => {
 }
 
 export default function SideBar({ video }) {
-  const { activeRooms, room, gotoRoomm, posts, setStyle, style, query } = useContext(TheContext)
+  const { activeRooms, room, gotoRoomm, posts, setStyle, style, query, className, setClassName } = useContext(TheContext)
   // let [style, setStyle] = useState({ width: '250px' })
   // console.log(posts, ' -=-=-=-=-=-', activeRooms, '?', Object.values(posts))
 
@@ -146,14 +146,14 @@ export default function SideBar({ video }) {
       // onHide={() => setVisible(false)}
       vertical
       visible
-        style={style}
+        style={style.sideBar}
     >
-        <Search setStyle={setStyle} />
+        <Search setStyle={setStyle} setClassName={setClassName} className={className} />
 
       {video}
-        {sortedRooms.map((room) => (
+        {sortedRooms.length > 0 ? (sortedRooms.map((room) => (
         <Room room={room} key={room.id} />
-      ))}
+        ))) : <h3>No Rooms Found :(</h3>}
     </Sidebar>
       {/* <Chat /> */}
 

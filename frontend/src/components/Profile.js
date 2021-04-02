@@ -35,21 +35,24 @@ function Profile(props) {
 
     }, [])
 
+    console.log('who me the log!!!')
 
     const ShowResolvedPosts = ({ posts }) => {
         const p = posts.filter(p => p.paid).map((post) => {
 
             let helpers = []
             for (let enc of post.encounterIds) {
-                if (enc.email !== user.email && !helpers.find(each => each.email === enc.email) && enc.createdBy.avatar) {
+                if (enc.email !== user.email && !helpers.find(each => each.email === enc.email) && enc.createdBy?.avatar) {
                     helpers.push(enc)
                 }
             }
+            console.log(post, 'post')
 
             return (
-                    <Link to={`/post/${post._id}`} key={post._id}>
+                <span key={post._id}>
+                    <Link to={`/post/${post._id}`}>
                         {/* <li>{post.message} Paid:{JSON.stringify(post.paid)}</li> */}
-                        <Card>
+                        <Card >
                             {/* <Image src='/images/avatar/large/matthew.png' ui={false} /> */}
                             <Card.Content>
                                 <Card.Header>{post.message}</Card.Header>
@@ -63,11 +66,12 @@ function Profile(props) {
                             <Card.Content extra>
                                 <Icon name='user' />
                                 {helpers.map(h => {
+                                    console.log(h, 'h')
                                     return (
-                                        <>
+                                        <span key={h.avatar}>
                                             <h5>{h.name}</h5>
                                             <Image width="30" src={h.avatar} />
-                                        </>
+                                        </span>
                                     )
                                 })}
                                 <br />
@@ -76,6 +80,7 @@ function Profile(props) {
                         </Card.Content>
                         </Card>
                 </Link>
+                </span>
             )
         })
 

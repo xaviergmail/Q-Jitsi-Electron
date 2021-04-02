@@ -346,8 +346,8 @@ const CowBell = ({ children }) => {
   
 
   let [bounty, setBounty] = useState(10)
-  const [style, setStyle] = useState({ width: "250px" })
-
+  const [style, setStyle] = useState({ width: `${window.innerWidth / 4}px` })
+  // const [className, setStyle] = useState({ width: `${window.innerWidth / 4}px` })
 
   const context = {
     history,
@@ -377,10 +377,17 @@ const CowBell = ({ children }) => {
   return user ? (
     <TheContext.Provider value={context}>
       <SideBar video={!isInRoomRoute && video} />
-      <div className="container">
+      <div style={style.container} className="container">
         <NavBar history={history} user={user} />
 
-        <StackLayer style={{ overflow: 'hidden' }} onClick={() => setStyle({ width: '250px' })}>
+        <StackLayer style={{ overflow: 'hidden' }}
+        //onClick={
+        //() => setStyle({
+        //   sideBar: { width: `${window.innerWidth / 4}px` },
+        //   container: { marginLeft: `${window.innerWidth / 4}px` }
+        // })
+        //} 
+        >
           <Stacked className="room" style={{ display: room && isInRoomRoute ? 'block' : 'hidden' }}>
             {roomElement}
           </Stacked>

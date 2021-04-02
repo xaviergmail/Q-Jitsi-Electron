@@ -12,7 +12,7 @@ function Chat(props) {
     const [channel, setChannel] = useState({})
     const [messages, setMessages] = useState([])
     let [message, setMessage] = useState('')
-    console.log(posts, ' what is happening!')
+
     useEffect(() => {
 
         fetchChannel(props.match.params.id)
@@ -102,7 +102,8 @@ function Chat(props) {
 
             <form onSubmit={submitMessage}>
                 <input type="text" value={message} placeholder="Say something... Earn a CowBell" onChange={e => setMessage(e.target.value)} />
-                <button>+</button>
+                {/* <button>+</button> */}
+                <button id="addMessage" disabled={false}><Icon name="add" /> <label></label></button>
             </form>
 
 

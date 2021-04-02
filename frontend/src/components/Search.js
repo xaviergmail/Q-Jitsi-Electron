@@ -95,11 +95,18 @@ const AddPost = ({ posts, setStyle }) => {
 
     const handleBlur = () => {
         setFocus(false)
-        setStyle({ width: '250px' })
+        // setStyle({
+        //     sideBar: { width: `${window.innerWidth / 4}px` },
+        //     container: { marginLeft: `${window.innerWidth / 4}px` }
+        // })
     }
     const handleFocus = () => {
         setFocus(true);
-        setStyle({ width: '500px' })
+        // setStyle({
+        //     sideBar: { width: `${window.innerWidth / 3}px` },
+        //     container: { marginLeft: `${window.innerWidth / 3}px` }
+        // })
+
     }
 
 
@@ -125,23 +132,25 @@ const AddPost = ({ posts, setStyle }) => {
     }
     return (
         <section id="addPost">
+            {/* <label>Create or Join a Room</label> */}
 
 
             <form id="createRoom" onFocus={handleFocus}
                 // onBlur={handleBlur}
                 onSubmit={handleSubmit}>
 
-            
+                <Icon name="search" id="search" />
                 <input
                     disabled={outOfPoints}
                     onChange={handleChange}
                     value={message}
-                    placeholder={outOfPoints ? 'Sorry your out of points' : `e.g: ${randomQuestion()}`}
+                    placeholder={outOfPoints ? 'Sorry your out of points' : `Find or Create a room`}
                     id="bounty"
                     type="text"
                 />
-                {focus ? <button id="addRoom" disabled={outOfPoints}><Icon name="add" /> <label>room</label></button> : null}
+                <button id="addRoom" className={focus ? 'show' : 'hide'} disabled={outOfPoints}><Icon name="add" /></button>
             </form>
+            <label id="eg">{`e.g: ${randomQuestion()}`}</label>
 
                 {focus ?
                 <>
@@ -167,6 +176,8 @@ const AddPost = ({ posts, setStyle }) => {
                     </div>
                 </>
                 : null}
+
+
         </section>
 
 
