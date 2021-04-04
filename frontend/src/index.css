@@ -934,7 +934,7 @@ ul#myTransactions li{
 
 .profile, .dashboard, #chat{
   justify-content: space-evenly;
-  min-height: calc(100vh - 8rem);
+  min-height: calc(100vh - 60px) /*8rem*/
 }
 .counter{
   /* position: absolute;
@@ -1127,7 +1127,7 @@ div#messages .message .text{
 
 
 #chat ul{
-  height: 60vh;
+  height: calc(100vh - 248px); /*60vh;
   /* height: calc(100vh - 8rem); */
 
   overflow: auto;
