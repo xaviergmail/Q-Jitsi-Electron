@@ -220,11 +220,11 @@ const CowBell = ({ children }) => {
       encounter: (data) => {
       },
 
-      transaction: ({ transaction, post }) => {
+      transaction: ({ transaction, post, theUser }) => {
         if (!isMounted) {
           return
         }
-        console.log(transaction, ' phillipines', post)
+        console.log(transaction, ' phillipines', post, theUser, user)
 
         // NotificationManager.info('Info message', `${transaction.email} has a transaction for ${transaction.amount} 💰`);
 
@@ -234,6 +234,10 @@ const CowBell = ({ children }) => {
           newTransactions.push({ ...transaction, ...post })
           return newTransactions
         })
+
+        if (user._id == theUser._id) {
+          setUser(user)
+        }
 
 
         if (transaction.kind === 'visit') {

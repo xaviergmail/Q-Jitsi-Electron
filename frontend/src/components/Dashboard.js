@@ -87,8 +87,15 @@ function Dashboard(props) {
         )
       }
     }).filter(x => x)
-    t.unshift(createElement('div', { className: 'counter' }, `You've earned ${t.length} transaction${t.length > 1 ? 's' : ''}`))
-    return t
+    // t.unshift(createElement('div', { className: 'counter' }, `You've earned ${t.length} transaction${t.length > 1 ? 's' : ''}`))
+    // return t
+
+    return (
+      <div>
+        <p>You've earned {t.length} transaction{t.length > 1 ? 's' : ''}. Click to collect.</p>
+        <ul id="transactions">{t}</ul>
+      </div>
+    )
   }
 
 
@@ -104,15 +111,12 @@ function Dashboard(props) {
       }
 
 
-
-
-
       if (helpers.length > 0) {
         return (
 
           <Link to={`/post/${post._id}`} key={post._id}>
             {/* <li>{post.message} Paid:{JSON.stringify(post.paid)}</li> */}
-            <Card>
+            <Card className="post">
               {/* <Image src='/images/avatar/large/matthew.png' ui={false} /> */}
               <Card.Content>
                 <Card.Header>{post.message}</Card.Header>
@@ -124,7 +128,7 @@ function Dashboard(props) {
                 </Card.Description>
               </Card.Content>
               <Card.Content extra>
-                <Icon name='user' />
+                {/* <Icon name='user' /> */}
                 {helpers.map(h => {
                   return (
                     <>
@@ -144,8 +148,14 @@ function Dashboard(props) {
       }
     }).filter(x => x)
 
-    // p.unshift(createElement('div', { className: 'counter' }, `You need to resolve ${p.length} room${p.length > 1 ? 's' : ''}`))
-    return p
+
+    //p.unshift(createElement('div', { className: 'counter' }, `You need to resolve ${p.length} room${p.length > 1 ? 's' : ''}`))
+    return (
+      <div>
+        <p>You need to resolves {p.length} room{p.length > 1 ? 's' : ''}. Click to resolve.</p>
+        <ul className="unresolved">{p}</ul>
+      </div>
+    )
   }
 
 
@@ -162,25 +172,19 @@ function Dashboard(props) {
         Your Dashboard
         {/* <span id="money">💰</span> You have {user.points} Cowbells */}
       </Header>
-      <Container></Container>
+
       {posts.length > 0 ? (
 
-        <>
-          <ul className="unresolved">
-
-            <ShowUnresolvedPosts {...props} posts={posts} />
-          </ul>
-        </>
+        <ShowUnresolvedPosts {...props} posts={posts} />
 
       ) : null}
 
       {transactions.length > 0 ? (
         <>
 
-          <ul id="transactions">
 
-            <ShowTransactions />
-          </ul>
+            
+          <ShowTransactions />
         </>
       ) : (
         <div className="noneyet">

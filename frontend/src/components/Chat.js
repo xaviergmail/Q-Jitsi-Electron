@@ -93,8 +93,11 @@ function Chat(props) {
                         {/* <h1>{channel.message}</h1> */}
 
                     </header>
+
                     <ul>
+
                         {showMessages()}
+                        <li className="message first"><h2>Welcome to room #{channel?.message}!</h2><p>This is the beginning of your chat history...</p></li>
                     </ul>
                 </div>
 

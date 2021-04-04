@@ -138,7 +138,7 @@ li.post:nth-child(even){
 
 
 
-.profile.page h2 {
+/* .profile.page h2 {
   font-size: 40px;
 }
 
@@ -157,7 +157,7 @@ li.post:nth-child(even){
 .post:hover .stream:hover::after {
   /* border:1px solid black; */
   /* background-color: white !important; */
-  /* content: ' الآلآ ن '; */
+  /* content: ' الآلآ ن '; 
   content: '🐮';
 
 }
@@ -170,14 +170,14 @@ li.post:nth-child(even){
 }
 .post .message, .post .bounty{
   display:  inline;
-}
+} */
 
 #pay {
   padding: 1rem;
 }
 
 
-.posts {
+/* .posts {
     padding-top: 2rem;
     margin: 5rem 0;
     font-size: 1.5rem;
@@ -192,11 +192,13 @@ li.post:nth-child(even){
 .posts a {
   text-decoration: none;
 }
+*/
 
-.posts li:hover{
+/* .posts li:hover{
   background: #ddd;
   text-decoration: underline;
-} 
+}  */
+
 
 
 
@@ -713,6 +715,12 @@ a#create{
   font-size:50px;
 }
 
+.dashboard > div {
+  margin-top: 2rem;
+}
+.dashboard > div p {
+  margin-top: 1rem;
+}
 /* .dashboard .ui.header{
   display:flex;
   align-items: center;
@@ -722,12 +730,29 @@ a#create{
   margin: 1rem;
 }
 
-ul.unresolved .ui.card, .ui.cards>.card {
+/* ul.unresolved .ui.card, .ui.cards>.card {
   background: #D8973C; 
   background: #4DAA57;
-  /* height: 150px; */
+  background:white;
+
+*/
+
+.unresolved a {
+  outline:none;
+}
+.unresolved  .post {
+  display:flex;
+  transition: all 1s;
+  margin: 1rem;
 }
 
+.ui.card:last-child {
+  margin-bottom:2rem;
+}
+.unresolved .post:hover {
+  /* background: #D8973C */
+  text-decoration: underline;
+}
 
 ul.resolved, ul.unresolved{
   display:flex;
@@ -821,10 +846,10 @@ ul#transactions .ui.card:hover .description{
     justify-content: center;
     align-items: center;
 }
-.dashboard ul#transactions .ui.card:hover .description::before{
+/* .dashboard ul#transactions .ui.card:hover .description::before{
   content:'Cash Out';
   margin: 2px;
-}
+} */
 ul#transactions .ui.card button{
   width: 3.5rem;
   height: 3.5rem;
@@ -937,6 +962,7 @@ ul#myTransactions li{
 #showEncounters{
   display:flex;
   margin:0;
+  list-style-type: none; 
   flex-direction:column;
   justify-content:space-evenly;
 }
@@ -1047,6 +1073,24 @@ div#messages .message{
   text-indent: 1rem;
 }
 
+div#messages .first.message{
+
+  text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: center;
+  
+}
+div#messages .first.message h2{
+  font-family: 'MilkyNice';
+  color:white;
+}
+
+div#messages .first.message p{
+  color:white;
+  font-family: 'Futura';
+}
 div#messages .message div{
   width: 100%;
 }
@@ -1207,5 +1251,6 @@ ul#roomBah li{
 }
 
 .videobottomright{
-  max-width:250px;
+  
+  width: 25vw;
 }
