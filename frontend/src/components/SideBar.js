@@ -50,6 +50,9 @@ const Room = ({ room }) => {
   const currentRoom = room._id === location.hash.split('/').pop()
   if (currentRoom) {
     style.backgroundColor = '#2b2b2b'
+    style.textDecoration = 'underline'
+    // style.fontFamily = "Futura"
+    style.borderRight = '20px solid rgb(43, 43, 43)'
   }
   // let host = room.activeUsers.some(x => x.email == user.email)
   return (
@@ -88,7 +91,10 @@ const Room = ({ room }) => {
           room.activeUsers.map((x) => {
             if (x.email == user.email) {
               // style.backgroundColor = '#2b2b2b'
-              style.color = 'green'
+              style.color = '#4DAA57'
+              style.textDecoration = 'none'
+              style.fontSize = ".875rem"
+              style.cursor = 'pointer'
             }
 
 
@@ -145,6 +151,7 @@ export default function SideBar({ video }) {
       inverted
       // onHide={() => setVisible(false)}
       vertical
+        className="style-3"
       visible
         style={style.sideBar}
     >

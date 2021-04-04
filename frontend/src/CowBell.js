@@ -380,7 +380,7 @@ const CowBell = ({ children }) => {
       <div style={style.container} className="container">
         <NavBar history={history} user={user} />
 
-        <StackLayer style={{ overflow: 'hidden' }}
+        <StackLayer style={{ overflow: 'hidden' }} className="style-3"
         //onClick={
         //() => setStyle({
         //   sideBar: { width: `${window.innerWidth / 4}px` },

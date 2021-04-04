@@ -351,11 +351,12 @@ a#points{
 
 
 .menu-item-sidebar .participant {
-  border-left: 1px solid black;
+  border-left: 1px solid #4DAA57;
   text-indent: 10px;
   display:flex;
   justify-content:space-between;
   align-items: center;
+  text-decoration: none;
 }
 
 /* .menu-item-sidebar .participant  .flipper  { 
@@ -396,10 +397,15 @@ a#points{
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 2rem; 
+  width: 2rem;
   height: 2rem;
-  color:red;
-   border: 1px solid red;
+  border: none;
+  /* color: red; */
+  /* border: 1px solid red; */
+  background: red;
+  color: white;
+  /* font-family: 'Futura'; */
+  font-weight: bold;
 }
 .close-room {
   border: 1px solid red;
@@ -493,6 +499,7 @@ a#create{
 }
 .top-nav a:hover{
   background: rgb(43, 43, 43);
+  color:#D8973C;
 }
 
 .top-nav a{
@@ -581,9 +588,26 @@ a#create{
 }
 
 #createRoom input:focus {
-  width: 100%;
+  width: 98%;
   /* padding: 1.2rem 1rem; */
   /* margin: 0rem 0% 0 0%; */
+}
+
+.style-3::-webkit-scrollbar-track, body::-webkit-scrollbar-track, .fmpGWf::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3) !important;
+	/* background-color: #F5F5F5; */
+}
+
+.style-3::-webkit-scrollbar, body::-webkit-scrollbar-track, .fmpGWf::-webkit-scrollbar-track
+{
+	width: 6px !important;
+	/* background-color: #F5F5F5; */
+}
+
+.style-3::-webkit-scrollbar-thumb
+{
+	/* background-color: #000000; */
 }
 
 #addRoom{
@@ -698,6 +722,12 @@ a#create{
   margin: 1rem;
 }
 
+ul.unresolved .ui.card, .ui.cards>.card {
+  background: #D8973C; 
+  background: #4DAA57;
+  /* height: 150px; */
+}
+
 
 ul.resolved, ul.unresolved{
   display:flex;
@@ -767,16 +797,19 @@ ul#transactions .ui.card {
   text-align: left; */
   background:cornsilk;
   border-radius: 50%;
-  width: 15rem;
-  height: 15rem;
+  width: 10rem;
+  height: 10rem;
   overflow:hidden;
-  margin: 1rem;
+  margin: .1rem;
 }
 
 .profile ul.resolved .ui.card {
   margin: 0 2rem;
 }
-
+ul#transactions .ui.card .date{
+  font-style: italic;
+  font-size: .875rem;
+}
 ul#transactions .ui.card button{
 
 }
@@ -890,11 +923,12 @@ ul#myTransactions li{
 }
 
 .post-detail{
-  background:cornflowerblue;
+  background:white; /*cornsilk; /*#4DAA57; /*cornflowerblue;*/
   display: flex;
   /* justify-content: space-between; */
   /* align-content: space-around; */
   /* align-self: self-end; */
+  flex-direction: column;
   line-height: 10rem;
   padding: 0rem;
 }
@@ -915,7 +949,7 @@ ul#myTransactions li{
 #chat{
   background: floralwhite;
   min-height: 100%;
-  border-top: 1px solid #4DAA57;
+  border-top: 10px solid #4DAA57; /*GREEN*/
   background: #1b1b1b;
   display:flex;
   justify-content:space-between;
@@ -923,6 +957,8 @@ ul#myTransactions li{
   flex-direction: column;
   /* padding: 1rem; */
 }
+
+
 
 #chat header{
   padding: 1rem;
@@ -934,7 +970,7 @@ ul#myTransactions li{
   align-items: flex-end;
   border-top: 1px solid #282828;
   /* text-align: left; */
-  background:#171717;
+  /* background:#171717; */
 }
 
 #chat header h1{
@@ -946,13 +982,25 @@ ul#myTransactions li{
 
 }
 
+#chat header.message-title{ 
+   background: rgb(43, 43, 43);
+   background:#171717;
+   border-top: 10px solid rgb(43, 43, 43);
+   border-left: 5px solid rgb(43, 43, 43);
+
+   /* border-bottom: 1px solid rgb(43, 43, 43); */
+
+
+}
 
 div#messages .message-title h1{
   opacity: 1;
   padding: .5rem;
   font-size: 1rem;
-
+  text-decoration: underline;
+  /* font-family: "Futura"; */
   color: whitesmoke;
+  /* letter-spacing: 1px; */
 
   /* margin: 2px;*/
   
@@ -1035,7 +1083,9 @@ div#messages .message .text{
 
 
 #chat ul{
-  height: 70vh;
+  height: 60vh;
+  /* height: calc(100vh - 8rem); */
+
   overflow: auto;
   display: flex;
   flex-direction: column-reverse;
@@ -1072,7 +1122,7 @@ ul#roomBah li{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding: .125rem;
+  padding: .0125rem;
   flex: 1;
 }
 .header.link.item.menu-item-sidebar .controls button,  #chat header .controls button{
@@ -1140,6 +1190,7 @@ ul#roomBah li{
   color:white;
   color: #C9FBFF;
   color: #D8973C;
+  font-size:2.2rem;
   flex:2;
   font-family: "MilkyNice";
 

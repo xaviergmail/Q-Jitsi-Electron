@@ -117,7 +117,8 @@ const AddPost = ({ posts, setStyle }) => {
         //     return alert('Please set your calendly before posting...')
         setFocus(false)
         setStyle({ width: '250px' })
-
+        setMessage('')
+        filterRooms('') //FIXME WUT SEEms like you can be in multiple rooms 
 
         actions
             .addPost({ message, bounty })
@@ -144,7 +145,7 @@ const AddPost = ({ posts, setStyle }) => {
                     disabled={outOfPoints}
                     onChange={handleChange}
                     value={message}
-                    placeholder={outOfPoints ? 'Sorry your out of points' : `Find or Create a room`}
+                    placeholder={outOfPoints ? 'Sorry your out of points' : `find a room or add your own`}
                     id="bounty"
                     type="text"
                 />

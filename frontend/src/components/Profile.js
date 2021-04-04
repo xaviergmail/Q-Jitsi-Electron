@@ -84,7 +84,7 @@ function Profile(props) {
             )
         })
 
-        p.unshift(createElement('div', { className: 'counter' }, `You've have resolved ${p.length} room${p.length > 1 ? 's' : ''}`))
+        // p.unshift(createElement('div', { className: 'counter' }, `You've have resolved ${p.length} room${p.length > 1 ? 's' : ''}`))
         return p
 
     }
@@ -124,7 +124,7 @@ function Profile(props) {
 
     })
 
-      trans.unshift(createElement('div', { className: 'counter' }, `You've had ${trans.length} transaction${trans.length > 1 ? 's' : ''}`))
+    //   trans.unshift(createElement('div', { className: 'counter' }, `You've had ${trans.length} transaction${trans.length > 1 ? 's' : ''}`))
       return trans
   }
 

@@ -145,7 +145,7 @@ function Dashboard(props) {
       }
     }).filter(x => x)
 
-    p.unshift(createElement('div', { className: 'counter' }, `You need to resolve ${p.length} room${p.length > 1 ? 's' : ''}`))
+    // p.unshift(createElement('div', { className: 'counter' }, `You need to resolve ${p.length} room${p.length > 1 ? 's' : ''}`))
     return p
   }
 
