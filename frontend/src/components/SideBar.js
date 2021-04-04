@@ -8,8 +8,8 @@ import { Link, useLocation } from 'react-router-dom'
 import Chat from './Chat'
 
 
-const Participant = ({ participant, host, yourRoom, gotoRoom }) => {
-  const { user, socket } = useContext(TheContext)
+const Participant = ({ participant, host, yourRoom }) => {
+  const { user, socket, gotoRoom } = useContext(TheContext)
 
   const style = { textAlign: "left", display: "flex", flexDirection: "row", alignItems: "center", padding: "4px" }
   return (
@@ -27,7 +27,8 @@ const Participant = ({ participant, host, yourRoom, gotoRoom }) => {
               <button
                 className="remove-participant"
                 onClick={(e) => {
-                  e.preventDefault(); console.log("console.lop"); socket.emit('remove', participant.email) }}
+                  e.preventDefault(); console.log("console.lop"); socket.emit('remove', participant.email); goToRoom(null);
+                }}
               >
                 X
               </button>
@@ -120,11 +121,11 @@ const Room = ({ room }) => {
 }
 
 export default function SideBar({ video }) {
-  const { activeRooms, room, gotoRoomm, posts, setStyle, style, query, className, setClassName } = useContext(TheContext)
+  const { activeRooms, room, gotoRoom, posts, setStyle, style, query, className, setClassName } = useContext(TheContext)
   // let [style, setStyle] = useState({ width: '250px' })
   // console.log(posts, ' -=-=-=-=-=-', activeRooms, '?', Object.values(posts))
 
-  console.log(query, 'frisbee', posts)
+  // console.log(query, 'frisbee', posts)
   const sortedRooms = Object.values(posts)
     .filter(
       (x) =>
@@ -151,9 +152,9 @@ export default function SideBar({ video }) {
       inverted
       // onHide={() => setVisible(false)}
       vertical
-        className="style-3"
+      className="style-3"
       visible
-        style={style.sideBar}
+      style={style.sideBar}
     >
         <Search setStyle={setStyle} setClassName={setClassName} className={className} />
 

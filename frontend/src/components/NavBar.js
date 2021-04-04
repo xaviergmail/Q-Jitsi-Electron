@@ -8,11 +8,30 @@ import SideBar from './SideBar'
 
 export function NavBar({ user }) {
   const { pathname } = useLocation()
+  const { activeRooms, room, gotoRoom, history, lobby_id, bounty, clock } = useContext(TheContext)
 
-  const { activeRooms, room, gotoRoom, history, lobby_id, bounty } = useContext(TheContext)
+
+  let [increment, setIncrement] = useState(0)
+  let [int, setInt] = useState(null)
+
+  useEffect(() => {
+    console.log(clock, ' ! ')
+    let incPoints = null
+    if (clock) {
+      console.log('count!')
+      incPoints = setInterval(() => setIncrement(++increment), 1000)
+
+    } else {
+      clearInterval(incPoints)
+    }
+
+    return () => clearInterval(incPoints)
+  }, [clock])
   // console.log('location', pathname)
   // <Menu pointing secondary 
-  console.log('1b1b1b', room)
+  console.log('video room==>', room)
+  console.log('chat room ==> ', pathname.split('/').pop() === lobby_id ? 'lobby' : pathname)
+
   return (<>
     <nav className="top-nav">
 
@@ -40,7 +59,7 @@ export function NavBar({ user }) {
 
         <Link id="points" to="/dashboard">
           <Menu.Item link active={pathname == '/dashboard'}>
-            <span id="cash">💰</span>{(user.points - bounty).toFixed(0)}
+            <span id="cash">💰</span>{(user.points - bounty + increment).toFixed(0)}
           </Menu.Item>
         </Link>
 

@@ -104,7 +104,7 @@ const CowBell = ({ children }) => {
   let [myTransactions, setMyTransactions] = useState([])
   let [posts, setPosts] = useState([])
   let [query, setQuery] = useState('')
-
+  let [clock, setClock] = useState(false)
 
   _setPosts = setPosts
   _setMyTransactions = setMyTransactions
@@ -176,11 +176,48 @@ const CowBell = ({ children }) => {
           newPosts[post?.id] = post
           return newPosts
         })
+
+        //console.log(user, ' also', user._id, post?.user._id, post?.user._id != user._id, typeof user._id, typeof post?.user._id,)
+
+        //If the host is present and you're not s/he then start making points 
+        // if (post?.active && post?.hostPresent && post?.user._id != user._id) {
+        //   console.log('start clock')
+        //   setClock(true)
+        // } else {
+        //   setClock(false)
+        // }
+
       },
 
       message: ({ message }) => {
         console.log(message, ' yoooooloooo')
 
+      },
+
+
+      event: ({ event }) => {
+        console.log('event', event)
+        let inTheRoom = event.participants.some((x) => x.email == user.email)//You are in this room 
+        if (inTheRoom) {
+
+          if (event.type === 'muc-occupant-joined' || event.type === 'muc-occupant-created') {
+            if (event.post.user._id != user._id && event.post.hostPresent) { //You are not the host and the host is there. 
+              setClock(true)
+            }
+          }
+        } else {
+          console.log("You aint in that room")
+        }
+        if (event.type === 'muc-occupant-left' || event.type === 'muc-occupant-destroyed') {
+
+          if (event.user.email == user.email || (!event.post.hostPresent && inTheRoom)) { //I left or the host is not there and I'm in this room. 
+            setClock(false)
+          }
+        }
+
+      },
+
+      encounter: (data) => {
       },
 
       transaction: ({ transaction, post }) => {
@@ -197,6 +234,12 @@ const CowBell = ({ children }) => {
           newTransactions.push({ ...transaction, ...post })
           return newTransactions
         })
+
+
+        if (transaction.kind === 'visit') {
+          //Stop clock
+          //setClock(false)
+        }
       },
     }
 
@@ -370,7 +413,9 @@ const CowBell = ({ children }) => {
     style,
     setStyle,
     query,
-    setQuery
+    setQuery,
+    clock,
+    setClock
   }
   window._context = context
 

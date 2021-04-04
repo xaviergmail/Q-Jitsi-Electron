@@ -49,7 +49,7 @@ export default function VideoPreview() {
     ref.current.play()
   }, [stream, transform])
 
-  console.log('stream', stream)
+  // console.log('stream', stream)
 
   return (
     <div className="videobottomright">

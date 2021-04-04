@@ -98,7 +98,6 @@ function Dashboard(props) {
 
       let helpers = []
       for (let enc of post.encounterIds) {
-        console.log(enc.email, user.email, enc.createdBy)
         if (enc.email !== user.email && !helpers.find(each => each.email === enc.email) && enc.createdBy?.avatar) {
           helpers.push(enc.createdBy)
         }
