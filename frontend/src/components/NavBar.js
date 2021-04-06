@@ -43,7 +43,8 @@ export function NavBar({ user }) {
         </div>
 
 
-        <h1 id="logo" onClick={() => history.push('/')}>CowBell <span>{nConnections}</span></h1>
+        <h1 id="logo" onClick={() => history.push('/')}><span className="farm emojis">🐮</span> CowBell</h1>
+        {/*}.repeat(nConnections)} {nConnections}*/}
         {/* <Link to="/chat">
           <Menu.Item link active={pathname == '/chat'}>
             Chat
@@ -59,7 +60,7 @@ export function NavBar({ user }) {
 
         <Link id="points" to="/dashboard">
           <Menu.Item link active={pathname == '/dashboard'}>
-            <span id="cash">💰</span>{(user.points - bounty + increment).toFixed(0)}
+            <span className="emojis" >💰</span>{(user.points - bounty + increment).toFixed(0)}
           </Menu.Item>
         </Link>
 

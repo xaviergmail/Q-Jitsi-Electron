@@ -150,7 +150,7 @@ export default function SideBar({ video }) {
         <Search setStyle={setStyle} setClassName={setClassName} className={className} />
 
         <div id="rooms" onClick={() => setOpen(false)}>
-          <h5>Rooms</h5>
+          <h5>{sortedRooms.length} Chats<span className="emojis">🏡</span></h5>
         </div>
 
       {video}
@@ -176,7 +176,7 @@ export default function SideBar({ video }) {
     console.log(liveUsers, '.  const { user, socket, gotoRoom, liveUsers } = useContext(TheContext    ')
     return (
       <div id="users" className={open ? `open` : 'closed'} onClick={() => setOpen(true)} >
-        <h5>Users</h5>
+        <h5>{Object.values(liveUsers).length} <span className="emojis">🤯</span> Users </h5>
         <ul>
           {Object.values(liveUsers).map(user => <li>{user.name}</li>)}
           <li>Carlos</li>
