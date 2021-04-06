@@ -9,7 +9,7 @@ import Chat from './Chat'
 
 
 const Participant = ({ participant, host, yourRoom }) => {
-  const { user, socket, gotoRoom } = useContext(TheContext)
+  const { user, socket, gotoRoom, liveUsers } = useContext(TheContext)
 
   const style = { textAlign: "left", display: "flex", flexDirection: "row", alignItems: "center", padding: "4px" }
   return (
@@ -172,10 +172,13 @@ export default function SideBar({ video }) {
 
 
   function Users() {
+    const { liveUsers } = useContext(TheContext)
+    console.log(liveUsers, '.  const { user, socket, gotoRoom, liveUsers } = useContext(TheContext    ')
     return (
       <div id="users" className={open ? `open` : 'closed'} onClick={() => setOpen(true)} >
         <h5>Users</h5>
         <ul>
+          {Object.values(liveUsers).map(user => <li>{user.name}</li>)}
           <li>Carlos</li>
           <li>Marlon</li>
           <li>Jess</li>

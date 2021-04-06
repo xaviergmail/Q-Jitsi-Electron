@@ -240,6 +240,11 @@ const CowBell = ({ children }) => {
       encounter: (data) => {
       },
 
+      liveUser: (data) => {
+        console.log(data, 'liveUser')
+        // let users = [...]
+        setLiveUsers(data)
+      },
       totalConnections: ({ total }) => {
         console.log('total,', total)
         setNConnections(total)
@@ -419,6 +424,7 @@ const CowBell = ({ children }) => {
 
   let [bounty, setBounty] = useState(10)
   const [style, setStyle] = useState({ width: `${window.innerWidth / 4}px` })
+  const [liveUsers, setLiveUsers] = useState({})
   // const [className, setStyle] = useState({ width: `${window.innerWidth / 4}px` })
 
   const context = {
@@ -445,7 +451,8 @@ const CowBell = ({ children }) => {
     setQuery,
     clock,
     setClock,
-    nConnections
+    nConnections,
+    liveUsers
   }
   window._context = context
 

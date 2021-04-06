@@ -646,6 +646,7 @@ a#create{
   /* text-indent: 1rem; */
   font-style: italic;
   padding: 1rem;
+  white-space:nowrap;
 }
 #createRoom input:focus ~ #addRoom{
   opacity:1;
@@ -1262,11 +1263,26 @@ ul#roomBah li{
   z-index: 1;
 }
 
+#rooms:hover, #users:hover{
+  color:floralwhite;
+
+}
+#rooms h5, #users h5{
+  transition: all 2s;
+}
+
+
+#rooms:hover h5, #users:hover h5{
+  color:black;
+  background:floralwhite;
+
+  text-decoration: underline;  
+}
 
 #rooms, #users{
   background: #171717;
   height: 44px;
-  transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out  !important;
   color: white;
   position: relative;
 }
@@ -1288,7 +1304,7 @@ ul#roomBah li{
 
 } 
 #users:hover { 
-  height: 10vh;
+  height: 30vh;
 }
 
 #rooms:hover ~ #users.open {
@@ -1296,5 +1312,5 @@ ul#roomBah li{
 }
 
 #users.open { 
-  height: 75vh;
+  height: calc(100vh - 175px);
 }
