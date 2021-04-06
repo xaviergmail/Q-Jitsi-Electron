@@ -15,6 +15,7 @@ import {
   Link,
   HashRouter,
   useRouteMatch,
+  useLocation
 } from 'react-router-dom'
 import TheContext from './TheContext'
 import { NavBar } from './components/NavBar'
@@ -43,6 +44,8 @@ import io from 'socket.io-client'
 //Make connection to server just once on page load.
 import baseURL from './api/config'
 
+
+
 // TODO: Convert this into a reusable useSocket or something
 let _setPosts = function () { }
 let _setMyTransactions = function () { }
@@ -67,7 +70,16 @@ const Stacked = styled.div`
   bottom: 0;
 `
 
-const socket = io(baseURL)
+// const socket = io(baseURL)
+
+
+const { token } = localStorage;
+console.log("DA TOKEN", token)
+
+//Make connection to server just once on page load.
+const socket = io(baseURL, {
+  query: { token }
+});
 
 console.log(socket, ' to me ', baseURL)
 
@@ -105,6 +117,8 @@ const CowBell = ({ children }) => {
   let [posts, setPosts] = useState([])
   let [query, setQuery] = useState('')
   let [clock, setClock] = useState(false)
+  let [nConnections, setNConnections] = useState(0)
+  const { pathname } = useLocation()
 
   _setPosts = setPosts
   _setMyTransactions = setMyTransactions
@@ -171,6 +185,12 @@ const CowBell = ({ children }) => {
         }
 
         console.log('post', post, ' kiwi')
+        const last = post.messageIds.reverse()[0]
+        // console.log(pathname.split('/').pop(), last.postId, last.postId != pathname.split('/').pop(), last.userId._id != user._id)
+        if (last.userId._id != user._id || last.postId != pathname.split('/').pop()) {
+          notify(last.message)
+        }
+
         _setPosts(function (posts) {
           let newPosts = { ...posts }
           newPosts[post?.id] = post
@@ -218,6 +238,11 @@ const CowBell = ({ children }) => {
       },
 
       encounter: (data) => {
+      },
+
+      totalConnections: ({ total }) => {
+        console.log('total,', total)
+        setNConnections(total)
       },
 
       transaction: ({ transaction, post, theUser }) => {
@@ -419,7 +444,8 @@ const CowBell = ({ children }) => {
     query,
     setQuery,
     clock,
-    setClock
+    setClock,
+    nConnections
   }
   window._context = context
 
@@ -501,3 +527,33 @@ export default function CowBellWithRouter(props) {
     </HashRouter>
   )
 }
+
+
+
+
+function notify(message) {
+  // Let's check if the browser supports notifications
+  if (!("Notification" in window)) {
+    alert("This browser does not support desktop notification");
+  }
+
+  // Let's check whether notification permissions have already been granted
+  else if (Notification.permission === "granted") {
+    // If it's okay let's create a notification
+    var notification = new Notification(message);
+  }
+
+  // Otherwise, we need to ask the user for permission
+  else if (Notification.permission !== "denied") {
+    Notification.requestPermission().then(function (permission) {
+      // If the user accepts, let's create a notification
+      if (permission === "granted") {
+        var notification = new Notification(message);
+      }
+    });
+  }
+
+  // At last, if the user has denied notifications, and you
+  // want to be respectful there is no need to bother them any more.
+}
+

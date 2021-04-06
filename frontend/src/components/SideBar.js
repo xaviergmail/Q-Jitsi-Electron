@@ -122,10 +122,9 @@ const Room = ({ room }) => {
 
 export default function SideBar({ video }) {
   const { activeRooms, room, gotoRoom, posts, setStyle, style, query, className, setClassName } = useContext(TheContext)
-  // let [style, setStyle] = useState({ width: '250px' })
-  // console.log(posts, ' -=-=-=-=-=-', activeRooms, '?', Object.values(posts))
 
-  // console.log(query, 'frisbee', posts)
+  let [open, setOpen] = useState(false)
+
   const sortedRooms = Object.values(posts)
     .filter(
       (x) =>
@@ -135,14 +134,6 @@ export default function SideBar({ video }) {
       // (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
     ).sort((a, b) => a.active ? -1 : 1)
 
-
-  // const activeRooms = Object.values(posts).filter(
-  //   (x) =>
-  //     (x.message.toLowerCase().includes(query.toLowerCase()) && x.active && x.activeUsers.length) ||
-  //     x.id == 'lobby' ||
-  //     x.isLobby
-  //   // (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
-  // )
   return (
     <>
     <Sidebar
@@ -158,13 +149,40 @@ export default function SideBar({ video }) {
     >
         <Search setStyle={setStyle} setClassName={setClassName} className={className} />
 
+        <div id="rooms" onClick={() => setOpen(false)}>
+          <h5>Rooms</h5>
+        </div>
+
       {video}
+
+
         {sortedRooms.length > 0 ? (sortedRooms.map((room) => (
         <Room room={room} key={room.id} />
         ))) : <h3>No Rooms Found :(</h3>}
+
+
+        <Users />
     </Sidebar>
       {/* <Chat /> */}
 
     </>
   )
+
+
+
+
+  function Users() {
+    return (
+      <div id="users" className={open ? `open` : 'closed'} onClick={() => setOpen(true)} >
+        <h5>Users</h5>
+        <ul>
+          <li>Carlos</li>
+          <li>Marlon</li>
+          <li>Jess</li>
+        </ul>
+      </div>
+
+    )
+  }
 }
+

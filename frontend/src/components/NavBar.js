@@ -8,7 +8,7 @@ import SideBar from './SideBar'
 
 export function NavBar({ user }) {
   const { pathname } = useLocation()
-  const { activeRooms, room, gotoRoom, history, lobby_id, bounty, clock } = useContext(TheContext)
+  const { activeRooms, room, gotoRoom, history, lobby_id, bounty, clock, nConnections } = useContext(TheContext)
 
 
   let [increment, setIncrement] = useState(0)
@@ -43,7 +43,7 @@ export function NavBar({ user }) {
         </div>
 
 
-        <h1 id="logo" onClick={() => history.push('/')}>CowBell</h1>
+        <h1 id="logo" onClick={() => history.push('/')}>CowBell <span>{nConnections}</span></h1>
         {/* <Link to="/chat">
           <Menu.Item link active={pathname == '/chat'}>
             Chat

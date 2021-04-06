@@ -1254,3 +1254,47 @@ ul#roomBah li{
   
   width: 25vw;
 }
+
+
+
+
+#rooms{
+  z-index: 1;
+}
+
+
+#rooms, #users{
+  background: #171717;
+  height: 44px;
+  transition: all .2s ease-in-out;
+  color: white;
+  position: relative;
+}
+#users {
+
+    position: absolute;
+    bottom: 10px;
+
+    width: 100%;
+
+    overflow: hidden;
+    margin: 0;
+
+
+}
+#users h5, #rooms h5{
+  padding: 1rem;
+  color: whitesmoke;
+
+} 
+#users:hover { 
+  height: 10vh;
+}
+
+#rooms:hover ~ #users.open {
+  height: 60vh;
+}
+
+#users.open { 
+  height: 75vh;
+}
