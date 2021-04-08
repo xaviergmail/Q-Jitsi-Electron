@@ -323,6 +323,7 @@ a#points{
   white-space: nowrap;
 }
 
+
 .top-nav  .item img.ui.avatar.image{
   margin: 1rem;
   display: inline-flex;
@@ -705,6 +706,13 @@ a#create{
   display:flex;
   justify-content:center;
   flex-direction: column;
+  align-items:center;
+}
+
+.profile img.ui.avatar.image{
+  width: 40rem;
+  height: 40rem;
+  background:white;
 }
 
 .dashboard .ui.header.h3{
@@ -1009,12 +1017,13 @@ ul#myTransactions li{
 
 }
 
+
 #chat header.message-title{ 
    background: rgb(43, 43, 43);
    background:#171717;
    border-top: 10px solid rgb(43, 43, 43);
    border-left: 5px solid rgb(43, 43, 43);
-
+  border-radius: 10px;
    /* border-bottom: 1px solid rgb(43, 43, 43); */
 
 
@@ -1227,7 +1236,7 @@ ul#roomBah li{
 }
 
 .links > *:hover{
-  text-decoration:underline;
+  /* text-decoration:underline; */
   background: rgb(43, 43, 43);
 }
 
@@ -1262,19 +1271,21 @@ ul#roomBah li{
 
 #rooms{
   z-index: 1;
+  /* background: white;
+  overflow:scroll; */
 }
 
 #rooms:hover, #users:hover{
   color:floralwhite;
 
 }
-#rooms h5, #users h5{
+#rooms h5.panelHeader, #users h5.panelHeader{
   transition: all .8s;
-  color: #6DAEDB !important;/*Blue*/
+  color: #6DAEDB /*!important;/*Blue*/
 }
 
 
-#rooms:hover h5, #users:hover h5{
+#rooms:hover h5.panelHeader, #users:hover h5.panelHeader{
   color:black;
   color:#4DAA57; /*GREEN*/
   color:#D8973C;
@@ -1282,7 +1293,7 @@ ul#roomBah li{
   background:floralwhite;
  background: rgba(255,255,255,.08);
 
-  text-decoration: underline;  
+  /* text-decoration: underline;   */
 }
 
 #rooms, #users{
@@ -1319,6 +1330,10 @@ ul#roomBah li{
 
 #users.open { 
   height: calc(100vh - 175px);
+}
+
+.show-slider #users.open { 
+  height: calc(100vh - 245px);
 }
 
 .ui.inverted.vertical.labeled.icon.ui.overlay.left.visible.sidebar.style-3.menu{

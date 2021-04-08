@@ -185,7 +185,8 @@ const CowBell = ({ children }) => {
         }
 
         console.log('post', post, ' kiwi')
-        const last = post.messageIds.reverse()[0]
+        const last = { ...post }.messageIds.pop()
+        console.log(last.message, ' 444')
         // console.log(pathname.split('/').pop(), last.postId, last.postId != pathname.split('/').pop(), last.userId._id != user._id)
         if (last.userId._id != user._id || last.postId != pathname.split('/').pop()) {
           notify(last.message)
@@ -193,6 +194,7 @@ const CowBell = ({ children }) => {
 
         _setPosts(function (posts) {
           let newPosts = { ...posts }
+          console.log(newPosts, ' =-=-=-=', post)
           newPosts[post?.id] = post
           return newPosts
         })
@@ -387,11 +389,13 @@ const CowBell = ({ children }) => {
     actions
       .getAllPosts()
       .then((res) => {
-        const postsById = {}
-        for (let post of res.data) {
-          postsById[post.id] = post
+        if (res) {
+          const postsById = {}
+          for (let post of res.data) {
+            postsById[post.id] = post
+          }
+          setPosts(postsById)
         }
-        setPosts(postsById)
       })
       .catch((err) => console.error(err))
   }, [jwt, user])
@@ -425,7 +429,9 @@ const CowBell = ({ children }) => {
   let [bounty, setBounty] = useState(10)
   const [style, setStyle] = useState({ width: `${window.innerWidth / 4}px` })
   const [liveUsers, setLiveUsers] = useState({})
+  const [showSlider, setShowSlider] = useState(false)
   // const [className, setStyle] = useState({ width: `${window.innerWidth / 4}px` })
+  let [open, setOpen] = useState(false)
 
   const context = {
     history,
@@ -452,7 +458,10 @@ const CowBell = ({ children }) => {
     clock,
     setClock,
     nConnections,
-    liveUsers
+    liveUsers,
+    showSlider,
+    setShowSlider,
+    open, setOpen
   }
   window._context = context
 

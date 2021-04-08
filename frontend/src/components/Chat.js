@@ -50,6 +50,7 @@ function Chat(props) {
 
 
     const submitMessage = e => {
+        console.log(channel, message, ' om dos')
         e.preventDefault()
         actions
             .addMessage({ channel, message })

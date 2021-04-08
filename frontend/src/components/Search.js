@@ -82,9 +82,9 @@ function humanizeDuration(input, units) {
 const AddPost = ({ posts, setStyle }) => {
     const [message, setMessage] = useState('')
     // const [bounty, setBounty] = useState(10)
-    let [focus, setFocus] = useState(false)
+    // let [focus, setFocus] = useState(false)
 
-    let { bounty, setBounty, user, setUser, history, gotoRoom, filterRooms } = useContext(TheContext)
+    let { bounty, setBounty, user, setUser, history, gotoRoom, filterRooms, showSlider, setShowSlider, open, setOpen } = useContext(TheContext)
 
     let outOfPoints = user?.points <= 0
 
@@ -94,14 +94,17 @@ const AddPost = ({ posts, setStyle }) => {
     }
 
     const handleBlur = () => {
-        setFocus(false)
+        //setFocus(false)
+        setOpen(false)
         // setStyle({
         //     sideBar: { width: `${window.innerWidth / 4}px` },
         //     container: { marginLeft: `${window.innerWidth / 4}px` }
         // })
     }
     const handleFocus = () => {
-        setFocus(true);
+        //setFocus(true);
+        setShowSlider(true)
+        setOpen(false)
         // setStyle({
         //     sideBar: { width: `${window.innerWidth / 3}px` },
         //     container: { marginLeft: `${window.innerWidth / 3}px` }
@@ -115,8 +118,10 @@ const AddPost = ({ posts, setStyle }) => {
 
         // if (user?.calendly === "https://calendly.com/ Click here to set your calendly!")
         //     return alert('Please set your calendly before posting...')
-        setFocus(false)
-        setStyle({ width: '250px' })
+        //setFocus(false)
+        setShowSlider(false)
+        setOpen(false)
+        // setStyle({ width: '250px' })
         setMessage('')
         filterRooms('') //FIXME WUT SEEms like you can be in multiple rooms 
 
@@ -137,7 +142,7 @@ const AddPost = ({ posts, setStyle }) => {
 
 
             <form id="createRoom" onFocus={handleFocus}
-                // onBlur={handleBlur}
+                onBlur={handleBlur}
                 onSubmit={handleSubmit}>
 
                 <Icon name="search" id="search" />
@@ -149,11 +154,11 @@ const AddPost = ({ posts, setStyle }) => {
                     id="bounty"
                     type="text"
                 />
-                <button id="addRoom" className={focus ? 'show' : 'hide'} disabled={outOfPoints}><Icon name="add" /></button>
+                <button id="addRoom" className={showSlider ? 'show' : 'hide'} disabled={outOfPoints}><Icon name="add" /></button>
             </form>
             <label id="eg">{`e.g: ${randomQuestion()}`}</label>
 
-                {focus ?
+            {showSlider ?
                 <>
                       
 

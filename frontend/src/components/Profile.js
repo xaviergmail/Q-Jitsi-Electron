@@ -132,13 +132,15 @@ function Profile(props) {
         <section className="profile">
             <Header as='h3'>
 
-                <Image src={user.avatar} avatar />
-
                 Welcome {user.name}
 
-
-
             </Header>
+                <Image src={user.avatar} avatar />
+
+
+
+
+
 
             <Container>
                 <h4>{user.email}</h4>
