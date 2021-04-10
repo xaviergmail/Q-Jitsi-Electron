@@ -86,6 +86,9 @@ const actions = {
   },
   addMessage: async (data) => {
     return await API.post(`/add-message`, data, resetHead())
+  },
+  getAllUsers: async () => {
+    return await API.get(`all-users`, resetHead())
   }
 }
 

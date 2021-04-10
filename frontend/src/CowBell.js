@@ -32,6 +32,7 @@ import GoogleAuth from './components/GoogleAuth'
 import VideoPreview from './components/VideoPreview/VideoPreview'
 import Profile from './components/Profile'
 import Chat from './components/Chat'
+import NewMessage from './components/NewMessage'
 import Search from './components/Search'
 
 import 'react-notifications/lib/notifications.css'
@@ -230,8 +231,8 @@ const CowBell = ({ children }) => {
         if (inTheRoom) {
 
           if (event.type === 'muc-occupant-joined' || event.type === 'muc-occupant-created') {
-            // if (event.post.user._id != user._id && event.post.hostPresent) { //You are not the host and the host is there. 
-            if (event.post.hostPresent) { //You are not the host and the host is there. 
+            if (event.post.user._id != user._id && event.post.hostPresent) { //You are not the host and the host is there. 
+            //if (event.post.hostPresent) { //You are not the host and the host is there.
               setClock(true)
             }
           }
@@ -486,12 +487,7 @@ const CowBell = ({ children }) => {
         <NavBar history={history} user={user} />
 
         <StackLayer style={{ overflow: 'hidden' }} className="style-3"
-        //onClick={
-        //() => setStyle({
-        //   sideBar: { width: `${window.innerWidth / 4}px` },
-        //   container: { marginLeft: `${window.innerWidth / 4}px` }
-        // })
-        //} 
+
         >
           <Stacked className="room" style={{ display: room && isInRoomRoute ? 'block' : 'hidden' }}>
             {roomElement}
@@ -519,6 +515,8 @@ const CowBell = ({ children }) => {
               <Route path="/profile" component={Profile} />
 
               <Route path="/chat/:id" component={Chat} />
+
+              <Route path="/new-message" component={NewMessage} />
 
               <Route path="/settings" component={Settings} />
               {/**WUT**/}

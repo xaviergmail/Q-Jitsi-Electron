@@ -54,9 +54,10 @@ const Room = ({ room, id }) => {
     // style.fontFamily = "Futura"
     style.borderRight = '20px solid rgb(43, 43, 43)'
   }
+  console.log('dont get it', room)
   // let host = room.activeUsers.some(x => x.email == user.email)
   return (
-    <Link key={room._id} to={`/chat/${room?._id}`}>
+    <Link key={room._id} to={{ pathname: `/chat/${room?._id}`, state: room }} >
       {/* onClick={() => gotoRoom(room.id, room)} */}
 
       <Menu.Item key={room._id} className="menu-item-sidebar" style={style} header>
@@ -144,7 +145,7 @@ export default function SideBar({ video }) {
 
 
 
-  console.log(userChannels, ' bb')
+  // console.log(userChannels, ' bb')
   return (
     <>
     <Sidebar
@@ -162,7 +163,7 @@ export default function SideBar({ video }) {
 
         <div className={`${showSlider ? 'show-slider' : 'hide-slider'}`} onClick={() => setShowSlider(false)}>
           <div id="rooms" onClick={() => setOpen(false)}>
-            <h5 className="panelHeader">{sortedRooms.length} Chats<span className="emojis">🏡</span></h5>
+            <h5 className="panelHeader">{sortedRooms.length} Rooms<span className="emojis">🏡</span></h5>
           </div>
 
         {video}
@@ -171,7 +172,7 @@ export default function SideBar({ video }) {
           <Room room={room} key={room.id} />
           ))) : <h3>No Rooms Found :(</h3>}
 
-
+          <Messages />
           <Users />
 
         </div>
@@ -183,6 +184,67 @@ export default function SideBar({ video }) {
   )
 
 
+  function Messages() {
+
+    // const [messageQuery, setMessageQuery] = useState('')
+
+    // const handleChange = e => {
+    //   //suggestUsers
+    //   console.log(e.target.value, userChannels)
+
+    //   setMessageQuery(e.target.value)
+
+    // }
+    // const handleSubmit = e => {
+    //   e.preventDefault()
+    //   console.log(messageQuery)
+
+    // }
+
+    return (
+      <div id="users" className={open ? `open` : 'closed'} onClick={() => setOpen(true)} >
+        <h5 className="panelHeader"> <span className="emojis ">💬</span> {userChannels.length} Users </h5>
+
+        {/* <form id="searchUsers"
+
+          onSubmit={handleSubmit}>
+
+          <Icon name="search" id="search" />
+          <input
+            value={messageQuery}
+            onChange={handleChange}
+            placeholder="Direct Message @someone"
+
+
+            type="text"
+          />
+          <button id="addRoom" className={showSlider ? 'show' : 'hide'}><Icon name="add" /></button>
+        </form> */}
+
+        <ul>
+          {userChannels.map((room) => {
+            console.log(room)
+            return (
+              <Link key={room._id} to={{ pathname: `/new-message`, state: room }} >
+                <Menu.Item key={room._id} className="menu-item-sidebar" style={style} header>
+                  {room.message}
+                </Menu.Item>
+              </Link>
+            )
+          })}
+          <li>Carlos</li>
+
+          <li>Marlon, Tommy</li>
+          <li>Jess, Jazz</li>
+          <li>Carlos</li>
+
+
+
+        </ul>
+      </div>
+    )
+  }
+
 
 
   function Users() {
@@ -193,7 +255,10 @@ export default function SideBar({ video }) {
         <h5 className="panelHeader"> <span className="emojis ">🤯</span> {userChannels.length} Users </h5>
         <ul>
 
-          {userChannels.map((room) => <Room room={room} id={room.id} />)}
+          {/* {userChannels.map((room) => <Room room={room} id={room.id} />)} */}
+
+          {userChannels.map((room) => <Room room={room} />)}
+
           {/* {Object.values(liveUsers).map(user => <li>{user.name}</li>)} */}
           {/* {Object.values(liveUsers).map(user => <UserRoom {...user} />)} */}
 

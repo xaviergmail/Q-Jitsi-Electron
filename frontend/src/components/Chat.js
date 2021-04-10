@@ -7,16 +7,26 @@ import moment from 'moment'
 
 function Chat(props) {
 
-    const { activeRooms, room, gotoRoom, posts } = useContext(TheContext)
+    const { activeRooms, gotoRoom, posts } = useContext(TheContext)
     const [channels, setChannels] = useState([])
     const [channel, setChannel] = useState({})
     const [messages, setMessages] = useState([])
     let [message, setMessage] = useState('')
 
-
     useEffect(() => {
 
-        fetchChannel(props.match.params.id)
+        // const query = new URLSearchParams(props.location.search);
+        // console.log(query.get('user'), 'peace of mind', props)
+
+
+       // if (props.match.params.id != 'new') {
+            fetchChannel(props.match.params.id)
+        /* } else {
+             console.log('set up new chat for direct messages', props)
+             if (props.location.state)
+                 setThisRoom(props.location.state.room)
+         }*/
+
 
     }, [props.match.params.id])
 
@@ -83,7 +93,7 @@ function Chat(props) {
                     </ul></div> */}
 
                 <div id="messages">
-                    <header className="message-title">
+                    <header className="message-title">                
                         <h1>{channel?.message}</h1>
                         <div className="controls">
                             <button onClick={() => gotoRoom(channel._id, channel)}>

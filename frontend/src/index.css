@@ -525,7 +525,7 @@ a#create{
 
 
 
-#addPost #createRoom {
+#addPost #createRoom, #searchUsers {
   display:flex;
   flex-direction: row;
   width: 100%;
@@ -533,11 +533,11 @@ a#create{
   justify-content:center;
 }
 
-#addPost input:focus {
+#addPost input:focus , #searchUsers input:focus{
   outline: none;
 }
 
-#addPost  button#addRoom, button#addMessage {
+#addPost  button#addRoom, button#addMessage, #searchUsers button#addRoom{
   outline: none;
   background: white;
   border: none;
@@ -565,7 +565,7 @@ a#create{
 
 }
 
-#createRoom input {
+#createRoom input, #searchUsers input {
   transition: all .2s;
   border: none;
   border-radius: 2px;
@@ -941,7 +941,7 @@ ul#myTransactions li{
   flex-direction:column;
 }
 
-.profile, .dashboard, #chat{
+.profile, .dashboard, #chat, #new-message{
   justify-content: space-evenly;
   min-height: calc(100vh - 60px) /*8rem*/
 }
@@ -981,7 +981,7 @@ ul#myTransactions li{
 
 /**CHAT**/
 
-#chat{
+#chat, #new-message{
   background: floralwhite;
   min-height: 100%;
   border-top: 10px solid #4DAA57; /*GREEN*/
@@ -994,12 +994,13 @@ ul#myTransactions li{
 }
 
 
-
-#chat header{
+#new-message header {
   padding: 1rem;
 }
 
-#chat header {
+#chat header{
+  padding: 1rem;
+
   display:flex;
   justify-content:space-between;
   align-items: flex-end;
@@ -1008,7 +1009,7 @@ ul#myTransactions li{
   /* background:#171717; */
 }
 
-#chat header h1{
+#chat header h1, #new-message header h1{
     flex: 2;
     margin:0;
     text-align: center;
@@ -1022,7 +1023,7 @@ ul#myTransactions li{
    background: rgb(43, 43, 43);
    background:#171717;
    border-top: 2px solid rgb(43, 43, 43);
-   border-left: 2px solid rgb(43, 43, 43);
+   /* border-left: 2px solid rgb(43, 43, 43); */
   /* border-radius: 10px; */
    /* border-bottom: 1px solid rgb(43, 43, 43); */
 
@@ -1083,6 +1084,9 @@ div#messages .message{
 div#messages .message{
   text-indent: 1rem;
 }
+#new-message div#messages .first.message{
+  height: inherit;
+}
 
 div#messages .first.message{
 
@@ -1119,7 +1123,7 @@ div#messages .message .text{
 }
 
 
-#chat form {
+#chat form, #new-message form{
   /* position: fixed;
   width: calc(100% - 250px);
   bottom: 0;
@@ -1131,12 +1135,24 @@ div#messages .message .text{
 
 }
 
-#chat form input {
+#chat form input, #new-message form input{
   border: none;
   width: 100%;
   padding: 1rem;
 }
 
+#new-message ul{
+  color:white;
+  list-style: none;
+}
+#new-message li{
+  display:flex;
+  justify-content:space-between;
+}
+#new-message li:hover{
+  background:rgb(43, 43, 43)
+  
+}
 
 #chat ul{
   height: calc(100vh - 248px); /*60vh;
@@ -1146,25 +1162,7 @@ div#messages .message .text{
   display: flex;
   flex-direction: column-reverse;
 }
-/* ul#roomBah{
-  display:flex;
-  justify-content:space-between;
-  list-style-type: none;
-}
 
-ul#roomBah li{
-  margin-top: 0 !important; 
-
-} */
-
-/* #chat{
-  position: absolute;
-  z-index: 23233232322;
-  background: white;
-  top: 200px;
-  height: 300px;
-  display: flex;
-      } */
 
 .header.item.menu-item-sidebar{
       display:flex;
