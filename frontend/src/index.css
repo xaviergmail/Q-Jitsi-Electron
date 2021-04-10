@@ -1021,9 +1021,9 @@ ul#myTransactions li{
 #chat header.message-title{ 
    background: rgb(43, 43, 43);
    background:#171717;
-   border-top: 10px solid rgb(43, 43, 43);
-   border-left: 5px solid rgb(43, 43, 43);
-  border-radius: 10px;
+   border-top: 2px solid rgb(43, 43, 43);
+   border-left: 2px solid rgb(43, 43, 43);
+  /* border-radius: 10px; */
    /* border-bottom: 1px solid rgb(43, 43, 43); */
 
 
@@ -1057,6 +1057,7 @@ padding: .5rem;
 
 }
 #chat main ul{
+  margin: 0;
   list-style-type: none;
   /* border: 1px solid black; */
 }
@@ -1342,9 +1343,12 @@ ul#roomBah li{
 
 .emojis{
   font-size: 2rem;
+  padding: .5rem;
 }
 
-
+.farm.emojis{
+  font-size:2.5rem;
+}
 
 
 
