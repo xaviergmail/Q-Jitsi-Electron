@@ -1165,14 +1165,14 @@ ul#roomBah li{
   display: flex;
       } */
 
-.header.link.item.menu-item-sidebar{
+.header.item.menu-item-sidebar{
       display:flex;
       text-align:left;
       /* flex-direction:row; */
       /* justify-content:space-between */
 }
 
-.header.link.item.menu-item-sidebar .controls, #chat header .controls{
+.header.item.menu-item-sidebar .controls, #chat header .controls{
   background: #3d3d3d;
   display:flex;
   justify-content:space-between;
@@ -1180,7 +1180,7 @@ ul#roomBah li{
   padding: .0125rem;
   flex: 1;
 }
-.header.link.item.menu-item-sidebar .controls button,  #chat header .controls button{
+.header.item.menu-item-sidebar .controls button,  #chat header .controls button{
   background:#1b1c1d;
   border: none;
   color: whitesmoke;
@@ -1189,10 +1189,10 @@ ul#roomBah li{
     margin: 1px;
     
 }
-.header.link.item.menu-item-sidebar .controls button:hover,  #chat header .controls button:hover{
+.header.item.menu-item-sidebar .controls button:hover,  #chat header .controls button:hover{
   color: #4DAA57;
 }
-.header.link.item.menu-item-sidebar .controls button:focus,  #chat header .controls button:focus{
+.header.item.menu-item-sidebar .controls button:focus,  #chat header .controls button:focus{
   outline:none;
 }
 

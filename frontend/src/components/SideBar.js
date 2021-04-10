@@ -27,7 +27,7 @@ const Participant = ({ participant, host, yourRoom }) => {
               <button
                 className="remove-participant"
                 onClick={(e) => {
-                  e.preventDefault(); console.log("console.lop"); socket.emit('remove', participant.email); goToRoom(null);
+                  e.preventDefault(); console.log("console.lop"); socket.emit('remove', participant?.email); goToRoom(null);
                 }}
               >
                 X
@@ -42,12 +42,11 @@ const Participant = ({ participant, host, yourRoom }) => {
   )
 }
 
-const Room = ({ room }) => {
+const Room = ({ room, id }) => {
   const { gotoRoom, user } = useContext(TheContext)
   // console.log('ROOM', room, user, user.email)
-  //console.log(room, 'jurassic park')
   const style = {}
-  const yourRoom = room?.user.email == user.email
+  const yourRoom = room?.user?.email == user?.email
   const currentRoom = room?._id === location.hash.split('/').pop()
   if (currentRoom) {
     style.backgroundColor = '#2b2b2b'
@@ -57,11 +56,11 @@ const Room = ({ room }) => {
   }
   // let host = room.activeUsers.some(x => x.email == user.email)
   return (
-    <Link to={`/chat/${room?._id}`}>
+    <Link key={room._id} to={`/chat/${room?._id}`}>
       {/* onClick={() => gotoRoom(room.id, room)} */}
 
-    <Menu.Item className="menu-item-sidebar" style={style} header width="250px"  link="#">
-      <Header as="h5" inverted>
+      <Menu.Item key={room._id} className="menu-item-sidebar" style={style} header>
+        <Header key={room._id} as="h5" inverted>
 
           <span>{room?.message}</span>
           {room?.activeUsers.length !== 0 && <span className='activeUsers'>{room?.activeUsers?.length}</span>}
@@ -90,7 +89,7 @@ const Room = ({ room }) => {
       <List inverted>
           {room?.activeUsers?.length ? (
             room?.activeUsers.map((x) => {
-            if (x.email == user.email) {
+              if (x?.email == user?.email) {
               // style.backgroundColor = '#2b2b2b'
               style.color = '#4DAA57'
               style.textDecoration = 'none'
@@ -102,7 +101,7 @@ const Room = ({ room }) => {
 
 
 
-              return <Participant participant={x} host={x?.email == user?.email} yourRoom={yourRoom} key={x.email} gotoRoom={gotoRoom} />
+              return <Participant participant={x} host={x?.email == user?.email} yourRoom={yourRoom} key={x?.email} gotoRoom={gotoRoom} />
 
           })
         ) : (
@@ -133,7 +132,19 @@ export default function SideBar({ video }) {
       // (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
     ).sort((a, b) => a.active ? -1 : 1)
 
-  const userChannels = Object.values(posts).filter(x => x.userChannel)
+  console.log(posts)
+  //.filter(x => x.userChannel)
+  const userChannels = []
+
+  for (let channel of Object.values(posts)) {
+    if (channel.userChannel && !userChannels.some(c => c._id == channel._id)) {  //Unique user channels 
+      userChannels.push(channel)
+    }
+  }
+
+
+
+  console.log(userChannels, ' bb')
   return (
     <>
     <Sidebar
@@ -176,13 +187,13 @@ export default function SideBar({ video }) {
 
   function Users() {
     const { liveUsers } = useContext(TheContext)
-    console.log(liveUsers, '.  const { user, socket, gotoRoom, liveUsers } = useContext(TheContext    ')
+    console.log(liveUsers, ' why is this happeneing??? ')
     return (
       <div id="users" className={open ? `open` : 'closed'} onClick={() => setOpen(true)} >
-        <h5 className="panelHeader">{Object.values(liveUsers).length} <span className="emojis ">🤯</span> Users </h5>
+        <h5 className="panelHeader"> <span className="emojis ">🤯</span> {userChannels.length} Users </h5>
         <ul>
 
-          {userChannels.map((room) => <Room room={room} key={room.id} />)}
+          {userChannels.map((room) => <Room room={room} id={room.id} />)}
           {/* {Object.values(liveUsers).map(user => <li>{user.name}</li>)} */}
           {/* {Object.values(liveUsers).map(user => <UserRoom {...user} />)} */}
 
@@ -207,7 +218,7 @@ export default function SideBar({ video }) {
     // console.log('ROOM', room, user, user.email)
     //console.log(room, 'jurassic park')
     const style = {}
-    const yourRoom = email == user.email
+    const yourRoom = email == user?.email
     const currentRoom = _id === location.hash.split('/').pop()
     if (currentRoom) {
       // style.backgroundColor = '#2b2b2b'

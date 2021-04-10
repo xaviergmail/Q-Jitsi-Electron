@@ -13,6 +13,7 @@ function Chat(props) {
     const [messages, setMessages] = useState([])
     let [message, setMessage] = useState('')
 
+
     useEffect(() => {
 
         fetchChannel(props.match.params.id)
@@ -34,14 +35,16 @@ function Chat(props) {
 
 
     const showMessages = () => {
+
         let thisPost = posts[props.match.params.id];
+
         if (thisPost) {
             return [...thisPost.messageIds].reverse().map(({ message, userId, createdAt }) => (
-                <li className="message">
+                <li key={createdAt} className="message">
                     <Image avatar src={userId?.avatar} style={{ background: 'white' }} />
                     <div>
-                        <b class="name">{userId?.name} <i>{moment(createdAt).fromNow()}</i></b>
-                        <p class="text">{message}</p>
+                        <b className="name">{userId?.name} <i>{moment(createdAt).fromNow()}</i></b>
+                        <p className="text">{message}</p>
                     </div>
                 </li>
             ))

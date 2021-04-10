@@ -24,6 +24,7 @@ import CreateRoom from './components/CreateRoom'
 import CallEnded from './components/CallEnded'
 import Post from './components/Post'
 import Dashboard from './components/Dashboard'
+import Settings from './components/Settings'
 import ReactLoading from 'react-loading'
 import Room from './components/Room'
 import SideBar from './components/SideBar'
@@ -185,20 +186,26 @@ const CowBell = ({ children }) => {
         }
 
         console.log('post', post, ' kiwi')
-        const last = { ...post }.messageIds.pop()
-        console.log(last.message, ' 444')
-        // console.log(pathname.split('/').pop(), last.postId, last.postId != pathname.split('/').pop(), last.userId._id != user._id)
-        if (last.userId._id != user._id || last.postId != pathname.split('/').pop()) {
-          notify(last.message)
-        }
+
 
         _setPosts(function (posts) {
           let newPosts = { ...posts }
-          console.log(newPosts, ' =-=-=-=', post)
-          newPosts[post?.id] = post
+          console.log(newPosts, ' =-=-=-=', post, ' [][][]', newPosts[post?._id])
+          newPosts[post?._id] = post
+          //newPosts[post?.id].me
           return newPosts
         })
 
+        if (post.messageIds.length === 0) { //FIXME
+          //notify(`NEW ${post.message}`)
+        }
+
+        const last = post.messageIds[post.messageIds.length - 1]
+        console.log(last?.message, ' 444')
+        console.log(last, user, post)
+        if (last.userId?._id != user._id && last.postId != pathname.split('/').pop()) {
+          notify(last.message)
+        }
         //console.log(user, ' also', user._id, post?.user._id, post?.user._id != user._id, typeof user._id, typeof post?.user._id,)
 
         //If the host is present and you're not s/he then start making points 
@@ -223,7 +230,8 @@ const CowBell = ({ children }) => {
         if (inTheRoom) {
 
           if (event.type === 'muc-occupant-joined' || event.type === 'muc-occupant-created') {
-            if (event.post.user._id != user._id && event.post.hostPresent) { //You are not the host and the host is there. 
+            // if (event.post.user._id != user._id && event.post.hostPresent) { //You are not the host and the host is there. 
+            if (event.post.hostPresent) { //You are not the host and the host is there. 
               setClock(true)
             }
           }
@@ -246,6 +254,12 @@ const CowBell = ({ children }) => {
         console.log(data, 'liveUser')
         // let users = [...]
         setLiveUsers(data)
+      },
+      me: (data) => {
+        console.log(data, ',meee')
+        console.log(liveUsers)
+        liveUsers[data._id] = data
+        console.log(liveUsers)
       },
       totalConnections: ({ total }) => {
         console.log('total,', total)
@@ -506,6 +520,7 @@ const CowBell = ({ children }) => {
 
               <Route path="/chat/:id" component={Chat} />
 
+              <Route path="/settings" component={Settings} />
               {/**WUT**/}
               <Route path="/room/:roomName" render={(props) => <div>HMMMMM</div>} />
 
