@@ -15,6 +15,8 @@ function Chat(props) {
 
     useEffect(() => {
 
+        console.log('should be fecthing lobby??', props.match.params.id)
+
         // const query = new URLSearchParams(props.location.search);
         // console.log(query.get('user'), 'peace of mind', props)
 
@@ -30,10 +32,12 @@ function Chat(props) {
 
     }, [props.match.params.id])
 
+    //DO I Need this?? 
     const fetchChannel = async (id) => {
 
         let res = await actions.getPost(id)
 
+        console.log(res)
 
         if (res) {
             setChannel(res.data.post)

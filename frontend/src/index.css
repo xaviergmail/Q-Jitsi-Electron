@@ -276,9 +276,10 @@ a#points{
 
 
 
-.ui.inverted.menu .header.item.menu-item-sidebar { 
+/* .ui.inverted.menu .header.item.menu-item-sidebar {  */
+  #rooms .header.item.menu-item-sidebar, #users .header.item.menu-item-sidebar, #direct-messages .header.item.menu-item-sidebar{
   border-left: 1px solid black;
-  margin: 10 10px;
+  margin: 0px 10px;
   transition: all .5s;
 }
 
@@ -985,7 +986,7 @@ ul#myTransactions li{
   background: floralwhite;
   min-height: 100%;
   border-top: 10px solid #4DAA57; /*GREEN*/
-  background: #1b1b1b;
+  background: #1b1b1b; /*Black*/
   display:flex;
   justify-content:space-between;
   align-items:space-between;
@@ -996,6 +997,7 @@ ul#myTransactions li{
 
 #new-message header {
   padding: 1rem;
+  color: white;
 }
 
 #chat header{
@@ -1004,7 +1006,7 @@ ul#myTransactions li{
   display:flex;
   justify-content:space-between;
   align-items: flex-end;
-  border-top: 1px solid #282828;
+  border-top: 1px solid #282828; /*Black*/
   /* text-align: left; */
   /* background:#171717; */
 }
@@ -1172,7 +1174,7 @@ div#messages .message .text{
 }
 
 .header.item.menu-item-sidebar .controls, #chat header .controls{
-  background: #3d3d3d;
+  background: #3d3d3d; /*Black*/
   display:flex;
   justify-content:space-between;
   align-items:center;
@@ -1180,7 +1182,7 @@ div#messages .message .text{
   flex: 1;
 }
 .header.item.menu-item-sidebar .controls button,  #chat header .controls button{
-  background:#1b1c1d;
+  background:#1b1c1d; /*Black*/
   border: none;
   color: whitesmoke;
   padding: .5rem;
@@ -1236,7 +1238,7 @@ div#messages .message .text{
 
 .links > *:hover{
   /* text-decoration:underline; */
-  background: rgb(43, 43, 43);
+  background: rgb(43, 43, 43); /*Black*/
 }
 
 #logo{
@@ -1257,7 +1259,7 @@ div#messages .message .text{
 
 
 .ui.inverted.vertical.labeled.icon.ui.overlay.left.visible.sidebar.menu, .container{
-  transition: .2s ease-in-out;
+  /* transition: .2s ease-in-out; */
 }
 
 .videobottomright{
@@ -1267,42 +1269,42 @@ div#messages .message .text{
 
 
 
-
 #rooms{
   z-index: 1;
   /* background: white;
   overflow:scroll; */
 }
 
-#rooms:hover, #users:hover{
+#rooms:hover, #users:hover,  #direct-messages:hover{
   color:floralwhite;
 
 }
-#rooms h5.panelHeader, #users h5.panelHeader{
+#rooms h5.panelHeader, #users h5.panelHeader, #direct-messages h5.panelHeader{
   transition: all .8s;
   color: #6DAEDB /*!important;/*Blue*/
 }
 
 
-#rooms:hover h5.panelHeader, #users:hover h5.panelHeader{
+#rooms:hover h5.panelHeader, #users:hover h5.panelHeader,  #direct-messages:hover h5.panelHeader{
   color:black;
   color:#4DAA57; /*GREEN*/
   color:#D8973C;
 
   background:floralwhite;
  background: rgba(255,255,255,.08);
-
+  /* background: rgba(0,0,0,.1); */
   /* text-decoration: underline;   */
 }
 
-#rooms, #users{
-  background: #171717;
+#rooms, #users, #direct-messages{
+  background: #171717; /*Black*/
   height: 44px;
   transition: all .2s ease-in-out  !important;
   color: white;
   position: relative;
+  overflow:hidden;
 }
-#users {
+/* #users {
 
     position: absolute;
     bottom: 10px;
@@ -1313,17 +1315,36 @@ div#messages .message .text{
     margin: 0;
 
 
-}
-#users h5, #rooms h5{
+} */
+#users h5, #rooms h5, #direct-messages h5{
   padding: 1rem;
   color: whitesmoke;
 
 } 
-#users:hover { 
-  height: 30vh;
+
+
+.show-slider #users,.show-slider #rooms,.show-slider #direct-messages{
+  height:calc(30vh) !important;
+  overflow-y:scroll !important;
 }
 
-#rooms:hover ~ #users.open {
+
+
+.open {
+  overflow-y:scroll !important;
+  height:calc(100vh - 215px) !important;
+}
+
+
+#users.open .panelHeader,#rooms.open .panelHeader,#direct-messages.open .panelHeader{
+  color:#D8973C;
+}
+
+/* #users:hover { 
+  height: 30vh;
+} */
+
+/* #rooms:hover ~ #users.open {
   height: 60vh;
 }
 
@@ -1333,7 +1354,7 @@ div#messages .message .text{
 
 .show-slider #users.open { 
   height: calc(100vh - 245px);
-}
+} */
 
 .ui.inverted.vertical.labeled.icon.ui.overlay.left.visible.sidebar.style-3.menu{
   /* border-right: 1px solid black; */

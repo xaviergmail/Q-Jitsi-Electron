@@ -43,7 +43,7 @@ export function NavBar({ user }) {
         </div>
 
 
-        <h1 id="logo" onClick={() => history.push('/')}><span className="farm emojis">🐮</span> CowBell</h1>
+        <h1 id="logo" onClick={() => history.push(`/chat/${lobby_id}`)}><span className="farm emojis">🐮</span> CowBell</h1>
         {/*}.repeat(nConnections)} {nConnections}*/}
         {/* <Link to="/chat">
           <Menu.Item link active={pathname == '/chat'}>

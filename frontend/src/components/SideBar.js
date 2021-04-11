@@ -71,19 +71,17 @@ const Room = ({ room, id }) => {
 
       </Header>
 
-        {currentRoom && !yourRoom && !room.userChannel ? (
+        {/* {currentRoom && !yourRoom && !room.userChannel ? ( */}
+        {/* {currentRoom ? (
           <div className="controls">
             <button onClick={() => gotoRoom(room?._id, room)}>
               <Icon name="video" />
 
           </button>
-            <button onClick={() => gotoRoom(room?._id, room)}>
-              <Icon name="laptop" />
 
-          </button>
           </div>)
 
-          : null}
+          : null} */}
 
         {room?.activeUsers?.length !== 0 &&
 
@@ -129,13 +127,12 @@ export default function SideBar({ video }) {
       (x) =>
         ((x.message.toLowerCase().includes(query.toLowerCase())) || //&& x.active && x.activeUsers.length) ||
         x.id == 'lobby' ||
-          x.isLobby) && !x.userChannel
+          x.isLobby) && !x.userChannel && !x.dmChannel
       // (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
     ).sort((a, b) => a.active ? -1 : 1)
 
-  console.log(posts)
-  //.filter(x => x.userChannel)
   const userChannels = []
+
 
   for (let channel of Object.values(posts)) {
     if (channel.userChannel && !userChannels.some(c => c._id == channel._id)) {  //Unique user channels 
@@ -144,6 +141,14 @@ export default function SideBar({ video }) {
   }
 
 
+  const dmChannels = []
+
+  for (let channel of Object.values(posts)) {
+    // console.log("channel", channel, channel.dmChannel, !dmChannels.some(c => c._id == channel._id))
+    if (channel.dmChannel && !dmChannels.some(c => c._id == channel._id)) {  //Unique dm channels 
+      dmChannels.push(channel)
+    }
+  }
 
   // console.log(userChannels, ' bb')
   return (
@@ -160,173 +165,124 @@ export default function SideBar({ video }) {
       style={style.sideBar}
     >
         <Search setStyle={setStyle} setClassName={setClassName} className={className} />
-
-        <div className={`${showSlider ? 'show-slider' : 'hide-slider'}`} onClick={() => setShowSlider(false)}>
-          <div id="rooms" onClick={() => setOpen(false)}>
-            <h5 className="panelHeader">{sortedRooms.length} Rooms<span className="emojis">🏡</span></h5>
-          </div>
-
         {video}
 
-          {sortedRooms.length > 0 ? (sortedRooms.map((room) => (
-          <Room room={room} key={room.id} />
-          ))) : <h3>No Rooms Found :(</h3>}
+        
+        <div className={`${showSlider ? 'show-slider' : 'hide-slider'}`} onClick={() => setShowSlider(false)}>
 
-          <Messages />
-          <Users />
+
+          {/*ROOMS */}
+          <div id="rooms" className={open === 'rooms' ? `open` : 'closed'} onClick={() => setOpen('rooms')}>
+            <h5 className="panelHeader"><span className="emojis">🏡</span> {sortedRooms.length} Rooms</h5>
+            {sortedRooms.length > 0 ? (sortedRooms.map((room) => (
+                <Room room={room} key={room.id} />
+            ))) : <h3>No Rooms Found </h3>}
+          </div>
+
+          {/*DMS */}
+          <div id="direct-messages" className={open === 'direct-messages' ? `open` : 'closed'} onClick={() => setOpen('direct-messages')} >
+           
+            <h5 className="panelHeader"> <span className="emojis ">💬</span> {dmChannels.length} Chats </h5>
+            <ul>
+              <Link to='/new-message'><li><Icon name="add" /> New Message 💬</li></Link>
+              {dmChannels.length > 0 ? dmChannels.map((room) => <Room room={room} key={room.id} />) : <h3>No Messages Found</h3>}
+            </ul>
+           
+          </div>
+
+
+          {/*USERS */}
+          <div id="users" className={open === 'users' ? `open` : 'closed'} onClick={() => setOpen('users')} >
+            <h5 className="panelHeader"> <span className="emojis ">🤯</span> {userChannels.length} Users </h5>
+            <ul>
+              {userChannels.length > 0 ? userChannels.map((room) => <Room room={room} key={room.id} />) : <h3>No Users Found</h3>}
+            </ul>
+          </div>
 
         </div>
 
-    </Sidebar>
+      </Sidebar>
       {/* <Chat /> */}
 
     </>
   )
 
 
-  function Messages() {
-
-    // const [messageQuery, setMessageQuery] = useState('')
-
-    // const handleChange = e => {
-    //   //suggestUsers
-    //   console.log(e.target.value, userChannels)
-
-    //   setMessageQuery(e.target.value)
-
-    // }
-    // const handleSubmit = e => {
-    //   e.preventDefault()
-    //   console.log(messageQuery)
-
-    // }
-
-    return (
-      <div id="users" className={open ? `open` : 'closed'} onClick={() => setOpen(true)} >
-        <h5 className="panelHeader"> <span className="emojis ">💬</span> {userChannels.length} Users </h5>
-
-        {/* <form id="searchUsers"
-
-          onSubmit={handleSubmit}>
-
-          <Icon name="search" id="search" />
-          <input
-            value={messageQuery}
-            onChange={handleChange}
-            placeholder="Direct Message @someone"
-
-
-            type="text"
-          />
-          <button id="addRoom" className={showSlider ? 'show' : 'hide'}><Icon name="add" /></button>
-        </form> */}
-
-        <ul>
-          {userChannels.map((room) => {
-            console.log(room)
-            return (
-              <Link key={room._id} to={{ pathname: `/new-message`, state: room }} >
-                <Menu.Item key={room._id} className="menu-item-sidebar" style={style} header>
-                  {room.message}
-                </Menu.Item>
-              </Link>
-            )
-          })}
-          <li>Carlos</li>
-
-          <li>Marlon, Tommy</li>
-          <li>Jess, Jazz</li>
-          <li>Carlos</li>
 
 
 
-        </ul>
-      </div>
-    )
-  }
+  // function Messages() {
+
+  //   return (
+
+  //     <div id="direct-messages" className={open === 'direct-messages' ? `open` : 'closed'} onClick={() => setOpen('direct-messages')} >
+  //       {/* <Link to='/new-message'> */}
+  //       <h5 className="panelHeader"> <span className="emojis ">💬</span> {dmChannels.length} Chats </h5>
+
+  //       {/* </Link> */}
+  //       <ul>
+  //         {/* <li><Icon name="add" /> New Message 💬</li> */}
+  //         {dmChannels.map((room) => <Room room={room} key={room.id} />)}
+  //       </ul>
+  //     </div>
+
+
+  //   )
+  // }
 
 
 
-  function Users() {
-    const { liveUsers } = useContext(TheContext)
-    console.log(liveUsers, ' why is this happeneing??? ')
-    return (
-      <div id="users" className={open ? `open` : 'closed'} onClick={() => setOpen(true)} >
-        <h5 className="panelHeader"> <span className="emojis ">🤯</span> {userChannels.length} Users </h5>
-        <ul>
+  // function Users() {
+  //   const { liveUsers } = useContext(TheContext)
+  //   // console.log(liveUsers, ' why is this happeneing??? ')
+  //   return (
+  //     <div id="users" className={open === 'users' ? `open` : 'closed'} onClick={() => setOpen('users')} >
+  //       <h5 className="panelHeader"> <span className="emojis ">🤯</span> {userChannels.length} Users </h5>
+  //       <ul>
+  //         {userChannels.map((room) => <Room room={room} key={room.id} />)}
+  //       </ul>
+  //     </div>
 
-          {/* {userChannels.map((room) => <Room room={room} id={room.id} />)} */}
-
-          {userChannels.map((room) => <Room room={room} />)}
-
-          {/* {Object.values(liveUsers).map(user => <li>{user.name}</li>)} */}
-          {/* {Object.values(liveUsers).map(user => <UserRoom {...user} />)} */}
-
-          {/* <UserRoom room={{ message: 'hi' }} /> */}
-
-          {/* <li>Carlos</li>
-
-          <li>Marlon</li>
-          <li>Jess</li> */}
-        </ul>
-      </div>
-
-    )
-  }
+  //   )
+  // }
 
 
 
 
-  function UserRoom({ email, name, createdAt, points, _id }) {
-    // console.log(props)
-    const { gotoRoom, user } = useContext(TheContext)
-    // console.log('ROOM', room, user, user.email)
-    //console.log(room, 'jurassic park')
-    const style = {}
-    const yourRoom = email == user?.email
-    const currentRoom = _id === location.hash.split('/').pop()
-    if (currentRoom) {
-      // style.backgroundColor = '#2b2b2b'
-      // style.textDecoration = 'underline'
-      // // style.fontFamily = "Futura"
-      // style.borderRight = '20px solid rgb(43, 43, 43)'
-    }
+  // function UserRoom({ email, name, createdAt, points, _id }) {
+  //   // console.log(props)
+  //   const { gotoRoom, user } = useContext(TheContext)
+  //   // console.log('ROOM', room, user, user.email)
+  //   //console.log(room, 'jurassic park')
+  //   const style = {}
+  //   const yourRoom = email == user?.email
+  //   const currentRoom = _id === location.hash.split('/').pop()
+  //   if (currentRoom) {
+  //     // style.backgroundColor = '#2b2b2b'
+  //     // style.textDecoration = 'underline'
+  //     // // style.fontFamily = "Futura"
+  //     // style.borderRight = '20px solid rgb(43, 43, 43)'
+  //   }
 
-    // let host = room.activeUsers.some(x => x.email == user.email)
-    return (
-      <Link to={`/chat/${_id}`}>
-        {/* onClick={() => gotoRoom(room.id, room)} */}
+  //   // let host = room.activeUsers.some(x => x.email == user.email)
+  //   return (
+  //     <Link to={`/chat/${_id}`}>
+  //       {/* onClick={() => gotoRoom(room.id, room)} */}
 
-        <Menu.Item className="menu-item-sidebar" style={style} header width="250px" link="#">
-          <Header as="h5" inverted>
+  //       <Menu.Item className="menu-item-sidebar" style={style} header width="250px" link="#">
+  //         <Header as="h5" inverted>
 
-            <span>{name}</span>
-            {/* {room?.activeUsers.length !== 0 && <span className='activeUsers'>{room?.activeUsers?.length}</span>} */}
+  //           <span>{name}</span>
 
 
-            {/* {yourRoom && <button className="close-room" onClick={() => console.log('Send everyone to lobby')} >X</button>} */}
+  //         </Header>
 
-          </Header>
 
-          {currentRoom && !yourRoom ? (
-            <div className="controls">
-              <button onClick={() => gotoRoom(_id, null)}>
-                <Icon name="video" />
 
-              </button>
-              <button onClick={() => gotoRoom(_id, null)}>
-                <Icon name="laptop" />
-
-              </button>
-            </div>)
-
-            : null
-          }
-
-        </Menu.Item >
-      </Link >
-    )
-  }
+  //       </Menu.Item >
+  //     </Link >
+  //   )
+  // }
 
 }
 

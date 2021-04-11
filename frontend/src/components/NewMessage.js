@@ -7,6 +7,7 @@ import moment from 'moment'
 
 function NewMessage(props) {
 
+    const { user, history } = useContext(TheContext)
 
     const [channel, setChannel] = useState({ message: '' })
     const [allUsers, setAllUsers] = useState([])
@@ -47,22 +48,24 @@ function NewMessage(props) {
         actions
             .addMessage({ message: userQuery, members: selectedUsers })
             .then(res => {
+                console.log('then ', res.data)
+                history.push(`/chat/${res.data.post?._id}`)
                 setMessage('')
             })
             .catch(console.error)
     }
     const showSelectedUsers = () => {
         console.log(selectedUsers, 'setSelectedUsers')
-        return selectedUsers.map(user =>
-            <li onClick={() => setSelectedUsers(selectedUsers.filter(u => u._id != user._id))}>
-                <Image avatar src={user.avatar} style={{ background: "white" }} />
-                <span>{user.name}</span>
+        return selectedUsers.map(sUser =>
+            <li onClick={() => setSelectedUsers(selectedUsers.filter(u => u._id != sUser._id))}>
+                <Image avatar src={sUser.avatar} style={{ background: "white" }} />
+                <span>{sUser.name}</span>
 
             </li>)
     }
 
     const showUsers = () => {
-        return allUsers.filter(u => u.name.toLowerCase().includes(userQuery) && !selectedUsers.some(one => one._id == u._id)).map(user =>
+        return allUsers.filter(u => u.name.toLowerCase().includes(userQuery) && !selectedUsers.some(one => one._id == u._id) && u._id != user._id).map(user =>
             <li onClick={() => setSelectedUsers([...selectedUsers, user])}>
                 <Image avatar src={user.avatar} style={{ background: "white" }} />
                 <span>{user.name}</span>

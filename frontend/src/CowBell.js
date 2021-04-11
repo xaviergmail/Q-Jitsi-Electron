@@ -204,8 +204,8 @@ const CowBell = ({ children }) => {
         const last = post.messageIds[post.messageIds.length - 1]
         console.log(last?.message, ' 444')
         console.log(last, user, post)
-        if (last.userId?._id != user._id && last.postId != pathname.split('/').pop()) {
-          notify(last.message)
+        if (last?.userId?._id != user._id && last.postId != pathname.split('/').pop()) {
+          notify(last?.message)
         }
         //console.log(user, ' also', user._id, post?.user._id, post?.user._id != user._id, typeof user._id, typeof post?.user._id,)
 
@@ -333,7 +333,7 @@ const CowBell = ({ children }) => {
   let [loadingUser, setLoadingUser] = useState(jwt != null)
 
   async function getUser() {
-    let user = await actions.getUser()
+    let user = await actions.getUser().catch(err => console.error(err, 'err'))
     console.log('user is', user?.data.name)
     if (user) {
       setUser(user?.data)
@@ -405,9 +405,11 @@ const CowBell = ({ children }) => {
       .getAllPosts()
       .then((res) => {
         if (res) {
+
+          console.log('all posts', res.data)
           const postsById = {}
           for (let post of res.data) {
-            postsById[post.id] = post
+            postsById[post._id] = post
           }
           setPosts(postsById)
         }
@@ -446,7 +448,7 @@ const CowBell = ({ children }) => {
   const [liveUsers, setLiveUsers] = useState({})
   const [showSlider, setShowSlider] = useState(false)
   // const [className, setStyle] = useState({ width: `${window.innerWidth / 4}px` })
-  let [open, setOpen] = useState(false)
+  let [open, setOpen] = useState('rooms')
 
   const context = {
     history,
