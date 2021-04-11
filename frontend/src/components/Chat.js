@@ -72,24 +72,15 @@ function Chat(props) {
         actions
             .addMessage({ channel, message })
             .then(res => {
-
-
-                // let m = [...messages]
-
-                // m.unshift(res.data.message)
-                // // m.unshift({ message: res.data.message.message })
-
-                // setMessages(m)
                 setMessage('')
             })
             .catch(console.error)
     }
-    
-    console.log(channel, 'english')
+
 
     const showMembers = () => {
-        if (channel.members) {
-            return channel.members.map(member => <span> <Image avatar src={member?.avatar} style={{ background: 'white' }} /> <span>{member.name}</span></span>)
+        if (channel && channel?.members) {
+            return channel?.members.map(member => <span> <Image avatar src={member?.avatar} style={{ background: 'white' }} /> <span>{member.name}</span></span>)
         }
     }
 

@@ -118,7 +118,7 @@ const Room = ({ room, id }) => {
 }
 
 export default function SideBar({ video }) {
-  const { activeRooms, room, gotoRoom, posts, setStyle, style, query, className, setClassName, showSlider, setShowSlider, open, setOpen } = useContext(TheContext)
+  const { user, activeRooms, room, gotoRoom, posts, setStyle, style, query, className, setClassName, showSlider, setShowSlider, open, setOpen } = useContext(TheContext)
 
 
   const sortedRooms = Object.values(posts)
@@ -134,7 +134,7 @@ export default function SideBar({ video }) {
 
 
   for (let channel of Object.values(posts)) {
-    if (channel.userChannel && !userChannels.some(c => c._id == channel._id)) {  //Unique user channels 
+    if (channel.userChannel && !userChannels.some(c => c._id == channel._id) && channel.message.toLowerCase().includes(query.toLowerCase())) {  //Unique user channels 
       userChannels.push(channel)
     }
   }
@@ -143,8 +143,9 @@ export default function SideBar({ video }) {
   const dmChannels = []
 
   for (let channel of Object.values(posts)) {
+    console.log('love ', channel)
     // console.log("channel", channel, channel.dmChannel, !dmChannels.some(c => c._id == channel._id))
-    if (channel.dmChannel && !dmChannels.some(c => c._id == channel._id)) {  //Unique dm channels 
+    if (channel.dmChannel && channel.members.includes(user._id) && !dmChannels.some(c => c._id == channel._id) && channel.message.toLowerCase().includes(query.toLowerCase())) {  //Unique dm channels 
       dmChannels.push(channel)
     }
   }
@@ -173,27 +174,36 @@ export default function SideBar({ video }) {
           {/*ROOMS */}
           <div id="rooms" className={open === 'rooms' ? `open` : 'closed'} onClick={() => setOpen('rooms')}>
             <h5 className="panelHeader"><span className="emojis">🏡</span> {sortedRooms.length} Rooms</h5>
+
+            <ul className="scrollathon">
             {sortedRooms.length > 0 ? (sortedRooms.map((room) => (
                 <Room room={room} key={room.id} />
             ))) : <h3>No Rooms Found </h3>}
+            </ul>
+
           </div>
 
           {/*DMS */}
           <div id="direct-messages" className={open === 'direct-messages' ? `open` : 'closed'} onClick={() => setOpen('direct-messages')} >
            
             <h5 className="panelHeader"> <span className="emojis ">💬</span> {dmChannels.length} Chats </h5>
-            <ul>
+            <span >
+              <ul className="scrollathon">
               <Link to='/new-message'><li><Icon name="add" /> New Message 💬</li></Link>
+
+
               {dmChannels.length > 0 ? dmChannels.map((room) => <Room room={room} key={room.id} />) : <h3>No Messages Found</h3>}
+
             </ul>
-           
+            </span>
+
           </div>
 
 
           {/*USERS */}
           <div id="users" className={open === 'users' ? `open` : 'closed'} onClick={() => setOpen('users')} >
             <h5 className="panelHeader"> <span className="emojis ">🤯</span> {userChannels.length} Users </h5>
-            <ul>
+            <ul className="scrollathon">
               {userChannels.length > 0 ? userChannels.map((room) => <Room room={room} key={room.id} />) : <h3>No Users Found</h3>}
             </ul>
           </div>

@@ -995,6 +995,7 @@ ul#myTransactions li{
 }
 
 
+
 #new-message header {
   padding: 1rem;
   color: white;
@@ -1252,10 +1253,7 @@ div#messages .message .text{
 
 }
 
-.searchAdd {
-  border: 2px solid red !important;
-}
- 
+
 
 
 .ui.inverted.vertical.labeled.icon.ui.overlay.left.visible.sidebar.menu, .container{
@@ -1281,7 +1279,7 @@ div#messages .message .text{
 }
 #rooms h5.panelHeader, #users h5.panelHeader, #direct-messages h5.panelHeader{
   transition: all .8s;
-  color: #6DAEDB /*!important;/*Blue*/
+  color: #6DAEDB /*;/*Blue*/
 }
 
 
@@ -1327,11 +1325,17 @@ div#messages .message .text{
   height:calc(30vh) !important;
   overflow-y:scroll !important;
 }
+.ui.inverted.vertical.labeled.icon.ui.overlay.left.visible.sidebar.style-3.menu{
+  overflow-x:hidden;
+}
 
-
-
-.open {
+.scrollathon{
   overflow-y:scroll !important;
+  height:calc(100vh - 215px) !important;
+}
+.open {
+  /* overflow-y:scroll !important; */
+  /* height:calc(100vh - 215px) !important; */
   height:calc(100vh - 215px) !important;
 }
 

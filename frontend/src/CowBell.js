@@ -197,24 +197,43 @@ const CowBell = ({ children }) => {
           return newPosts
         })
 
-        if (post.messageIds.length === 0) { //FIXME
-          //notify(`NEW ${post.message}`)
-        }
-
         const last = post.messageIds[post.messageIds.length - 1]
         console.log(last?.message, ' 444')
-        console.log(last, user, post)
+        console.log(last, user, post, 'good tunes')
 
-        if (post.members) {
-          post.members.forEach(member => {
-            if (member == user._id && last?.message)
-              notify(last?.message)
-          })
+        //Your message so don't notify
+        if (last?.userId?._id == user._id && post.messageIds.length != 0) {
+          return
         }
 
-        if (last?.userId?._id != user._id && last.postId != pathname.split('/').pop() && last?.message) {
-          notify(last?.message)
+
+        //New Room - Message everyone
+        if (post.messageIds.length === 0) {
+          console.log('newRoom', last?.userId?.name, last?.message, last?.userId?.avatar)
+          return notify(`🏡 ${post?.user?.name}`, post?.message, post?.user?.avatar)
         }
+
+
+        //Direct Message - FIXME? 
+        // if (last && last?.userId?._id != user._id && last?.postId != pathname.split('/').pop() && last?.message) {
+        //   return notify(`💬 ${last?.userId?.name}`, last?.message, last?.userId?.avatar)
+        // }
+
+        //Message all members of a group DM unless the message came from yourself. 
+        if (post && post?.members) {
+
+          for (let member of post?.members) {
+            console.log(member, user._id, member != user._id, 'fire')
+            if (last?.message && member == user._id) {
+              let icon = post.userChannel ? `🧐` : post.dmChannel ? `💬` : `🏡`
+              return notify(`${icon} ${last?.userId?.name}`, last?.message, last?.userId?.avatar)
+            }
+          }
+        }
+
+
+      //
+
         //console.log(user, ' also', user._id, post?.user._id, post?.user._id != user._id, typeof user._id, typeof post?.user._id,)
 
         //If the host is present and you're not s/he then start making points 
@@ -569,9 +588,9 @@ export default function CowBellWithRouter(props) {
 }
 
 
+console.log('water')
 
-
-function notify(message) {
+function notify(title, message, icon) {
   // Let's check if the browser supports notifications
   if (!("Notification" in window)) {
     alert("This browser does not support desktop notification");
@@ -580,7 +599,14 @@ function notify(message) {
   // Let's check whether notification permissions have already been granted
   else if (Notification.permission === "granted") {
     // If it's okay let's create a notification
-    var notification = new Notification(message);
+    var options = {
+      body: message,
+      // icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+      //icon: 'https://images.vexels.com/media/users/3/185580/isolated/preview/4481c0a89970cd7107424bb018900f2a-cool-hipster-pineapple-by-vexels.png'
+      icon: icon.replace('svg', 'png')//`https://avatars.dicebear.com/4.5/api/avataaars/0.33511928838302496.png`
+    }
+
+    var notification = new Notification(title, options);
   }
 
   // Otherwise, we need to ask the user for permission
