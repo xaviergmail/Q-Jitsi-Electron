@@ -16,8 +16,8 @@ if (process.env.NODE_ENV === 'production') {
     // throw new Error('ELECTRON_WEBPACK_APP_JITSI_URL NOT SET IN PRODUCTION BUILD!')
   }
 } else {
-  baseURL = process.env.ELECTRON_WEBPACK_APP_API_URL || `http://localhost:5000`
-  jitsiURL = process.env.ELECTRON_WEBPACK_APP_JITSI_URL || `jitsi.local.plshelp.live:8443`
+  baseURL = process.env.DEV_ELECTRON_WEBPACK_APP_API_URL || `http://localhost:5000`
+  jitsiURL = process.env.DEV_ELECTRON_WEBPACK_APP_JITSI_URL || `jitsi.local.plshelp.live:8443`
 }
 
 

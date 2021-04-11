@@ -54,7 +54,6 @@ const Room = ({ room, id }) => {
     // style.fontFamily = "Futura"
     style.borderRight = '20px solid rgb(43, 43, 43)'
   }
-  console.log('dont get it', room)
   // let host = room.activeUsers.some(x => x.email == user.email)
   return (
     <Link key={room._id} to={{ pathname: `/chat/${room?._id}`, state: room }} >

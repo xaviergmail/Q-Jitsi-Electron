@@ -204,7 +204,15 @@ const CowBell = ({ children }) => {
         const last = post.messageIds[post.messageIds.length - 1]
         console.log(last?.message, ' 444')
         console.log(last, user, post)
-        if (last?.userId?._id != user._id && last.postId != pathname.split('/').pop()) {
+
+        if (post.members) {
+          post.members.forEach(member => {
+            if (member == user._id && last?.message)
+              notify(last?.message)
+          })
+        }
+
+        if (last?.userId?._id != user._id && last.postId != pathname.split('/').pop() && last?.message) {
           notify(last?.message)
         }
         //console.log(user, ' also', user._id, post?.user._id, post?.user._id != user._id, typeof user._id, typeof post?.user._id,)
@@ -233,6 +241,7 @@ const CowBell = ({ children }) => {
           if (event.type === 'muc-occupant-joined' || event.type === 'muc-occupant-created') {
             if (event.post.user._id != user._id && event.post.hostPresent) { //You are not the host and the host is there. 
             //if (event.post.hostPresent) { //You are not the host and the host is there.
+              console.log(event, ' crystal')
               setClock(true)
             }
           }

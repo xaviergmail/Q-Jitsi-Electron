@@ -85,6 +85,13 @@ function Chat(props) {
             .catch(console.error)
     }
     
+    console.log(channel, 'english')
+
+    const showMembers = () => {
+        if (channel.members) {
+            return channel.members.map(member => <span> <Image avatar src={member?.avatar} style={{ background: 'white' }} /> <span>{member.name}</span></span>)
+        }
+    }
 
     return (
         <section id="chat">
@@ -99,6 +106,7 @@ function Chat(props) {
                 <div id="messages">
                     <header className="message-title">                
                         <h1>{channel?.message}</h1>
+
                         <div className="controls">
                             <button onClick={() => gotoRoom(channel._id, channel)}>
                                 <Icon name="video" /> Video
@@ -109,13 +117,18 @@ function Chat(props) {
 
                         </div>
                         {/* <h1>{channel.message}</h1> */}
-
+                       
                     </header>
 
                     <ul>
 
                         {showMessages()}
-                        <li className="message first"><h2>Welcome #{channel?.message}!</h2><p>This is the beginning of your chat history...</p></li>
+                        <li className="message first">
+                            <div>{showMembers()}</div>
+                            <h2>Welcome #{channel?.message}!</h2>
+
+                            <p>This is the beginning of your chat history...</p>
+                        </li>
                     </ul>
                 </div>
 
