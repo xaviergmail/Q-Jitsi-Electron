@@ -10,9 +10,20 @@ import Chat from './Chat'
 
 const Participant = ({ participant, host, yourRoom }) => {
   const { user, socket, gotoRoom, liveUsers } = useContext(TheContext)
-
+  const [active, setActive] = useState(false)
   const style = { textAlign: "left", display: "flex", flexDirection: "row", alignItems: "center", padding: "4px" }
   return (
+
+    <span class="particpant-container">
+      <Image avatar src={participant.avatar} style={{ background: 'white' }} />
+      <p className='participant-name'>{participant.name}</p>
+    </span>
+  )
+}
+
+
+
+{/*}
     <li className="participant" style={style}>
       <div className={host ? 'host' : 'not-host'}>{participant.name}</div>
 
@@ -22,7 +33,7 @@ const Participant = ({ participant, host, yourRoom }) => {
             <Image avatar src={participant.avatar} style={{ background: 'white' }} />
           </div>
           <div className="back">
-            {/* <button className="remove-participant">X</button> */}
+
             {(yourRoom && !host.lol && (
               <button
                 className="remove-participant"
@@ -37,11 +48,11 @@ const Participant = ({ participant, host, yourRoom }) => {
         </div>
       </div>
 
-      {/* {host && <span>HOST</span>} */}
-    </li>
-  )
-}
 
+    </li>
+              */}
+
+              
 const Room = ({ room, id }) => {
   const { gotoRoom, user } = useContext(TheContext)
   // console.log('ROOM', room, user, user.email)
@@ -84,7 +95,7 @@ const Room = ({ room, id }) => {
 
         {room?.activeUsers?.length !== 0 &&
 
-      <List inverted>
+          <List inverted id="active-users-list">
           {room?.activeUsers?.length ? (
             room?.activeUsers.map((x) => {
               if (x?.email == user?.email) {
@@ -99,7 +110,12 @@ const Room = ({ room, id }) => {
 
 
 
-              return <Participant participant={x} host={x?.email == user?.email} yourRoom={yourRoom} key={x?.email} gotoRoom={gotoRoom} />
+              return (<>
+
+                <Participant participant={x} host={x?.email == user?.email} yourRoom={yourRoom} key={x?.email} gotoRoom={gotoRoom} />
+
+              </>
+              )
 
           })
         ) : (

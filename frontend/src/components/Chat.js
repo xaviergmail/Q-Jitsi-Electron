@@ -7,6 +7,7 @@ import moment from 'moment'
 
 function Chat(props) {
 
+
     const { activeRooms, gotoRoom, posts } = useContext(TheContext)
     const [channels, setChannels] = useState([])
     const [channel, setChannel] = useState({})

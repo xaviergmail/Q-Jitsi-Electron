@@ -279,7 +279,8 @@ a#points{
 /* .ui.inverted.menu .header.item.menu-item-sidebar {  */
   #rooms .header.item.menu-item-sidebar, #users .header.item.menu-item-sidebar, #direct-messages .header.item.menu-item-sidebar{
   border-left: 1px solid black;
-  margin: 0px 10px;
+  /* margin: 0px 10px; */
+  margin: 0;
   transition: all .5s;
 }
 
@@ -1315,12 +1316,46 @@ div#messages .message .text{
 
 } */
 #users h5, #rooms h5, #direct-messages h5{
-  padding: 1rem;
+  /* padding: 1rem; */
   color: whitesmoke;
-
+  padding: 1rem 0;
+  margin: 0;
 } 
 
+#active-users-list.ui.inverted.list {
+  display: flex;
+  justify-content: flex-end;
+  position:relative;
+  align-items:center;
+}
+#active-users-list.ui.inverted.list .particpant-container{
+  margin-left:-15px;
 
+}
+
+#active-users-list.ui.inverted.list .participant-name{
+  /* color: green; */
+  color:#4DAA57;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  opacity: 0;
+  overflow: hidden;
+  width: 7vw;
+  white-space: nowrap;
+  text-align:left;
+}
+#active-users-list.ui.inverted.list img{
+  transition: all .3s;
+}
+#active-users-list.ui.inverted.list img:hover{
+  z-index:10;
+  transform:scale(1.2);
+}
+
+#active-users-list.ui.inverted.list img:hover ~ .participant-name{
+  opacity:1;
+}
 .show-slider #users,.show-slider #rooms,.show-slider #direct-messages{
   height:calc(30vh) !important;
   overflow-y:scroll !important;
@@ -1423,4 +1458,8 @@ div#messages .message .text{
 
 
 
-  
+#rooms .ui.avatar.image, .ui.avatar.image img, .ui.avatar.image svg, .ui.avatar.images .image, .ui.avatar.images img, .ui.avatar.images svg{
+
+  width:2.5rem;
+  height:2.5rem;
+} 
