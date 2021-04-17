@@ -129,6 +129,22 @@ li.post:nth-child(even){
   min-height: 400px;
 }
 
+ul#helpers{
+    color: #D8973C;
+    color: black;
+    margin: 3rem;
+    display: flex;
+    justify-content:center;
+    flex-wrap: wrap;
+}
+
+ul#helpers li {
+  background: #4DAA57;
+    margin: 1rem;
+    font-size: 1.2rem;
+    padding: .1rem;
+}
+
 .stream {
   width: 15vw;
   height: 10vw;
@@ -138,66 +154,11 @@ li.post:nth-child(even){
 
 
 
-/* .profile.page h2 {
-  font-size: 40px;
-}
-
-.post:nth-child(odd) {
-  background-color: #eee;
-}
-.post input {
-  transform: scale(1.5);
-  margin: 1rem;
-}
-.post:hover .stream {
-  border: 1px solid white;
-  width: 15.5vw;
-  height: 10.5vw;
-}
-.post:hover .stream:hover::after {
-  /* border:1px solid black; */
-  /* background-color: white !important; */
-  /* content: ' الآلآ ن '; 
-  content: '🐮';
-
-}
-.post-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 0 1rem;
-}
-.post .message, .post .bounty{
-  display:  inline;
-} */
 
 #pay {
   padding: 1rem;
 }
 
-
-/* .posts {
-    padding-top: 2rem;
-    margin: 5rem 0;
-    font-size: 1.5rem;
-    line-height: 4rem;
-}
-
-
-.posts li:nth-child(odd){
-  background:#eee;
-}
-
-.posts a {
-  text-decoration: none;
-}
-*/
-
-/* .posts li:hover{
-  background: #ddd;
-  text-decoration: underline;
-}  */
 
 
 
@@ -269,16 +230,48 @@ a#points{
   text-align: left;
 } */
 
+/* .header.item.item.menu-item-sidebar */
+
+/* .otherItem {position:relative;width:500px;height:300px;}
+.otherItem:before, .otherItem:after, .otherItem>:first-child:before, .otherItem>:first-child:after {
+    position:absolute;
+    width:80px; height: 80px;
+    border-color:black;
+    border-style:solid;
+    content: ' ';
+}
+.otherItem:before {top:0;left:0;border-width: 1px 0 0 1px}
+.otherItem:after {top:0;right:0;border-width: 1px 1px 0 0}
+.otherItem>:first-child:before {bottom:0;right:0;border-width: 0 1px 1px 0}
+.otherItem>:first-child:after {bottom:0;left:0;border-width: 0 0 1px 1px} */
+.header.item.otherItem.menu-item-sidebar{
+  width:auto
+}
+.otherItem{   
+    height: 1px; 
+    width: 10vw;
+   
+    background:black;
+}
 
 
-
-
-
+ .scrollathon h5:hover  {
+  text-decoration: underline;
+} 
+/* #users .content:hover, 
+#rooms .content:hover.content:before, 
+#rooms .content:hover.content:after, 
+#rooms .content:hover.content>:first-child:before, 
+#rooms .content:hover.content>:first-child:after 
+, #direct-messages h5:hover{
+  border-color:white !important;
+} */
 
 
 /* .ui.inverted.menu .header.item.menu-item-sidebar {  */
   #rooms .header.item.menu-item-sidebar, #users .header.item.menu-item-sidebar, #direct-messages .header.item.menu-item-sidebar{
-  border-left: 1px solid black;
+  /* border-left: 1px solid black; */
+
   /* margin: 0px 10px; */
   margin: 0;
   transition: all .5s;
@@ -293,14 +286,15 @@ a#points{
 
 .menu-item-sidebar .activeUsers {
   color: #666;
-  border: 2px solid #666;
-  border-radius: 50%;
-  font-size: 1rem;
+  border: 1px solid #666;
+  border-radius: 40% 40% 40% 10%;
+  
+  font-size: .7rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 2em; 
-  height: 2em;
+  width: 1.5em; 
+  height: 1.5em;
   background: white;
   /* border-radius:100%; */
 }
@@ -965,7 +959,7 @@ ul#myTransactions li{
   /* align-content: space-around; */
   /* align-self: self-end; */
   flex-direction: column;
-  line-height: 10rem;
+  line-height: 2rem;
   padding: 0rem;
 }
 
@@ -1020,6 +1014,16 @@ ul#myTransactions li{
     padding-right: 2rem;
     font-size: 1.2rem;
 
+}
+
+
+#newMessage{
+  padding: 3vw;
+}
+
+
+#newMessage:hover{
+ color:#D8973C
 }
 
 
@@ -1181,7 +1185,7 @@ div#messages .message .text{
   justify-content:space-between;
   align-items:center;
   padding: .0125rem;
-  flex: 1;
+  flex: .5;
 }
 .header.item.menu-item-sidebar .controls button,  #chat header .controls button{
   background:#1b1c1d; /*Black*/
@@ -1280,7 +1284,10 @@ div#messages .message .text{
 }
 #rooms h5.panelHeader, #users h5.panelHeader, #direct-messages h5.panelHeader{
   transition: all .8s;
-  color: #6DAEDB /*;/*Blue*/
+  color: #6DAEDB; /*;/*Blue*/
+  /* list-style-type: disc;
+    display: list-item;
+    list-style-position: inside; */
 }
 
 
@@ -1322,6 +1329,8 @@ div#messages .message .text{
   margin: 0;
 } 
 
+
+
 #active-users-list.ui.inverted.list {
   display: flex;
   justify-content: flex-end;
@@ -1329,10 +1338,17 @@ div#messages .message .text{
   align-items:center;
 }
 #active-users-list.ui.inverted.list .particpant-container{
-  margin-left:-15px;
-
+  margin-left:-1.25rem;
+  display:block;
 }
+.ui.avatar.image, .ui.avatar.image img, .ui.avatar.image svg, .ui.avatar.images .image, .ui.avatar.images img, .ui.avatar.images svg{
 
+  width:2.5rem;
+  height:2.5rem;
+  border-radius: 100%;
+  display: block;
+  
+} 
 #active-users-list.ui.inverted.list .participant-name{
   /* color: green; */
   color:#4DAA57;
@@ -1367,6 +1383,10 @@ div#messages .message .text{
 .scrollathon{
   overflow-y:scroll !important;
   height:calc(100vh - 215px) !important;
+}
+
+.scrollathon{
+
 }
 .open {
   /* overflow-y:scroll !important; */
@@ -1458,8 +1478,3 @@ div#messages .message .text{
 
 
 
-#rooms .ui.avatar.image, .ui.avatar.image img, .ui.avatar.image svg, .ui.avatar.images .image, .ui.avatar.images img, .ui.avatar.images svg{
-
-  width:2.5rem;
-  height:2.5rem;
-} 

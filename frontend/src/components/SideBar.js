@@ -14,7 +14,7 @@ const Participant = ({ participant, host, yourRoom }) => {
   const style = { textAlign: "left", display: "flex", flexDirection: "row", alignItems: "center", padding: "4px" }
   return (
 
-    <span class="particpant-container">
+    <span className="particpant-container">
       <Image avatar src={participant.avatar} style={{ background: 'white' }} />
       <p className='participant-name'>{participant.name}</p>
     </span>
@@ -67,20 +67,24 @@ const Room = ({ room, id }) => {
   }
   // let host = room.activeUsers.some(x => x.email == user.email)
   return (
+    <div>
     <Link key={room._id} to={{ pathname: `/chat/${room?._id}`, state: room }} >
       {/* onClick={() => gotoRoom(room.id, room)} */}
 
-      <Menu.Item key={room._id} className="menu-item-sidebar" style={style} header>
+        <Menu.Item key={room._id} className="otherItem menu-item-sidebar" style={style} header>
+
         <Header key={room._id} as="h5" inverted>
 
           <span>{room?.message}</span>
-          {room?.activeUsers.length !== 0 && <span className='activeUsers'>{room?.activeUsers?.length}</span>}
+            {/* {room?.activeUsers.length !== 0 && <span className='activeUsers'>{room?.activeUsers?.length}</span>} */}
+
+            <div className='activeUsers'>  {room.messageIds.reduce((acc, cur) => !cur.read ? 1 + acc : 0, 0)} </div>
 
 
+            
         {yourRoom && <button className="close-room" onClick={() => console.log('Send everyone to lobby')} >X</button>}
 
-      </Header>
-
+          </Header>
         {/* {currentRoom && !yourRoom && !room.userChannel ? ( */}
         {/* {currentRoom ? (
           <div className="controls">
@@ -110,11 +114,11 @@ const Room = ({ room, id }) => {
 
 
 
-              return (<>
+              return (<div key={x?.email}>
 
                 <Participant participant={x} host={x?.email == user?.email} yourRoom={yourRoom} key={x?.email} gotoRoom={gotoRoom} />
 
-              </>
+              </div>
               )
 
           })
@@ -129,28 +133,32 @@ const Room = ({ room, id }) => {
 
         }
     </Menu.Item>
+
     </Link>
+      <div className="otherItem"></div>
+    </div>
   )
 }
 
 export default function SideBar({ video }) {
   const { user, activeRooms, room, gotoRoom, posts, setStyle, style, query, className, setClassName, showSlider, setShowSlider, open, setOpen } = useContext(TheContext)
 
+  // console.log("gottabe", posts)
 
   const sortedRooms = Object.values(posts)
     .filter(
       (x) =>
-        ((x.message.toLowerCase().includes(query.toLowerCase())) || //&& x.active && x.activeUsers.length) ||
-        x.id == 'lobby' ||
-          x.isLobby) && !x.userChannel && !x.dmChannel
+        ((x && x?.message.toLowerCase().includes(query.toLowerCase())) || //&& x.active && x.activeUsers.length) ||
+          x?.id == 'lobby' ||
+          x?.isLobby) && !x?.userChannel && !x?.dmChannel
       // (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
-    ).sort((a, b) => a.active ? -1 : 1)
+  ).sort((a, b) => a?.active ? -1 : 1)
 
   const userChannels = []
 
 
   for (let channel of Object.values(posts)) {
-    if (channel.userChannel && !userChannels.some(c => c._id == channel._id) && channel.message.toLowerCase().includes(query.toLowerCase())) {  //Unique user channels 
+    if (channel?.userChannel && !userChannels.some(c => c?._id == channel?._id) && channel?.message.toLowerCase().includes(query.toLowerCase())) {  //Unique user channels 
       userChannels.push(channel)
     }
   }
@@ -159,9 +167,7 @@ export default function SideBar({ video }) {
   const dmChannels = []
 
   for (let channel of Object.values(posts)) {
-    console.log('love ', channel)
-    // console.log("channel", channel, channel.dmChannel, !dmChannels.some(c => c._id == channel._id))
-    if (channel.dmChannel && channel.members.includes(user._id) && !dmChannels.some(c => c._id == channel._id) && channel.message.toLowerCase().includes(query.toLowerCase())) {  //Unique dm channels 
+    if (channel?.dmChannel && channel?.members.includes(user._id) && !dmChannels.some(c => c._id == channel._id) && channel?.message.toLowerCase().includes(query.toLowerCase())) {  //Unique dm channels 
       dmChannels.push(channel)
     }
   }
@@ -189,11 +195,12 @@ export default function SideBar({ video }) {
 
           {/*ROOMS */}
           <div id="rooms" className={open === 'rooms' ? `open` : 'closed'} onClick={() => setOpen('rooms')}>
-            <h5 className="panelHeader"><span className="emojis">🏡</span> {sortedRooms.length} Rooms</h5>
+            <h5 className="panelHeader"><span className="emojis">🏡</span> {sortedRooms.length} Public Room</h5>
 
             <ul className="scrollathon">
-            {sortedRooms.length > 0 ? (sortedRooms.map((room) => (
-                <Room room={room} key={room.id} />
+              <Link to='/new-question'><li id="newMessage"><Icon name="add" /> Public Room 🏡</li></Link>
+              {sortedRooms?.length > 0 ? (sortedRooms?.map((room) => (
+                <Room room={room} key={room?.id} />
             ))) : <h3>No Rooms Found </h3>}
             </ul>
 
@@ -202,13 +209,13 @@ export default function SideBar({ video }) {
           {/*DMS */}
           <div id="direct-messages" className={open === 'direct-messages' ? `open` : 'closed'} onClick={() => setOpen('direct-messages')} >
            
-            <h5 className="panelHeader"> <span className="emojis ">💬</span> {dmChannels.length} Chats </h5>
+            <h5 className="panelHeader"> <span className="emojis ">💬</span> {dmChannels?.length} Private Room</h5>
             <span >
               <ul className="scrollathon">
-              <Link to='/new-message'><li><Icon name="add" /> New Message 💬</li></Link>
+                <Link to='/new-message'><li id="newMessage"><Icon name="add" /> Private Room 💬</li></Link>
 
 
-              {dmChannels.length > 0 ? dmChannels.map((room) => <Room room={room} key={room.id} />) : <h3>No Messages Found</h3>}
+                {dmChannels?.length > 0 ? dmChannels?.map((room) => <Room room={room} key={room?.id} />) : <h3>No Messages Found</h3>}
 
             </ul>
             </span>
@@ -218,7 +225,7 @@ export default function SideBar({ video }) {
 
           {/*USERS */}
           <div id="users" className={open === 'users' ? `open` : 'closed'} onClick={() => setOpen('users')} >
-            <h5 className="panelHeader"> <span className="emojis ">🤯</span> {userChannels.length} Users </h5>
+            <h5 className="panelHeader"> <span className="emojis ">🤯</span> {userChannels.length} Live Users </h5>
             <ul className="scrollathon">
               {userChannels.length > 0 ? userChannels.map((room) => <Room room={room} key={room.id} />) : <h3>No Users Found</h3>}
             </ul>
@@ -235,79 +242,6 @@ export default function SideBar({ video }) {
 
 
 
-
-  // function Messages() {
-
-  //   return (
-
-  //     <div id="direct-messages" className={open === 'direct-messages' ? `open` : 'closed'} onClick={() => setOpen('direct-messages')} >
-  //       {/* <Link to='/new-message'> */}
-  //       <h5 className="panelHeader"> <span className="emojis ">💬</span> {dmChannels.length} Chats </h5>
-
-  //       {/* </Link> */}
-  //       <ul>
-  //         {/* <li><Icon name="add" /> New Message 💬</li> */}
-  //         {dmChannels.map((room) => <Room room={room} key={room.id} />)}
-  //       </ul>
-  //     </div>
-
-
-  //   )
-  // }
-
-
-
-  // function Users() {
-  //   const { liveUsers } = useContext(TheContext)
-  //   // console.log(liveUsers, ' why is this happeneing??? ')
-  //   return (
-  //     <div id="users" className={open === 'users' ? `open` : 'closed'} onClick={() => setOpen('users')} >
-  //       <h5 className="panelHeader"> <span className="emojis ">🤯</span> {userChannels.length} Users </h5>
-  //       <ul>
-  //         {userChannels.map((room) => <Room room={room} key={room.id} />)}
-  //       </ul>
-  //     </div>
-
-  //   )
-  // }
-
-
-
-
-  // function UserRoom({ email, name, createdAt, points, _id }) {
-  //   // console.log(props)
-  //   const { gotoRoom, user } = useContext(TheContext)
-  //   // console.log('ROOM', room, user, user.email)
-  //   //console.log(room, 'jurassic park')
-  //   const style = {}
-  //   const yourRoom = email == user?.email
-  //   const currentRoom = _id === location.hash.split('/').pop()
-  //   if (currentRoom) {
-  //     // style.backgroundColor = '#2b2b2b'
-  //     // style.textDecoration = 'underline'
-  //     // // style.fontFamily = "Futura"
-  //     // style.borderRight = '20px solid rgb(43, 43, 43)'
-  //   }
-
-  //   // let host = room.activeUsers.some(x => x.email == user.email)
-  //   return (
-  //     <Link to={`/chat/${_id}`}>
-  //       {/* onClick={() => gotoRoom(room.id, room)} */}
-
-  //       <Menu.Item className="menu-item-sidebar" style={style} header width="250px" link="#">
-  //         <Header as="h5" inverted>
-
-  //           <span>{name}</span>
-
-
-  //         </Header>
-
-
-
-  //       </Menu.Item >
-  //     </Link >
-  //   )
-  // }
 
 }
 

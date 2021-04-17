@@ -8,11 +8,12 @@ import moment from 'moment'
 function Chat(props) {
 
 
-    const { activeRooms, gotoRoom, posts } = useContext(TheContext)
+    const { activeRooms, gotoRoom, posts, setPosts, history } = useContext(TheContext)
     const [channels, setChannels] = useState([])
     const [channel, setChannel] = useState({})
     const [messages, setMessages] = useState([])
     let [message, setMessage] = useState('')
+    
 
     useEffect(() => {
 
@@ -38,11 +39,15 @@ function Chat(props) {
 
         let res = await actions.getPost(id)
 
-        console.log(res)
+        console.log(res, 'whhhhhaaa')
 
         if (res) {
             setChannel(res.data.post)
             setMessages(res.data.messages.reverse())
+            let updatedPosts = { ...posts }
+            console.log(updatedPosts, 'updated', id)
+            updatedPosts[id] = res.data.post
+            //setPosts(updatedPosts)
         }
     }
 
@@ -52,11 +57,11 @@ function Chat(props) {
     const showMessages = () => {
 
         let thisPost = posts[props.match.params.id];
-
+        console.log('show messages here ', thisPost)
         if (thisPost) {
             return [...thisPost.messageIds].reverse().map(({ message, userId, createdAt }) => (
                 <li key={createdAt} className="message">
-                    <Image avatar src={userId?.avatar} style={{ background: 'white' }} />
+                    <Image onClick={() => history.push(`/user/${userId?._id}`)} avatar src={userId?.avatar} style={{ background: 'white' }} />
                     <div>
                         <b className="name">{userId?.name} <i>{moment(createdAt).fromNow()}</i></b>
                         <p className="text">{message}</p>
@@ -81,7 +86,7 @@ function Chat(props) {
 
     const showMembers = () => {
         if (channel && channel?.members) {
-            return channel?.members.map(member => <span> <Image avatar src={member?.avatar} style={{ background: 'white' }} /> <span>{member.name}</span></span>)
+            return channel?.members.map(member => <span key={member._id}> <Image onClick={() => history.push(`/user/${member?._id}`)} avatar src={member?.avatar} style={{ background: 'white' }} /> <span>{member.name}</span></span>)
         }
     }
 
@@ -103,9 +108,9 @@ function Chat(props) {
                             <button onClick={() => gotoRoom(channel._id, channel)}>
                                 <Icon name="video" /> Video
                             </button>
-                            <button onClick={() => gotoRoom(channel._id, channel)}>
+                            {/* <button onClick={() => gotoRoom(channel._id, channel)}>
                                 <Icon name="laptop" /> Screen
-                            </button>
+                            </button> */}
 
                         </div>
                         {/* <h1>{channel.message}</h1> */}

@@ -32,8 +32,10 @@ import GoogleAuth from './components/GoogleAuth'
 import VideoPreview from './components/VideoPreview/VideoPreview'
 import Profile from './components/Profile'
 import Chat from './components/Chat'
+import NewQuestion from './components/NewQuestion'
 import NewMessage from './components/NewMessage'
 import Search from './components/Search'
+import User from './components/User'
 
 import 'react-notifications/lib/notifications.css'
 import 'semantic-ui-css/semantic.min.css'
@@ -76,14 +78,13 @@ const Stacked = styled.div`
 
 
 const { token } = localStorage;
-console.log("DA TOKEN", token)
 
 //Make connection to server just once on page load.
 const socket = io(baseURL, {
   query: { token }
 });
 
-console.log(socket, ' to me ', baseURL)
+//console.log(socket, ' to me ', baseURL)
 
 const MemoizedRoom = React.memo(
   function ({ room, children }) {
@@ -191,13 +192,13 @@ const CowBell = ({ children }) => {
 
         _setPosts(function (posts) {
           let newPosts = { ...posts }
-          console.log(newPosts, ' =-=-=-=', post, ' [][][]', newPosts[post?._id])
+          // console.log(newPosts, ' =-=-=-=', post, ' [][][]', newPosts[post?._id])
           newPosts[post?._id] = post
           //newPosts[post?.id].me
           return newPosts
         })
 
-        const last = post.messageIds[post.messageIds.length - 1]
+        const last = post?.messageIds[post.messageIds.length - 1]
         console.log(last?.message, ' 444')
         console.log(last, user, post, 'good tunes')
 
@@ -206,14 +207,22 @@ const CowBell = ({ children }) => {
           return
         }
 
+        console.log(pathname, last?.postId, 'pathname', pathname.split('/')[2], pathname.split('/')[2] === last?.postId, window.location)
+
+        //You're in that chat room so don't notify
+        if (window.location.hash.split('/').pop() === last?.postId) {
+          return
+        }
 
         //New Room - Message everyone
         if (post.messageIds.length === 0) {
-          console.log('newRoom', last?.userId?.name, last?.message, last?.userId?.avatar)
+          // console.log('newRoom', last?.userId?.name, last?.message, last?.userId?.avatar)
           return notify(`🏡 ${post?.user?.name}`, post?.message, post?.user?.avatar)
         }
 
 
+
+        // if(last && last.postId == )
         //Direct Message - FIXME? 
         // if (last && last?.userId?._id != user._id && last?.postId != pathname.split('/').pop() && last?.message) {
         //   return notify(`💬 ${last?.userId?.name}`, last?.message, last?.userId?.avatar)
@@ -223,7 +232,7 @@ const CowBell = ({ children }) => {
         if (post && post?.members) {
 
           for (let member of post?.members) {
-            console.log(member, user._id, member != user._id, 'fire')
+            // console.log(member, user._id, member != user._id, 'fire')
             if (last?.message && member == user._id) {
               let icon = post.userChannel ? `🧐` : post.dmChannel ? `💬` : `🏡`
               return notify(`${icon} ${last?.userId?.name}`, last?.message, last?.userId?.avatar)
@@ -246,26 +255,26 @@ const CowBell = ({ children }) => {
 
       },
 
-      message: ({ message }) => {
-        console.log(message, ' yoooooloooo')
+      // message: ({ message }) => {
+      //   console.log(message, ' yoooooloooo')
 
-      },
+      // },
 
 
       event: ({ event }) => {
-        console.log('event', event)
+        //console.log('event', event)
         let inTheRoom = event.participants.some((x) => x.email == user.email)//You are in this room 
         if (inTheRoom) {
 
           if (event.type === 'muc-occupant-joined' || event.type === 'muc-occupant-created') {
             if (event.post.user._id != user._id && event.post.hostPresent) { //You are not the host and the host is there. 
             //if (event.post.hostPresent) { //You are not the host and the host is there.
-              console.log(event, ' crystal')
+             // console.log(event, ' crystal')
               setClock(true)
             }
           }
         } else {
-          console.log("You aint in that room")
+          //console.log("You aint in that room")
         }
         if (event.type === 'muc-occupant-left' || event.type === 'muc-occupant-destroyed') {
 
@@ -280,18 +289,18 @@ const CowBell = ({ children }) => {
       },
 
       liveUser: (data) => {
-        console.log(data, 'liveUser')
+        //console.log(data, 'liveUser')
         // let users = [...]
         setLiveUsers(data)
       },
       me: (data) => {
-        console.log(data, ',meee')
-        console.log(liveUsers)
+        //console.log(data, ',meee')
+        //console.log(liveUsers)
         liveUsers[data._id] = data
-        console.log(liveUsers)
+        //console.log(liveUsers)
       },
       totalConnections: ({ total }) => {
-        console.log('total,', total)
+        //console.log('total,', total)
         setNConnections(total)
       },
 
@@ -362,7 +371,7 @@ const CowBell = ({ children }) => {
 
   async function getUser() {
     let user = await actions.getUser().catch(err => console.error(err, 'err'))
-    console.log('user is', user?.data.name)
+    //console.log('user is', user?.data.name)
     if (user) {
       setUser(user?.data)
     }
@@ -434,7 +443,7 @@ const CowBell = ({ children }) => {
       .then((res) => {
         if (res) {
 
-          console.log('all posts', res.data)
+          //console.log('all posts', res.data)
           const postsById = {}
           for (let post of res.data) {
             postsById[post._id] = post
@@ -458,15 +467,15 @@ const CowBell = ({ children }) => {
     setQuery(query)
   }
 
-  const activeRooms = Object.values(posts).filter(
-    (x) =>
-      (x.message.toLowerCase().includes(query.toLowerCase()) && x.active && x.activeUsers.length) ||
-      x.id == 'lobby' ||
-      x.isLobby
-    // (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
-  )
+  // const activeRooms = Object.values(posts).filter(
+  //   (x) =>
+  //     (x && x?.message.toLowerCase().includes(query.toLowerCase()) && x?.active && x?.activeUsers.length) ||
+  //     x?.id == 'lobby' ||
+  //     x?.isLobby
+  //   // (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
+  // )
 
-  const lobby_id = Object.values(posts).find(room => room.id === 'lobby')?._id
+  const lobby_id = Object.values(posts).find(room => room?.id === 'lobby')?._id
 
   const video = <VideoPreview />
   
@@ -475,6 +484,9 @@ const CowBell = ({ children }) => {
   const [style, setStyle] = useState({ width: `${window.innerWidth / 4}px` })
   const [liveUsers, setLiveUsers] = useState({})
   const [showSlider, setShowSlider] = useState(false)
+
+  //console.log(posts, ' cool banana')
+
   // const [className, setStyle] = useState({ width: `${window.innerWidth / 4}px` })
   let [open, setOpen] = useState('rooms')
 
@@ -483,8 +495,9 @@ const CowBell = ({ children }) => {
     user,
     setUser,
     posts,
+    setPosts,
     jwt,
-    activeRooms,
+    // activeRooms,
     room,
     gotoRoom,
     setMyPosts,
@@ -546,7 +559,11 @@ const CowBell = ({ children }) => {
 
               <Route path="/chat/:id" component={Chat} />
 
+              <Route path="/user/:id" component={User} />
+
               <Route path="/new-message" component={NewMessage} />
+
+              <Route path="/new-question" component={NewQuestion} />
 
               <Route path="/settings" component={Settings} />
               {/**WUT**/}
@@ -588,7 +605,6 @@ export default function CowBellWithRouter(props) {
 }
 
 
-console.log('water')
 
 function notify(title, message, icon) {
   // Let's check if the browser supports notifications

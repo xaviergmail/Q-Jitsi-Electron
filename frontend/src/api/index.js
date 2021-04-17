@@ -8,14 +8,14 @@ console.log(baseURL)
 const token = window.localStorage.getItem('token')
 let t = token ? token.substring(0, 15) : null
 
-console.log('TOKEN', t, 'NODE_ENV', process.env.NODE_ENV)
-console.log('token')
+// console.log('TOKEN', t, 'NODE_ENV', process.env.NODE_ENV)
+// console.log('token')
 
 const subChannel = new BroadcastChannel('swNotificationSub')
 subChannel.onmessage = async function (e) {
   if (e.data.subscription) {
-    console.log('eeee', e)
-    console.log('swNotificationSub', e.data.subscription)
+    // console.log('eeee', e)
+    // console.log('swNotificationSub', e.data.subscription)
     await actions.subscribe(JSON.parse(e.data.subscription))
   }
 }
@@ -75,7 +75,6 @@ const actions = {
     return await API.get('/all-posts', resetHead())
   },
   getPost: async (id) => {
-    console.log(id)
     return await API.get(`/post?id=${id}`, resetHead())
   },
   resolvePost: async (data) => {
@@ -89,7 +88,10 @@ const actions = {
   },
   getAllUsers: async () => {
     return await API.get(`all-users`, resetHead())
-  }
+  },
+  getUserProfile: async (id) => {
+    return await API.get(`user-profile?id=${id}`, resetHead())
+  },
 }
 
 API.interceptors.response.use(

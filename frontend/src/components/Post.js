@@ -87,7 +87,8 @@ const Post = ({ history, match, user }) => {
               came in from {moment(enc.join_time).format('MMMM Do YYYY, h:mm:ss a')} until{' '}
               {moment(enc.leave_time).format('MMMM Do YYYY, h:mm:ss a')}
             </i> */}
-            <input type="checkbox" onChange={toggleHelpers(enc)} /> {enc.email} helped me.
+            <input type="checkbox" onChange={toggleHelpers(enc)} />
+            <div>{enc.email} helped me.</div>
           </li>
         )
       })
@@ -130,7 +131,7 @@ const Post = ({ history, match, user }) => {
           <h3>Post has been paid</h3>
           :
           <>
-            <ul>{showHelpers()}</ul>
+            <ul id="helpers">{showHelpers()}</ul>
             {participants.length > 0 ? (
               <button id="pay" onClick={resolveThePost}>
                 Pay Helpers & Resolve Post

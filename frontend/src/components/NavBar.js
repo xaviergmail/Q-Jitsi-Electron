@@ -15,10 +15,10 @@ export function NavBar({ user }) {
   let [int, setInt] = useState(null)
 
   useEffect(() => {
-    console.log(clock, ' ! ')
+    //console.log(clock, ' ! ')
     let incPoints = null
     if (clock) {
-      console.log('count!')
+      //console.log('count!')
       incPoints = setInterval(() => setIncrement(++increment), 1000)
 
     } else {
@@ -29,8 +29,8 @@ export function NavBar({ user }) {
   }, [clock])
   // console.log('location', pathname)
   // <Menu pointing secondary 
-  console.log('video room==>', room)
-  console.log('chat room ==> ', pathname.split('/').pop() === lobby_id ? 'lobby' : pathname)
+  // console.log('video room==>', room)
+  // console.log('chat room ==> ', pathname.split('/').pop() === lobby_id ? 'lobby' : pathname)
 
   return (<>
     <nav className="top-nav">

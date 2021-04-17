@@ -147,18 +147,19 @@ const AddPost = ({ posts, setStyle }) => {
 
                 <Icon name="search" id="search" />
                 <input
-                    disabled={outOfPoints}
+                    // disabled={outOfPoints}
                     onChange={handleChange}
                     value={message}
-                    placeholder={outOfPoints ? 'Sorry your out of points' : `find a room or add your own`}
+                    placeholder="Search Rooms, Chats & Users"
+                    // placeholder={outOfPoints ? 'Sorry your out of points' : `find a room or add your own`}
                     id="bounty"
                     type="text"
                 />
-                <button id="addRoom" className={showSlider ? 'show' : 'hide'} disabled={outOfPoints}><Icon name="add" /></button>
+                {/* <button id="addRoom" className={showSlider ? 'show' : 'hide'} disabled={outOfPoints}><Icon name="add" /></button> */}
             </form>
             <label id="eg">{`e.g: ${randomQuestion()}`}</label>
 
-            {showSlider ?
+            {/* {showSlider ?
                 <>
                       
 
@@ -181,7 +182,7 @@ const AddPost = ({ posts, setStyle }) => {
 
                     </div>
                 </>
-                : null}
+                : null} */}
 
 
         </section>
