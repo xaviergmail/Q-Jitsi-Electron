@@ -54,8 +54,9 @@ const Participant = ({ participant, host, yourRoom }) => {
 
               
 const Room = ({ room, id }) => {
-  const { gotoRoom, user } = useContext(TheContext)
-  // console.log('ROOM', room, user, user.email)
+
+  const { gotoRoom, user, liveUsers } = useContext(TheContext)
+  // console.log('ROOM', room, liveUsers, liveUsers.includes(room?.user?._id))
   const style = {}
   const yourRoom = room?.user?.email == user?.email
   const currentRoom = room?._id === location.hash.split('/').pop()
@@ -75,7 +76,7 @@ const Room = ({ room, id }) => {
 
         <Header key={room._id} as="h5" inverted>
 
-          <span>{room?.message}</span>
+            <span className={room.userChannel && liveUsers.includes(room?.user?._id) ? "liveUser" : null}>{room?.message}</span>
             {/* {room?.activeUsers.length !== 0 && <span className='activeUsers'>{room?.activeUsers?.length}</span>} */}
 
             <div className='activeUsers'>  {room.messageIds.reduce((acc, cur) => !cur.read ? 1 + acc : 0, 0)} </div>
@@ -141,7 +142,7 @@ const Room = ({ room, id }) => {
 }
 
 export default function SideBar({ video }) {
-  const { user, activeRooms, room, gotoRoom, posts, setStyle, style, query, className, setClassName, showSlider, setShowSlider, open, setOpen } = useContext(TheContext)
+  const { user, activeRooms, room, gotoRoom, posts, liveUsers, setStyle, style, query, className, setClassName, showSlider, setShowSlider, open, setOpen } = useContext(TheContext)
 
   // console.log("gottabe", posts)
 
@@ -225,7 +226,7 @@ export default function SideBar({ video }) {
 
           {/*USERS */}
           <div id="users" className={open === 'users' ? `open` : 'closed'} onClick={() => setOpen('users')} >
-            <h5 className="panelHeader"> <span className="emojis ">🤯</span> {userChannels.length} Live Users </h5>
+            <h5 className="panelHeader"> <span className="emojis ">🤯</span> {userChannels.length} Total Users | {liveUsers.length} Live </h5>
             <ul className="scrollathon">
               {userChannels.length > 0 ? userChannels.map((room) => <Room room={room} key={room.id} />) : <h3>No Users Found</h3>}
             </ul>

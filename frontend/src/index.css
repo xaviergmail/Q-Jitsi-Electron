@@ -284,6 +284,8 @@ a#points{
 }
 
 
+
+
 .menu-item-sidebar .activeUsers {
   color: #666;
   border: 1px solid #666;
@@ -1476,5 +1478,14 @@ div#messages .message .text{
 }
 
 
-
+.liveUser::before{
+  content: ' ';
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  /* position: absolute; */
+  background: green;
+  border-radius: 100%;
+  margin: 0 .5rem;
+}
 

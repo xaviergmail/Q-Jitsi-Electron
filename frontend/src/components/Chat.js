@@ -8,7 +8,7 @@ import moment from 'moment'
 function Chat(props) {
 
 
-    const { activeRooms, gotoRoom, posts, setPosts, history } = useContext(TheContext)
+    const { activeRooms, gotoRoom, posts, setPosts, history, user } = useContext(TheContext)
     const [channels, setChannels] = useState([])
     const [channel, setChannel] = useState({})
     const [messages, setMessages] = useState([])
@@ -45,9 +45,9 @@ function Chat(props) {
             setChannel(res.data.post)
             setMessages(res.data.messages.reverse())
             let updatedPosts = { ...posts }
-            console.log(updatedPosts, 'updated', id)
-            updatedPosts[id] = res.data.post
-            //setPosts(updatedPosts)
+            // console.log(updatedPosts, 'updated', id)
+            // updatedPosts[id] = res.data.post
+            // _setPosts(updatedPosts)
         }
     }
 
@@ -90,6 +90,17 @@ function Chat(props) {
         }
     }
 
+    const closeRoom = async () => {
+        if (confirm("Are you sure?  This cannot be undone.")) {
+            let res = await actions.deleteRoom(channel._id)
+            console.log(res.data)
+            // let updatedPosts = {...posts}
+            // delete updatedPosts[res.data.post._id]
+            // setPosts(updatedPosts)
+            //history.push('/profile')
+        }
+    }
+
     return (
         <section id="chat">
 
@@ -125,6 +136,8 @@ function Chat(props) {
                             <h2>Welcome #{channel?.message}!</h2>
 
                             <p>This is the beginning of your chat history...</p>
+
+                            <p>{channel?.user == user?._id && !channel?.userChannel ? <button onClick={closeRoom} className="remove">Close Room</button> : null}</p>
                         </li>
                     </ul>
                 </div>

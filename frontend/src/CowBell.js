@@ -132,6 +132,7 @@ const CowBell = ({ children }) => {
 
   let [room, setRoom] = useState(routeRoom || null)
 
+
   const history = useHistory()
 
   if (isInRoomRoute) {
@@ -147,6 +148,7 @@ const CowBell = ({ children }) => {
   if (posts[room] && !posts[room].active) {
 
   }
+  const lobby_id = Object.values(posts).find(room => room?.id === 'lobby')?._id
 
 
   useEffect(() => {
@@ -179,6 +181,21 @@ const CowBell = ({ children }) => {
 
         if (email === user?.email) {
           window.jitsiMeetExternalAPI.executeCommand('hangup')
+        }
+      },
+
+
+      deletePost: ({ post }) => {
+        _setPosts(function (posts) {
+          let newPosts = { ...posts }
+
+          delete newPosts[post._id]
+          return newPosts
+        })
+        console.log(lobby_id, 'lobby_id')
+
+        if (window.location.hash.split('/').pop() == post._id) { //You're in the closed room
+          history.push(`/profile`)
         }
       },
 
@@ -288,15 +305,15 @@ const CowBell = ({ children }) => {
       encounter: (data) => {
       },
 
-      liveUser: (data) => {
-        //console.log(data, 'liveUser')
+      liveUsers: (data) => {
+        console.log(data, 'liveUser')
         // let users = [...]
         setLiveUsers(data)
       },
       me: (data) => {
         //console.log(data, ',meee')
         //console.log(liveUsers)
-        liveUsers[data._id] = data
+        //liveUsers[data._id] = data
         //console.log(liveUsers)
       },
       totalConnections: ({ total }) => {
@@ -475,20 +492,20 @@ const CowBell = ({ children }) => {
   //   // (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
   // )
 
-  const lobby_id = Object.values(posts).find(room => room?.id === 'lobby')?._id
-
   const video = <VideoPreview />
   
 
   let [bounty, setBounty] = useState(10)
   const [style, setStyle] = useState({ width: `${window.innerWidth / 4}px` })
-  const [liveUsers, setLiveUsers] = useState({})
+  const [liveUsers, setLiveUsers] = useState([])
   const [showSlider, setShowSlider] = useState(false)
 
-  //console.log(posts, ' cool banana')
+  console.log(posts, ' cool banana')
 
   // const [className, setStyle] = useState({ width: `${window.innerWidth / 4}px` })
   let [open, setOpen] = useState('rooms')
+
+
 
   const context = {
     history,

@@ -87,11 +87,14 @@ const actions = {
     return await API.post(`/add-message`, data, resetHead())
   },
   getAllUsers: async () => {
-    return await API.get(`all-users`, resetHead())
+    return await API.get(`/all-users`, resetHead())
   },
   getUserProfile: async (id) => {
-    return await API.get(`user-profile?id=${id}`, resetHead())
+    return await API.get(`/user-profile?id=${id}`, resetHead())
   },
+  deleteRoom: async (id) => {
+    return await API.delete(`/delete-room?id=${id}`, resetHead())
+  }
 }
 
 API.interceptors.response.use(
