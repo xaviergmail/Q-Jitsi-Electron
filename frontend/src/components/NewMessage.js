@@ -25,7 +25,6 @@ function NewMessage(props) {
 
     useEffect(() => {
 
-
         fetchUsers()
 
         console.log(props, ' ill be alriught')
@@ -36,7 +35,11 @@ function NewMessage(props) {
     const fetchUsers = async () => {
 
         let res = await actions.getAllUsers()
-        console.log(res.data, 'weird song')
+
+        let selectUserId = new URLSearchParams(history.location.search).get('user')
+        if (selectUserId) {
+            setSelectedUsers([res.data.find(user => user._id === selectUserId)])
+        }
         setAllUsers(res.data)
     }
 
@@ -56,12 +59,14 @@ function NewMessage(props) {
     }
     const showSelectedUsers = () => {
         console.log(selectedUsers, 'setSelectedUsers')
+        if (selectedUsers) {
         return selectedUsers.map(sUser =>
             <li onClick={() => setSelectedUsers(selectedUsers.filter(u => u._id != sUser._id))}>
                 <Image avatar src={sUser.avatar} style={{ background: "white" }} />
                 <span>{sUser.name}</span>
 
             </li>)
+        }
     }
 
     const showUsers = () => {

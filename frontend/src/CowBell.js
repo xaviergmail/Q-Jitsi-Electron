@@ -231,7 +231,7 @@ const CowBell = ({ children }) => {
           return
         }
 
-        //New Room - Message everyone
+        //New Room - Message everyone except you
         if (post.messageIds.length === 0) {
           // console.log('newRoom', last?.userId?.name, last?.message, last?.userId?.avatar)
           return notify(`🏡 ${post?.user?.name}`, post?.message, post?.user?.avatar)
@@ -239,12 +239,7 @@ const CowBell = ({ children }) => {
 
 
 
-        // if(last && last.postId == )
-        //Direct Message - FIXME? 
-        // if (last && last?.userId?._id != user._id && last?.postId != pathname.split('/').pop() && last?.message) {
-        //   return notify(`💬 ${last?.userId?.name}`, last?.message, last?.userId?.avatar)
-        // }
-
+  
         //Message all members of a group DM unless the message came from yourself. 
         if (post && post?.members) {
 
@@ -258,25 +253,9 @@ const CowBell = ({ children }) => {
         }
 
 
-      //
-
-        //console.log(user, ' also', user._id, post?.user._id, post?.user._id != user._id, typeof user._id, typeof post?.user._id,)
-
-        //If the host is present and you're not s/he then start making points 
-        // if (post?.active && post?.hostPresent && post?.user._id != user._id) {
-        //   console.log('start clock')
-        //   setClock(true)
-        // } else {
-        //   setClock(false)
-        // }
-
       },
 
-      // message: ({ message }) => {
-      //   console.log(message, ' yoooooloooo')
-
-      // },
-
+  
 
       event: ({ event }) => {
         //console.log('event', event)
@@ -636,7 +615,7 @@ function notify(title, message, icon) {
       body: message,
       // icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
       //icon: 'https://images.vexels.com/media/users/3/185580/isolated/preview/4481c0a89970cd7107424bb018900f2a-cool-hipster-pineapple-by-vexels.png'
-      icon: icon.replace('svg', 'png')//`https://avatars.dicebear.com/4.5/api/avataaars/0.33511928838302496.png`
+      icon: icon?.replace('svg', 'png')//`https://avatars.dicebear.com/4.5/api/avataaars/0.33511928838302496.png`
     }
 
     var notification = new Notification(title, options);

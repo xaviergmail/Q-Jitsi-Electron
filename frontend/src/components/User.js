@@ -10,10 +10,11 @@ function User(props) {
     let [user, setUser] = useState({})
 
     useEffect(() => {
-        console.log(props, props.match.params.id)
-        fetchUser(props.match.params.id)
+        console.log(props?.userId, ' 2392938')
+        let id = props?.userId || props?.match?.params?.id
+        fetchUser(id)
 
-    }, [])
+    }, [props])
 
     async function fetchUser(id) {
         console.log(id)

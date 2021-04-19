@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-
+import moment from 'moment'
 import TheContext from '../TheContext'
 import { Divider, Header, Icon, Image, List, Menu, Sidebar } from 'semantic-ui-react'
 import Search from './Search'
@@ -69,19 +69,20 @@ const Room = ({ room, id }) => {
   // let host = room.activeUsers.some(x => x.email == user.email)
   return (
     <div>
-    <Link key={room._id} to={{ pathname: `/chat/${room?._id}`, state: room }} >
+      <Link key={room._id} to={{ pathname: `/chat/${room?._id}`, state: room }} >
       {/* onClick={() => gotoRoom(room.id, room)} */}
 
         <Menu.Item key={room._id} className="otherItem menu-item-sidebar" style={style} header>
 
         <Header key={room._id} as="h5" inverted>
-
-            <span className={room.userChannel && liveUsers.includes(room?.user?._id) ? "liveUser" : null}>{room?.message}</span>
+            {/* } className={room?.activeUsers?.length !== 0 && 'liveUser'} */}
+            <span className={
+              (room.userChannel && liveUsers.includes(room?.user?._id) || room?.activeUsers?.length !== 0) ? "liveUser" : null}>{room?.message}</span>
             {/* {room?.activeUsers.length !== 0 && <span className='activeUsers'>{room?.activeUsers?.length}</span>} */}
 
             <div className='activeUsers'>  {room.messageIds.reduce((acc, cur) => !cur.read ? 1 + acc : 0, 0)} </div>
 
-
+            {/* <i>{moment(room.updatedAt).fromNow()}</i> */}
             
         {yourRoom && <button className="close-room" onClick={() => console.log('Send everyone to lobby')} >X</button>}
 
@@ -100,7 +101,7 @@ const Room = ({ room, id }) => {
 
         {room?.activeUsers?.length !== 0 &&
 
-          <List inverted id="active-users-list">
+            <List inverted id="active-users-list">
           {room?.activeUsers?.length ? (
             room?.activeUsers.map((x) => {
               if (x?.email == user?.email) {
@@ -142,6 +143,8 @@ const Room = ({ room, id }) => {
 }
 
 export default function SideBar({ video }) {
+  let [limit, setLimit] = useState(50)
+
   const { user, activeRooms, room, gotoRoom, posts, liveUsers, setStyle, style, query, className, setClassName, showSlider, setShowSlider, open, setOpen } = useContext(TheContext)
 
   // console.log("gottabe", posts)
@@ -153,7 +156,7 @@ export default function SideBar({ video }) {
           x?.id == 'lobby' ||
           x?.isLobby) && !x?.userChannel && !x?.dmChannel
       // (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
-  ).sort((a, b) => a?.active ? -1 : 1)
+  ).sort((a, b) => a?.active ? -1 : 1).slice(0, limit)
 
   const userChannels = []
 
@@ -196,28 +199,35 @@ export default function SideBar({ video }) {
 
           {/*ROOMS */}
           <div id="rooms" className={open === 'rooms' ? `open` : 'closed'} onClick={() => setOpen('rooms')}>
-            <h5 className="panelHeader"><span className="emojis">🏡</span> {sortedRooms.length} Public Room</h5>
+            <h5 className="panelHeader"><span className="emojis">🏡</span><span>Public Channels</span><span className="activeRooms">{sortedRooms.reduce((acc, cur) => { return room?.activeUsers?.length || 0 + cur }, 0)}</span></h5>
 
             <ul className="scrollathon">
               <Link to='/new-question'><li id="newMessage"><Icon name="add" /> Public Room 🏡</li></Link>
               {sortedRooms?.length > 0 ? (sortedRooms?.map((room) => (
                 <Room room={room} key={room?.id} />
             ))) : <h3>No Rooms Found </h3>}
+              {/* {limit < 99 ?
+                < Menu.Item onClick={() => setLimit(100)}>Show More ({sortedRooms?.length - limit})</Menu.Item>
+                : null} */}
+
             </ul>
+
 
           </div>
 
           {/*DMS */}
           <div id="direct-messages" className={open === 'direct-messages' ? `open` : 'closed'} onClick={() => setOpen('direct-messages')} >
            
-            <h5 className="panelHeader"> <span className="emojis ">💬</span> {dmChannels?.length} Private Room</h5>
+            <h5 className="panelHeader"><span className="emojis">💬</span><span>Private Channels</span><span className="activeRooms">{dmChannels.length}</span></h5>
             <span >
               <ul className="scrollathon">
                 <Link to='/new-message'><li id="newMessage"><Icon name="add" /> Private Room 💬</li></Link>
 
 
-                {dmChannels?.length > 0 ? dmChannels?.map((room) => <Room room={room} key={room?.id} />) : <h3>No Messages Found</h3>}
-
+                {dmChannels?.length > 0 ? dmChannels?.map((room) => <Room room={room} key={room?.id} />).slice(0, limit) : <h3>No Messages Found</h3>}
+                {/* {limit < 99 ?
+                  < Menu.Item onClick={() => setLimit(100)}>Show More ({dmChannels?.length - limit})</Menu.Item>
+                  : null} */}
             </ul>
             </span>
 
@@ -226,9 +236,14 @@ export default function SideBar({ video }) {
 
           {/*USERS */}
           <div id="users" className={open === 'users' ? `open` : 'closed'} onClick={() => setOpen('users')} >
-            <h5 className="panelHeader"> <span className="emojis ">🤯</span> {userChannels.length} Total Users | {liveUsers.length} Live </h5>
+            <h5 className="panelHeader"><span className="emojis">🤯</span><span>Users</span><span className="activeRooms">{liveUsers.length}</span></h5>
+
+            {/* <h5 className="panelHeader"> <span className="emojis ">🤯</span> {userChannels.length} Total Users | {liveUsers.length} Live </h5> */}
             <ul className="scrollathon">
-              {userChannels.length > 0 ? userChannels.map((room) => <Room room={room} key={room.id} />) : <h3>No Users Found</h3>}
+              {userChannels.length > 0 ? userChannels.map((room) => <Room room={room} key={room.id} />).slice(0, limit) : <h3>No Users Found</h3>}
+              {/* {limit < 99 ?
+                < Menu.Item onClick={() => setLimit(100)}>Show More ({userChannels?.length - limit})</Menu.Item>
+                : null} */}
             </ul>
           </div>
 

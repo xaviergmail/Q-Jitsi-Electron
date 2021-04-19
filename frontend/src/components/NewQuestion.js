@@ -33,7 +33,8 @@ function NewQuestion(props) {
                 setUser(res?.data.user)
                 console.log(res.data, ' <<>>> THIS ISH BUSNATCH')
                 // NotificationManager.info(`You've submitted a new issue`)
-                gotoRoom(res.data.posted._id)
+                // gotoRoom(res.data.posted._id) //SENDS TO VIDEO 
+                history.push(`/chat/${res.data.posted._id}`)
                 setBounty(10)
             })
             .catch((err) => console.error(err))

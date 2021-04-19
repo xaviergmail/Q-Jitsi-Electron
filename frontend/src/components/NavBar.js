@@ -41,6 +41,11 @@ export function NavBar({ user }) {
           <Icon name="arrow left" />
           <span id="address">{pathname.split('/').pop() === lobby_id ? 'lobby' : pathname}</span>
         </div>
+        <div id="back" onClick={() => location.reload()}>
+          <Icon name="refresh" />
+
+        </div>
+
 
 
         <h1 id="logo" onClick={() => history.push(`/chat/${lobby_id}`)}><span className="farm emojis">🐮</span> CowBell</h1>

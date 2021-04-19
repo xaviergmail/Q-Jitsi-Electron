@@ -275,6 +275,7 @@ a#points{
   /* margin: 0px 10px; */
   margin: 0;
   transition: all .5s;
+  text-align: left;
 }
 
 .menu-item-sidebar h5{
@@ -1287,9 +1288,14 @@ div#messages .message .text{
 #rooms h5.panelHeader, #users h5.panelHeader, #direct-messages h5.panelHeader{
   transition: all .8s;
   color: #6DAEDB; /*;/*Blue*/
-  /* list-style-type: disc;
+  list-style-type: disc;
     display: list-item;
-    list-style-position: inside; */
+    list-style-position: inside;
+    display:flex;
+    justify-content:space-between;
+    padding: 1rem;
+    align-items:center;
+    
 }
 
 
@@ -1484,8 +1490,24 @@ div#messages .message .text{
   height: 10px;
   display: inline-block;
   /* position: absolute; */
-  background: green;
+  background: #4DAA57;
   border-radius: 100%;
   margin: 0 .5rem;
 }
 
+
+span.activeRooms{
+
+  width: 15px;
+  height: 15px;
+  color: black;
+  background: #4DAA57;
+  border-radius: 100%;
+  font-size: .75rem;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}

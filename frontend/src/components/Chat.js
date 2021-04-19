@@ -3,6 +3,7 @@ import TheContext from '../TheContext'
 import actions from '../api/index'
 import { Divider, Header, Icon, Image, List, Menu, Sidebar } from 'semantic-ui-react'
 import moment from 'moment'
+import User from './User'
 
 
 function Chat(props) {
@@ -86,7 +87,8 @@ function Chat(props) {
 
     const showMembers = () => {
         if (channel && channel?.members) {
-            return channel?.members.map(member => <span key={member._id}> <Image onClick={() => history.push(`/user/${member?._id}`)} avatar src={member?.avatar} style={{ background: 'white' }} /> <span>{member.name}</span></span>)
+            console.log('memmm', channel?.members)
+            return channel?.members.map(member => <span key={member._id}> <Image onClick={() => history.push(`/chat/${member?.postId}`)} avatar src={member?.avatar} style={{ background: 'white' }} /> <span>{member.name}</span></span>)
         }
     }
 
@@ -114,19 +116,28 @@ function Chat(props) {
                 <div id="messages">
                     <header className="message-title">                
                         <h1>{channel?.message}</h1>
+                        
 
                         <div className="controls">
                             <button onClick={() => gotoRoom(channel._id, channel)}>
                                 <Icon name="video" /> Video
                             </button>
-                            {/* <button onClick={() => gotoRoom(channel._id, channel)}>
-                                <Icon name="laptop" /> Screen
-                            </button> */}
+
+                            {channel?.userChannel ?
+
+                                <button onClick={() => history.push(`/new-message/?user=${channel?.user}`)}>
+                                    <Icon name="laptop" /> Send Private Message
+                                </button>
+
+                                : null}
 
                         </div>
                         {/* <h1>{channel.message}</h1> */}
                        
                     </header>
+
+                    {channel?.userChannel ? <User userId={channel?.user} /> : null}
+
 
                     <ul>
 
