@@ -199,7 +199,17 @@ export default function SideBar({ video }) {
 
           {/*ROOMS */}
           <div id="rooms" className={open === 'rooms' ? `open` : 'closed'} onClick={() => setOpen('rooms')}>
-            <h5 className="panelHeader"><span className="emojis">🏡</span><span>Public Channels</span><span className="activeRooms">{sortedRooms.reduce((acc, cur) => { return room?.activeUsers?.length || 0 + cur }, 0)}</span></h5>
+            <h5 className="panelHeader">
+              <span className="emojis">🏡</span>
+              <span>Public Channels</span>
+              <span className="activeRooms">
+                {sortedRooms.reduce((acc, room) => {
+                  console.log(acc, room, ' ?')
+                  return room?.activeUsers?.length || 0 + acc
+                }, 0)
+                }
+              </span>
+            </h5>
 
             <ul className="scrollathon">
               <Link to='/new-question'><li id="newMessage"><Icon name="add" /> Public Room 🏡</li></Link>
@@ -218,8 +228,23 @@ export default function SideBar({ video }) {
           {/*DMS */}
           <div id="direct-messages" className={open === 'direct-messages' ? `open` : 'closed'} onClick={() => setOpen('direct-messages')} >
            
-            <h5 className="panelHeader"><span className="emojis">💬</span><span>Private Channels</span><span className="activeRooms">{dmChannels.length}</span></h5>
-            <span >
+            <h5 className="panelHeader">
+              {/* <span className="emojis">💬</span>
+              <span>Private Channels</span>
+              <span className="activeRooms">
+                {dmChannels.length}
+              </span> */}
+              <span className="emojis">💬</span>
+              <span>Private Channels</span>
+              <span className="activeRooms">
+                {dmChannels.reduce((acc, room) => {
+                  console.log(acc, room, ' ?')
+                  return room?.activeUsers?.length || 0 + acc
+                }, 0)
+                }
+              </span>
+            </h5>
+             <span >
               <ul className="scrollathon">
                 <Link to='/new-message'><li id="newMessage"><Icon name="add" /> Private Room 💬</li></Link>
 
@@ -236,7 +261,20 @@ export default function SideBar({ video }) {
 
           {/*USERS */}
           <div id="users" className={open === 'users' ? `open` : 'closed'} onClick={() => setOpen('users')} >
-            <h5 className="panelHeader"><span className="emojis">🤯</span><span>Users</span><span className="activeRooms">{liveUsers.length}</span></h5>
+            <h5 className="panelHeader">
+              <span className="emojis">🤯</span>
+              <span>Users</span>
+              <span className="activeRooms">{liveUsers.length}</span>
+            </h5>
+            {/* <span className="emojis">🤯</span>
+            <span>Users</span>
+            <span className="activeRooms">
+              {liveUsers.reduce((acc, room) => {
+                console.log(acc, room, ' ?')
+                return room?.activeUsers?.length || 0 + acc
+              }, 0)
+              }
+            </span> */}
 
             {/* <h5 className="panelHeader"> <span className="emojis ">🤯</span> {userChannels.length} Total Users | {liveUsers.length} Live </h5> */}
             <ul className="scrollathon">

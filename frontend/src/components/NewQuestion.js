@@ -4,7 +4,7 @@ import actions from '../api/index'
 import { Divider, Header, Icon, Image, List, Menu, Sidebar } from 'semantic-ui-react'
 import moment from 'moment'
 import Search from './Search'
-
+import { Link } from 'react-router-dom'
 
 function NewQuestion(props) {
 
@@ -19,7 +19,9 @@ function NewQuestion(props) {
         return Object.values(posts)
             .filter(post => !post.userChannel && !post.dmChannel)
             .filter(post => post.message.toLowerCase().includes(message.toLowerCase()))
-            .map(post => <li>{post.message}</li>)
+            .map(post => (
+                <Link to={`chat/${post._id}`}><li>{post.message}</li></Link>
+            ))
     }
 
     const handleSubmit = (e) => {
