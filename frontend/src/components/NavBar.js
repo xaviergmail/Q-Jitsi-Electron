@@ -19,7 +19,7 @@ export function NavBar({ user }) {
     let incPoints = null
     if (clock) {
       //console.log('count!')
-      incPoints = setInterval(() => setIncrement(++increment), 1000)
+      incPoints = setInterval(() => setIncrement(++increment), 10000)
 
     } else {
       clearInterval(incPoints)

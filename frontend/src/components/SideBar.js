@@ -149,14 +149,29 @@ export default function SideBar({ video }) {
 
   // console.log("gottabe", posts)
 
+  // const sortedRooms = Object.values(posts)
+  //   .filter(
+  //     (x) =>
+  //       ((x && x?.message.toLowerCase().includes(query.toLowerCase())) || //&& x.active && x.activeUsers.length) ||
+  //         x?.id == 'lobby' ||
+  //         x?.isLobby) && !x?.userChannel && !x?.dmChannel
+  //     // (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
+  // ).sort((a, b) => a?.active ? -1 : 1).slice(0, limit)
+
+
+
+
   const sortedRooms = Object.values(posts)
     .filter(
       (x) =>
-        ((x && x?.message.toLowerCase().includes(query.toLowerCase())) || //&& x.active && x.activeUsers.length) ||
-          x?.id == 'lobby' ||
-          x?.isLobby) && !x?.userChannel && !x?.dmChannel
-      // (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
+      (
+        (x && x?.message.toLowerCase().includes(query.toLowerCase()))
+      )//||  x?.id == 'lobby' || x?.isLobby) 
+      && !x?.userChannel && !x?.dmChannel
+
   ).sort((a, b) => a?.active ? -1 : 1).slice(0, limit)
+
+
 
   const userChannels = []
 
@@ -204,7 +219,6 @@ export default function SideBar({ video }) {
               <span>Public Channels</span>
               <span className="activeRooms">
                 {sortedRooms.reduce((acc, room) => {
-                  console.log(acc, room, ' ?')
                   return room?.activeUsers?.length || 0 + acc
                 }, 0)
                 }
@@ -212,7 +226,7 @@ export default function SideBar({ video }) {
             </h5>
 
             <ul className="scrollathon">
-              <Link to='/new-question'><li id="newMessage"><Icon name="add" /> Public Room 🏡</li></Link>
+              <Link to='/new-question'><li id="newMessage"><Icon name="add" /></li></Link>
               {sortedRooms?.length > 0 ? (sortedRooms?.map((room) => (
                 <Room room={room} key={room?.id} />
             ))) : <h3>No Rooms Found </h3>}
@@ -238,15 +252,29 @@ export default function SideBar({ video }) {
               <span>Private Channels</span>
               <span className="activeRooms">
                 {dmChannels.reduce((acc, room) => {
-                  console.log(acc, room, ' ?')
+                  // console.log(acc, room, ' ?!')
                   return room?.activeUsers?.length || 0 + acc
                 }, 0)
                 }
               </span>
+
+              {/* <div className='activeUsers'>
+                {dmChannels.reduce((acc, room) => {
+
+                  let num = room.messageIds.reduce((acc, cur) => !cur.read ? 1 + acc : 0, 0) || 0 + acc
+                  console.log(num, 'num')
+                  return num
+
+                  //return room?.messageIds?.length || 0 + acc
+                }, 0)
+                }
+             
+              </div> */}
+
             </h5>
              <span >
               <ul className="scrollathon">
-                <Link to='/new-message'><li id="newMessage"><Icon name="add" /> Private Room 💬</li></Link>
+                <Link to='/new-message'><li id="newMessage"><Icon name="add" /></li></Link>
 
 
                 {dmChannels?.length > 0 ? dmChannels?.map((room) => <Room room={room} key={room?.id} />).slice(0, limit) : <h3>No Messages Found</h3>}

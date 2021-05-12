@@ -479,7 +479,7 @@ const CowBell = ({ children }) => {
   const [liveUsers, setLiveUsers] = useState([])
   const [showSlider, setShowSlider] = useState(false)
 
-  console.log(posts, ' cool banana')
+  // console.log(posts, ' cool banana')
 
   // const [className, setStyle] = useState({ width: `${window.innerWidth / 4}px` })
   let [open, setOpen] = useState('rooms')

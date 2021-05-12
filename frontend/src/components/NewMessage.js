@@ -46,22 +46,33 @@ function NewMessage(props) {
 
 
     const submitMessage = e => {
-        console.log(message, ' om dos')
+
         e.preventDefault()
+
+        if (selectedUsers.length < 1) {
+            return alert('Must select atleast one user')
+        }
+        //Create Channel
+
         actions
-            .addMessage({ message: userQuery, members: selectedUsers })
+            .addMessage({ message: selectedUsers.map(u => u.name).join(' & '), members: selectedUsers })
             .then(res => {
                 console.log('then ', res.data)
-                history.push(`/chat/${res.data.post?._id}`)
-                setMessage('')
-            })
-            .catch(console.error)
+
+                //I think res.data.post is channel 
+                actions.addMessage({ message, channel: res.data.post }).then(res => {
+                    history.push(`/chat/${res.data.post?._id}`)
+                    setMessage('')
+                }).catch(console.error)
+
+
+            }).catch(console.error)
     }
     const showSelectedUsers = () => {
         console.log(selectedUsers, 'setSelectedUsers')
         if (selectedUsers) {
         return selectedUsers.map(sUser =>
-            <li onClick={() => setSelectedUsers(selectedUsers.filter(u => u._id != sUser._id))}>
+            <li onClick={() => { setSelectedUsers(selectedUsers.filter(u => u._id != sUser._id)); setUserQuery('') }}>
                 <Image avatar src={sUser.avatar} style={{ background: "white" }} />
                 <span>{sUser.name}</span>
 
@@ -71,7 +82,7 @@ function NewMessage(props) {
 
     const showUsers = () => {
         return allUsers.filter(u => u.name.toLowerCase().includes(userQuery) && !selectedUsers.some(one => one._id == u._id) && u._id != user._id).map(user =>
-            <li onClick={() => setSelectedUsers([...selectedUsers, user])}>
+            <li onClick={() => { setSelectedUsers([...selectedUsers, user]); setUserQuery('') }}>
                 <Image avatar src={user.avatar} style={{ background: "white" }} />
                 <span>{user.name}</span>
 
@@ -88,9 +99,34 @@ function NewMessage(props) {
 
                 <div id="messages">
                     <header className="message-title">
+
+                        <h4>Click on a user to start a private chat</h4>
+
+
+                        <div id="selectedUsers">
                         {showSelectedUsers()}
 
-                        <form id="searchUsers"
+
+
+
+                            <form id="searchUsers" onSubmit={e => e.preventDefault()}>
+                                <Icon name="search" id="search" />
+                                <input
+                                    value={userQuery}
+                                    onChange={handleChange}
+                                    placeholder="Find User"
+                                    type="text"
+                                />
+                                {/* <button id="addMessage" disabled={false}>
+                                    <Icon name="add" />
+                                    <label></label>
+                                </button> */}
+                            </form>
+
+                        </div>
+
+
+                        {/* <form id="searchUsers"
 
                             onSubmit={submitMessage}>
 
@@ -103,11 +139,14 @@ function NewMessage(props) {
 
                                 type="text"
                             />
-                            {/* <button id="addRoom" className={showSlider ? 'show' : 'hide'}><Icon name="add" /></button> */}
-                            <button id="addMessage" disabled={false}><Icon name="add" /> <label></label></button>
-                        </form>
+                            <button id="addMessage" disabled={false}>
+                                <Icon name="add" />
+                                <label></label>
+                            </button>
+                        </form> */}
                         <h1>{selectedUsers.map(u => u.name).join(' & ')}</h1>
-                        <ul>
+
+                        <ul id="unselectedUsers">
                             {showUsers()}
                         </ul>
                         {/* <div className="controls">
@@ -123,18 +162,23 @@ function NewMessage(props) {
 
                     </header>
 
-                    <ul>
+                    {/* <ul>
 
-                        <li className="message first"><h2>Hi #{selectedUsers.map(u => u.name).join(' & ')}!</h2><p>This is the beginning of your chat history...</p></li>
-                    </ul>
+                        <li className="message first">
+                            <h2>Hi #{selectedUsers.map(u => u.name).join(' & ')}!</h2>
+                            <p>This is the beginning of your chat history...</p>
+                        </li>
+                    </ul> */}
                 </div>
 
             </main>
 
-            {/* <form onSubmit={submitMessage}>
-                <input type="text" value={message} placeholder="Say something... Earn a CowBell" onChange={e => setMessage(e.target.value)} />
+            {selectedUsers.length > 0 ?
+                <form className="addNewMessage" onSubmit={submitMessage}>
+                    <input type="text" value={message} placeholder={`Say something to: ${selectedUsers.map(u => u.name).join(' & ')}`} onChange={e => setMessage(e.target.value)} />
                 <button id="addMessage" disabled={false}><Icon name="add" /> <label></label></button>
-            </form> */}
+                </form>
+                : null}
 
 
         </section>

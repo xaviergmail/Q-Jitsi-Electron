@@ -6,6 +6,8 @@ import moment from 'moment'
 import Search from './Search'
 import { Link } from 'react-router-dom'
 
+
+
 function NewQuestion(props) {
 
     const { user, history, posts, bounty, setBounty, setUser, gotoRoom, filterRooms, showSlider, setShowSlider, open, setOpen } = useContext(TheContext)
@@ -33,7 +35,7 @@ function NewQuestion(props) {
             .addPost({ message, bounty })
             .then((res) => {
                 setUser(res?.data.user)
-                console.log(res.data, ' <<>>> THIS ISH BUSNATCH')
+                // console.log(res.data, ' <<>>> THIS ISH BUSNATCH')
                 // NotificationManager.info(`You've submitted a new issue`)
                 // gotoRoom(res.data.posted._id) //SENDS TO VIDEO 
                 history.push(`/chat/${res.data.posted._id}`)
@@ -45,12 +47,14 @@ function NewQuestion(props) {
     return (
 
 
-        <section id="new-message">
+        <section id="new-question">
             <main>
 
 
                 <div id="messages">
                     <header className="message-title">
+
+                        <h4>Click on a user to start a private chat</h4>
 
                         <form id="searchUsers" onSubmit={handleSubmit}>
                             <input
@@ -80,7 +84,7 @@ function NewQuestion(props) {
 
 
                         </div>
-                        <ul>
+                        <ul className="showPosts">
                             {showPosts()}
                         </ul>
 

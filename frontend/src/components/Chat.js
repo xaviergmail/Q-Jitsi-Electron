@@ -18,7 +18,6 @@ function Chat(props) {
 
     useEffect(() => {
 
-        console.log('should be fecthing lobby??', props.match.params.id)
 
         // const query = new URLSearchParams(props.location.search);
         // console.log(query.get('user'), 'peace of mind', props)
@@ -40,7 +39,6 @@ function Chat(props) {
 
         let res = await actions.getPost(id)
 
-        console.log(res, 'whhhhhaaa')
 
         if (res) {
             setChannel(res.data.post)
@@ -58,7 +56,7 @@ function Chat(props) {
     const showMessages = () => {
 
         let thisPost = posts[props.match.params.id];
-        console.log('show messages here ', thisPost)
+        //console.log('show messages here ', thisPost)
         if (thisPost) {
             return [...thisPost.messageIds].reverse().map(({ message, userId, createdAt }) => (
                 <li key={createdAt} className="message">
@@ -87,7 +85,6 @@ function Chat(props) {
 
     const showMembers = () => {
         if (channel && channel?.members) {
-            console.log('memmm', channel?.members)
             return channel?.members.map(member => <span key={member._id}> <Image onClick={() => history.push(`/chat/${member?.postId}`)} avatar src={member?.avatar} style={{ background: 'white' }} /> <span>{member.name}</span></span>)
         }
     }
@@ -126,7 +123,7 @@ function Chat(props) {
                             {channel?.userChannel ?
 
                                 <button onClick={() => history.push(`/new-message/?user=${channel?.user}`)}>
-                                    <Icon name="laptop" /> Send Private Message
+                                    <Icon name="chat" /> Chat
                                 </button>
 
                                 : null}
@@ -155,7 +152,7 @@ function Chat(props) {
 
             </main>
 
-            <form onSubmit={submitMessage}>
+            <form className="addNewMessage" onSubmit={submitMessage}>
                 <input type="text" value={message} placeholder="Say something... Earn a CowBell" onChange={e => setMessage(e.target.value)} />
                 {/* <button>+</button> */}
                 <button id="addMessage" disabled={false}><Icon name="add" /> <label></label></button>
