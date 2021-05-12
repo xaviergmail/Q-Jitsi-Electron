@@ -499,10 +499,36 @@ a#create{
   display:flex;
   flex-direction: row;
   width: 100%;
-  position:relative;
+  /* position:relative; */
   justify-content:center;
 }
 
+button#createRoom{
+  position: absolute;
+  top: 50vh;
+  padding: 2rem 3rem;
+  color: #6DAEDB;
+  font-family: 'MilkyNice';
+  background: rgb(43,43,43);
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition:all .5s;
+}
+
+/* 
+button#createRoom i::before{
+  transition:all .5s;
+} */
+button#createRoom label {
+  pointer-events: none;
+} 
+
+button#createRoom:hover, 
+button#createRoom:hover i::before{
+  background:#4DAA57;
+  color:white;
+}
 #addPost input:focus , #searchUsers input:focus{
   outline: none;
 }

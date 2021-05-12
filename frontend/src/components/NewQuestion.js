@@ -54,19 +54,23 @@ function NewQuestion(props) {
                 <div id="messages">
                     <header className="message-title">
 
-                        <h4>Click on a user to start a private chat</h4>
+                        <h4>Start a discussion...</h4>
 
                         <form id="searchUsers" onSubmit={handleSubmit}>
                             <input
 
-                                placeholder="Ask a Question.  Create a room."
+                                placeholder={randomQuestion()}
                                 onChange={e => setMessage(e.target.value)}
-
+                                required
                                 type="text"
                             />
                             <button id="addMessage" disabled={false}><Icon name="add" /> <label></label></button>
+                            <button id="createRoom" disabled={false}><Icon name="add" /> <label>Create Room</label></button>
                         </form>
                         <div className="details">
+
+
+                            <h4>Offer an incentive...</h4>
                             <label htmlFor="cowbell">{bounty} 💰</label>
 
                             <input
@@ -84,9 +88,10 @@ function NewQuestion(props) {
 
 
                         </div>
-                        <ul className="showPosts">
+
+                        {/* <ul className="showPosts">
                             {showPosts()}
-                        </ul>
+                        </ul> */}
 
                     </header>
 
@@ -106,3 +111,17 @@ function NewQuestion(props) {
 }
 
 export default NewQuestion;
+
+const questions = [
+    'Why is earth flat?',
+    "My flexbox isn't flexible..?",
+    'HOW DO I TURN CAPLOCK OFF?',
+    'Why is NaN !== NaN?!?',
+    'typeof {} + function(){} ??',
+    "Why is (true == 'true') === false?",
+    "What is 'this'?",
+    "Why is typeof NaN === 'number'?",
+]
+function randomQuestion() {
+    return questions[~~(Math.random() * questions.length)]
+}

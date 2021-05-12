@@ -157,7 +157,7 @@ const AddPost = ({ posts, setStyle }) => {
                 />
                 {/* <button id="addRoom" className={showSlider ? 'show' : 'hide'} disabled={outOfPoints}><Icon name="add" /></button> */}
             </form>
-            <label id="eg">{`e.g: ${randomQuestion()}`}</label>
+            {/* <label id="eg">{`e.g: ${randomQuestion()}`}</label> */}
 
             {/* {showSlider ?
                 <>
