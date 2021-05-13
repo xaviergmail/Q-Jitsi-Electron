@@ -638,9 +638,11 @@ button#createRoom:hover i::before{
 #addPost{
   display:flex;
   flex-direction: column;
-  width: 95%;
+  /* width: 95%;
 
-  margin: 1rem 5%;
+  margin: 1rem 5%; */
+  width: 100%;
+  margin: 1rem 0%
 }
 #addRoom:hover {
   color:black !important;
@@ -1037,7 +1039,11 @@ ul#myTransactions li{
 #newMessage{
   padding: 3vw;
   transition: all .3s;
+  position: relative;
+  z-index: 1;
 }
+
+
 
 
 form.addNewMessage {
@@ -1501,7 +1507,7 @@ i.icon{
 .open {
   /* overflow-y:scroll !important; */
   /* height:calc(100vh - 215px) !important; */
-  height:calc(100vh - 240px) !important;
+  height:calc(100vh - 195px) !important;
 }
 
 

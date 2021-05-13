@@ -234,7 +234,7 @@ const CowBell = ({ children }) => {
         //New Room - Message everyone except you
         if (post.messageIds.length === 0) {
           // console.log('newRoom', last?.userId?.name, last?.message, last?.userId?.avatar)
-          return notify(`🏡 ${post?.user?.name}`, post?.message, post?.user?.avatar)
+          return notify(`🏡 ${post?.user?.name}`, post?.message, post?.user?.avatar, () => history.push(`/chat/${post._id}`))
         }
 
 
@@ -247,7 +247,7 @@ const CowBell = ({ children }) => {
             // console.log(member, user._id, member != user._id, 'fire')
             if (last?.message && member == user._id) {
               let icon = post.userChannel ? `🧐` : post.dmChannel ? `💬` : `🏡`
-              return notify(`${icon} ${last?.userId?.name}`, last?.message, last?.userId?.avatar)
+              return notify(`${icon} ${last?.userId?.name}`, last?.message, last?.userId?.avatar, () => history.push(`/chat/${post._id}`))
             }
           }
         }
@@ -602,7 +602,7 @@ export default function CowBellWithRouter(props) {
 
 
 
-function notify(title, message, icon) {
+function notify(title, message, icon, redirect) {
   // Let's check if the browser supports notifications
   if (!("Notification" in window)) {
     alert("This browser does not support desktop notification");
@@ -619,6 +619,12 @@ function notify(title, message, icon) {
     }
 
     var notification = new Notification(title, options);
+    notification.onclick = function (e) {
+      console.log(e, history)
+      alert('clicked!')
+      redirect()
+      // history.push(`/chat/${postId}`)
+    }
   }
 
   // Otherwise, we need to ask the user for permission
