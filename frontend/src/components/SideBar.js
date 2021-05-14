@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import moment from 'moment'
 import TheContext from '../TheContext'
 import { Divider, Header, Icon, Image, List, Menu, Sidebar } from 'semantic-ui-react'
@@ -56,6 +56,14 @@ const Participant = ({ participant, host, yourRoom }) => {
 const Room = ({ room, id }) => {
 
   const { gotoRoom, user, liveUsers } = useContext(TheContext)
+
+  const [count, setCount] = useState()
+
+  useEffect(() => {
+    setCount(room.messageIds.reduce((acc, cur) => !cur.read.includes(user._id) ? 1 + acc : 0, 0))
+
+    // return () => setCount(0)
+  }, [room.messageIds])
   // console.log('ROOM', room, liveUsers, liveUsers.includes(room?.user?._id))
   const style = {}
   const yourRoom = room?.user?.email == user?.email
@@ -69,7 +77,7 @@ const Room = ({ room, id }) => {
   // let host = room.activeUsers.some(x => x.email == user.email)
   return (
     <div>
-      <Link key={room._id} to={{ pathname: `/chat/${room?._id}`, state: room }} >
+      <Link key={room._id} to={{ pathname: `/chat/${room?._id}`, state: room }} onClick={() => setCount(0)}>
       {/* onClick={() => gotoRoom(room.id, room)} */}
 
         <Menu.Item key={room._id} className="otherItem menu-item-sidebar" style={style} header>
@@ -80,7 +88,11 @@ const Room = ({ room, id }) => {
               (room.userChannel && liveUsers.includes(room?.user?._id) || room?.activeUsers?.length !== 0) ? "liveUser" : null}>{room?.message}</span>
             {/* {room?.activeUsers.length !== 0 && <span className='activeUsers'>{room?.activeUsers?.length}</span>} */}
 
-            <div className='activeUsers'>  {room.messageIds.reduce((acc, cur) => !cur.read ? 1 + acc : 0, 0)} </div>
+            {count ?
+              <div className='activeUsers'>  {
+                count
+              } </div> : null
+            }
 
             {/* <i>{moment(room.updatedAt).fromNow()}</i> */}
             

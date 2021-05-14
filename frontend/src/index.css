@@ -1639,3 +1639,17 @@ ul.showPosts {
   background: rgb(43, 43, 43);
 
 }
+
+.message.first > div {
+  display: flex;
+  justify-content: center;
+}
+
+.message.first > div > span  {
+  padding: 1rem;
+
+}
+
+.message.first > div span img   {
+  display: inline-block;
+}

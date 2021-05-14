@@ -619,12 +619,7 @@ function notify(title, message, icon, redirect) {
     }
 
     var notification = new Notification(title, options);
-    notification.onclick = function (e) {
-      console.log(e, history)
-      alert('clicked!')
-      redirect()
-      // history.push(`/chat/${postId}`)
-    }
+    notification.onclick = redirect
   }
 
   // Otherwise, we need to ask the user for permission

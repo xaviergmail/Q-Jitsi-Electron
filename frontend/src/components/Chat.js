@@ -18,6 +18,7 @@ function Chat(props) {
 
     useEffect(() => {
 
+        console.log("does this happen?")
 
         // const query = new URLSearchParams(props.location.search);
         // console.log(query.get('user'), 'peace of mind', props)
@@ -39,7 +40,7 @@ function Chat(props) {
 
         let res = await actions.getPost(id)
 
-
+        console.log(res)
         if (res) {
             setChannel(res.data.post)
             setMessages(res.data.messages.reverse())

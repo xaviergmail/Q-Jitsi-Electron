@@ -100,7 +100,7 @@ function NewMessage(props) {
                 <div id="messages">
                     <header className="message-title">
 
-                        <h4>Click on a user to start a private chat</h4>
+                        <h4>Private Message Users</h4>
 
 
                         <div id="selectedUsers">
@@ -125,27 +125,15 @@ function NewMessage(props) {
 
                         </div>
 
+                        {selectedUsers.length > 0 ?
+                            <form className="addNewMessage" onSubmit={submitMessage}>
+                                <input type="text" value={message} placeholder={`Say something to: ${selectedUsers.map(u => u.name).join(' & ')}`} onChange={e => setMessage(e.target.value)} />
+                                <button id="addMessage" disabled={false}><Icon name="chat" /> <label>Send</label></button>
+                            </form>
+                            : null}
 
-                        {/* <form id="searchUsers"
-
-                            onSubmit={submitMessage}>
-
-                            <Icon name="search" id="search" />
-                            <input
-                                value={userQuery}
-                                onChange={handleChange}
-                                placeholder="Direct Message @someone"
-
-
-                                type="text"
-                            />
-                            <button id="addMessage" disabled={false}>
-                                <Icon name="add" />
-                                <label></label>
-                            </button>
-                        </form> */}
-                        <h1>{selectedUsers.map(u => u.name).join(' & ')}</h1>
-
+                        {/* <h1>{selectedUsers.map(u => u.name).join(' & ')}</h1> */}
+                        <h4>Click on a user to start a private chat</h4>
                         <ul id="unselectedUsers">
                             {showUsers()}
                         </ul>
@@ -173,12 +161,7 @@ function NewMessage(props) {
 
             </main>
 
-            {selectedUsers.length > 0 ?
-                <form className="addNewMessage" onSubmit={submitMessage}>
-                    <input type="text" value={message} placeholder={`Say something to: ${selectedUsers.map(u => u.name).join(' & ')}`} onChange={e => setMessage(e.target.value)} />
-                <button id="addMessage" disabled={false}><Icon name="add" /> <label></label></button>
-                </form>
-                : null}
+
 
 
         </section>
