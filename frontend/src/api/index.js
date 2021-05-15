@@ -75,7 +75,10 @@ const actions = {
     return await API.get('/all-posts', resetHead())
   },
   getPost: async (id) => {
-    return await API.get(`/post?id=${id}`, resetHead())
+    //How do i not need this? 
+    let res = await API.get(`/post?id=${id}`, resetHead())
+    console.log(res, ' so losts')
+    return res
   },
   resolvePost: async (data) => {
     return await API.post(`/resolve-post`, data, resetHead())

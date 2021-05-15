@@ -9,6 +9,7 @@ const Post = ({ history, match, user }) => {
   const [participants, setParticipants] = useState([])
 
   useEffect(() => {
+    //Do i need this?
     actions
       .getPost(match.params.id)
       .then((res) => {

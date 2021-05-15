@@ -40,7 +40,7 @@ function Chat(props) {
 
         let res = await actions.getPost(id)
 
-        console.log(res)
+        console.log(res, 'starting to make sense')
         if (res) {
             setChannel(res.data.post)
             setMessages(res.data.messages.reverse())

@@ -114,6 +114,8 @@ function isValidRoom(room) {
 }
 
 const CowBell = ({ children }) => {
+
+
   let [user, setUser] = useState(null)
   let [myPosts, setMyPosts] = useState([])
   let [myTransactions, setMyTransactions] = useState([])
@@ -122,6 +124,9 @@ const CowBell = ({ children }) => {
   let [clock, setClock] = useState(false)
   let [nConnections, setNConnections] = useState(0)
   const { pathname } = useLocation()
+
+  console.log('cool yeah i should do it', posts)
+
 
   _setPosts = setPosts
   _setMyTransactions = setMyTransactions
@@ -411,27 +416,7 @@ const CowBell = ({ children }) => {
 
   useEffect(() => {
     if (jwt && !user) {
-      getUser() //.then(() => {})
-
-      //Possibly combine getUser with below using populate
-
-      //I thought this would be more efficient but i'm having issue WUT
-      // actions
-      //   .getMyTransactions()
-      //   .then((res) => {
-      //     setMyTransactions(res.data)
-      //   })
-      //   .catch((err) => {
-      //     console.log(err)
-      //   })
-
-      // actions
-      //   .getMyPosts()
-      //   .then(res => {
-      //     setMyPosts(res.data)
-      //   }).catch((err) => {
-      //     console.log(err)
-      //   })
+      getUser()
     }
 
     actions

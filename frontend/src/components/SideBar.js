@@ -55,15 +55,14 @@ const Participant = ({ participant, host, yourRoom }) => {
               
 const Room = ({ room, id }) => {
 
-  const { gotoRoom, user, liveUsers } = useContext(TheContext)
+  const { gotoRoom, user, liveUsers, posts, setPosts } = useContext(TheContext)
 
-  const [count, setCount] = useState()
-
-  useEffect(() => {
-    setCount(room.messageIds.reduce((acc, cur) => !cur.read.includes(user._id) ? 1 + acc : 0, 0))
-
-    // return () => setCount(0)
-  }, [room.messageIds])
+  let count = room.messageIds.reduce((acc, cur) => !cur.read.includes(user._id) ? 1 + acc : 0, 0)
+  // const [count, setCount] = useState()
+  // // console.log(room.message, room.messageIds.reduce((acc, cur) => !cur.read.includes(user._id) ? 1 + acc : 0, 0), room)
+  // useEffect(() => {
+  //   setCount(room.messageIds.reduce((acc, cur) => !cur.read.includes(user._id) ? 1 + acc : 0, 0))
+  // }, [room.messageIds])
   // console.log('ROOM', room, liveUsers, liveUsers.includes(room?.user?._id))
   const style = {}
   const yourRoom = room?.user?.email == user?.email
@@ -74,10 +73,26 @@ const Room = ({ room, id }) => {
     // style.fontFamily = "Futura"
     style.borderRight = '20px solid rgb(43, 43, 43)'
   }
+
+
+  const handleClick = () => {
+    console.log(posts, room._id, setPosts)
+    let updatedPosts = { ...posts }
+    updatedPosts[room._id].messageIds.forEach(message => {
+      if (message.read != user._id) {
+        message.read.push(user._id)
+      }
+    })
+    setPosts(updatedPosts)
+  }
+
   // let host = room.activeUsers.some(x => x.email == user.email)
   return (
     <div>
-      <Link key={room._id} to={{ pathname: `/chat/${room?._id}`, state: room }} onClick={() => setCount(0)}>
+      <Link key={room._id} to={{ pathname: `/chat/${room?._id}`, state: room }}
+        // onClick={() => setCount(0)}
+        onClick={handleClick}
+      >
       {/* onClick={() => gotoRoom(room.id, room)} */}
 
         <Menu.Item key={room._id} className="otherItem menu-item-sidebar" style={style} header>
@@ -89,10 +104,12 @@ const Room = ({ room, id }) => {
             {/* {room?.activeUsers.length !== 0 && <span className='activeUsers'>{room?.activeUsers?.length}</span>} */}
 
             {count ?
-              <div className='activeUsers'>  {
+              <div className=''>  {
                 count
               } </div> : null
             }
+
+
 
             {/* <i>{moment(room.updatedAt).fromNow()}</i> */}
             
@@ -159,6 +176,8 @@ export default function SideBar({ video }) {
 
   const { user, activeRooms, room, gotoRoom, posts, liveUsers, setStyle, style, query, className, setClassName, showSlider, setShowSlider, open, setOpen } = useContext(TheContext)
 
+
+
   // console.log("gottabe", posts)
 
   // const sortedRooms = Object.values(posts)
@@ -170,30 +189,52 @@ export default function SideBar({ video }) {
   //     // (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
   // ).sort((a, b) => a?.active ? -1 : 1).slice(0, limit)
 
-
+  console.log("rerender???")
 
 
   const sortedRooms = Object.values(posts)
-    .filter(
-      (x) =>
-      (
-        (x && x?.message.toLowerCase().includes(query.toLowerCase()))
-      )//||  x?.id == 'lobby' || x?.isLobby) 
-      && !x?.userChannel && !x?.dmChannel
-
+    .filter((x) => ((x && x?.message.toLowerCase().includes(query.toLowerCase()))) && !x?.userChannel && !x?.dmChannel
   ).sort((a, b) => a?.active ? -1 : 1).slice(0, limit)
 
+
+  let sortedCount = sortedRooms.reduce((acc, rm) => {
+    console.log('-=-=-', rm.message, rm, acc);
+    let eachCount = rm.messageIds.reduce((acc, eachMg) => {
+      console.log(eachMg)
+      if (!eachMg.read.includes(user._id)) {
+        return acc + 1
+      } else {
+        return acc + 0
+      }
+    }, 0)
+    return acc + eachCount
+  }, 0)
+  // console.log(sortedCount)
 
 
   const userChannels = []
 
-
   for (let channel of Object.values(posts)) {
     if (channel?.userChannel && !userChannels.some(c => c?._id == channel?._id) && channel?.message.toLowerCase().includes(query.toLowerCase())) {  //Unique user channels 
+
       userChannels.push(channel)
+      // console.log(channel.message, 'lol', channel)
     }
   }
 
+
+  // let userChannelCount = userChannels.reduce((acc, rm) => {
+  //   console.log('-=-=-', rm.message, rm, acc);
+  //   let eachCount = rm.messageIds.reduce((acc, eachMg) => {
+  //     console.log(eachMg)
+  //     if (!eachMg.read.includes(user._id)) {
+  //       return acc + 1
+  //     } else {
+  //       return acc + 0
+  //     }
+  //   }, 0)
+  //   return acc + eachCount
+  // }, 0)
 
   const dmChannels = []
 
@@ -202,6 +243,24 @@ export default function SideBar({ video }) {
       dmChannels.push(channel)
     }
   }
+  let dmChannelCount = dmChannels.reduce((acc, rm) => {
+    console.log('-=-=-', rm.message, rm, acc);
+    let eachCount = rm.messageIds.reduce((acc, eachMg) => {
+      console.log(eachMg)
+      if (!eachMg.read.includes(user._id)) {
+        return acc + 1
+      } else {
+        return acc + 0
+      }
+    }, 0)
+    return acc + eachCount
+  }, 0)
+
+
+
+
+
+
 
   // console.log(userChannels, ' bb')
   return (
@@ -235,6 +294,7 @@ export default function SideBar({ video }) {
                 }, 0)
                 }
               </span>
+              {sortedCount}
             </h5>
 
             <ul className="scrollathon">
@@ -270,18 +330,7 @@ export default function SideBar({ video }) {
                 }
               </span>
 
-              {/* <div className='activeUsers'>
-                {dmChannels.reduce((acc, room) => {
-
-                  let num = room.messageIds.reduce((acc, cur) => !cur.read ? 1 + acc : 0, 0) || 0 + acc
-                  console.log(num, 'num')
-                  return num
-
-                  //return room?.messageIds?.length || 0 + acc
-                }, 0)
-                }
-             
-              </div> */}
+              {dmChannelCount}
 
             </h5>
              <span >
@@ -305,16 +354,9 @@ export default function SideBar({ video }) {
               <span className="emojis">🤯</span>
               <span>Users</span>
               <span className="activeRooms">{liveUsers.length}</span>
+
             </h5>
-            {/* <span className="emojis">🤯</span>
-            <span>Users</span>
-            <span className="activeRooms">
-              {liveUsers.reduce((acc, room) => {
-                console.log(acc, room, ' ?')
-                return room?.activeUsers?.length || 0 + acc
-              }, 0)
-              }
-            </span> */}
+
 
             {/* <h5 className="panelHeader"> <span className="emojis ">🤯</span> {userChannels.length} Total Users | {liveUsers.length} Live </h5> */}
             <ul className="scrollathon">
