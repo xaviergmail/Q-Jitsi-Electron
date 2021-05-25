@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === 'production') {
   }
 } else {
   baseURL = process.env.DEV_ELECTRON_WEBPACK_APP_API_URL || `http://localhost:5000`
-  jitsiURL = process.env.DEV_ELECTRON_WEBPACK_APP_API_URL || `jitsi.local.plshelp.live:8443`
+  jitsiURL = process.env.DEV_ELECTRON_WEBPACK_APP_API_URL || `jitsi.local.cowbell.club:8443`
 }
 
 

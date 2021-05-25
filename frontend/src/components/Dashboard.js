@@ -101,7 +101,8 @@ function Dashboard(props) {
 
 
   const ShowUnresolvedPosts = ({ posts }) => {
-    const p = posts.filter(p => !p.paid).map((post) => {
+    console.log('show unresolved posts', posts)
+    const p = posts.filter(p => !p.paid && !p.userChannel).map((post) => {
 
       let helpers = []
       for (let enc of post.encounterIds) {
@@ -111,48 +112,51 @@ function Dashboard(props) {
       }
 
 
-      if (helpers.length > 0) {
-        return (
+      console.log(helpers, ' mess')
 
-          <Link to={`/post/${post._id}`} key={post._id}>
-            {/* <li>{post.message} Paid:{JSON.stringify(post.paid)}</li> */}
-            <Card className="post">
-              {/* <Image src='/images/avatar/large/matthew.png' ui={false} /> */}
-              <Card.Content>
-                <Card.Header>{post.message}</Card.Header>
-                <Card.Meta>
-                  <span className='date'>{moment(post.updatedAt).format('MM-DD-YYYY')}</span>
-                </Card.Meta>
-                <Card.Description>
-                  {post.bounty} 💰
+
+      // if (helpers.length > 0) {
+      return (
+
+        <Link to={`/post/${post._id}`} key={post._id}>
+          {/* <li>{post.message} Paid:{JSON.stringify(post.paid)}</li> */}
+          <Card className="post" onClick>
+            {/* <Image src='/images/avatar/large/matthew.png' ui={false} /> */}
+            <Card.Content>
+              <Card.Header>{post.message}</Card.Header>
+              <Card.Meta>
+                <span className='date'>{moment(post.updatedAt).format('MM-DD-YYYY')}</span>
+              </Card.Meta>
+              <Card.Description>
+                {post.bounty} 💰
                 </Card.Description>
-              </Card.Content>
-              <Card.Content extra>
-                {/* <Icon name='user' /> */}
-                {helpers.map(h => {
-                  return (
-                    <>
-                      <h5>{h.name}</h5>
-                      <Image width="30" src={h?.avatar} />
-                    </>
-                  )
-                })}
-                <br />
-                {helpers.length} Helper
+            </Card.Content>
+            <Card.Content extra>
+              {/* <Icon name='user' /> */}
+              {helpers.map(h => {
+                return (
+                  <>
+                    <h5>{h.name}</h5>
+                    <Image width="30" src={h?.avatar} />
+                  </>
+                )
+              })}
+              <br />
+              {helpers.length} Helper
 
                     </Card.Content>
-            </Card>
-          </Link>
+          </Card>
+        </Link>
 
-        )
-      }
+      )
+      //}
     }).filter(x => x)
 
 
     //p.unshift(createElement('div', { className: 'counter' }, `You need to resolve ${p.length} room${p.length > 1 ? 's' : ''}`))
     return (
       <div>
-        <p>You need to resolves {p.length} room{p.length > 1 ? 's' : ''}. Click to resolve.</p>
+        <h2>You need to resolve {p.length} rooms {p.length > 0 ? 'Click to resolve.' : ''} </h2>
         <ul className="unresolved">{p}</ul>
       </div>
     )
@@ -168,7 +172,7 @@ function Dashboard(props) {
 
 
     <section className="page dashboard">
-      <Header as='h3'>
+      <Header as='h2'>
         Your Dashboard
         {/* <span id="money">💰</span> You have {user.points} Cowbells */}
       </Header>
@@ -183,7 +187,7 @@ function Dashboard(props) {
         <>
 
 
-            
+
           <ShowTransactions />
         </>
       ) : (

@@ -57,7 +57,11 @@ const Room = ({ room, id }) => {
 
   const { gotoRoom, user, liveUsers, posts, setPosts } = useContext(TheContext)
 
-  let count = room.messageIds.reduce((acc, cur) => !cur.read.includes(user._id) ? 1 + acc : 0, 0)
+  let count = room.messageIds.reduce((acc, cur) => { 
+    if(cur.read){
+      return !cur.read.includes(user._id) ? 1 + acc : 0
+    }
+  }, 0)
   // const [count, setCount] = useState()
   // // console.log(room.message, room.messageIds.reduce((acc, cur) => !cur.read.includes(user._id) ? 1 + acc : 0, 0), room)
   // useEffect(() => {
@@ -76,7 +80,7 @@ const Room = ({ room, id }) => {
 
 
   const handleClick = () => {
-    console.log(posts, room._id, setPosts)
+    // console.log(posts, room._id, setPosts)
     let updatedPosts = { ...posts }
     updatedPosts[room._id].messageIds.forEach(message => {
       if (message.read != user._id) {
@@ -104,9 +108,11 @@ const Room = ({ room, id }) => {
             {/* {room?.activeUsers.length !== 0 && <span className='activeUsers'>{room?.activeUsers?.length}</span>} */}
 
             {count ?
-              <div className=''>  {
-                count
-              } </div> : null
+              <span className='badges'>
+                <span></span>
+                <span className='messageCount'>  {count} </span>
+
+              </span> : null
             }
 
 
@@ -198,10 +204,8 @@ export default function SideBar({ video }) {
 
 
   let sortedCount = sortedRooms.reduce((acc, rm) => {
-    console.log('-=-=-', rm.message, rm, acc);
     let eachCount = rm.messageIds.reduce((acc, eachMg) => {
-      console.log(eachMg)
-      if (!eachMg.read.includes(user._id)) {
+      if (eachMg.read && !eachMg.read.includes(user._id)) {
         return acc + 1
       } else {
         return acc + 0
@@ -215,8 +219,12 @@ export default function SideBar({ video }) {
   const userChannels = []
 
   for (let channel of Object.values(posts)) {
-    if (channel?.userChannel && !userChannels.some(c => c?._id == channel?._id) && channel?.message.toLowerCase().includes(query.toLowerCase())) {  //Unique user channels 
-
+    if (
+      channel?.userChannel && 
+      !userChannels.some(c => c?._id == channel?._id) && 
+      channel?.message.toLowerCase().includes(query.toLowerCase()) && 
+      channel.user?._id !== user?._id
+    ) {  //Unique user channels 
       userChannels.push(channel)
       // console.log(channel.message, 'lol', channel)
     }
@@ -244,10 +252,8 @@ export default function SideBar({ video }) {
     }
   }
   let dmChannelCount = dmChannels.reduce((acc, rm) => {
-    console.log('-=-=-', rm.message, rm, acc);
     let eachCount = rm.messageIds.reduce((acc, eachMg) => {
-      console.log(eachMg)
-      if (!eachMg.read.includes(user._id)) {
+      if (eachMg.read && !eachMg.read.includes(user._id)) {
         return acc + 1
       } else {
         return acc + 0
@@ -288,13 +294,20 @@ export default function SideBar({ video }) {
             <h5 className="panelHeader">
               <span className="emojis">🏡</span>
               <span>Public Channels</span>
-              <span className="activeRooms">
+              <span className="badges">
+                <span className="messageCount">
+                  {sortedCount}
+                </span>
+
+                <span className="activeRooms">
                 {sortedRooms.reduce((acc, room) => {
                   return room?.activeUsers?.length || 0 + acc
                 }, 0)
                 }
+                </span>
+
               </span>
-              {sortedCount}
+
             </h5>
 
             <ul className="scrollathon">
@@ -322,15 +335,20 @@ export default function SideBar({ video }) {
               </span> */}
               <span className="emojis">💬</span>
               <span>Private Channels</span>
-              <span className="activeRooms">
-                {dmChannels.reduce((acc, room) => {
-                  // console.log(acc, room, ' ?!')
-                  return room?.activeUsers?.length || 0 + acc
-                }, 0)
-                }
-              </span>
 
-              {dmChannelCount}
+              <span className="badges">
+                <span className="messageCount">
+                  {dmChannelCount}
+                </span>
+
+                <span className="activeRooms">
+                  {dmChannels.reduce((acc, room) => {
+                    return room?.activeUsers?.length || 0 + acc
+                  }, 0)
+                  }
+                </span>
+
+              </span>
 
             </h5>
              <span >
@@ -353,8 +371,11 @@ export default function SideBar({ video }) {
             <h5 className="panelHeader">
               <span className="emojis">🤯</span>
               <span>Users</span>
-              <span className="activeRooms">{liveUsers.length}</span>
 
+              <span className="badges">
+                <span></span>
+                <span className="activeRooms">{liveUsers.length}</span>
+              </span>
             </h5>
 
 

@@ -11,8 +11,17 @@ function Profile(props) {
 
     let [transactions, setTransactions] = useState([])
     let [posts, setPosts] = useState([])
+    let [avatar, setAvatar] = useState(user.avatar)
 
 
+
+    const saveAvatar = (a) => {
+        actions.saveAvatar(a).then(res => {
+            console.log('avatar', res.data)
+            //setAvatar(res.data.avatar)
+            setUser(res.data)
+        })
+    }
     useEffect(() => {
         actions
             .getMyTransactions()
@@ -128,6 +137,8 @@ function Profile(props) {
       return trans
   }
 
+
+
     return (
         <section className="profile">
             <Header as='h3'>
@@ -135,7 +146,11 @@ function Profile(props) {
                 Welcome {user.name}
 
             </Header>
-                <Image src={user.avatar} avatar />
+            <Image src={user.avatar} avatar />
+
+            <div className="avatars">
+                {user.avatars.map(a => a != user.avatar && <Image src={a} onClick={() => saveAvatar(a)} avatar />)}
+            </div>
 
 
 
@@ -144,6 +159,7 @@ function Profile(props) {
 
             <Container>
                 <h4>{user.email}</h4>
+
                 <h4><Link to="/settings">Settings</Link></h4>
                 <button onClick={() => {
                     window.jitsiNodeAPI.ipc.send('gauth-clear')

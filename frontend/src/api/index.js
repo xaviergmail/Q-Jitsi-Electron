@@ -97,6 +97,9 @@ const actions = {
   },
   deleteRoom: async (id) => {
     return await API.delete(`/delete-room?id=${id}`, resetHead())
+  },
+  saveAvatar: async (avatar) => {
+    return await API.post(`/save-avatar`, { avatar }, resetHead())
   }
 }
 

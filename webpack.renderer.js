@@ -22,14 +22,14 @@ module.exports = {
     // },
     // devServer: {
     //     contentBase: path.resolve('./public'),
-    //     allowedHosts: [ 'local.plshelp.live' ],
+    //     allowedHosts: [ 'local.cowbell.club' ],
     //     https: {
     //         key: fs.readFileSync('./privkey.pem'),
     //         cert: fs.readFileSync('./fullchain.pem'),
     //         host: '0.0.0.0'
     //     },
     //     open: { app: [ 'npm', 'run', 'electronappdelay' ] },
-    //     host: 'local.plshelp.live'
+    //     host: 'local.cowbell.club'
     // },
     plugins: [
         new Dotenv(),

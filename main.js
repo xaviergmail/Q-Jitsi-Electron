@@ -186,7 +186,7 @@ function createJitsiMeetWindow() {
 
     /* Enable only if you desperately need react / redux devtools
     if (process.env.NODE_ENV !== 'production') {
-        const host = 'local.plshelp.live'; // process.env.ELECTRON_WEBPACK_WDS_HOST;
+        const host = 'local.cowbell.club'; // process.env.ELECTRON_WEBPACK_WDS_HOST;
         const port = process.env.ELECTRON_WEBPACK_WDS_PORT || 8080;
 
         indexURL = `https://${host}:${port}/index.html`;

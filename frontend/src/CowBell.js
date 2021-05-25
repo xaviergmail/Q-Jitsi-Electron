@@ -244,7 +244,7 @@ const CowBell = ({ children }) => {
 
 
 
-  
+
         //Message all members of a group DM unless the message came from yourself. 
         if (post && post?.members) {
 
@@ -260,7 +260,7 @@ const CowBell = ({ children }) => {
 
       },
 
-  
+
 
       event: ({ event }) => {
         //console.log('event', event)
@@ -269,8 +269,8 @@ const CowBell = ({ children }) => {
 
           if (event.type === 'muc-occupant-joined' || event.type === 'muc-occupant-created') {
             if (event.post.user._id != user._id && event.post.hostPresent) { //You are not the host and the host is there. 
-            //if (event.post.hostPresent) { //You are not the host and the host is there.
-             // console.log(event, ' crystal')
+              //if (event.post.hostPresent) { //You are not the host and the host is there.
+              // console.log(event, ' crystal')
               setClock(true)
             }
           }
@@ -457,7 +457,7 @@ const CowBell = ({ children }) => {
   // )
 
   const video = <VideoPreview />
-  
+
 
   let [bounty, setBounty] = useState(10)
   const [style, setStyle] = useState({ width: `${window.innerWidth / 4}px` })
@@ -534,7 +534,7 @@ const CowBell = ({ children }) => {
 
               <Route exact path="/call-ended" component={CallEnded} />
 
-              <Route path="/post/:id" render={(props) => <Post {...props} user={user} />} />
+              <Route path="/post/:id" render={(props) => <Post {...props} user={user} setUser={setUser} />} />
 
               <Route path="/profile" component={Profile} />
 

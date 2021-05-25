@@ -958,7 +958,8 @@ ul#myTransactions li{
 
 .profile, .dashboard, #chat, #new-message, #new-question{
   justify-content: space-evenly;
-  min-height: calc(100vh - 60px) /*8rem*/
+  min-height: calc(100vh - 60px); /*8rem*/
+  overflow-x: hidden;
 }
 .counter{
   /* position: absolute;
@@ -1603,13 +1604,21 @@ i.icon{
   margin: 0 .5rem;
 }
 
+span.badges{
+  display: flex;
+  width: 3rem;
+  justify-content: space-between;
+  align-items: center;
+  
+}
 
-span.activeRooms{
+/* span.activeRooms{ */
+span.badges span{
 
   width: 15px;
   height: 15px;
   color: black;
-  background: #4DAA57;
+
   border-radius: 100%;
   font-size: .75rem;
   padding: 0;
@@ -1618,6 +1627,13 @@ span.activeRooms{
   align-items: center;
   justify-content: center;
 
+}
+
+span.badges span.activeRooms{
+  background: #4DAA57;
+}
+span.badges span.messageCount{
+  background: #6DAEDB
 }
 
 ul.showPosts {
@@ -1652,4 +1668,16 @@ ul.showPosts {
 
 .message.first > div span img   {
   display: inline-block;
+}
+
+.avatars{
+  position: absolute;
+  top: 0;
+  right:0;
+}
+
+.avatars img{
+  width: 50px !important;
+  height: 50px !important;
+  display:inline;
 }

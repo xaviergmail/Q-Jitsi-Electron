@@ -22,7 +22,7 @@ module.exports = {
     // },
     devServer: {
         contentBase: path.resolve('./build-browser'),
-        allowedHosts: ['local.plshelp.live'],
+        allowedHosts: ['local.cowbell.club'],
         https: {
             key: fs.readFileSync('./privkey.pem'),
             cert: fs.readFileSync('./fullchain.pem'),
@@ -30,7 +30,7 @@ module.exports = {
         },
         //open: { app: ['npm', 'run', 'electronappdelay'] },
         port: 3001,
-        host: 'local.plshelp.live'
+        host: 'local.cowbell.club'
     },
     plugins: [
         new Dotenv(),

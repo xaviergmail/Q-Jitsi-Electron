@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import actions from '../api'
 import moment, { updateLocale } from 'moment'
 
-const Post = ({ history, match, user }) => {
+const Post = ({ history, match, user, setUser }) => {
   const [post, setPost] = useState({})
   const [encounters, setEncounters] = useState([])
   // const [transactions, setTransactions] = useState([]);
@@ -36,7 +36,8 @@ const Post = ({ history, match, user }) => {
     actions
       .resolvePost({ participants, post })
       .then((res) => {
-        console.log(res)
+        console.log(res, ' get it ', setUser)
+        setUser(res.user)
         history.push('/create-room')
       })
       .catch(console.error)
@@ -136,7 +137,7 @@ const Post = ({ history, match, user }) => {
             {participants.length > 0 ? (
               <button id="pay" onClick={resolveThePost}>
                 Pay Helpers & Resolve Post
-          </button>
+              </button>
             ) : null}
           </>
         }
