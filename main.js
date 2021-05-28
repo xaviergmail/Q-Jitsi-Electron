@@ -28,6 +28,7 @@ const showDevTools = Boolean(process.env.SHOW_DEV_TOOLS) || (process.argv.indexO
 
 const _env = require('dotenv').config();
 
+
 ipcMain.on('get-env', event => {
     event.sender.send('get-env-reply', _env);
 });
@@ -457,5 +458,14 @@ ipcMain.on('gauth-rq', () => {
             console.log('err in promise', err);
         });
 });
+
+
+ipcMain.on('set-counter', function (count, data) {
+    console.log('bullwinkle', count, data, ' do i have to restart', this, mainWindow)
+    app.setBadgeCount(data.count)
+})
+
+
+
 
 console.log('Wooooo we loaded!!!');

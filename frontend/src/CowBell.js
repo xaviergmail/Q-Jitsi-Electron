@@ -7,8 +7,6 @@
 // Logger.level = 0
 
 
-console.log(process.env, '>>> environement')
-
 import React, { Fragment, useState, useEffect, useMemo, createRef, useContext } from 'react'
 import {
   Switch,

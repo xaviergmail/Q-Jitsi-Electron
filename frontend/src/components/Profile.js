@@ -160,6 +160,7 @@ function Profile(props) {
             <Container>
                 <h4>{user.email}</h4>
 
+
                 <h4><Link to="/settings">Settings</Link></h4>
                 <button onClick={() => {
                     window.jitsiNodeAPI.ipc.send('gauth-clear')
@@ -172,7 +173,9 @@ function Profile(props) {
                     })
 
                 }}>Log Out</button>
-
+                <button onClick={() => {
+                    window.jitsiNodeAPI.ipc.send('set-counter', { count: 20 })
+                }}>Set Counter</button>
             </Container>
 
 

@@ -40,7 +40,6 @@ function Chat(props) {
 
         let res = await actions.getPost(id)
 
-        console.log(res, 'starting to make sense')
         if (res) {
             setChannel(res.data.post)
             setMessages(res.data.messages.reverse())
@@ -112,7 +111,10 @@ function Chat(props) {
                     </ul></div> */}
 
                 <div id="messages">
-                    <header className="message-title">                
+                    <header className="message-title">
+                        {channel?.isLobby ? null :
+                            <h4 className="bounty"><span>💰</span><span>{channel?.bounty}</span></h4>
+                        }
                         <h1>{channel?.message}</h1>
                         
 

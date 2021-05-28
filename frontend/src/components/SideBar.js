@@ -263,8 +263,11 @@ export default function SideBar({ video }) {
   }, 0)
 
 
-
-
+  if (window.jitsiNodeAPI) {
+    let count = sortedCount + dmChannelCount
+    window.jitsiNodeAPI.ipc.send('set-counter', { count })
+  }
+  console.log(window)
 
 
 

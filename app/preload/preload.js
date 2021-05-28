@@ -5,7 +5,7 @@ const jitsiMeetElectronUtils = require('jitsi-meet-electron-utils');
 const { openExternalLink } = require('../features/utils/openExternalLink');
 
 
-const whitelistedIpcChannels = ['protocol-data-msg', 'renderer-ready', 'gauth-rq', 'gauth-tk', 'gauth-clear'];
+const whitelistedIpcChannels = ['protocol-data-msg', 'renderer-ready', 'gauth-rq', 'gauth-tk', 'gauth-clear', 'set-counter'];
 
 window.jitsiNodeAPI = {
     createElectronStorage,
@@ -21,12 +21,12 @@ window.jitsiNodeAPI = {
 
             return ipcRenderer.on(channel, listener);
         },
-        send: channel => {
+        send: (channel, data) => {
             if (!whitelistedIpcChannels.includes(channel)) {
                 return;
             }
 
-            return ipcRenderer.send(channel);
+            return ipcRenderer.send(channel, data);
         },
         removeListener: (channel, listener) => {
             if (!whitelistedIpcChannels.includes(channel)) {
