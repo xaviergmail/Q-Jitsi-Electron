@@ -1,10 +1,3 @@
-// import Logger from 'jitsi-meet-logger'
-
-// var logger = Logger.getLogger()
-
-// Logger.setLogLevel(Logger.levels.WARN)
-
-// Logger.level = 0
 
 
 import React, { Fragment, useState, useEffect, useMemo, createRef, useContext } from 'react'

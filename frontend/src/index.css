@@ -1732,3 +1732,9 @@ ul.showPosts {
   display:inline;
 }
 
+
+
+#logo sub{
+  font-size: .75rem;
+  height: 40px;
+}
