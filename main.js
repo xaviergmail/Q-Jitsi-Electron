@@ -461,7 +461,7 @@ ipcMain.on('gauth-rq', () => {
 
 
 ipcMain.on('set-counter', function (count, data) {
-    console.log('bullwinkle', count, data, ' do i have to restart', this, mainWindow)
+    console.log('bullwinkle', count, data, ' do i have to restart', this, mainWindow, ' lets go')
     app.setBadgeCount(data.count)
 })
 
