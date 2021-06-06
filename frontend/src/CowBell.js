@@ -50,6 +50,60 @@ import baseURL from './api/config'
 
 
 
+
+// const notifier = require('node-notifier');
+// // String
+// notifier.notify('Message');
+
+
+// setTimeout(() => {
+//   // Object
+//   notifier.notify({
+//     title: 'My notification',
+//     message: 'too easy!'
+//   });
+
+// }, 5000)
+
+
+
+
+// import Electrolytic from 'electrolytic'
+
+// const electrolytic = Electrolytic({
+//   appKey: 'Bz5RlMclrSkyJJrFZURj',
+// })
+
+
+// electrolytic.on('token', (token) => { console.log('got a token', token) })
+
+// // when you use that <token> to send push via server POST
+// electrolytic.on('push', (payload) => {
+//   console.log('got push notification', payload) // hola, here's a push!
+//   notify('niko', payload)
+// })
+
+// // when you update the config on our dashboard. It's pushed to all the apps in realtime 🙀
+// electrolytic.on('config', (updatedConfig) => {
+//   console.log('look ma, updated config!', updatedConfig)
+// })
+
+
+
+// window.jitsiNodeAPI.ipc.on('push', (message) => {
+//   console.log("in on push", message)
+//   notify('does', 'still work well')
+// })
+
+// setTimeout(() => {
+//   notify('does', 'still work well')
+//   //mainWindow && mainWindow.webContents.send('push', 'payload')
+
+// }, 5000)
+
+
+
+
 // TODO: Convert this into a reusable useSocket or something
 let _setPosts = function () { }
 let _setMyTransactions = function () { }
@@ -80,11 +134,14 @@ const Stacked = styled.div`
 const { token } = localStorage;
 
 //Make connection to server just once on page load.
-const socket = io(baseURL, {
-  query: { token }
-});
+const socket = io()
 
-//console.log(socket, ' to me ', baseURL)
+
+// const socket = io(baseURL, {
+//   query: { token }
+// });
+
+console.log(socket, ' to me ', baseURL)
 
 const MemoizedRoom = React.memo(
   function ({ room, children }) {
@@ -588,6 +645,8 @@ export default function CowBellWithRouter(props) {
 
 
 function notify(title, message, icon, redirect) {
+
+  console.log("notify puppy")
   // Let's check if the browser supports notifications
   if (!("Notification" in window)) {
     alert("This browser does not support desktop notification");

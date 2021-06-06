@@ -4,8 +4,13 @@ const {
     BrowserWindow,
     Menu,
     app,
-    ipcMain
+    ipcMain,
+    nativeImage, Tray
 } = require('electron');
+
+
+// const { app, BrowserWindow, Menu, nativeImage, Tray } = require('electron')
+
 const contextMenu = require('electron-context-menu');
 const debug = require('electron-debug');
 const isDev = require('electron-is-dev');
@@ -27,6 +32,39 @@ const pkgJson = require('./package.json');
 const showDevTools = Boolean(process.env.SHOW_DEV_TOOLS) || (process.argv.indexOf('--show-dev-tools') > -1);
 
 const _env = require('dotenv').config();
+
+
+const io = require('socket.io-client')
+
+//Make connection to server just once on page load.
+const baseURL = require('./frontend/src/api/config')
+
+//Yourconst { token } = localStorage;
+
+let token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InBvc3RzIjpbXSwicG9pbnRzIjo5MywiY29uZmlybWVkRW1haWwiOmZhbHNlLCJub3RpZmljYXRpb25DaGFubmVscyI6W10sImF2YXRhcnMiOlsiaHR0cHM6Ly9hdmF0YXJzLmRpY2ViZWFyLmNvbS80LjUvYXBpL2F2YXRhYWFycy8wLjIyMjgwMDUyOTQyNjg5OTMyLnN2ZyIsImh0dHBzOi8vYXZhdGFycy5kaWNlYmVhci5jb20vNC41L2FwaS9hdmF0YWFhcnMvMC40MzA5MjM1NTcwMTY1MDg0LnN2ZyIsImh0dHBzOi8vYXZhdGFycy5kaWNlYmVhci5jb20vNC41L2FwaS9hdmF0YWFhcnMvMC43MzQ2NzE4NjQ0MDExMjcyLnN2ZyIsImh0dHBzOi8vYXZhdGFycy5kaWNlYmVhci5jb20vNC41L2FwaS9hdmF0YWFhcnMvMC40MTQ5NjU5NjUzOTMwODMwNi5zdmciXSwiX2lkIjoiNjBhYmY4ZWQ1YmVmY2RmMzE3MmFjMmNkIiwiZW1haWwiOiJzcXVpcnJlbHE4ODg4QGdtYWlsLmNvbSIsIm5hbWUiOiJTcXVpcnJlbCBRIiwiYXZhdGFyIjoiaHR0cHM6Ly9hdmF0YXJzLmRpY2ViZWFyLmNvbS80LjUvYXBpL2F2YXRhYWFycy8wLjIyMjgwMDUyOTQyNjg5OTMyLnN2ZyIsInBvc3RJZCI6IjYwYWJmOGVkNWJlZmNkZjMxNzJhYzJjYyIsImNyZWF0ZWRBdCI6IjIwMjEtMDUtMjRUMTk6MDU6MTcuMjQ5WiIsInVwZGF0ZWRBdCI6IjIwMjEtMDUtMjRUMTk6NDU6NDQuMTQzWiJ9LCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlNxdWlycmVsIFEiLCJlbWFpbCI6InNxdWlycmVscTg4ODhAZ21haWwuY29tIiwiYXZhdGFyIjoiaHR0cHM6Ly9hdmF0YXJzLmRpY2ViZWFyLmNvbS80LjUvYXBpL2F2YXRhYWFycy8wLjIyMjgwMDUyOTQyNjg5OTMyLnN2ZyJ9fSwicm9vbSI6IioiLCJpYXQiOjE2MjI4MzM4NDUsImV4cCI6MTYyMzQzODY0NSwiYXVkIjoicGxzaGVscC1saXZlIiwiaXNzIjoicGxzaGVscC1saXZlIn0.M33NDyUDUCIJLJpe8SU-InfCmAkCQtYuFnn2G60er7g`
+const socket = io("https://local.cowbell.club:5001", {
+    query: { token }
+});
+
+
+socket.on('post', ({ post }) => {
+    // if (!isMounted) {
+    //   return
+    // }
+
+    notifier.notify({
+        title: 'My notification',
+        message: post
+    });
+
+    console.log('post', post, ' kiwi')
+})
+
+
+console.log(baseURL, ' no way')
+
+
+
 
 ipcMain.on('get-env', event => {
     event.sender.send('get-env-reply', _env);
@@ -351,10 +389,63 @@ app.on('second-instance', (event, commandLine) => {
 
 app.on('window-all-closed', () => {
     // Don't quit the application on macOS.
+    console.log('process.platform', process.platform)
     if (process.platform !== 'darwin') {
         app.quit();
     }
 });
+// app.on('window-all-closed', () => {
+//     app.dock.hide() // for macOS
+//     // use same logic for other OSes you want
+// })
+
+
+let tray = null
+function createTray() {
+    console.log('create Tray ', __dirname, ' no directoyrrt name?')
+    const icon = path.join(__dirname, './resources/icon.png') // required.
+    const trayicon = nativeImage.createFromPath(icon)
+    tray = new Tray(trayicon.resize({ width: 16 }))
+    const contextMenu = Menu.buildFromTemplate([
+        {
+            label: 'Show App',
+            click: () => {
+                createWindow()
+            }
+        },
+        {
+            label: 'Quit',
+            click: () => {
+                app.quit() // actually quit the app.
+            }
+        },
+    ])
+
+    tray.setContextMenu(contextMenu)
+}
+
+// let mainWindow
+function createWindow() {
+    if (!tray) { // if tray hasn't been created already.
+        createTray()
+    }
+
+    // mainWindow = new BrowserWindow({
+    //     width: 800,
+    //     height: 600,
+    //     webPreferences: {
+    //         nodeIntegration: true // not cool. I'm sorry.
+    //     }
+    // })
+
+    // mainWindow.loadFile('index.html')
+    // mainWindow.on('closed', function () {
+    //     mainWindow = null
+    // })
+}
+
+app.on('ready', createWindow)
+
 
 // remove so we can register each time as we run the app.
 app.removeAsDefaultProtocolClient(config.default.appProtocolPrefix);
@@ -458,4 +549,63 @@ ipcMain.on('gauth-rq', () => {
         });
 });
 
-console.log('Wooooo we loaded!!!');
+
+
+setTimeout(() => {
+    console.log("TIME OUT TRIGGEREED")
+    // notify('does', 'still work well')
+    // mainWindow && mainWindow.webContents.send('push', 'payload')
+    notifier.notify({
+        title: 'My notification',
+        message: 'Hello, there again!'
+    });
+
+
+}, 20000)
+
+const notifier = require('node-notifier');
+// String
+// Object
+notifier.notify({
+    title: 'My notification',
+    message: 'Hello, there!'
+});
+
+
+
+function notify(title, message, icon, redirect) {
+
+    console.log("notify puppy")
+    // Let's check if the browser supports notifications
+    // if (!("Notification" in window)) {
+    //     alert("This browser does not support desktop notification");
+    // }
+
+    // Let's check whether notification permissions have already been granted
+    //else if (Notification.permission === "granted") {
+    // If it's okay let's create a notification
+    var options = {
+        body: message,
+        // icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+        //icon: 'https://images.vexels.com/media/users/3/185580/isolated/preview/4481c0a89970cd7107424bb018900f2a-cool-hipster-pineapple-by-vexels.png'
+        //icon: icon?.replace('svg', 'png')//`https://avatars.dicebear.com/4.5/api/avataaars/0.33511928838302496.png`
+    }
+
+    var notification = new Notification(title, options);
+    notification.onclick = redirect
+    //}
+
+    // Otherwise, we need to ask the user for permission
+    // else if (Notification.permission !== "denied") {
+    //     Notification.requestPermission().then(function (permission) {
+    //         // If the user accepts, let's create a notification
+    //         if (permission === "granted") {
+    //             var notification = new Notification(message);
+    //         }
+    //     });
+    // }
+
+    // At last, if the user has denied notifications, and you
+    // want to be respectful there is no need to bother them any more.
+}
+
