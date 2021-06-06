@@ -35,33 +35,14 @@ const _env = require('dotenv').config();
 
 
 const io = require('socket.io-client')
+const notifier = require('node-notifier');
 
 //Make connection to server just once on page load.
 const baseURL = require('./frontend/src/api/config')
 
 //Yourconst { token } = localStorage;
 
-let token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InBvc3RzIjpbXSwicG9pbnRzIjo5MywiY29uZmlybWVkRW1haWwiOmZhbHNlLCJub3RpZmljYXRpb25DaGFubmVscyI6W10sImF2YXRhcnMiOlsiaHR0cHM6Ly9hdmF0YXJzLmRpY2ViZWFyLmNvbS80LjUvYXBpL2F2YXRhYWFycy8wLjIyMjgwMDUyOTQyNjg5OTMyLnN2ZyIsImh0dHBzOi8vYXZhdGFycy5kaWNlYmVhci5jb20vNC41L2FwaS9hdmF0YWFhcnMvMC40MzA5MjM1NTcwMTY1MDg0LnN2ZyIsImh0dHBzOi8vYXZhdGFycy5kaWNlYmVhci5jb20vNC41L2FwaS9hdmF0YWFhcnMvMC43MzQ2NzE4NjQ0MDExMjcyLnN2ZyIsImh0dHBzOi8vYXZhdGFycy5kaWNlYmVhci5jb20vNC41L2FwaS9hdmF0YWFhcnMvMC40MTQ5NjU5NjUzOTMwODMwNi5zdmciXSwiX2lkIjoiNjBhYmY4ZWQ1YmVmY2RmMzE3MmFjMmNkIiwiZW1haWwiOiJzcXVpcnJlbHE4ODg4QGdtYWlsLmNvbSIsIm5hbWUiOiJTcXVpcnJlbCBRIiwiYXZhdGFyIjoiaHR0cHM6Ly9hdmF0YXJzLmRpY2ViZWFyLmNvbS80LjUvYXBpL2F2YXRhYWFycy8wLjIyMjgwMDUyOTQyNjg5OTMyLnN2ZyIsInBvc3RJZCI6IjYwYWJmOGVkNWJlZmNkZjMxNzJhYzJjYyIsImNyZWF0ZWRBdCI6IjIwMjEtMDUtMjRUMTk6MDU6MTcuMjQ5WiIsInVwZGF0ZWRBdCI6IjIwMjEtMDUtMjRUMTk6NDU6NDQuMTQzWiJ9LCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlNxdWlycmVsIFEiLCJlbWFpbCI6InNxdWlycmVscTg4ODhAZ21haWwuY29tIiwiYXZhdGFyIjoiaHR0cHM6Ly9hdmF0YXJzLmRpY2ViZWFyLmNvbS80LjUvYXBpL2F2YXRhYWFycy8wLjIyMjgwMDUyOTQyNjg5OTMyLnN2ZyJ9fSwicm9vbSI6IioiLCJpYXQiOjE2MjI4MzM4NDUsImV4cCI6MTYyMzQzODY0NSwiYXVkIjoicGxzaGVscC1saXZlIiwiaXNzIjoicGxzaGVscC1saXZlIn0.M33NDyUDUCIJLJpe8SU-InfCmAkCQtYuFnn2G60er7g`
-const socket = io("https://local.cowbell.club:5001", {
-    query: { token }
-});
 
-
-socket.on('post', ({ post }) => {
-    // if (!isMounted) {
-    //   return
-    // }
-
-    notifier.notify({
-        title: 'My notification',
-        message: post
-    });
-
-    console.log('post', post, ' kiwi')
-})
-
-
-console.log(baseURL, ' no way')
 
 
 
@@ -274,6 +255,86 @@ function createJitsiMeetWindow() {
             openExternalLink(url);
         }
     });
+
+
+    //NOTIFIICATIONS 
+    mainWindow.webContents
+        .executeJavaScript('({...localStorage});', true)
+        .then(localStorage => {
+            console.log(localStorage, 'storage mo fo');
+            // let token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InBvc3RzIjpbXSwicG9pbnRzIjo5MywiY29uZmlybWVkRW1haWwiOmZhbHNlLCJub3RpZmljYXRpb25DaGFubmVscyI6W10sImF2YXRhcnMiOlsiaHR0cHM6Ly9hdmF0YXJzLmRpY2ViZWFyLmNvbS80LjUvYXBpL2F2YXRhYWFycy8wLjIyMjgwMDUyOTQyNjg5OTMyLnN2ZyIsImh0dHBzOi8vYXZhdGFycy5kaWNlYmVhci5jb20vNC41L2FwaS9hdmF0YWFhcnMvMC40MzA5MjM1NTcwMTY1MDg0LnN2ZyIsImh0dHBzOi8vYXZhdGFycy5kaWNlYmVhci5jb20vNC41L2FwaS9hdmF0YWFhcnMvMC43MzQ2NzE4NjQ0MDExMjcyLnN2ZyIsImh0dHBzOi8vYXZhdGFycy5kaWNlYmVhci5jb20vNC41L2FwaS9hdmF0YWFhcnMvMC40MTQ5NjU5NjUzOTMwODMwNi5zdmciXSwiX2lkIjoiNjBhYmY4ZWQ1YmVmY2RmMzE3MmFjMmNkIiwiZW1haWwiOiJzcXVpcnJlbHE4ODg4QGdtYWlsLmNvbSIsIm5hbWUiOiJTcXVpcnJlbCBRIiwiYXZhdGFyIjoiaHR0cHM6Ly9hdmF0YXJzLmRpY2ViZWFyLmNvbS80LjUvYXBpL2F2YXRhYWFycy8wLjIyMjgwMDUyOTQyNjg5OTMyLnN2ZyIsInBvc3RJZCI6IjYwYWJmOGVkNWJlZmNkZjMxNzJhYzJjYyIsImNyZWF0ZWRBdCI6IjIwMjEtMDUtMjRUMTk6MDU6MTcuMjQ5WiIsInVwZGF0ZWRBdCI6IjIwMjEtMDUtMjRUMTk6NDU6NDQuMTQzWiJ9LCJjb250ZXh0Ijp7InVzZXIiOnsibmFtZSI6IlNxdWlycmVsIFEiLCJlbWFpbCI6InNxdWlycmVscTg4ODhAZ21haWwuY29tIiwiYXZhdGFyIjoiaHR0cHM6Ly9hdmF0YXJzLmRpY2ViZWFyLmNvbS80LjUvYXBpL2F2YXRhYWFycy8wLjIyMjgwMDUyOTQyNjg5OTMyLnN2ZyJ9fSwicm9vbSI6IioiLCJpYXQiOjE2MjI4MzM4NDUsImV4cCI6MTYyMzQzODY0NSwiYXVkIjoicGxzaGVscC1saXZlIiwiaXNzIjoicGxzaGVscC1saXZlIn0.M33NDyUDUCIJLJpe8SU-InfCmAkCQtYuFnn2G60er7g`
+            const socket = io(baseURL.default, {
+                query: { token: localStorage.token }
+            });
+
+            notifier.on('click', function (notifierObject, options, event) {
+                // Triggers if `wait: true` and user clicks notification
+                //console.log(notifierObject, options, event, 'cliiiiick')
+            });
+            socket.on('post', ({ post }) => {
+                // if (!isMounted) {
+                //   return
+                // }
+
+
+                //New Room
+                if (post.messageIds.length === 0) {
+
+
+                    return notifier.notify({
+                        title: `🏡 ${post.user.name}`,
+                        message: post.message,
+                        icon: post.user.avatar,
+                        sound: true,
+                        wait: true
+                    }, (err, response, metadata) => {
+                        console.log("callback", post._id, err, response, metadata, response.activationType, metadata.activationType)
+                        //history.push(`/chat/${post._id}`)
+                    }
+                    );
+                } else if (post && post.members) { //Not New Room
+                    let icon = post.userChannel ? `🧐` : post.dmChannel ? `💬` : `🏡`
+                    const last = post.messageIds[post.messageIds.length - 1]
+                    console.log(last, 'samruai')
+
+                    // path.join(__dirname, 'coulson.jpg')
+                    //last.userId.avatar.replace('svg', 'png'),
+                    //icon:
+
+
+                    return notifier.notify({
+                        title: `${icon} ${last.userId.name}`,
+                        message: last.message,
+                        icon: path.resolve(basePath, './resources/icon.png'),
+                        sound: true,
+                        wait: true
+                    }, (err, response, metadata) => {
+                        console.log("callback", post._id, err, response, metadata, response.activationType, metadata.activationType)
+                        //history.push(`/chat/${post._id}`)
+                        if (metadata.activationType === 'contentsClicked') {
+                            console.log(post._id, 'redirect')
+                            //createWindow()
+                            if (!mainWindow) {
+                                createJitsiMeetWindow()
+                            }
+                        }
+                    })
+
+
+                } else {
+                    console.log("NOt sure")
+                }
+
+                console.log('post', post, ' kiwi')
+            })
+
+
+            console.log(baseURL, ' no way', baseURL.default)
+
+
+        });
+
+
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
@@ -405,7 +466,7 @@ function createTray() {
     console.log('create Tray ', __dirname, ' no directoyrrt name?')
     const icon = path.join(__dirname, './resources/icon.png') // required.
     const trayicon = nativeImage.createFromPath(icon)
-    tray = new Tray(trayicon.resize({ width: 16 }))
+    tray = new Tray(trayicon.resize({ width: 22 }))
     const contextMenu = Menu.buildFromTemplate([
         {
             label: 'Show App',
@@ -551,61 +612,41 @@ ipcMain.on('gauth-rq', () => {
 
 
 
-setTimeout(() => {
-    console.log("TIME OUT TRIGGEREED")
-    // notify('does', 'still work well')
-    // mainWindow && mainWindow.webContents.send('push', 'payload')
-    notifier.notify({
-        title: 'My notification',
-        message: 'Hello, there again!'
-    });
 
 
-}, 20000)
+// function notify(title, message, icon, redirect) {
 
-const notifier = require('node-notifier');
-// String
-// Object
-notifier.notify({
-    title: 'My notification',
-    message: 'Hello, there!'
-});
+//     console.log("notify puppy")
+//     // Let's check if the browser supports notifications
+//     // if (!("Notification" in window)) {
+//     //     alert("This browser does not support desktop notification");
+//     // }
 
+//     // Let's check whether notification permissions have already been granted
+//     //else if (Notification.permission === "granted") {
+//     // If it's okay let's create a notification
+//     var options = {
+//         body: message,
+//         // icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+//         //icon: 'https://images.vexels.com/media/users/3/185580/isolated/preview/4481c0a89970cd7107424bb018900f2a-cool-hipster-pineapple-by-vexels.png'
+//         //icon: icon?.replace('svg', 'png')//`https://avatars.dicebear.com/4.5/api/avataaars/0.33511928838302496.png`
+//     }
 
+//     var notification = new Notification(title, options);
+//     notification.onclick = redirect
+//     //}
 
-function notify(title, message, icon, redirect) {
+//     // Otherwise, we need to ask the user for permission
+//     // else if (Notification.permission !== "denied") {
+//     //     Notification.requestPermission().then(function (permission) {
+//     //         // If the user accepts, let's create a notification
+//     //         if (permission === "granted") {
+//     //             var notification = new Notification(message);
+//     //         }
+//     //     });
+//     // }
 
-    console.log("notify puppy")
-    // Let's check if the browser supports notifications
-    // if (!("Notification" in window)) {
-    //     alert("This browser does not support desktop notification");
-    // }
-
-    // Let's check whether notification permissions have already been granted
-    //else if (Notification.permission === "granted") {
-    // If it's okay let's create a notification
-    var options = {
-        body: message,
-        // icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
-        //icon: 'https://images.vexels.com/media/users/3/185580/isolated/preview/4481c0a89970cd7107424bb018900f2a-cool-hipster-pineapple-by-vexels.png'
-        //icon: icon?.replace('svg', 'png')//`https://avatars.dicebear.com/4.5/api/avataaars/0.33511928838302496.png`
-    }
-
-    var notification = new Notification(title, options);
-    notification.onclick = redirect
-    //}
-
-    // Otherwise, we need to ask the user for permission
-    // else if (Notification.permission !== "denied") {
-    //     Notification.requestPermission().then(function (permission) {
-    //         // If the user accepts, let's create a notification
-    //         if (permission === "granted") {
-    //             var notification = new Notification(message);
-    //         }
-    //     });
-    // }
-
-    // At last, if the user has denied notifications, and you
-    // want to be respectful there is no need to bother them any more.
-}
+//     // At last, if the user has denied notifications, and you
+//     // want to be respectful there is no need to bother them any more.
+// }
 

@@ -51,58 +51,6 @@ import baseURL from './api/config'
 
 
 
-// const notifier = require('node-notifier');
-// // String
-// notifier.notify('Message');
-
-
-// setTimeout(() => {
-//   // Object
-//   notifier.notify({
-//     title: 'My notification',
-//     message: 'too easy!'
-//   });
-
-// }, 5000)
-
-
-
-
-// import Electrolytic from 'electrolytic'
-
-// const electrolytic = Electrolytic({
-//   appKey: 'Bz5RlMclrSkyJJrFZURj',
-// })
-
-
-// electrolytic.on('token', (token) => { console.log('got a token', token) })
-
-// // when you use that <token> to send push via server POST
-// electrolytic.on('push', (payload) => {
-//   console.log('got push notification', payload) // hola, here's a push!
-//   notify('niko', payload)
-// })
-
-// // when you update the config on our dashboard. It's pushed to all the apps in realtime 🙀
-// electrolytic.on('config', (updatedConfig) => {
-//   console.log('look ma, updated config!', updatedConfig)
-// })
-
-
-
-// window.jitsiNodeAPI.ipc.on('push', (message) => {
-//   console.log("in on push", message)
-//   notify('does', 'still work well')
-// })
-
-// setTimeout(() => {
-//   notify('does', 'still work well')
-//   //mainWindow && mainWindow.webContents.send('push', 'payload')
-
-// }, 5000)
-
-
-
 
 // TODO: Convert this into a reusable useSocket or something
 let _setPosts = function () { }
@@ -134,12 +82,12 @@ const Stacked = styled.div`
 const { token } = localStorage;
 
 //Make connection to server just once on page load.
-const socket = io()
+// const socket = io()
 
 
-// const socket = io(baseURL, {
-//   query: { token }
-// });
+const socket = io(baseURL, {
+  query: { token }
+});
 
 console.log(socket, ' to me ', baseURL)
 
@@ -296,7 +244,7 @@ const CowBell = ({ children }) => {
         //New Room - Message everyone except you
         if (post.messageIds.length === 0) {
           // console.log('newRoom', last?.userId?.name, last?.message, last?.userId?.avatar)
-          return notify(`🏡 ${post?.user?.name}`, post?.message, post?.user?.avatar, () => history.push(`/chat/${post._id}`))
+          //return notify(`🏡 ${post?.user?.name}`, post?.message, post?.user?.avatar, () => history.push(`/chat/${post._id}`))
         }
 
 
@@ -309,7 +257,7 @@ const CowBell = ({ children }) => {
             // console.log(member, user._id, member != user._id, 'fire')
             if (last?.message && member == user._id) {
               let icon = post.userChannel ? `🧐` : post.dmChannel ? `💬` : `🏡`
-              return notify(`${icon} ${last?.userId?.name}`, last?.message, last?.userId?.avatar, () => history.push(`/chat/${post._id}`))
+              //return notify(`${icon} ${last?.userId?.name}`, last?.message, last?.userId?.avatar, () => history.push(`/chat/${post._id}`))
             }
           }
         }
