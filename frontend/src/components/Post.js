@@ -38,7 +38,7 @@ const Post = ({ history, match, user, setUser }) => {
       .then((res) => {
         console.log(res, ' get it ', setUser)
         setUser(res.user)
-        history.push('/create-room')
+        history.push('/profile')
       })
       .catch(console.error)
   }
@@ -68,45 +68,32 @@ const Post = ({ history, match, user, setUser }) => {
       })
       .map((enc) => {
         return (
-          <li className="post" key={enc._id}>
-            <p>
-              {enc.email} visited you on {moment(enc.join_time).format('MMMM Do YYYY, h:mm:ss')} for{' '}
-              {moment
-                .utc(
-                  moment
-                    .duration(
-                      (new Date(enc.leave_time).getTime() - new Date(enc.join_time)) / 1000,
-                      'minutes'
-                    )
-                    .asMilliseconds()
-                )
-                .format('HH:mm')}{' '}
+          <>
+            <li className="post resolveIt" key={enc._id}>
+              <div>
+                <input type="checkbox" onChange={toggleHelpers(enc)} />
+                <div>{enc.email} helped me.</div>
+              </div>
+              <p>
+                {enc.email} visited you on {moment(enc.join_time).format('MMMM Do YYYY, h:mm:ss')} for{' '}
+                {moment
+                  .utc(
+                    moment
+                      .duration(
+                        (new Date(enc.leave_time).getTime() - new Date(enc.join_time)) / 1000,
+                        'minutes'
+                      )
+                      .asMilliseconds()
+                  )
+                  .format('HH:mm')}{' '}
               minutes...
             </p>
-            {/* <i>
-              {console.log(typeof enc.leave_time, enc.leave_time, new Date(enc.leave_time).getTime())}
-              <h2>{humanizeDuration(new Date(enc.leave_time).getTime() - new Date(enc.join_time), 'hms')}</h2>
-              came in from {moment(enc.join_time).format('MMMM Do YYYY, h:mm:ss a')} until{' '}
-              {moment(enc.leave_time).format('MMMM Do YYYY, h:mm:ss a')}
-            </i> */}
-            <input type="checkbox" onChange={toggleHelpers(enc)} />
-            <div>{enc.email} helped me.</div>
           </li>
+          </>
         )
       })
   }
 
-  /*
-    const showTransactions = () => {
-        return transactions.map((tran) => {
-            return (
-                <li key={tran._id}>
-                    transaction: {tran.email} : {tran.totalTime}
-                </li>
-            );
-        });
-    };
-*/
 
   const showHelpers = () => {
     return participants
@@ -114,9 +101,12 @@ const Post = ({ history, match, user, setUser }) => {
         return participant.email !== user?.email
       })
       .map((eachHelper) => (
+        <>
         <li>
           Pay {eachHelper} {post.bounty / participants.length} points
         </li>
+
+        </>
       ))
   }
 
@@ -125,9 +115,11 @@ const Post = ({ history, match, user, setUser }) => {
   return (
     <div className="post-detail">
       <section>
-        <h1>Viewing details for your post:</h1>
+        <h1>Resolve your post:</h1>
         <h2>{post?.message}</h2>
         <h3>Bounty {post?.bounty}</h3>
+
+        {post?.paid ? null : <ul id="showEncounters">{showEncounters()}</ul>}
 
         {post?.paid ?
           <h3>Post has been paid</h3>
@@ -147,7 +139,6 @@ const Post = ({ history, match, user, setUser }) => {
                 <div>Transactions</div>
                 {showTransactions()}
             </section> */}
-      {post?.paid ? null : <ul id="showEncounters">{showEncounters()}</ul>}
     </div>
   )
 }

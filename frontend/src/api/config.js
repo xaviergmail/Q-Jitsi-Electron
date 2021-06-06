@@ -20,6 +20,7 @@ if (process.env.NODE_ENV === 'production') {
   jitsiURL = process.env.DEV_ELECTRON_WEBPACK_APP_API_URL || `jitsi.local.cowbell.club:8443`
 }
 
+console.log(baseURL, jitsiURL, 'urls')
 
 
 export default baseURL

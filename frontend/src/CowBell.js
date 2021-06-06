@@ -1,10 +1,4 @@
-// import Logger from 'jitsi-meet-logger'
 
-// var logger = Logger.getLogger()
-
-// Logger.setLogLevel(Logger.levels.WARN)
-
-// Logger.level = 0
 
 import React, { Fragment, useState, useEffect, useMemo, createRef, useContext } from 'react'
 import {
@@ -244,7 +238,7 @@ const CowBell = ({ children }) => {
         //New Room - Message everyone except you
         if (post.messageIds.length === 0) {
           // console.log('newRoom', last?.userId?.name, last?.message, last?.userId?.avatar)
-          //return notify(`🏡 ${post?.user?.name}`, post?.message, post?.user?.avatar, () => history.push(`/chat/${post._id}`))
+          return notify(`🏡 ${post?.user?.name}`, post?.message, post?.user?.avatar, () => history.push(`/chat/${post._id}`))
         }
 
 
@@ -257,7 +251,7 @@ const CowBell = ({ children }) => {
             // console.log(member, user._id, member != user._id, 'fire')
             if (last?.message && member == user._id) {
               let icon = post.userChannel ? `🧐` : post.dmChannel ? `💬` : `🏡`
-              //return notify(`${icon} ${last?.userId?.name}`, last?.message, last?.userId?.avatar, () => history.push(`/chat/${post._id}`))
+              return notify(`${icon} ${last?.userId?.name}`, last?.message, last?.userId?.avatar, () => history.push(`/chat/${post._id}`))
             }
           }
         }

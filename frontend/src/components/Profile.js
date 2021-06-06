@@ -47,6 +47,8 @@ function Profile(props) {
     console.log('who me the log!!!')
 
     const ShowResolvedPosts = ({ posts }) => {
+        console.log(posts, ' hmm')
+        if (!posts) { return }
         const p = posts.filter(p => p.paid).map((post) => {
 
             let helpers = []
@@ -74,7 +76,7 @@ function Profile(props) {
                             </Card.Content>
                             <Card.Content extra>
                                 <Icon name='user' />
-                                {helpers.map(h => {
+                                {helpers ? helpers.map(h => {
                                     console.log(h, 'h')
                                     return (
                                         <span key={h.avatar}>
@@ -82,7 +84,7 @@ function Profile(props) {
                                             <Image width="30" src={h.avatar} />
                                         </span>
                                     )
-                                })}
+                                }) : null}
                                 <br />
                                 {helpers.length} Helper
 
@@ -102,6 +104,8 @@ function Profile(props) {
 
 
   const ShowTransactions = () => {
+      console.log('transactions', transactions)
+      if (!transactions) { return }
       const trans = transactions.map((tran) => {
 
         if (tran.resolved) {
@@ -149,7 +153,7 @@ function Profile(props) {
             <Image src={user.avatar} avatar />
 
             <div className="avatars">
-                {user.avatars.map(a => a != user.avatar && <Image src={a} onClick={() => saveAvatar(a)} avatar />)}
+                {user.avatars ? user.avatars.map(a => a != user.avatar && <Image src={a} onClick={() => saveAvatar(a)} avatar />) : null}
             </div>
 
 
@@ -159,6 +163,7 @@ function Profile(props) {
 
             <Container>
                 <h4>{user.email}</h4>
+
 
                 <h4><Link to="/settings">Settings</Link></h4>
                 <button onClick={() => {
@@ -172,7 +177,9 @@ function Profile(props) {
                     })
 
                 }}>Log Out</button>
-
+                {/* <button onClick={() => {
+                    window.jitsiNodeAPI.ipc.send('set-counter', { count: 20 })
+                }}>Set Counter</button> */}
             </Container>
 
 

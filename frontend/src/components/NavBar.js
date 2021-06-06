@@ -4,6 +4,8 @@ import { Menu, Image, Icon } from 'semantic-ui-react'
 import Search from './Search'
 import TheContext from '../TheContext'
 import SideBar from './SideBar'
+import { version } from '../../../package.json'
+console.log(version, ' version num');
 
 
 export function NavBar({ user }) {
@@ -48,7 +50,7 @@ export function NavBar({ user }) {
 
 
 
-        <h1 id="logo" onClick={() => history.push(`/chat/${lobby_id}`)}><span className="farm emojis">🐮</span> CowBell</h1>
+        <h1 id="logo" onClick={() => history.push(`/chat/${lobby_id}`)}><span className="farm emojis">🐮</span> CowBell <sub>{version}</sub></h1>
         {/*}.repeat(nConnections)} {nConnections}*/}
         {/* <Link to="/chat">
           <Menu.Item link active={pathname == '/chat'}>

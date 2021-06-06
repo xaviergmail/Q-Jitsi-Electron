@@ -113,9 +113,13 @@ li.post a:hover{
   text-decoration: none;
 }
 li.post:nth-child(even){
-  background: #ddd;
-
+  background: white;
 }
+li.post:nth-child(odd){
+  background: #444444;
+  color: white;
+}
+
 .post section {
   background: black;
   width: 100vw;
@@ -135,16 +139,42 @@ ul#helpers{
     margin: 3rem;
     display: flex;
     justify-content:center;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
 }
 
 ul#helpers li {
-  background: #4DAA57;
+  /* background: #4DAA57; */
     margin: 1rem;
     font-size: 1.2rem;
     padding: .1rem;
+    list-style-type: none;
+
 }
 
+
+li.post.resolveIt {
+  display:flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+li.post.resolveIt > div{
+  display:flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  font-size: 24px;
+}
+
+li.post.resolveIt input[type="checkbox"] {
+  width: 2.2rem;
+  height: 2.2rem;
+  margin: 1rem
+}
+
+li.post.resolveIt p {
+  margin: 1rem;
+}
 .stream {
   width: 15vw;
   height: 10vw;
@@ -875,8 +905,14 @@ ul#transactions .ui.card:hover .description{
   margin: 2px;
 } */
 ul#transactions .ui.card button{
-  width: 3.5rem;
-  height: 3.5rem;
+  /* width: 2.5rem;
+  height: 2.5rem; */
+  padding: .4rem;
+}
+
+ul#transactions .ui.card button div{
+  display:inline;
+
 }
 ul#transactions .ui.card .content{
   display: flex;
@@ -924,7 +960,7 @@ ul#myTransactions li{
   flex-direction: column;
   justify-content:center;
   align-items:center;
-
+  width: 100%;
 }
 
 .profile-details .pooo, .profile-details .trans{
@@ -973,7 +1009,8 @@ ul#myTransactions li{
 }
 
 .post-detail{
-  background:white; /*cornsilk; /*#4DAA57; /*cornflowerblue;*/
+  background:floralwhite; /*cornsilk; /*#4DAA57; /*cornflowerblue;*/
+  min-height: 100vh;
   display: flex;
   /* justify-content: space-between; */
   /* align-content: space-around; */
@@ -1021,7 +1058,7 @@ ul#myTransactions li{
 
   display:flex;
   justify-content:space-between;
-  align-items: flex-end;
+  /* align-items: flex-end; */
   border-top: 1px solid #282828; /*Black*/
   /* text-align: left; */
   /* background:#171717; */
@@ -1265,6 +1302,16 @@ div#messages .message .text{
   color:#6DAEDB;
 }
 
+.message-title .bounty{
+  font-size: .9rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  min-width: 2rem;
+  white-space: nowrap;
+  margin: 0;
+}
+
 #chat ul{
   height: calc(100vh - 248px); /*60vh;
   /* height: calc(100vh - 8rem); */
@@ -1296,6 +1343,7 @@ div#messages .message .text{
   color: whitesmoke;
   padding: .5rem;
   flex: 1;
+  height: 90%;
     margin: 1px;
     
 }
@@ -1499,7 +1547,9 @@ i.icon{
 
 .scrollathon{
   overflow-y:scroll !important;
-  height:calc(100vh - 215px) !important;
+  /* height:calc(100vh - 215px) !important; */
+  height: calc(100vh - 300px) !important;
+
 }
 
 .scrollathon{
@@ -1680,4 +1730,11 @@ ul.showPosts {
   width: 50px !important;
   height: 50px !important;
   display:inline;
+}
+
+
+
+#logo sub{
+  font-size: .75rem;
+  height: 40px;
 }

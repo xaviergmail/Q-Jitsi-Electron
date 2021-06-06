@@ -267,16 +267,16 @@ function createJitsiMeetWindow() {
                 query: { token: localStorage.token }
             });
 
-            notifier.on('click', function (notifierObject, options, event) {
-                // Triggers if `wait: true` and user clicks notification
-                //console.log(notifierObject, options, event, 'cliiiiick')
-            });
+    ;
             socket.on('post', ({ post }) => {
                 // if (!isMounted) {
                 //   return
                 // }
-
-
+                if(mainWindow){ //Only run if app is "closed"
+                    return
+                }
+                console.log(app, app.getBadgeCount(), ' count????')
+                app.setBadgeCount(app.getBadgeCount() +1)
                 //New Room
                 if (post.messageIds.length === 0) {
 
@@ -611,42 +611,12 @@ ipcMain.on('gauth-rq', () => {
 });
 
 
+ipcMain.on('set-counter', function (count, data) {
+    console.log('bullwinkle', count, data, ' do i have to restart', this, mainWindow, ' lets go')
+    app.setBadgeCount(data.count)
+})
 
 
 
-// function notify(title, message, icon, redirect) {
 
-//     console.log("notify puppy")
-//     // Let's check if the browser supports notifications
-//     // if (!("Notification" in window)) {
-//     //     alert("This browser does not support desktop notification");
-//     // }
-
-//     // Let's check whether notification permissions have already been granted
-//     //else if (Notification.permission === "granted") {
-//     // If it's okay let's create a notification
-//     var options = {
-//         body: message,
-//         // icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
-//         //icon: 'https://images.vexels.com/media/users/3/185580/isolated/preview/4481c0a89970cd7107424bb018900f2a-cool-hipster-pineapple-by-vexels.png'
-//         //icon: icon?.replace('svg', 'png')//`https://avatars.dicebear.com/4.5/api/avataaars/0.33511928838302496.png`
-//     }
-
-//     var notification = new Notification(title, options);
-//     notification.onclick = redirect
-//     //}
-
-//     // Otherwise, we need to ask the user for permission
-//     // else if (Notification.permission !== "denied") {
-//     //     Notification.requestPermission().then(function (permission) {
-//     //         // If the user accepts, let's create a notification
-//     //         if (permission === "granted") {
-//     //             var notification = new Notification(message);
-//     //         }
-//     //     });
-//     // }
-
-//     // At last, if the user has denied notifications, and you
-//     // want to be respectful there is no need to bother them any more.
-// }
-
+console.log('Wooooo we loaded!!!');

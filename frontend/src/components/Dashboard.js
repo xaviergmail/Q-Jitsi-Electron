@@ -115,7 +115,7 @@ function Dashboard(props) {
       console.log(helpers, ' mess')
 
 
-      // if (helpers.length > 0) {
+      if (helpers.length > 0) {
       return (
 
         <Link to={`/post/${post._id}`} key={post._id}>
@@ -149,7 +149,7 @@ function Dashboard(props) {
         </Link>
 
       )
-      //}
+      }
     }).filter(x => x)
 
 
