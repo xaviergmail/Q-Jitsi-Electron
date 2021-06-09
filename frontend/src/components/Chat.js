@@ -136,30 +136,34 @@ function Chat(props) {
                        
                     </header>
 
-                    {channel?.userChannel ? <User userId={channel?.user} /> : null}
+                    {channel?.userChannel ? <User userId={channel?.user} /> :
 
+                        <>
+                            <ul>
 
-                    <ul>
+                                {showMessages()}
+                                <li className="message first">
+                                    <div>{showMembers()}</div>
+                                    <h2>Welcome #{channel?.message}!</h2>
 
-                        {showMessages()}
-                        <li className="message first">
-                            <div>{showMembers()}</div>
-                            <h2>Welcome #{channel?.message}!</h2>
+                                    <p>This is the beginning of your chat history...</p>
 
-                            <p>This is the beginning of your chat history...</p>
+                                    <p>{channel?.user == user?._id && !channel?.userChannel ? <button onClick={closeRoom} className="remove">Close Room</button> : null}</p>
+                                </li>
+                            </ul>
+                            <form className="addNewMessage" onSubmit={submitMessage}>
+                                <input type="text" value={message} placeholder="Say something... Earn a CowBell" onChange={e => setMessage(e.target.value)} />
+                                {/* <button>+</button> */}
+                                <button id="addMessage" disabled={false}><Icon name="add" /> <label></label></button>
+                            </form>
+                        </>
+                    }
 
-                            <p>{channel?.user == user?._id && !channel?.userChannel ? <button onClick={closeRoom} className="remove">Close Room</button> : null}</p>
-                        </li>
-                    </ul>
                 </div>
 
             </main>
 
-            <form className="addNewMessage" onSubmit={submitMessage}>
-                <input type="text" value={message} placeholder="Say something... Earn a CowBell" onChange={e => setMessage(e.target.value)} />
-                {/* <button>+</button> */}
-                <button id="addMessage" disabled={false}><Icon name="add" /> <label></label></button>
-            </form>
+
 
 
         </section>
