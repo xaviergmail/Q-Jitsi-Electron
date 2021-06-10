@@ -15,7 +15,7 @@ exports.default = async function notarizing(context) {
         return;
     }
 
-    console.log("COTTEN EYED JOE")
+    console.log("WHERE DO YOU COME FROM COTTEN EYED JOE?!")
 
     const appName = context.packager.appInfo.productFilename;
 
