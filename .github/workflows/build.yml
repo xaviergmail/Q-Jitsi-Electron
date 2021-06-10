@@ -1,0 +1,75 @@
+name: Build Releases
+
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - run: sudo apt-get install libx11-dev zlib1g-dev libpng-dev libxtst-dev
+
+      - run: npm install
+      - run: npm run lint
+
+  build-ubuntu:
+    name: Build Ubuntu
+    runs-on: ubuntu-18.04
+    needs: [lint]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - run: sudo apt-get install libx11-dev zlib1g-dev libpng-dev libxtst-dev
+
+      - run: npm install
+      - run: npm run dist
+        env:
+          GH_TOKEN: ${ github.token }
+
+  build-windows:
+    name: Build Windows
+    runs-on: windows-2016
+    needs: [lint]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - run: npm install
+      - run: npm run dist
+        env:
+          GH_TOKEN: ${ github.token }
+
+  build-mac:
+    name: Build Mac
+    runs-on: windows-2016
+    needs: [lint]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '11.5'
+
+      - run: npm install
+      - run: npm run dist
+        env:
+          GH_TOKEN: ${ github.token }
