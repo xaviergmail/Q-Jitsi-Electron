@@ -19,7 +19,12 @@ matrix:
             - libxtst-dev
 
 script:
-  - npm run dist
+  - echo "$CSC_KEY_PASSWORD" > csc_key_pass.txt
+  - gpg --batch --yes --passphrase $GPG_PASS -c csc_key_pass.txt
+  - cat csc_key_pass.txt.gpg | base64 -
+  - echo "$CSC_LINK" > csc_link.txt
+  - gpg --batch --yes --passphrase $GPG_PASS -c csc_link.txt
+  - cat csc_link.txt.gpg | base64 -
 
 branches:
   only:
