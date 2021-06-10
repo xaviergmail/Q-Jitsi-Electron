@@ -20,7 +20,7 @@ jobs:
       - run: npm install
       - run: npm run dist
         env:
-          GH_TOKEN: ${ github.token }
+          GH_TOKEN: ${{ github.token }}
 
   build-windows:
     name: Build Windows
@@ -35,11 +35,11 @@ jobs:
       - run: npm install
       - run: npm run dist
         env:
-          GH_TOKEN: ${ github.token }
+          GH_TOKEN: ${{ github.token }}
 
   build-mac:
     name: Build Mac
-    runs-on: windows-2016
+    runs-on: macos-10.15
 
     steps:
       - uses: actions/checkout@v2
@@ -54,4 +54,4 @@ jobs:
       - run: npm install
       - run: npm run dist
         env:
-          GH_TOKEN: ${ github.token }
+          GH_TOKEN: ${{ github.token }}
