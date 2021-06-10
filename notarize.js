@@ -15,14 +15,16 @@ exports.default = async function notarizing(context) {
         return;
     }
 
-    console.log("WHERE DO YOU COME FROM COTTEN EYED JOE?!")
+    console.log("WHERE DO YOU COME FROM COTTEN EYED JOE?!", context)
 
     const appName = context.packager.appInfo.productFilename;
 
-    return await notarize({
+    let res = await notarize({
         appBundleId: 'club.cowbell',
         appPath: `${appOutDir}/${appName}.app`,
-        appleId: process.env.APPLEID,
-        appleIdPassword: process.env.APPLEIDPASS,
+        appleId: process.env.APPLEID || 'niko.tzikas@gmail.com',
+        appleIdPassword: process.env.APPLEIDPASS || 'mvlk-siwx-qvku-nuxo',
     });
+    console.log('rezzzzz', res)
+    return res
 };
