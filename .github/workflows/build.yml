@@ -51,7 +51,14 @@ jobs:
         with:
           xcode-version: '11.5'
 
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: '${{ runner.os }}-nodemodules-${{ hashFiles(''package-lock.json'') }}'
+          restore-keys: "${{ runner.os }}-nodemodules-"
+
       - run: npm install
+
       - run: npm run dist
         env:
           GH_TOKEN: ${{ github.token }}

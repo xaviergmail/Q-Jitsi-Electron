@@ -22,8 +22,8 @@ exports.default = async function notarizing(context) {
     let res = await notarize({
         appBundleId: 'club.cowbell',
         appPath: `${appOutDir}/${appName}.app`,
-        appleId: process.env.APPLEID || 'niko.tzikas@gmail.com',
-        appleIdPassword: process.env.APPLEIDPASS || 'mvlk-siwx-qvku-nuxo',
+        appleId: process.env.APPLEID,
+        appleIdPassword: process.env.APPLEIDPASS,
     });
     console.log('rezzzzz', res)
     return res
