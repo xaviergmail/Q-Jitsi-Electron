@@ -257,6 +257,9 @@ function createJitsiMeetWindow() {
     });
 
 
+    //Lets see
+    mainWindow.webContents.openDevTools() //This don't seem to do nothing 
+
     //NOTIFIICATIONS 
     mainWindow.webContents
         .executeJavaScript('({...localStorage});', true)
@@ -272,9 +275,14 @@ function createJitsiMeetWindow() {
                 // if (!isMounted) {
                 //   return
                 // }
-                if(mainWindow){ //Only run if app is "closed"
-                    return
-                }
+                console.log(mainWindow, post, ' respect')
+
+                // if(mainWindow){ //Only run if app is "closed"
+                //     return
+                // }
+                notifier.notify({ title: 'does this work live', message: 'maybe' })
+
+
                 console.log(app, app.getBadgeCount(), ' count????')
                 app.setBadgeCount(app.getBadgeCount() +1)
                 //New Room
