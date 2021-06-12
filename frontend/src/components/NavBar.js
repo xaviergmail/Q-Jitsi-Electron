@@ -5,7 +5,7 @@ import Search from './Search'
 import TheContext from '../TheContext'
 import SideBar from './SideBar'
 import { version } from '../../../package.json'
-console.log(version, ' version num');
+console.log(version, ' version number: ');
 
 
 export function NavBar({ user }) {
