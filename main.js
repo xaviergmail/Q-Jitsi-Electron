@@ -285,7 +285,7 @@ function createJitsiMeetWindow() {
 
                 console.log(app, app.getBadgeCount(), ' count????')
                 app.setBadgeCount(99)
-                setTimeout(app.setBadgeCount(app.getBadgeCount() + 1), 10000)
+                setTimeout(() => app.setBadgeCount(app.getBadgeCount() + 1), 10000)
                 //New Room
                 // if (post.messageIds.length === 0) {
 
