@@ -258,7 +258,7 @@ function createJitsiMeetWindow() {
 
 
     //Lets see
-    mainWindow.webContents.openDevTools() //This don't seem to do nothing 
+    mainWindow.webContents.openDevTools() //This don't seem to do nothing
 
     //NOTIFIICATIONS 
     mainWindow.webContents
@@ -270,69 +270,65 @@ function createJitsiMeetWindow() {
                 query: { token: localStorage.token }
             });
 
-    ;
+
             socket.on('post', ({ post }) => {
                 // if (!isMounted) {
                 //   return
                 // }
                 console.log(mainWindow, post, ' respect')
 
-                // if(mainWindow){ //Only run if app is "closed"
-                //     return
-                // }
-                notifier.notify({ title: 'does this work live', message: 'maybe cmon' })
-
-
+                if (mainWindow) { //Only run if app is "closed"
+                    return
+                }
                 console.log(app, app.getBadgeCount(), ' count????')
-                app.setBadgeCount(99)
-                setTimeout(() => app.setBadgeCount(app.getBadgeCount() + 1), 10000)
+                app.setBadgeCount(app.getBadgeCount() + 1)
                 //New Room
-                // if (post.messageIds.length === 0) {
+                if (post.messageIds.length === 0) {
 
 
-                //     return notifier.notify({
-                //         title: `🏡 ${post.user.name}`,
-                //         message: post.message,
-                //         icon: post.user.avatar,
-                //         sound: true,
-                //         wait: true
-                //     }, (err, response, metadata) => {
-                //         console.log("callback", post._id, err, response, metadata, response.activationType, metadata.activationType)
-                //         //history.push(`/chat/${post._id}`)
-                //     }
-                //     );
-                // } else if (post && post.members) { //Not New Room
-                //     let icon = post.userChannel ? `🧐` : post.dmChannel ? `💬` : `🏡`
-                //     const last = post.messageIds[post.messageIds.length - 1]
-                //     console.log(last, 'samruai')
+                    return notifier.notify({
+                        title: `🏡 ${post.user.name}`,
+                        message: post.message,
+                        // icon: post.user.avatar,
+                        // sound: true,
+                        // wait: true
+                    }, (err, response, metadata) => {
+                        console.log("callback", post._id, err, response, metadata, response.activationType, metadata.activationType)
+                        //history.push(`/chat/${post._id}`)
+                    }
+                    );
+                } else if (post && post.members) { //Not New Room
+                    let icon = post.userChannel ? `🧐` : post.dmChannel ? `💬` : `🏡`
+                    const last = post.messageIds[post.messageIds.length - 1]
+                    console.log(last, 'samruai')
 
-                //     // path.join(__dirname, 'coulson.jpg')
-                //     //last.userId.avatar.replace('svg', 'png'),
-                //     //icon:
-
-
-                //     return notifier.notify({
-                //         title: `${icon} ${last.userId.name}`,
-                //         message: last.message,
-                //         icon: path.resolve(basePath, './resources/icon.png'),
-                //         sound: true,
-                //         wait: true
-                //     }, (err, response, metadata) => {
-                //         console.log("callback", post._id, err, response, metadata, response.activationType, metadata.activationType)
-                //         //history.push(`/chat/${post._id}`)
-                //         if (metadata.activationType === 'contentsClicked') {
-                //             console.log(post._id, 'redirect')
-                //             //createWindow()
-                //             if (!mainWindow) {
-                //                 createJitsiMeetWindow()
-                //             }
-                //         }
-                //     })
+                    // path.join(__dirname, 'coulson.jpg')
+                    //last.userId.avatar.replace('svg', 'png'),
+                    //icon:
 
 
-                // } else {
-                //     console.log("NOt sure")
-                // }
+                    return notifier.notify({
+                        title: `${icon} ${last.userId.name}`,
+                        message: last.message,
+                        // icon: path.resolve(basePath, './resources/icon.png'),
+                        // sound: true,
+                        // wait: true
+                    }, (err, response, metadata) => {
+                        console.log("callback", post._id, err, response, metadata, response.activationType, metadata.activationType)
+                        //history.push(`/chat/${post._id}`)
+                        if (metadata.activationType === 'contentsClicked') {
+                            console.log(post._id, 'redirect')
+                            //createWindow()
+                            if (!mainWindow) {
+                                createJitsiMeetWindow()
+                            }
+                        }
+                    })
+
+
+                } else {
+                    console.log("NOt sure")
+                }
 
                 console.log('post', post, ' kiwi')
             })
@@ -473,7 +469,8 @@ app.on('window-all-closed', () => {
 let tray = null
 function createTray() {
     console.log('create Tray ', __dirname, ' no directoyrrt name?')
-    const icon = path.join(__dirname, './resources/icon.png') // required.
+    // const icon = path.join(__dirname, './resources/icon.png') // required.
+    const icon = path.join(__dirname, 'resources', 'icon.png')
     const trayicon = nativeImage.createFromPath(icon)
     tray = new Tray(trayicon.resize({ width: 22 }))
     const contextMenu = Menu.buildFromTemplate([
