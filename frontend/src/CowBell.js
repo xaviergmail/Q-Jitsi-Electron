@@ -208,7 +208,7 @@ const CowBell = ({ children }) => {
           return
         }
 
-        console.log('post', post, ' kiwi')
+        console.log('post:', post, ' kiwi')
 
 
         _setPosts(function (posts) {
@@ -220,18 +220,22 @@ const CowBell = ({ children }) => {
         })
 
         const last = post?.messageIds[post.messageIds.length - 1]
-        console.log(last?.message, ' 444')
-        console.log(last, user, post, 'good tunes')
+        // console.log(last?.message, ' 444')
+        // console.log(last, user, post, 'good tunes')
 
         //Your message so don't notify
         if (last?.userId?._id == user._id && post.messageIds.length != 0) {
           return
         }
 
-        console.log(pathname, last?.postId, 'pathname', pathname.split('/')[2], pathname.split('/')[2] === last?.postId, window.location)
+        // console.log(pathname, last?.postId, 'pathname', pathname.split('/')[2], pathname.split('/')[2] === last?.postId, window.location)
 
         //You're in that chat room so don't notify
         if (window.location.hash.split('/').pop() === last?.postId) {
+          return
+        }
+        console.log(post.event, 'event')
+        if (post.event === "muc-occupant-joined" || post.event === "muc-occupant-left" || "muc-room-destroyed") {
           return
         }
 

@@ -83,7 +83,7 @@ const Room = ({ room, id }) => {
     // console.log(posts, room._id, setPosts)
     let updatedPosts = { ...posts }
     updatedPosts[room._id].messageIds.forEach(message => {
-      if (message.read != user._id) {
+      if (message.read != user._id && message.read) {
         message.read.push(user._id)
       }
     })
@@ -145,12 +145,7 @@ const Room = ({ room, id }) => {
               style.textDecoration = 'none'
               style.fontSize = ".875rem"
               style.cursor = 'pointer'
-            }
-
-
-
-
-
+              }
               return (<div key={x?.email}>
 
                 <Participant participant={x} host={x?.email == user?.email} yourRoom={yourRoom} key={x?.email} gotoRoom={gotoRoom} />

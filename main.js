@@ -511,7 +511,7 @@ function createWindow() {
     // })
 }
 
-app.on('ready', createWindow)
+app.on('ready', createTray)
 
 
 // remove so we can register each time as we run the app.

@@ -18,7 +18,6 @@ function Chat(props) {
 
     useEffect(() => {
 
-        console.log("does this happen?")
 
         // const query = new URLSearchParams(props.location.search);
         // console.log(query.get('user'), 'peace of mind', props)
@@ -39,7 +38,7 @@ function Chat(props) {
     const fetchChannel = async (id) => {
 
         let res = await actions.getPost(id)
-
+        console.log(res, 'gold lion')
         if (res) {
             setChannel(res.data.post)
             setMessages(res.data.messages.reverse())
@@ -82,6 +81,19 @@ function Chat(props) {
             .catch(console.error)
     }
 
+
+    const showActiveUsers = () => {
+        // console.log("does this happen?", posts, channel)
+        for (let id in posts) {
+            if (id == channel._id) {
+                console.log(posts[id], 'our dude')
+                return posts[id].activeUsers.map(member => <span key={member._id}> <Image onClick={() => history.push(`/chat/${member?.postId}`)} avatar src={member?.avatar} style={{ background: 'white' }} /> <span>{member.name}</span></span>)
+            }
+        }
+        return (
+            <div>yeahs</div>
+        )
+    }
 
     const showMembers = () => {
         if (channel && channel?.members) {
@@ -143,7 +155,13 @@ function Chat(props) {
 
                                 {showMessages()}
                                 <li className="message first">
+                                    <h2>
+                                        Created by {channel?.user?.name}
+                                    </h2>
+                                    <h2>Members</h2>
                                     <div>{showMembers()}</div>
+                                    <h2>Active Users in Video</h2>
+                                    <div>{showActiveUsers()}</div>{ }
                                     <h2>Welcome #{channel?.message}!</h2>
 
                                     <p>This is the beginning of your chat history...</p>
