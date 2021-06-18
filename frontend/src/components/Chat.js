@@ -83,11 +83,10 @@ function Chat(props) {
 
 
     const showActiveUsers = () => {
-        // console.log("does this happen?", posts, channel)
         for (let id in posts) {
             if (id == channel._id) {
-                console.log(posts[id], 'our dude')
-                return posts[id].activeUsers.map(member => <span key={member._id}> <Image onClick={() => history.push(`/chat/${member?.postId}`)} avatar src={member?.avatar} style={{ background: 'white' }} /> <span>{member.name}</span></span>)
+
+                return posts[id].activeUsers.map(member => <span key={member?._id}> <Image onClick={() => history.push(`/chat/${member?.postId}`)} avatar src={member?.avatar} style={{ background: 'white' }} /> <span>{member?.name}</span></span>)
             }
         }
         return (
@@ -97,7 +96,7 @@ function Chat(props) {
 
     const showMembers = () => {
         if (channel && channel?.members) {
-            return channel?.members.map(member => <span key={member._id}> <Image onClick={() => history.push(`/chat/${member?.postId}`)} avatar src={member?.avatar} style={{ background: 'white' }} /> <span>{member.name}</span></span>)
+            return channel?.members.map(member => <span key={member?._id}> <Image onClick={() => history.push(`/chat/${member?.postId}`)} avatar src={member?.avatar} style={{ background: 'white' }} /> <span>{member?.name}</span></span>)
         }
     }
 

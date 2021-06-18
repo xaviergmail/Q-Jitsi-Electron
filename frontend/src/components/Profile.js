@@ -177,9 +177,7 @@ function Profile(props) {
                     })
 
                 }}>Log Out</button>
-                {/* <button onClick={() => {
-                    window.jitsiNodeAPI.ipc.send('set-counter', { count: 20 })
-                }}>Set Counter</button> */}
+
             </Container>
 
 

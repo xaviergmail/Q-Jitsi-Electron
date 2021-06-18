@@ -1665,8 +1665,9 @@ span.badges{
 /* span.activeRooms{ */
 span.badges span{
 
-  width: 15px;
-  height: 15px;
+  width: 17px;
+  height: 17px;
+  font-family: "MilkyNice";
   color: black;
 
   border-radius: 100%;

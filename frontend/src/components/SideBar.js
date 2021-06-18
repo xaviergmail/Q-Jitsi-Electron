@@ -178,21 +178,6 @@ export default function SideBar({ video }) {
   const { user, activeRooms, room, gotoRoom, posts, liveUsers, setStyle, style, query, className, setClassName, showSlider, setShowSlider, open, setOpen } = useContext(TheContext)
 
 
-
-  // console.log("gottabe", posts)
-
-  // const sortedRooms = Object.values(posts)
-  //   .filter(
-  //     (x) =>
-  //       ((x && x?.message.toLowerCase().includes(query.toLowerCase())) || //&& x.active && x.activeUsers.length) ||
-  //         x?.id == 'lobby' ||
-  //         x?.isLobby) && !x?.userChannel && !x?.dmChannel
-  //     // (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
-  // ).sort((a, b) => a?.active ? -1 : 1).slice(0, limit)
-
-  console.log("rerender???")
-
-
   const sortedRooms = Object.values(posts)
     .filter((x) => ((x && x?.message.toLowerCase().includes(query.toLowerCase()))) && !x?.userChannel && !x?.dmChannel
   ).sort((a, b) => a?.active ? -1 : 1).slice(0, limit)
@@ -208,36 +193,28 @@ export default function SideBar({ video }) {
     }, 0)
     return acc + eachCount
   }, 0)
-  // console.log(sortedCount)
 
 
+  // const userChannels = []
+
+  // for (let channel of Object.values(posts)) {
+  //   if (
+  //     channel?.userChannel && 
+  //     !userChannels.some(c => c?._id == channel?._id) && 
+  //     channel?.message.toLowerCase().includes(query.toLowerCase()) && 
+  //     channel.user?._id !== user?._id
+  //   ) {  //Unique user channels 
+  //     userChannels.push(channel)
+  //   }
+  // }
   const userChannels = []
 
   for (let channel of Object.values(posts)) {
-    if (
-      channel?.userChannel && 
-      !userChannels.some(c => c?._id == channel?._id) && 
-      channel?.message.toLowerCase().includes(query.toLowerCase()) && 
-      channel.user?._id !== user?._id
-    ) {  //Unique user channels 
+    console.log("with a girl", channel)
+    if (channel?.userChannel) {  //Unique user channels 
       userChannels.push(channel)
-      // console.log(channel.message, 'lol', channel)
     }
   }
-
-
-  // let userChannelCount = userChannels.reduce((acc, rm) => {
-  //   console.log('-=-=-', rm.message, rm, acc);
-  //   let eachCount = rm.messageIds.reduce((acc, eachMg) => {
-  //     console.log(eachMg)
-  //     if (!eachMg.read.includes(user._id)) {
-  //       return acc + 1
-  //     } else {
-  //       return acc + 0
-  //     }
-  //   }, 0)
-  //   return acc + eachCount
-  // }, 0)
 
   const dmChannels = []
 
@@ -291,7 +268,7 @@ export default function SideBar({ video }) {
           <div id="rooms" className={open === 'rooms' ? `open` : 'closed'} onClick={() => setOpen('rooms')}>
             <h5 className="panelHeader">
               <span className="emojis">🏡</span>
-              <span>Public Channels</span>
+              <span>Public Chats</span>
               <span className="badges">
                 <span className="messageCount">
                   {sortedCount}
@@ -332,7 +309,7 @@ export default function SideBar({ video }) {
                 {dmChannels.length}
               </span> */}
               <span className="emojis">💬</span>
-              <span>Private Channels</span>
+              <span>Private Chats</span>
 
               <span className="badges">
                 <span className="messageCount">
@@ -379,10 +356,14 @@ export default function SideBar({ video }) {
 
             {/* <h5 className="panelHeader"> <span className="emojis ">🤯</span> {userChannels.length} Total Users | {liveUsers.length} Live </h5> */}
             <ul className="scrollathon">
+
               {userChannels.length > 0 ? userChannels.map((room) => <Room room={room} key={room.id} />).slice(0, limit) : <h3>No Users Found</h3>}
-              {/* {limit < 99 ?
-                < Menu.Item onClick={() => setLimit(100)}>Show More ({userChannels?.length - limit})</Menu.Item>
-                : null} */}
+
+
+              {console.log(liveUsers, ' float on', userChannels)}
+              {/* {liveUsers.length > 0 ? liveUsers.map((room) => <Room room={room} key={room.id} />).slice(0, limit) : <h3>No Users Found</h3>} */}
+
+
             </ul>
           </div>
 

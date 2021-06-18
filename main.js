@@ -275,12 +275,12 @@ function createJitsiMeetWindow() {
                 // if (!isMounted) {
                 //   return
                 // }
-                console.log(mainWindow, post, ' respect')
+                console.log(' i love u')
 
                 if (mainWindow) { //Only run if app is "closed"
                     return
                 }
-                console.log(app, app.getBadgeCount(), ' count????')
+                console.log(app.getBadgeCount(), ' count????')
                 app.setBadgeCount(app.getBadgeCount() + 1)
                 //New Room
                 if (post.messageIds.length === 0) {
@@ -293,14 +293,14 @@ function createJitsiMeetWindow() {
                         // sound: true,
                         // wait: true
                     }, (err, response, metadata) => {
-                        console.log("callback", post._id, err, response, metadata, response.activationType, metadata.activationType)
+                        // console.log("callback", post._id, err, response, metadata, response.activationType, metadata.activationType)
                         //history.push(`/chat/${post._id}`)
                     }
                     );
                 } else if (post && post.members) { //Not New Room
                     let icon = post.userChannel ? `🧐` : post.dmChannel ? `💬` : `🏡`
                     const last = post.messageIds[post.messageIds.length - 1]
-                    console.log(last, 'samruai')
+                    //console.log(last, 'samruai')
 
                     // path.join(__dirname, 'coulson.jpg')
                     //last.userId.avatar.replace('svg', 'png'),
@@ -618,7 +618,7 @@ ipcMain.on('gauth-rq', () => {
 
 
 ipcMain.on('set-counter', function (count, data) {
-    console.log('bullwinkle', count, data, ' do i have to restart', this, mainWindow, ' lets go')
+    console.log('bullwinkle', data.count, ' lets go')
     app.setBadgeCount(data.count)
 })
 
