@@ -77,7 +77,6 @@ const actions = {
   getPost: async (id) => {
     //How do i not need this? 
     let res = await API.get(`/post?id=${id}`, resetHead())
-    console.log(res, ' so losts')
     return res
   },
   resolvePost: async (data) => {

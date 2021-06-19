@@ -605,8 +605,12 @@ function notify(title, message, icon, redirect) {
       body: message,
       // icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
       //icon: 'https://images.vexels.com/media/users/3/185580/isolated/preview/4481c0a89970cd7107424bb018900f2a-cool-hipster-pineapple-by-vexels.png'
-      icon: icon?.replace('svg', 'png')//`https://avatars.dicebear.com/4.5/api/avataaars/0.33511928838302496.png`
+      icon: icon?.replace('svg', 'png'),//`https://avatars.dicebear.com/4.5/api/avataaars/0.33511928838302496.png`
+      silent: true
     }
+    let audio = new Audio('../resources/cowbell.wav')
+    audio.volume = 0.5;
+    setTimeout(() => audio.play(), 500)
 
     var notification = new Notification(title, options);
     notification.onclick = redirect
@@ -618,6 +622,7 @@ function notify(title, message, icon, redirect) {
       // If the user accepts, let's create a notification
       if (permission === "granted") {
         var notification = new Notification(message);
+
       }
     });
   }

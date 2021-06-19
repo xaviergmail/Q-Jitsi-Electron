@@ -565,10 +565,12 @@ button#createRoom:hover i::before{
 
 #addPost  button#addRoom, button#addMessage, #searchUsers button#addRoom{
   outline: none;
-  background: white;
+  background: #efefef;
   border: none;
   color: #bbb;
 }
+
+
 
 
 
@@ -1035,6 +1037,26 @@ ul#myTransactions li{
 
 /**CHAT**/
 
+
+i#created-by {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: .5rem;
+  
+}
+
+.chat-members{
+
+  display:flex;
+  justify-content:flex-end;
+
+}
+
+.chat-members .namey{
+  display:none;
+}
 #chat, #new-message, #new-question{
   background: floralwhite;
   min-height: 100%;
@@ -1052,10 +1074,14 @@ ul#myTransactions li{
 #new-message header,  #new-question header{
   padding: 1rem;
   color: white;
-  height: 100vh;
+  height: 50vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
+}
+
+.moreUsers{
+  margin-top:20vh;
 }
 
 #chat header{
@@ -1086,6 +1112,27 @@ ul#myTransactions li{
   z-index: 1;
 }
 
+
+#points #coin-animate{
+  animation: move 1s forwards;
+}
+
+@keyframes move {
+  0%{
+    transform: rotate(0deg)
+  }
+  25%{
+    transform: rotate(-25deg)
+  }
+  75%{
+    transform: rotate(25deg);
+    font-size: 2.4rem;
+  }
+  100% {
+    transform: rotate(0deg);
+    font-size: 2rem;
+  }
+}
 
 
 
@@ -1309,7 +1356,7 @@ div#messages .message .text{
   background:red !important;
 }
 
-.message-title h4{
+#messages h4{
   color:#6DAEDB;
 }
 
@@ -1505,8 +1552,18 @@ i.icon{
   margin: 0;
 } 
 
+#chat #active-users-list.ui.inverted.list {
+  width: 150px;
+  margin: 1rem;
+}
 
-
+.header.item.otherItem.menu-item-sidebar{
+  text-decoration:none !important;
+}
+#activeUsers{
+  position:absolute;
+  right:0;
+}
 #active-users-list.ui.inverted.list {
   display: flex;
   justify-content: flex-end;
@@ -1529,6 +1586,7 @@ i.icon{
   /* color: green; */
   color:#4DAA57;
   position: absolute;
+  z-index: 999;
   left: 0;
   bottom: 0;
   opacity: 0;

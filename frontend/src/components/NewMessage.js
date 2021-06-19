@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext, useState, useRef } from 'react';
 import TheContext from '../TheContext'
 import actions from '../api/index'
 import { Divider, Header, Icon, Image, List, Menu, Sidebar } from 'semantic-ui-react'
@@ -8,6 +8,7 @@ import moment from 'moment'
 function NewMessage(props) {
 
     const { user, history } = useContext(TheContext)
+    const refInput = useRef();
 
     const [channel, setChannel] = useState({ message: '' })
     const [allUsers, setAllUsers] = useState([])
@@ -23,11 +24,15 @@ function NewMessage(props) {
 
 
 
+
     useEffect(() => {
-
         fetchUsers()
+        const { current } = refInput;
+        console.log(current, 'current')
+        current ? current.focus() : null
+        // inputEl.current.focus();
+        // selectedUsers.length > 0 ? current.focus() : null
 
-        console.log(props, ' ill be alriught')
     }, [])
 
 
@@ -39,8 +44,12 @@ function NewMessage(props) {
         let selectUserId = new URLSearchParams(history.location.search).get('user')
         if (selectUserId) {
             setSelectedUsers([res.data.find(user => user._id === selectUserId)])
+
+
         }
         setAllUsers(res.data)
+
+
     }
 
 
@@ -100,7 +109,6 @@ function NewMessage(props) {
                 <div id="messages">
                     <header className="message-title">
 
-                        <h4>Private Message Users</h4>
 
 
                         <div id="selectedUsers">
@@ -125,18 +133,19 @@ function NewMessage(props) {
 
                         </div>
 
-                        {selectedUsers.length > 0 ?
-                            <form className="addNewMessage" onSubmit={submitMessage}>
-                                <input type="text" value={message} placeholder={`Say something to: ${selectedUsers.map(u => u.name).join(' & ')}`} onChange={e => setMessage(e.target.value)} />
+                        {/* {selectedUsers.length > 0 ? */}
+                        <div>
+                            <h4>Private Message Users</h4>
+
+                            <form className="addNewMessage" onSubmit={submitMessage} >
+                                <input type="text" ref={refInput} value={message} placeholder={`Say something to: ${selectedUsers.map(u => u.name).join(' & ')}`} onChange={e => setMessage(e.target.value)} />
                                 <button id="addMessage" disabled={false}><Icon name="chat" /> <label>Send</label></button>
                             </form>
-                            : null}
+                        </div>
+                        {/* : null} */}
 
                         {/* <h1>{selectedUsers.map(u => u.name).join(' & ')}</h1> */}
-                        <h4>Click on a user to start a private chat</h4>
-                        <ul id="unselectedUsers">
-                            {showUsers()}
-                        </ul>
+
                         {/* <div className="controls">
                             <button onClick={() => gotoRoom(channel._id, channel)}>
                                 <Icon name="video" /> Video
@@ -149,7 +158,12 @@ function NewMessage(props) {
                         {/* <h1>{channel.message}</h1> */}
 
                     </header>
-
+                    <div className="moreUsers">
+                        <h4>Click on a user to start a private chat</h4>
+                        <ul id="unselectedUsers">
+                            {showUsers()}
+                        </ul>
+                    </div>
                     {/* <ul>
 
                         <li className="message first">

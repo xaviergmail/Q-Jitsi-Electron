@@ -32,7 +32,7 @@ function User(props) {
 
                     {props?.userId.name}
                 </Header>
-                <h4>{props?.userId.points} 💰</h4>
+                <h4>{props?.userId.points - 10} 💰</h4>
                 {/* <Link to={`/chat/${props?.userId?.postId?._id}`}>Send Message</Link> */}
 
                 <Image src={props?.userId.avatar} avatar />

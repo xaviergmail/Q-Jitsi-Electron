@@ -7,6 +7,8 @@ import SideBar from './SideBar'
 import { version } from '../../../package.json'
 console.log(version, ' version number: ');
 
+// sound.play(path.join(__dirname, "resources/cowbell.wav"))
+
 
 export function NavBar({ user }) {
   const { pathname } = useLocation()
@@ -21,7 +23,17 @@ export function NavBar({ user }) {
     let incPoints = null
     if (clock) {
       //console.log('count!')
-      incPoints = setInterval(() => setIncrement(++increment), 10000)
+      incPoints = setInterval(() => {
+        setIncrement(++increment)
+        if (increment === 1) {
+          let audio = new Audio('../resources/coin.wav')
+          audio.volume = 0.1;
+          audio.play()
+        }
+
+
+
+      }, 10000)
 
     } else {
       clearInterval(incPoints)
@@ -67,7 +79,7 @@ export function NavBar({ user }) {
 
         <Link id="points" to="/dashboard">
           <Menu.Item link active={pathname == '/dashboard'}>
-            <span className="emojis" >💰</span>{(user.points - bounty + increment).toFixed(0)}
+            <span className="emojis" id={increment === 1 ? "coin-animate" : ''}>💰</span>{(user.points - bounty + increment).toFixed(0)}
           </Menu.Item>
         </Link>
 

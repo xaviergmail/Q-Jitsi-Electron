@@ -84,19 +84,37 @@ function Chat(props) {
 
     const showActiveUsers = () => {
         for (let id in posts) {
-            if (id == channel._id) {
+            if (id == channel._id && posts[id].activeUsers.length > 0) {
 
-                return posts[id].activeUsers.map(member => <span key={member?._id}> <Image onClick={() => history.push(`/chat/${member?.postId}`)} avatar src={member?.avatar} style={{ background: 'white' }} /> <span>{member?.name}</span></span>)
+                return (
+
+
+                    <div id="activeUsers">
+                        <List inverted id="active-users-list">
+                            {posts[id].activeUsers.map(member => (
+                                <span className="particpant-container" key={member?._id}> <Image onClick={() => history.push(`/chat/${member?.postId}`)} avatar src={member?.avatar} style={{ background: 'white' }} />
+                                    <span className='participant-name'>{member?.name}</span>
+                                </span>
+
+                            ))}
+                        </List>
+                    </div>
+
+                )
             }
         }
         return (
-            <div>yeahs</div>
+            <></>
         )
     }
 
     const showMembers = () => {
         if (channel && channel?.members) {
-            return channel?.members.map(member => <span key={member?._id}> <Image onClick={() => history.push(`/chat/${member?.postId}`)} avatar src={member?.avatar} style={{ background: 'white' }} /> <span>{member?.name}</span></span>)
+            return <div className="chat-members">
+
+                {channel?.members.map(member => <span key={member?._id}> <Image onClick={() => history.push(`/chat/${member?.postId}`)} avatar src={member?.avatar} style={{ background: 'white' }} /> <span className="namey">{member?.name}</span></span>)}
+
+            </div>
         }
     }
 
@@ -128,6 +146,7 @@ function Chat(props) {
                         }
                         <h1>{channel?.message}</h1>
                         
+                        <div className='video'>
 
                         <div className="controls">
 
@@ -143,11 +162,13 @@ function Chat(props) {
                                     <Icon name="video" /> Video
                                 </button>
 
-                            }
-
+                                }
                         </div>
                         {/* <h1>{channel.message}</h1> */}
-                       
+                            {showActiveUsers()}
+
+                        </div>
+
                     </header>
 
                     {channel?.userChannel ? <User userId={channel?.user} /> :
@@ -157,17 +178,21 @@ function Chat(props) {
 
                                 {showMessages()}
                                 <li className="message first">
-                                    <h2>
+
+                                    {/* <div>{showActiveUsers()}</div> */}
+
+
+                                    <h2>#{channel?.message}!</h2>
+                                    <i id="created-by">
+                                        {/* <Image onClick={() => history.push(`/chat/${channel?.user?.postId}`)} avatar src={channel?.user?.avatar} style={{ background: 'white' }} /> */}
                                         Created by {channel?.user?.name}
-                                    </h2>
-                                    <h2>Members</h2>
-                                    <div>{showMembers()}</div>
-                                    <h2>Active Users in Video</h2>
-                                    <div>{showActiveUsers()}</div>{ }
-                                    <h2>Welcome #{channel?.message}!</h2>
+                                    </i>
+                                    {/* <span>{showMembers()}</span> */}
+
+
+
 
                                     <p>This is the beginning of your chat history...</p>
-
                                     <p>{channel?.user == user?._id && !channel?.userChannel ? <button onClick={closeRoom} className="remove">Close Room</button> : null}</p>
                                 </li>
                             </ul>

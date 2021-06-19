@@ -181,7 +181,6 @@ export default function SideBar({ video }) {
   const userChannels = []
 
   for (let channel of Object.values(posts)) {
-    console.log("with a girl", channel)
     if (channel?.userChannel) {  //Unique user channels 
       userChannels.push(channel)
     }

@@ -43,6 +43,7 @@ const baseURL = require('./frontend/src/api/config')
 //Yourconst { token } = localStorage;
 
 
+const sound = require("sound-play");
 
 
 
@@ -275,14 +276,17 @@ function createJitsiMeetWindow() {
                 // if (!isMounted) {
                 //   return
                 // }
-                console.log(' i love u')
+                console.log(post, ' i love u?', post.event)
 
                 if (mainWindow) { //Only run if app is "closed"
                     return
                 }
-                console.log(app.getBadgeCount(), ' count????')
                 app.setBadgeCount(app.getBadgeCount() + 1)
+                sound.play(path.join(__dirname, "resources/cowbell.wav"))
+
                 //New Room
+                console.log(path.join(__dirname), 'souuuuunnnndd')
+
                 if (post.messageIds.length === 0) {
 
 
