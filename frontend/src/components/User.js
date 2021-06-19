@@ -7,22 +7,22 @@ import actions from '../api'
 
 function User(props) {
 
-    let [user, setUser] = useState({})
+    // let [user, setUser] = useState({})
 
-    useEffect(() => {
-        console.log(props?.userId, ' 2392938')
-        let id = props?.userId || props?.match?.params?.id
-        fetchUser(id)
+    // useEffect(() => {
+    //     console.log(props?.userId, ' 2392938')
+    //     let id = props?.userId || props?.match?.params?.id
+    //     fetchUser(id)
 
-    }, [props])
+    // }, [props])
 
-    async function fetchUser(id) {
-        console.log(id)
-        let { data } = await actions.getUserProfile(id)
-        console.log(data)
-        setUser(data?.user)
+    // async function fetchUser(id) {
+    //     console.log(id)
+    //     let { data } = await actions.getUserProfile(id)
+    //     console.log(data)
+    //     setUser(data?.user)
 
-    }
+    // }
 
     return (
         <div>
@@ -30,12 +30,12 @@ function User(props) {
             <section className="profile">
                 <Header as='h3'>
 
-                    {user.name}
+                    {props?.userId.name}
                 </Header>
-                <h4>{user.points} 💰 ?</h4>
-                {/* <Link to={`/chat/${user?.postId?._id}`}>Send Message</Link> */}
+                <h4>{props?.userId.points} 💰</h4>
+                {/* <Link to={`/chat/${props?.userId?.postId?._id}`}>Send Message</Link> */}
 
-                <Image src={user.avatar} avatar />
+                <Image src={props?.userId.avatar} avatar />
             </section>
 
         </div>

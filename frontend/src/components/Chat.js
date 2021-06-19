@@ -130,17 +130,20 @@ function Chat(props) {
                         
 
                         <div className="controls">
-                            <button onClick={() => gotoRoom(channel._id, channel)}>
-                                <Icon name="video" /> Video
-                            </button>
 
                             {channel?.userChannel ?
 
-                                <button onClick={() => history.push(`/new-message/?user=${channel?.user}`)}>
+                                <button onClick={() => history.push(`/new-message/?user=${channel?.user._id}`)}>
                                     <Icon name="chat" /> Chat
                                 </button>
 
-                                : null}
+                                :
+
+                                <button onClick={() => gotoRoom(channel._id, channel)}>
+                                    <Icon name="video" /> Video
+                                </button>
+
+                            }
 
                         </div>
                         {/* <h1>{channel.message}</h1> */}

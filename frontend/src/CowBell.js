@@ -235,7 +235,7 @@ const CowBell = ({ children }) => {
           return
         }
         console.log(post.event, 'event')
-        if (post.event === "muc-occupant-joined" || post.event === "muc-occupant-left" || "muc-room-destroyed") {
+        if (post.event === "muc-occupant-joined" || post.event === "muc-occupant-left" || post.event === "muc-room-destroyed") {
           return
         }
 

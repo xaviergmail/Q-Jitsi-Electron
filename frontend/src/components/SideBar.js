@@ -23,35 +23,6 @@ const Participant = ({ participant, host, yourRoom }) => {
 
 
 
-{/*}
-    <li className="participant" style={style}>
-      <div className={host ? 'host' : 'not-host'}>{participant.name}</div>
-
-      <div className="flip-container">
-        <div className="flipper">
-          <div className="front">
-            <Image avatar src={participant.avatar} style={{ background: 'white' }} />
-          </div>
-          <div className="back">
-
-            {(yourRoom && !host.lol && (
-              <button
-                className="remove-participant"
-                onClick={(e) => {
-                  e.preventDefault(); console.log("console.lop"); socket.emit('remove', participant?.email); goToRoom(null);
-                }}
-              >
-                X
-              </button>
-            )) || <button className="remove-participant">🤪</button>}
-          </div>
-        </div>
-      </div>
-
-
-    </li>
-              */}
-
               
 const Room = ({ room, id }) => {
 
