@@ -196,7 +196,6 @@ const CowBell = ({ children }) => {
           delete newPosts[post._id]
           return newPosts
         })
-        console.log(lobby_id, 'lobby_id')
 
         if (window.location.hash.split('/').pop() == post._id) { //You're in the closed room
           history.push(`/profile`)
@@ -459,7 +458,10 @@ const CowBell = ({ children }) => {
   //   // (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
   // )
 
-  const video = <VideoPreview />
+
+  const [littleVideo, setLittleVideo] = useState(false)
+
+  const video = <VideoPreview setLittleVideo={setLittleVideo} />
 
 
   let [bounty, setBounty] = useState(10)
@@ -471,6 +473,8 @@ const CowBell = ({ children }) => {
 
   // const [className, setStyle] = useState({ width: `${window.innerWidth / 4}px` })
   let [open, setOpen] = useState('rooms')
+
+  console.log(lobby_id, 'lobby_id')
 
 
 
@@ -509,7 +513,7 @@ const CowBell = ({ children }) => {
 
   return user ? (
     <TheContext.Provider value={context}>
-      <SideBar video={!isInRoomRoute && video} />
+      <SideBar isInRoomRoute={isInRoomRoute} littleVideo={littleVideo} video={!isInRoomRoute && video} />
       <div style={style.container} className="container">
         <NavBar history={history} user={user} />
 
@@ -528,8 +532,8 @@ const CowBell = ({ children }) => {
             }}
           >
             <Switch>
-              {/* <Route exact path="/" render={(props) => <div>WUT</div>} /> */}
-              <Route exact path="/" render={(props) => history.push(`/chat/${lobby_id}`)} />
+              <Route exact path="/" component={Profile} />
+              {/* <Route exact path="/" render={(props) => history.push(`/chat/${lobby_id}`)} /> */}
 
               <Route exact path="/dashboard" component={Dashboard} />
 

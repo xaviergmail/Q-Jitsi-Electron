@@ -93,17 +93,7 @@ const Room = ({ room, id }) => {
         {yourRoom && <button className="close-room" onClick={() => console.log('Send everyone to lobby')} >X</button>}
 
           </Header>
-        {/* {currentRoom && !yourRoom && !room.userChannel ? ( */}
-        {/* {currentRoom ? (
-          <div className="controls">
-            <button onClick={() => gotoRoom(room?._id, room)}>
-              <Icon name="video" />
 
-          </button>
-
-          </div>)
-
-          : null} */}
 
         {room?.activeUsers?.length !== 0 &&
 
@@ -143,8 +133,10 @@ const Room = ({ room, id }) => {
   )
 }
 
-export default function SideBar({ video }) {
+export default function SideBar({ video, littleVideo, isInRoomRoute }) {
   let [limit, setLimit] = useState(50)
+
+  let [slide, setSlide] = useState(false)
 
   const { user, activeRooms, room, gotoRoom, posts, liveUsers, setStyle, style, query, className, setClassName, showSlider, setShowSlider, open, setOpen } = useContext(TheContext)
 
@@ -210,9 +202,13 @@ export default function SideBar({ video }) {
     window.jitsiNodeAPI.ipc.send('set-counter', { count })
   }
   console.log(window)
+  // {path: "/room/:id", url: "/room/60ce707725c93448a526d659", isExact: true, params: {…}}
+  // isExact: true
+  // params: {id: "60ce707725c93448a526d659"}
+  // path: "/room/:id"
+  // url: "/room/60ce707725c93448a526d659"
 
-
-
+  console.log('video', video, 'littleVideo', littleVideo, video.isPlaying, ' maybe')
   // console.log(userChannels, ' bb')
   return (
     <>
@@ -223,19 +219,21 @@ export default function SideBar({ video }) {
       inverted
       // onHide={() => setVisible(false)}
       vertical
+        // onClick={!slide ? () => setSlide(true) : null}
       className="style-3"
       visible
-      style={style.sideBar}
+        // style={style.sideBar}
+        // style={slide ? { width: '25vw' } : { width: '100vw' }}
     >
         <Search setStyle={setStyle} setClassName={setClassName} className={className} />
         {video}
 
         
         <div className={`${showSlider ? 'show-slider' : 'hide-slider'}`} onClick={() => setShowSlider(false)}>
-
+          <div className={littleVideo ? 'littleVideo' : ''}>
 
           {/*ROOMS */}
-          <div id="rooms" className={open === 'rooms' ? `open` : 'closed'} onClick={() => setOpen('rooms')}>
+            <div id="rooms" className={open === 'rooms' ? `open` : 'closed'} onClick={() => setOpen('rooms')} >
             <h5 className="panelHeader">
               <span className="emojis">🏡</span>
               <span>Public Chats</span>
@@ -338,7 +336,7 @@ export default function SideBar({ video }) {
           </div>
 
         </div>
-
+        </div>
       </Sidebar>
       {/* <Chat /> */}
 

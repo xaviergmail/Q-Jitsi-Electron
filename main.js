@@ -115,7 +115,7 @@ let protocolDataForFrontApp = null;
 function setApplicationMenu() {
     if (process.platform === 'darwin') {
         const template = [{
-            label: app.name,
+            label: app?.name,
             submenu: [
                 {
                     role: 'services',
@@ -259,7 +259,7 @@ function createJitsiMeetWindow() {
 
 
     //Lets see
-    mainWindow.webContents.openDevTools() //This don't seem to do nothing
+    //mainWindow.webContents.openDevTools() //This don't seem to do nothing
 
     //NOTIFIICATIONS 
     mainWindow.webContents
@@ -291,7 +291,7 @@ function createJitsiMeetWindow() {
 
 
                     return notifier.notify({
-                        title: `🏡 ${post.user.name}`,
+                        title: `🏡 ${post.user?.name}`,
                         message: post.message,
                         // icon: post.user.avatar,
                         // sound: true,
@@ -312,7 +312,7 @@ function createJitsiMeetWindow() {
 
 
                     return notifier.notify({
-                        title: `${icon} ${last.userId.name}`,
+                        title: `${icon} ${last.userId?.name}`,
                         message: last.message,
                         // icon: path.resolve(basePath, './resources/icon.png'),
                         // sound: true,

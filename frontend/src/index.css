@@ -39,6 +39,10 @@ b.name{
   width: 25vw;
 }
 
+.ui.vertical.icon.menu.sidebar.menu{
+  transition: all .25s;
+}
+
 .container {
   margin-left: 25vw;
   
@@ -1480,6 +1484,7 @@ div#messages .message .text{
 .videobottomright{
   
   width: 25vw;
+ 
 }
 
 
@@ -1619,17 +1624,29 @@ i.icon{
   /* height:calc(100vh - 215px) !important; */
   height: calc(100vh - 300px) !important;
 
+  /* height: calc(100vh - 325px) !important; */
+
+
 }
 
 .scrollathon{
 
 }
+
+
+
 .open {
-  /* overflow-y:scroll !important; */
-  /* height:calc(100vh - 215px) !important; */
+
   height:calc(100vh - 195px) !important;
+
 }
 
+.littleVideo .open {
+  /* overflow-y:scroll !important; */
+  /* height:calc(100vh - 215px) !important; */
+  height:calc(100vh - 330px) !important;
+
+}
 
 #users.open .panelHeader,#rooms.open .panelHeader,#direct-messages.open .panelHeader{
   color:#D8973C;
