@@ -115,7 +115,7 @@ let protocolDataForFrontApp = null;
 function setApplicationMenu() {
     if (process.platform === 'darwin') {
         const template = [{
-            label: app?.name,
+            label: app.name,
             submenu: [
                 {
                     role: 'services',
