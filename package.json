@@ -1,6 +1,6 @@
 {
   "name": "CowBellClub",
-  "version": "1.4.7",
+  "version": "1.4.8",
   "description": "Electron application for Cowbell Club",
   "main": "./build/main.js",
   "productName": "CowbellClub",
@@ -139,7 +139,7 @@
     "electron-store": "5.1.1",
     "electron-updater": "4.2.5",
     "electron-window-state": "5.0.3",
-    "electron-windows-notifications": "^3.0.8",
+    "electron-windows-badge": "^1.1.0",
     "history": "4.10.1",
     "i18next": "19.4.5",
     "jitsi-meet-electron-utils": "github:jitsi/jitsi-meet-electron-utils#v2.0.13",

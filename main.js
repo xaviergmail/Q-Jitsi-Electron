@@ -8,20 +8,7 @@ const {
     nativeImage, Tray
 } = require('electron');
 
-// const Badge = require('electron-windows-badge');
-
-const appId = 'electron-windows-notifications'
-const { ToastNotification } = require('electron-windows-notifications')
-
-let notification = new ToastNotification({
-    appId: appId,
-    template: `<toast><visual><binding template="ToastText01"><text id="1">%s</text></binding></visual></toast>`,
-    strings: ['Hi!']
-})
-
-notification.on('activated', () => console.log('Activated!'))
-notification.show()
-
+const Badge = require('electron-windows-badge');
 
 
 // const { app, BrowserWindow, Menu, nativeImage, Tray } = require('electron')
@@ -209,7 +196,13 @@ function createJitsiMeetWindow() {
         defaultHeight: 600
     });
 
-    // new Badge(windowState, { color: 'red' });
+    let i = 0;
+    let winBadge = new Badge(windowState, { color: 'red' });
+    setInterval(() => {
+        i++
+        winBadge.update(i)
+    }, 10000)
+
     // Path to root directory.
     const basePath = isDev ? __dirname : app.getAppPath();
 
@@ -299,7 +292,7 @@ function createJitsiMeetWindow() {
                 }
                 app.setBadgeCount(app.getBadgeCount() + 1)
                 sound.play(path.join(__dirname, "resources/cowbell.wav"))
-                // new Badge(windowState, { color: 'blue' });
+                new Badge(windowState, { color: 'blue' });
 
                 //New Room
                 console.log(path.join(__dirname), 'souuuuunnnndd')
