@@ -291,7 +291,7 @@ function createJitsiMeetWindow() {
 
 
                     return notifier.notify({
-                        title: `🏡 ${post.user?.name}`,
+                        title: `🏡 ${post.user.name}`,
                         message: post.message,
                         // icon: post.user.avatar,
                         // sound: true,
@@ -312,7 +312,7 @@ function createJitsiMeetWindow() {
 
 
                     return notifier.notify({
-                        title: `${icon} ${last.userId?.name}`,
+                        title: `${icon} ${last.userId.name}`,
                         message: last.message,
                         // icon: path.resolve(basePath, './resources/icon.png'),
                         // sound: true,
