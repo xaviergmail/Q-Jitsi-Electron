@@ -196,12 +196,7 @@ function createJitsiMeetWindow() {
         defaultHeight: 600
     });
 
-    let i = 0;
-    let winBadge = new Badge(windowState, { color: 'red' });
-    setInterval(() => {
-        i++
-        winBadge.update(i)
-    }, 10000)
+
 
     // Path to root directory.
     const basePath = isDev ? __dirname : app.getAppPath();
@@ -267,6 +262,13 @@ function createJitsiMeetWindow() {
     });
 
 
+    let i = 0;
+    let winBadge = new Badge(mainWindow, { color: 'red' });
+    setInterval(() => {
+        i++
+        winBadge.update(i)
+    }, 10000)
+
     //Lets see
     //mainWindow.webContents.openDevTools() //This don't seem to do nothing
 
@@ -292,7 +294,7 @@ function createJitsiMeetWindow() {
                 }
                 app.setBadgeCount(app.getBadgeCount() + 1)
                 sound.play(path.join(__dirname, "resources/cowbell.wav"))
-                new Badge(windowState, { color: 'blue' });
+                new Badge(mainWindow, { color: 'blue' });
 
                 //New Room
                 console.log(path.join(__dirname), 'souuuuunnnndd')
