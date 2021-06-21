@@ -8,6 +8,8 @@ const {
     nativeImage, Tray
 } = require('electron');
 
+const Badge = require('electron-windows-badge');
+
 
 // const { app, BrowserWindow, Menu, nativeImage, Tray } = require('electron')
 
@@ -194,6 +196,7 @@ function createJitsiMeetWindow() {
         defaultHeight: 600
     });
 
+    new Badge(windowState, { color: 'red' });
     // Path to root directory.
     const basePath = isDev ? __dirname : app.getAppPath();
 
@@ -283,6 +286,7 @@ function createJitsiMeetWindow() {
                 }
                 app.setBadgeCount(app.getBadgeCount() + 1)
                 sound.play(path.join(__dirname, "resources/cowbell.wav"))
+                new Badge(windowState, { color: 'blue' });
 
                 //New Room
                 console.log(path.join(__dirname), 'souuuuunnnndd')
@@ -624,6 +628,7 @@ ipcMain.on('gauth-rq', () => {
 ipcMain.on('set-counter', function (count, data) {
     console.log('bullwinkle', data.count, ' lets go')
     app.setBadgeCount(data.count)
+
 })
 
 
