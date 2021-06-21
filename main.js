@@ -262,12 +262,12 @@ function createJitsiMeetWindow() {
     });
 
 
-    let i = 0;
+    // let i = 0;
     let winBadge = new Badge(mainWindow, { color: 'red' });
-    setInterval(() => {
-        i++
-        winBadge.update(i)
-    }, 10000)
+    // setInterval(() => {
+    //     i++
+    //     winBadge.update(i)
+    // }, 10000)
 
     //Lets see
     //mainWindow.webContents.openDevTools() //This don't seem to do nothing
@@ -294,7 +294,9 @@ function createJitsiMeetWindow() {
                 }
                 app.setBadgeCount(app.getBadgeCount() + 1)
                 sound.play(path.join(__dirname, "resources/cowbell.wav"))
-                new Badge(mainWindow, { color: 'blue' });
+                // new Badge(mainWindow, { color: 'blue' });
+                winBadge.update(app.getBadgeCount() + 1)
+
 
                 //New Room
                 console.log(path.join(__dirname), 'souuuuunnnndd')
