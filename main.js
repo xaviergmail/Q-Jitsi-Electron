@@ -102,6 +102,8 @@ let mainWindow = null;
 
 let webrtcInternalsWindow = null;
 
+let winBadge = null;
+
 /**
  * Add protocol data
  */
@@ -263,7 +265,7 @@ function createJitsiMeetWindow() {
 
 
     // let i = 0;
-    let winBadge = new Badge(mainWindow, { color: 'red' });
+    winBadge = new Badge(mainWindow, { color: 'red' });
     // setInterval(() => {
     //     i++
     //     winBadge.update(i)
@@ -295,7 +297,9 @@ function createJitsiMeetWindow() {
                 app.setBadgeCount(app.getBadgeCount() + 1)
                 sound.play(path.join(__dirname, "resources/cowbell.wav"))
                 // new Badge(mainWindow, { color: 'blue' });
-                winBadge.update(app.getBadgeCount() + 1)
+
+                console.log(app.getBadgeCount(), ' does badger have it?')
+                winBadge.update(111)
 
 
                 //New Room
@@ -637,6 +641,7 @@ ipcMain.on('gauth-rq', () => {
 
 ipcMain.on('set-counter', function (count, data) {
     console.log('bullwinkle', data.count, ' lets go')
+    winBadge.update(data.count)
     app.setBadgeCount(data.count)
 
 })
