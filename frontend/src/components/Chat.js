@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState } from 'react';
 import TheContext from '../TheContext'
 import actions from '../api/index'
 import { Divider, Header, Icon, Image, List, Menu, Sidebar } from 'semantic-ui-react'
+import EmojiPicker from './EmojiPicker'
 import moment from 'moment'
 import User from './User'
 
@@ -13,24 +14,13 @@ function Chat(props) {
     const [channels, setChannels] = useState([])
     const [channel, setChannel] = useState({})
     const [messages, setMessages] = useState([])
+
     let [message, setMessage] = useState('')
     
 
     useEffect(() => {
 
-
-        // const query = new URLSearchParams(props.location.search);
-        // console.log(query.get('user'), 'peace of mind', props)
-
-
-       // if (props.match.params.id != 'new') {
-            fetchChannel(props.match.params.id)
-        /* } else {
-             console.log('set up new chat for direct messages', props)
-             if (props.location.state)
-                 setThisRoom(props.location.state.room)
-         }*/
-
+        fetchChannel(props.match.params.id)
 
     }, [props.match.params.id])
 
@@ -52,21 +42,71 @@ function Chat(props) {
 
 
 
+
     const showMessages = () => {
 
         let thisPost = posts[props.match.params.id];
-        //console.log('show messages here ', thisPost)
         if (thisPost) {
-            return [...thisPost.messageIds].reverse().map(({ message, userId, createdAt }) => (
-                <li key={createdAt} className="message">
-                    <Image onClick={() => history.push(`/user/${userId?._id}`)} avatar src={userId?.avatar} style={{ background: 'white' }} />
-                    <div>
-                        <b className="name">{userId?.name} <i>{moment(createdAt).fromNow()}</i></b>
-                        <p className="text">{message}</p>
-                    </div>
-                </li>
-            ))
+            return [...thisPost.messageIds].reverse().map((message) => {
+                console.log(message)
+                return < ShowMessage {...message} />
+            })
         }
+    }
+
+
+    const ShowMessage = ({ message, userId, createdAt, _id, reactions }) => {
+        const [chosenEmoji, setChosenEmoji] = useState(null);
+        console.log(reactions, 'what did i do')
+        const [emojis, setEmojis] = useState(reactions || [])
+        const [showReactions, setShowReactions] = useState(false)
+        // console.log(emojis, 'wtf')
+
+        const saveReaction = (emoji) => {
+            console.log('save reacton')
+            let alreadyThere = false
+            for (let emo of emojis) {
+                if ((emo.emoji.unified == emoji.unified) && !alreadyThere) {
+                    if (!emo.users.includes(user._id)) {
+                        emo.users.push(user._id)
+                    } else {
+                        emo.users.splice(emo.users.indexOf(user._id), 1)
+                    }
+                    alreadyThere = true
+                    break;
+                }
+            }
+            if (!alreadyThere) {
+                emojis.push({
+                    emoji, users: [user._id]
+                })
+            }
+
+
+            console.log(emojis, 'fin')
+            actions.saveReaction(emojis, _id).then(res => {
+                console.log(res.data, 'back from db')
+            })
+
+        }
+        return (
+            <li key={createdAt} className="message">
+                <Image onClick={() => history.push(`/user/${userId?._id}`)} avatar src={userId?.avatar} style={{ background: 'white' }} />
+                <div>
+                    <b className="name">{userId?.name} <i>{moment(createdAt).fromNow()}</i></b>
+                    <p className="text">{message}</p>
+                    <div class="reactions">
+                        {emojis.map(reaction => <span onClick={() => saveReaction(reaction.emoji)}>{reaction.emoji.native} {reaction.users.length}</span>)}
+                        {showReactions ?
+                            <EmojiPicker setShowReactions={setShowReactions} saveReaction={saveReaction} />
+                            :
+                            <button class="reaction-btn" onClick={() => setShowReactions(!showReactions)}>Reaction</button>}
+                    </div>
+                </div>
+
+
+            </li>
+        )
     }
 
 
@@ -174,7 +214,7 @@ function Chat(props) {
                     {channel?.userChannel ? <User userId={channel?.user} /> :
 
                         <>
-                            <ul>
+                            <ul id="chat-messages">
 
                                 {showMessages()}
                                 <li className="message first">

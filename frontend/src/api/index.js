@@ -99,7 +99,12 @@ const actions = {
   },
   saveAvatar: async (avatar) => {
     return await API.post(`/save-avatar`, { avatar }, resetHead())
+  },
+
+  saveReaction: async (emojis, messageId) => {
+    return await API.post(`/save-reaction?messageId=${messageId}`, emojis, resetHead())
   }
+
 }
 
 API.interceptors.response.use(

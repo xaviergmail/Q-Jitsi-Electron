@@ -1220,13 +1220,13 @@ padding: .5rem;
   /* margin-top: 2rem; */
 
 }
-#chat main ul{
+#chat main ul#chat-messages{
   margin: 0;
   list-style-type: none;
   /* border: 1px solid black; */
 }
 
-#chat main ul li{
+#chat main  ul#chat-messages li.message{
   border-top: 1px solid #333;
   margin: 0px 30px;
   padding: 1rem;
@@ -1295,6 +1295,26 @@ div#messages .message .text{
 
 }
 
+
+
+.reactions {
+  display:flex;
+  position:relative;
+
+}
+
+
+.reactions button.reaction-btn {
+  /* transition: all .2s; */
+  display:none;
+  position: absolute;
+  top: 0;
+  right:0;
+}
+
+.message:hover button.reaction-btn  {
+  display:block;
+}
 
 /* #chat form, #new-message form{
   width: 100%;
@@ -1374,7 +1394,7 @@ div#messages .message .text{
   margin: 0;
 }
 
-#chat ul{
+#chat ul#chat-messages{
   height: calc(100vh - 248px); /*60vh;
   /* height: calc(100vh - 8rem); */
 
@@ -1644,8 +1664,9 @@ i.icon{
 .littleVideo .open {
   /* overflow-y:scroll !important; */
   /* height:calc(100vh - 215px) !important; */
-  height:calc(100vh - 330px) !important;
-
+  /* height:calc(100vh - 330px) !important; */
+  height: calc(100vh - 25vw - 100px) !important;
+  border: 1px solid red;
 }
 
 #users.open .panelHeader,#rooms.open .panelHeader,#direct-messages.open .panelHeader{

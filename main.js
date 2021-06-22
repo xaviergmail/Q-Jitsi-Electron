@@ -299,7 +299,8 @@ function createJitsiMeetWindow() {
                 // new Badge(mainWindow, { color: 'blue' });
 
                 console.log(app.getBadgeCount(), ' does badger have it?')
-                winBadge.update(111)
+
+                //winBadge.update(111)
 
 
                 //New Room

@@ -140,6 +140,8 @@
     "electron-updater": "4.2.5",
     "electron-window-state": "5.0.3",
     "electron-windows-badge": "^1.1.0",
+    "emoji-mart": "^3.0.1",
+    "emoji-picker-react": "^3.4.8",
     "history": "4.10.1",
     "i18next": "19.4.5",
     "jitsi-meet-electron-utils": "github:jitsi/jitsi-meet-electron-utils#v2.0.13",

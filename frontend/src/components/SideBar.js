@@ -200,7 +200,7 @@ export default function SideBar({ video, littleVideo, isInRoomRoute }) {
   if (window.jitsiNodeAPI) {
     let count = sortedCount + dmChannelCount
     window.jitsiNodeAPI.ipc.send('set-counter', { count })
-    window.jitsiNodeAPI.ipc.send('update-badge', 55);
+    // window.jitsiNodeAPI.ipc.send('update-badge', 55);
 
   }
   console.log(window)
