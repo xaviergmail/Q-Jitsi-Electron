@@ -6,7 +6,11 @@ import TheContext from '../TheContext'
 import SideBar from './SideBar'
 import { version } from '../../../package.json'
 console.log(version, ' version number: ');
+// const remote = require('electron').remote;
 
+
+// const win = remote.getCurrentWindow();
+// console.log(remote, win)
 // sound.play(path.join(__dirname, "resources/cowbell.wav"))
 
 
@@ -47,6 +51,9 @@ export function NavBar({ user }) {
   // console.log('chat room ==> ', pathname.split('/').pop() === lobby_id ? 'lobby' : pathname)
 
   return (<>
+    {/* <header id="titlebar"
+    //onClick={() => { console.log(win); win.setPosition(0, 0, true) }}
+    >-</header> */}
     <nav className="top-nav">
 
 
