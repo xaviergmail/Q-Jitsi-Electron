@@ -332,6 +332,11 @@ const CowBell = ({ children }) => {
           //setClock(false)
         }
       },
+
+      sendToRoom(room) {
+        console.log('sendToRoom', room)
+        gotoRoom(room)
+      }
     }
 
     for (const [k, v] of Object.entries(socketEvents)) {

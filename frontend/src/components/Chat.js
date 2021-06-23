@@ -28,7 +28,7 @@ function Chat(props) {
     const fetchChannel = async (id) => {
 
         let res = await actions.getPost(id)
-        console.log(res, 'gold lion')
+        // console.log(res, 'gold lion')
         if (res) {
             setChannel(res.data.post)
             setMessages(res.data.messages.reverse())
@@ -48,7 +48,6 @@ function Chat(props) {
         let thisPost = posts[props.match.params.id];
         if (thisPost) {
             return [...thisPost.messageIds].reverse().map((message) => {
-                console.log(message)
                 return < ShowMessage {...message} />
             })
         }
@@ -57,13 +56,10 @@ function Chat(props) {
 
     const ShowMessage = ({ message, userId, createdAt, _id, reactions }) => {
         const [chosenEmoji, setChosenEmoji] = useState(null);
-        console.log(reactions, 'what did i do')
         const [emojis, setEmojis] = useState(reactions || [])
         const [showReactions, setShowReactions] = useState(false)
-        // console.log(emojis, 'wtf')
 
         const saveReaction = (emoji) => {
-            console.log('save reacton')
             let alreadyThere = false
             for (let emo of emojis) {
                 if ((emo.emoji.unified == emoji.unified) && !alreadyThere) {
@@ -83,7 +79,6 @@ function Chat(props) {
             }
 
 
-            console.log(emojis, 'fin')
             actions.saveReaction(emojis, _id).then(res => {
                 console.log(res.data, 'back from db')
             })
@@ -96,11 +91,11 @@ function Chat(props) {
                     <b className="name">{userId?.name} <i>{moment(createdAt).fromNow()}</i></b>
                     <p className="text">{message}</p>
                     <div class="reactions">
-                        {emojis.map(reaction => <span onClick={() => saveReaction(reaction.emoji)}>{reaction.emoji.native} {reaction.users.length}</span>)}
+                        {emojis.map(reaction => reaction.users.length > 0 && <span onClick={() => saveReaction(reaction.emoji)}>{reaction.emoji.native} {reaction.users.length}</span>)}
                         {showReactions ?
                             <EmojiPicker setShowReactions={setShowReactions} saveReaction={saveReaction} />
                             :
-                            <button class="reaction-btn" onClick={() => setShowReactions(!showReactions)}>Reaction</button>}
+                            <button class="reaction-btn" onClick={() => setShowReactions(!showReactions)}>👍</button>}
                     </div>
                 </div>
 
@@ -111,7 +106,6 @@ function Chat(props) {
 
 
     const submitMessage = e => {
-        console.log(channel, message, ' om dos')
         e.preventDefault()
         actions
             .addMessage({ channel, message })
@@ -124,7 +118,7 @@ function Chat(props) {
 
     const showActiveUsers = () => {
         for (let id in posts) {
-            if (id == channel._id && posts[id].activeUsers.length > 0) {
+            if (id == channel?._id && posts[id]?.activeUsers.length > 0) {
 
                 return (
 

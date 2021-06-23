@@ -57,7 +57,6 @@ export function NavBar({ user }) {
         </div>
         <div id="back" onClick={() => location.reload()}>
           <Icon name="refresh" />
-
         </div>
 
 

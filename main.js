@@ -242,7 +242,8 @@ function createJitsiMeetWindow() {
             plugins: true,
             webSecurity: true,
             preload: path.resolve(basePath, './build/preload.js')
-        }
+        },
+        //frame: false
     };
 
     mainWindow = new BrowserWindow(options);

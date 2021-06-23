@@ -6,7 +6,7 @@ import TheContext from '../TheContext';
 import actions from '../api'
 
 function Profile(props) {
-    const { user, setUser, myTransactions, myPosts } = useContext(TheContext)
+    const { user, setUser, myTransactions, myPosts, history, gotoRoom, lobby_id, socket } = useContext(TheContext)
 
 
     let [transactions, setTransactions] = useState([])
@@ -178,6 +178,8 @@ function Profile(props) {
 
                 }}>Log Out</button>
 
+
+                <button onClick={() => socket.emit('sendToRoom', lobby_id)}>Move everyone to Lobby</button>
             </Container>
 
 

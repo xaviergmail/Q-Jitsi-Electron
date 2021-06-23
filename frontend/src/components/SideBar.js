@@ -203,14 +203,12 @@ export default function SideBar({ video, littleVideo, isInRoomRoute }) {
     // window.jitsiNodeAPI.ipc.send('update-badge', 55);
 
   }
-  console.log(window)
   // {path: "/room/:id", url: "/room/60ce707725c93448a526d659", isExact: true, params: {…}}
   // isExact: true
   // params: {id: "60ce707725c93448a526d659"}
   // path: "/room/:id"
   // url: "/room/60ce707725c93448a526d659"
 
-  console.log('video', video, 'littleVideo', littleVideo, video.isPlaying, ' maybe')
   // console.log(userChannels, ' bb')
   return (
     <>
@@ -330,7 +328,7 @@ export default function SideBar({ video, littleVideo, isInRoomRoute }) {
               {userChannels.length > 0 ? userChannels.map((room) => <Room room={room} key={room.id} />).slice(0, limit) : <h3>No Users Found</h3>}
 
 
-              {console.log(liveUsers, ' float on', userChannels)}
+                {/* {console.log(liveUsers, ' float on', userChannels)} */}
               {/* {liveUsers.length > 0 ? liveUsers.map((room) => <Room room={room} key={room.id} />).slice(0, limit) : <h3>No Users Found</h3>} */}
 
 

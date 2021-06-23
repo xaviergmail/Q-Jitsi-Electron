@@ -38,7 +38,7 @@ const EmojiPicker = ({ saveReaction, setShowReactions }) => {
 
     return (
         <div className="emojis">
-            <Picker onSelect={onEmojiClick} />
+            <Picker theme="dark" onSelect={onEmojiClick} />
         </div>
     );
 
