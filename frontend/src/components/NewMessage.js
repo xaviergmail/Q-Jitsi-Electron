@@ -10,7 +10,7 @@ function NewMessage(props) {
     const { user, history } = useContext(TheContext)
     const refInput = useRef();
 
-    const [channel, setChannel] = useState({ message: '' })
+    const [channel, setChannel] = useState(null)
     const [allUsers, setAllUsers] = useState([])
     const [selectedUsers, setSelectedUsers] = useState([])
     let [message, setMessage] = useState('')
@@ -43,9 +43,7 @@ function NewMessage(props) {
 
         let selectUserId = new URLSearchParams(history.location.search).get('user')
         if (selectUserId) {
-            setSelectedUsers([res.data.find(user => user._id === selectUserId)])
-
-
+            handleClick([res.data.find(user => user._id === selectUserId)])
         }
         setAllUsers(res.data)
 
@@ -63,25 +61,39 @@ function NewMessage(props) {
         }
         //Create Channel
 
-        actions
-            .addMessage({ message: selectedUsers.map(u => u.name).join(' & '), members: selectedUsers })
-            .then(res => {
-                console.log('then ', res.data)
+
+        // actions
+        //     .addMessage({ message: selectedUsers.map(u => u.name).join(' & '), members: selectedUsers })
+        //     .then(res => {
+        //         console.log('then ', res.data)
 
                 //I think res.data.post is channel 
-                actions.addMessage({ message, channel: res.data.post }).then(res => {
-                    history.push(`/chat/${res.data.post?._id}`)
-                    setMessage('')
-                }).catch(console.error)
+        actions.addMessage({ message, channel, members: selectedUsers }).then(res => {
+            history.push(`/chat/${res.data.post?._id}`)
+            setMessage('')
+        }).catch(console.error)
 
 
-            }).catch(console.error)
+            // }).catch(console.error)
     }
+
+
+
+    const handleClick = (users) => {
+        setSelectedUsers(users)
+        setUserQuery('')
+        actions.findPreviousChat(users).then(res => {
+            console.log(res, 'prev chat')
+            setChannel(res.data)
+        })
+    }
+
+
     const showSelectedUsers = () => {
         console.log(selectedUsers, 'setSelectedUsers')
         if (selectedUsers) {
         return selectedUsers.map(sUser =>
-            <li onClick={() => { setSelectedUsers(selectedUsers.filter(u => u._id != sUser._id)); setUserQuery('') }}>
+            <li onClick={() => { handleClick(selectedUsers.filter(u => u._id != sUser._id)) }}>
                 <Image avatar src={sUser.avatar} style={{ background: "white" }} />
                 <span>{sUser.name}</span>
 
@@ -91,7 +103,7 @@ function NewMessage(props) {
 
     const showUsers = () => {
         return allUsers.filter(u => u.name.toLowerCase().includes(userQuery) && !selectedUsers.some(one => one._id == u._id) && u._id != user._id).map(user =>
-            <li onClick={() => { setSelectedUsers([...selectedUsers, user]); setUserQuery('') }}>
+            <li onClick={() => { handleClick([...selectedUsers, user]) }}>
                 <Image avatar src={user.avatar} style={{ background: "white" }} />
                 <span>{user.name}</span>
 
@@ -142,20 +154,7 @@ function NewMessage(props) {
                                 <button id="addMessage" disabled={false}><Icon name="chat" /> <label>Send</label></button>
                             </form>
                         </div>
-                        {/* : null} */}
 
-                        {/* <h1>{selectedUsers.map(u => u.name).join(' & ')}</h1> */}
-
-                        {/* <div className="controls">
-                            <button onClick={() => gotoRoom(channel._id, channel)}>
-                                <Icon name="video" /> Video
-                            </button>
-                            <button onClick={() => gotoRoom(channel._id, channel)}>
-                                <Icon name="laptop" /> Screen
-                            </button>
-
-                        </div> */}
-                        {/* <h1>{channel.message}</h1> */}
 
                     </header>
                     <div className="moreUsers">

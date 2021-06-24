@@ -103,6 +103,9 @@ const actions = {
 
   saveReaction: async (emojis, messageId) => {
     return await API.post(`/save-reaction?messageId=${messageId}`, emojis, resetHead())
+  },
+  findPreviousChat: async (users) => {
+    return await API.post(`/find-previous-chat`, users, resetHead())
   }
 
 }

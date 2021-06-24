@@ -15,11 +15,13 @@ export default function VideoPreview({ setLittleVideo }) {
   const ref = createRef()
 
   useEffect(() => {
+    console.log(window, ' window')
     const api = window.jitsiMeetExternalAPI
 
     if (api) {
       const listeners = {
         speakerChanged: (evt) => {
+          console.log('evt', evt)
           const largeVideo = api._getLargeVideo()
           console.log(largeVideo, 'largeVideo')
           setHasVideo(largeVideo)
@@ -62,7 +64,7 @@ export default function VideoPreview({ setLittleVideo }) {
 
   }, [stream, transform])
 
-  // console.log('stream', stream)
+  console.log('stream', stream)
 
   return (
     <div className="videobottomright">
