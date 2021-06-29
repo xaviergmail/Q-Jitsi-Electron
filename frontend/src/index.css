@@ -40,7 +40,7 @@ b.name{
 }
 
 .ui.vertical.icon.menu.sidebar.menu{
-  transition: all .25s;
+  /* transition: all .25s; */
 }
 
 .container {
@@ -267,9 +267,6 @@ li.post.resolveIt p {
 }
 
 
- .scrollathon h5:hover  {
-  text-decoration: underline;
-} 
 
 
 
@@ -1246,7 +1243,7 @@ div#messages .message{
 }
 
 div#messages .message{
-  text-indent: 1rem;
+  /* margin: 1rem; */
 }
 #new-message div#messages .first.message{
   height: inherit;
@@ -1270,7 +1267,7 @@ div#messages .first.message p{
   color:white;
   font-family: 'Futura';
 }
-div#messages .message div{
+div#messages .message div.msg{
   width: 100%;
 }
 div#messages .message .name{
@@ -1300,34 +1297,122 @@ div#messages .message .text{
 
 .reactions {
   display:flex;
+  white-space: nowrap;
+  /* justify-content:space-between; */
+}
+
+
+.reactions .emojis{
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  /* top: -441px; */
+  bottom: 50px; 
+  margin-top: 0px;
+  z-index: 1;
+  zoom:.667
 
 }
+
 
 
 .reactions button.reaction-btn {
   /* transition: all .2s; */
-  display:none;
+  /* display:none;
   position: absolute;
-  bottom: 0;
-  left:0;
+  top: 0;
+  right:8rem;
+  padding: 1rem 0; */
+  
+background: none;
+outline: none;
+border: none;
+}
+
+.reactions button.reaction-btn i {
+  
 }
 
 .message:hover button.reaction-btn  {
-  display:block;
-  font-size: 1rem;
-  outline:none;
-  padding: 1rem;
-  border: 1px solid #eee;
+  /* display: block;
+  font-size: 2rem;
+  outline: none;
+  /* color: #eee; */
+  /* padding: 1rem; */
+  
+  /* border: none;
+  transition: all .5s;
+  background: none; */ 
+
+
+}
+
+
+.emoji-options{
+  display: flex;
+}
+
+
+.message .pop-emojis{
+  pointer-events:none;
+  display: flex;
+  opacity: 0;
+  transition: all .5s;
+  overflow:hidden;
+  width: 0;
+}
+
+
+
+
+.emoji-options:hover .pop-emojis{
+  opacity: 1;
+
+  width: 200px;
+  pointer-events: auto;
+}
+
+.pop-emojis span{
+margin: .15rem;
+}
+
+/* .pop-emojis:hover{
+  opacity: 1;
+  width: 200px;
+} */
+
+.emojis-picked sub {
+  background: #333;
+  border-radius: 100%;
+  width: 1rem;
+  height: 1rem;
+  display: inline-block;
+  font-size: 8px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  transition: all .3s;
+}
+
+.emojis-picked span{
+ 
+    margin: .15rem;
+    font-size: 1.2rem;
+}
+.emojis-picked span:hover  sub{
+  background: rgb(71, 71, 71);
+}
+
+
+.message {
   transition: all .5s;
 }
+.message:hover {
 
-
-.message:hover button.reaction-btn:hover  {
-  background: #000;
-  background: #131313;
-
-
+  background:#202020
 }
+
+
 /* #chat form, #new-message form{
   width: 100%;
 } */
@@ -1585,7 +1670,7 @@ i.icon{
 #users h5, #rooms h5, #direct-messages h5{
   /* padding: 1rem; */
   color: whitesmoke;
-  padding: 1rem 0;
+  /* padding: 1rem 0; */
   margin: 0;
 } 
 
@@ -1661,10 +1746,6 @@ i.icon{
 
 }
 
-.scrollathon{
-
-}
-
 
 
 .open {
@@ -1709,6 +1790,8 @@ i.icon{
   font-size: 2rem;
   padding: .5rem;
 }
+
+
 
 .farm.emojis{
   font-size:2.5rem;
@@ -1858,3 +1941,27 @@ ul.showPosts {
   font-size: .75rem;
   height: 40px;
 }
+
+
+/* .scrollathon .item h5 span{
+  white-space: nowrap;
+  color: rgb(71, 71, 71);
+}
+
+.scrollathon .item:hover .scrollathon .item h5 span{
+  color:whitesmoke;
+} */
+
+
+.scrollathon h5 span  {
+  /* text-decoration: underline;
+  color:black !important; */
+  color: rgb(109, 109, 109);
+} 
+
+.scrollathon h5:hover {
+  text-decoration: underline;
+  color: rgb(109, 109, 109) !important;
+  /* color: whitesmoke !important; */
+  /* background: red !important; */
+} 

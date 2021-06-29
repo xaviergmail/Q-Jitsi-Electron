@@ -10,7 +10,7 @@ export default function VideoPreview({ setLittleVideo }) {
   const [transform, setTransform] = useState()
   const [hasVideo, setHasVideo] = useState(false)
 
-  const { room, gotoRoom } = useContext(TheContext)
+  const { room, gotoRoom, user } = useContext(TheContext)
 
   const ref = createRef()
 
@@ -22,8 +22,16 @@ export default function VideoPreview({ setLittleVideo }) {
       const listeners = {
         speakerChanged: (evt) => {
           console.log('evt', evt)
-          const largeVideo = api._getLargeVideo()
+          let largeVideo = api._getLargeVideo()
           console.log(largeVideo, 'largeVideo')
+          const avatarURL = api.getAvatarURL()
+          const displayName = api.getDisplayName()
+          const formattedDisplayName = api._getFormattedDisplayName(user._id)
+
+          //api.setLargeVideoParticipant(participantId);
+          // api.dominantSpeakerChanged()
+
+          console.log(largeVideo?.srcObject, 'largeVideo?.srcObject')
           setHasVideo(largeVideo)
           setStream(largeVideo?.srcObject)
           setTransform(largeVideo?.style?.transform)
@@ -32,8 +40,12 @@ export default function VideoPreview({ setLittleVideo }) {
           } else {
             setLittleVideo(false)
           }
-
         },
+
+        dominantSpeakerChanged: (evt) => {
+          console.log('dominant speaker chnaged', evt)
+
+        }
       }
 
       listeners.speakerChanged()
@@ -64,7 +76,7 @@ export default function VideoPreview({ setLittleVideo }) {
 
   }, [stream, transform])
 
-  console.log('stream', stream)
+  console.log('stream', stream, hasVideo)
 
   return (
     <div className="videobottomright">
@@ -73,7 +85,9 @@ export default function VideoPreview({ setLittleVideo }) {
         autoPlay=""
         id="video"
         ref={ref}
-        style={{ transform: 'none', display: hasVideo ? 'block' : 'none', cursor: 'pointer' }}
+        style={{ transform: 'none', cursor: 'pointer' }}
+
+        // style={{ transform: 'none', display: hasVideo ? 'block' : 'none', cursor: 'pointer' }}
         muted
         onClick={() => { setLittleVideo(false); gotoRoom(room); }}
       ></video>

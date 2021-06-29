@@ -232,7 +232,7 @@ function createJitsiMeetWindow() {
         height: windowState.height,
         icon: path.resolve(basePath, './resources/icon.png'),
         minWidth: 800,
-        minHeight: 600,
+        minHeight: 800,
         show: false,
         webPreferences: {
             enableBlinkFeatures: 'RTCInsertableStreams,WebAssemblySimd',
@@ -243,7 +243,7 @@ function createJitsiMeetWindow() {
             webSecurity: true,
             preload: path.resolve(basePath, './build/preload.js')
         },
-        frame: false
+        frame: true
     };
 
     mainWindow = new BrowserWindow(options);

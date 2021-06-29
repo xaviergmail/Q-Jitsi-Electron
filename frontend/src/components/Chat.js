@@ -5,9 +5,14 @@ import { Divider, Header, Icon, Image, List, Menu, Sidebar } from 'semantic-ui-r
 import EmojiPicker from './EmojiPicker'
 import moment from 'moment'
 import User from './User'
+import { Picker, emojiIndex, store, Emoji } from 'emoji-mart'
+
+
 
 
 function Chat(props) {
+
+
 
 
     const { activeRooms, gotoRoom, posts, setPosts, history, user } = useContext(TheContext)
@@ -54,6 +59,9 @@ function Chat(props) {
     }
 
 
+    let mostUsedEmojis = JSON.parse(localStorage['emoji-mart.frequently'])
+    // console.log('mostUsedEmojis,', mostUsedEmojis)
+
     const ShowMessage = ({ message, userId, createdAt, _id, reactions }) => {
         const [chosenEmoji, setChosenEmoji] = useState(null);
         const [emojis, setEmojis] = useState(reactions || [])
@@ -83,20 +91,32 @@ function Chat(props) {
                 console.log(res.data, 'back from db')
             })
 
+
+
+
+
         }
         return (
             <li key={createdAt} className="message">
                 <Image onClick={() => history.push(`/user/${userId?._id}`)} avatar src={userId?.avatar} style={{ background: 'white' }} />
-                <div>
+                <div className="msg">
                     <b className="name">{userId?.name} <i>{moment(createdAt).fromNow()}</i></b>
                     <p className="text">{message}</p>
-                    <div class="reactions">
-                        {emojis.map(reaction => reaction.users.length > 0 && <span onClick={() => saveReaction(reaction.emoji)}>{reaction.emoji.native} {reaction.users.length}</span>)}
+                    <div className="reactions">
+                        <div className="emojis-picked">{emojis.map(reaction => reaction.users.length > 0 && <span onClick={() => saveReaction(reaction.emoji)}>{reaction.emoji.native} <sub>{reaction.users.length}</sub></span>)}</div>
                         {showReactions ?
                             <EmojiPicker setShowReactions={setShowReactions} saveReaction={saveReaction} />
-                            :
-                            <button class="reaction-btn" onClick={() => setShowReactions(!showReactions)}>👍</button>}
+                            : null}
+
+                        <div className="emoji-options">
+                            <button className="reaction-btn" onClick={() => setShowReactions(!showReactions)}> <Icon name="plus circle" /></button>
+
+                            <div className="pop-emojis">{Object.keys(mostUsedEmojis).slice(0, 100).map(emoji => <Emoji onClick={saveReaction} emoji={emoji} size={16} />)}</div>
+                        </div>
+
+
                     </div>
+
                 </div>
 
 
@@ -167,11 +187,7 @@ function Chat(props) {
         <section id="chat">
 
             <main>
-                {/* <div id="channels">
-                    <label>Channels {channel.message}</label>
-                    <ul>
-                        {showChannels()}
-                    </ul></div> */}
+
 
                 <div id="messages">
                     <header className="message-title">
@@ -197,16 +213,16 @@ function Chat(props) {
                                 </button>
 
                                 }
-                        </div>
-                        {/* <h1>{channel.message}</h1> */}
+                            </div>
                             {showActiveUsers()}
 
                         </div>
 
                     </header>
 
-                    {channel?.userChannel ? <User userId={channel?.user} /> :
-
+                    {channel?.userChannel ?
+                        <User userId={channel?.user} />
+                        :
                         <>
                             <ul id="chat-messages">
 
