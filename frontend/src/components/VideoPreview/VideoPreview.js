@@ -24,9 +24,9 @@ export default function VideoPreview({ setLittleVideo }) {
           console.log('evt', evt)
           let largeVideo = api._getLargeVideo()
           console.log(largeVideo, 'largeVideo')
-          const avatarURL = api.getAvatarURL()
-          const displayName = api.getDisplayName()
-          const formattedDisplayName = api._getFormattedDisplayName(user._id)
+          // const avatarURL = api.getAvatarURL()
+          // const displayName = api.getDisplayName()
+          // const formattedDisplayName = api._getFormattedDisplayName(user._id)
 
           //api.setLargeVideoParticipant(participantId);
           // api.dominantSpeakerChanged()
@@ -44,7 +44,7 @@ export default function VideoPreview({ setLittleVideo }) {
 
         dominantSpeakerChanged: (evt) => {
           console.log('dominant speaker chnaged', evt)
-          api.setLargeVideoParticipant(evt.id);
+          api._setLargeVideoParticipant(evt.id);
         }
       }
 
