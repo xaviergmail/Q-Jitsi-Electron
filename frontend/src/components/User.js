@@ -30,12 +30,12 @@ function User(props) {
             <section className="profile">
                 <Header as='h3'>
 
-                    {props?.userId.name}
+                    {props?.userId?.name}
                 </Header>
-                <h4>{props?.userId.points - 10} 💰</h4>
+                <h4>{props?.userId?.points - 10} 💰</h4>
                 {/* <Link to={`/chat/${props?.userId?.postId?._id}`}>Send Message</Link> */}
 
-                <Image src={props?.userId.avatar} avatar />
+                <Image src={props?.userId?.avatar} avatar />
             </section>
 
         </div>

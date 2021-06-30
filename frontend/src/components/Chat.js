@@ -97,8 +97,8 @@ function Chat(props) {
 
         }
         return (
-            <li key={createdAt} className="message">
-                <Image onClick={() => history.push(`/user/${userId?._id}`)} avatar src={userId?.avatar} style={{ background: 'white' }} />
+            <li key={createdAt} className="message" onMouseLeave={() => setShowReactions(false)}>
+                <Image onClick={() => history.push(`/chat/${userId?.postId}`)} avatar src={userId?.avatar} style={{ background: 'white' }} />
                 <div className="msg">
                     <b className="name">{userId?.name} <i>{moment(createdAt).fromNow()}</i></b>
                     <p className="text">{message}</p>
@@ -108,7 +108,7 @@ function Chat(props) {
                             <EmojiPicker setShowReactions={setShowReactions} saveReaction={saveReaction} />
                             : null}
 
-                        <div className="emoji-options">
+                        <div className="emoji-options" >
                             <button className="reaction-btn" onClick={() => setShowReactions(!showReactions)}> <Icon name="plus circle" /></button>
 
                             <div className="pop-emojis">{Object.keys(mostUsedEmojis).slice(0, 100).map(emoji => <Emoji onClick={saveReaction} emoji={emoji} size={16} />)}</div>

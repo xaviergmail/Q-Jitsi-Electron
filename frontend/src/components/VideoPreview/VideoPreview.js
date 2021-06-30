@@ -21,7 +21,7 @@ export default function VideoPreview({ setLittleVideo }) {
     if (api) {
       const listeners = {
         speakerChanged: (evt) => {
-          console.log('evt', evt)
+          console.log('evt', evt, api)
           let largeVideo = api._getLargeVideo()
           console.log(largeVideo, 'largeVideo')
           // const avatarURL = api.getAvatarURL()
@@ -44,7 +44,7 @@ export default function VideoPreview({ setLittleVideo }) {
 
         dominantSpeakerChanged: (evt) => {
           console.log('dominant speaker chnaged', evt)
-          api._setLargeVideoParticipant(evt.id);
+          // api._setLargeVideoParticipant(evt.id);
         }
       }
 
@@ -85,9 +85,9 @@ export default function VideoPreview({ setLittleVideo }) {
         autoPlay=""
         id="video"
         ref={ref}
-        style={{ transform: 'none', cursor: 'pointer' }}
+        // style={{ transform: 'none', cursor: 'pointer' }}
 
-        // style={{ transform: 'none', display: hasVideo ? 'block' : 'none', cursor: 'pointer' }}
+        style={{ transform: 'none', display: hasVideo ? 'block' : 'none', cursor: 'pointer' }}
         muted
         onClick={() => { setLittleVideo(false); gotoRoom(room); }}
       ></video>
