@@ -31,7 +31,7 @@ export default function VideoPreview({ setLittleVideo }) {
           //api.setLargeVideoParticipant(participantId);
           // api.dominantSpeakerChanged()
 
-          console.log(api.getVideoQuality(), ' okdokey in view preview')
+          console.log(api.getVideoQuality(), ' !!!okdokey in view preview')
 
 
           api.captureLargeVideoScreenshot().then(data => {
@@ -46,10 +46,11 @@ export default function VideoPreview({ setLittleVideo }) {
             // livestreamData = {
             //     livestreamUrl: 'livestreamUrl'
             // }
-            console.log(liveStreamData)
+            console.log('never fires')
+            console.log(liveStreamData, 'live stream')
 
 
-          });
+          }).catch(err => console.error('err,err', err))
 
           console.log(largeVideo?.srcObject, 'largeVideo?.srcObject')
           setHasVideo(largeVideo)

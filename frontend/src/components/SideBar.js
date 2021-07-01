@@ -94,6 +94,8 @@ const Room = ({ room, id }) => {
 
           </Header>
 
+          {room.typing ? <div> {room.whoTyping.name} ...</div> : null}
+
 
         {room?.activeUsers?.length !== 0 &&
 

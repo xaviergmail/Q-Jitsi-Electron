@@ -49,6 +49,7 @@ import baseURL from './api/config'
 // TODO: Convert this into a reusable useSocket or something
 let _setPosts = function () { }
 let _setMyTransactions = function () { }
+let _posts = []
 
 //Styled components && semantic UI ?? WUT
 import styled from 'styled-components'
@@ -128,6 +129,7 @@ const CowBell = ({ children }) => {
 
 
   _setPosts = setPosts
+  _posts = posts
   _setMyTransactions = setMyTransactions
 
   const isInRoomRoute = useRouteMatch('/room/:id')
@@ -336,6 +338,38 @@ const CowBell = ({ children }) => {
       sendToRoom(room) {
         console.log('sendToRoom', room)
         gotoRoom(room)
+      },
+
+      typing({ who, where, what }) {
+        console.log('tpying')
+        console.log(posts, myPosts, _posts, Object.keys(_posts).length)
+
+        _setPosts(function (posts) {
+          let newPosts = { ...posts }
+
+
+          // let newPosts = { ..._posts }
+          newPosts[where].typing = true
+          newPosts[where].whoTyping = who
+          if (newPosts[where].typeTimeout) {
+            clearTimeout(newPosts[where].typeTimout)
+          }
+          newPosts[where].typeTimout = setTimeout(function () {
+
+            _setPosts(function (posts) {
+              let newPosts = { ...posts }
+              console.log('end', _setPosts, newPosts[where])
+              newPosts[where].typing = false
+              newPosts[where].whoTyping = null
+
+              return (newPosts)
+            })
+          }, 2000)
+
+          return (newPosts)
+
+        })
+
       }
     }
 

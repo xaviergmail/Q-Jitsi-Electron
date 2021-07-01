@@ -14,14 +14,17 @@ function Chat(props) {
 
 
 
-
-    const { activeRooms, gotoRoom, posts, setPosts, history, user } = useContext(TheContext)
+    const { activeRooms, gotoRoom, posts, setPosts, history, user, socket } = useContext(TheContext)
     const [channels, setChannels] = useState([])
     const [channel, setChannel] = useState({})
     const [messages, setMessages] = useState([])
 
     let [message, setMessage] = useState('')
-    
+    let [typing, setTyping] = useState(false)
+    let typeTimeout = null;
+
+
+    console.log(posts, 'chat')
 
     useEffect(() => {
 
@@ -29,6 +32,22 @@ function Chat(props) {
 
     }, [props.match.params.id])
 
+
+    const typeMessage = e => {
+
+        setMessage(e.target.value)
+
+
+        socket.emit('typing', { where: props.match.params.id, who: user, what: e.target.value })
+
+        // setTyping(true)
+        // if (typeTimeout)
+        //     clearTimeout(typeTimout)
+        // typeTimeout = setTimeout(() => {
+        //     setTyping(false)
+        // }, 2000)
+    }
+    // console.log(typing)
     //DO I Need this?? 
     const fetchChannel = async (id) => {
 
@@ -248,8 +267,11 @@ function Chat(props) {
                                     <p>{channel?.user == user?._id && !channel?.userChannel ? <button onClick={closeRoom} className="remove">Close Room</button> : null}</p>
                                 </li>
                             </ul>
+
+                            {console.log(posts[props.match.params.id])}
+                            {posts[props.match.params.id]?.typing ? posts[props.match.params.id]?.whoTyping.name : 'no one typing'}
                             <form className="addNewMessage" onSubmit={submitMessage}>
-                                <input type="text" value={message} placeholder="Say something... Earn a CowBell" onChange={e => setMessage(e.target.value)} />
+                                <input type="text" value={message} placeholder="Say something... Earn a CowBell" onChange={typeMessage} />
                                 {/* <button>+</button> */}
                                 <button id="addMessage" disabled={false}><Icon name="add" /> <label></label></button>
                             </form>
