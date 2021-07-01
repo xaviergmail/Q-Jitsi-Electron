@@ -58,8 +58,10 @@ function Chat(props) {
         }
     }
 
-
-    let mostUsedEmojis = JSON.parse(localStorage['emoji-mart.frequently'])
+    let mostUsedEmojis = localStorage['emoji-mart.frequently']
+    if (mostUsedEmojis) {
+        mostUsedEmojis = JSON.parse(mostUsedEmojis)
+    }
     // console.log('mostUsedEmojis,', mostUsedEmojis)
 
     const ShowMessage = ({ message, userId, createdAt, _id, reactions }) => {
@@ -111,7 +113,7 @@ function Chat(props) {
                         <div className="emoji-options" >
                             <button className="reaction-btn" onClick={() => setShowReactions(!showReactions)}> <Icon name="plus circle" /></button>
 
-                            <div className="pop-emojis">{Object.keys(mostUsedEmojis).slice(0, 100).map(emoji => <Emoji onClick={saveReaction} emoji={emoji} size={16} />)}</div>
+                            <div className="pop-emojis">{mostUsedEmojis ? Object.keys(mostUsedEmojis).slice(0, 100).reverse().map(emoji => <Emoji onClick={saveReaction} emoji={emoji} size={16} />) : null}</div>
                         </div>
 
 

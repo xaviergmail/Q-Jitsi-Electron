@@ -338,15 +338,15 @@ function createJitsiMeetWindow() {
                         // sound: true,
                         // wait: true
                     }, (err, response, metadata) => {
-                        console.log("callback", post._id, err, response, metadata, response.activationType, metadata.activationType)
+                        //console.log("callback", post._id, err, response, metadata, response.activationType, metadata.activationType)
                         //history.push(`/chat/${post._id}`)
-                        if (metadata.activationType === 'contentsClicked') {
+                        //if (metadata.activationType === 'contentsClicked') {
                             console.log(post._id, 'redirect')
                             //createWindow()
                             if (!mainWindow) {
                                 createJitsiMeetWindow()
                             }
-                        }
+                        //}
                     })
 
 

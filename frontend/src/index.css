@@ -1368,7 +1368,7 @@ border: none;
 .emoji-options:hover .pop-emojis{
   opacity: 1;
 
-  width: 200px;
+  width: 100%;
   pointer-events: auto;
 }
 

@@ -12,7 +12,7 @@ import config from '../../config';
 import { getSetting, setEmail, setName } from '../../settings';
 
 import { conferenceEnded, conferenceJoined } from '../actions';
-import JitsiMeetExternalAPI from '../external_api';
+import JitsiMeetExternalAPI from '../external_api_2';
 import { LoadingIndicator, Wrapper } from '../styled';
 
 const ENABLE_REMOTE_CONTROL = true;
@@ -218,8 +218,10 @@ class Conference extends Component<Props, State> {
         console.log(this, 'interesting!')
 
         const configOverwrite = {
+            // startWithAudioMuted: true,//this.props._startWithAudioMuted,
+            // startWithVideoMuted: true//this.props._startWithVideoMuted
             startWithAudioMuted: true,//this.props._startWithAudioMuted,
-            startWithVideoMuted: true//this.props._startWithVideoMuted
+            startWithVideoMuted: false//this.props._startWithVideoMuted
         };
 
         const options = {
@@ -238,6 +240,16 @@ class Conference extends Component<Props, State> {
         });
 
         window.jitsiMeetExternalAPI = this._api
+
+
+        // console.log(this, this._api, this._api.getVideoQuality(), ' okdokey')
+
+
+        // this._api.captureLargeVideoScreenshot().then(data => {
+        //     // data is an Object with only one param, dataURL
+        //     // data.dataURL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABQAA..."
+        //     console.log(data, ' screen shot')
+        // });
 
 
         this._api.on('suspendDetected', this._onVideoConferenceEnded);
