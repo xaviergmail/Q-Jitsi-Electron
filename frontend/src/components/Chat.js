@@ -24,7 +24,6 @@ function Chat(props) {
     let typeTimeout = null;
 
 
-    console.log(posts, 'chat')
 
     useEffect(() => {
 
@@ -268,7 +267,6 @@ function Chat(props) {
                                 </li>
                             </ul>
 
-                            {console.log(posts[props.match.params.id])}
                             {posts[props.match.params.id]?.typing ? posts[props.match.params.id]?.whoTyping.name : 'no one typing'}
                             <form className="addNewMessage" onSubmit={submitMessage}>
                                 <input type="text" value={message} placeholder="Say something... Earn a CowBell" onChange={typeMessage} />

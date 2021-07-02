@@ -32,27 +32,27 @@ export default function VideoPreview({ setLittleVideo }) {
           // api.dominantSpeakerChanged()
 
           console.log(api.getVideoQuality(), ' !!!okdokey in view preview')
+          console.log(api.setLargeVideoParticipant)
+
+          // api.captureLargeVideoScreenshot().then(data => {
+          //   // data is an Object with only one param, dataURL
+          //   // data.dataURL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABQAA..."
+          //   console.log(data, ' screen shot')
+          //   //console.log(String(data.dataURL))
+          // });
+          // console.log("whats this")
+
+          // api.getLivestreamUrl().then(livestreamData => {
+          //   // livestreamData = {
+          //   //     livestreamUrl: 'livestreamUrl'
+          //   // }
+          //   console.log('never fires')
+          //   console.log(liveStreamData, 'live stream')
 
 
-          api.captureLargeVideoScreenshot().then(data => {
-            // data is an Object with only one param, dataURL
-            // data.dataURL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABQAA..."
-            console.log(data, ' screen shot')
-            //console.log(String(data.dataURL))
-          });
-          console.log("whats this")
+          // }).catch(err => console.error('err,err', err))
 
-          api.getLivestreamUrl().then(livestreamData => {
-            // livestreamData = {
-            //     livestreamUrl: 'livestreamUrl'
-            // }
-            console.log('never fires')
-            console.log(liveStreamData, 'live stream')
-
-
-          }).catch(err => console.error('err,err', err))
-
-          console.log(largeVideo?.srcObject, 'largeVideo?.srcObject')
+          // console.log(largeVideo?.srcObject, 'largeVideo?.srcObject')
           setHasVideo(largeVideo)
           setStream(largeVideo?.srcObject)
           setTransform(largeVideo?.style?.transform)
@@ -64,8 +64,8 @@ export default function VideoPreview({ setLittleVideo }) {
         },
 
         dominantSpeakerChanged: (evt) => {
-          console.log('dominant speaker chnaged', evt)
-          // api._setLargeVideoParticipant(evt.id);
+          console.log('dominant speaker chnaged?', evt)
+          api.setLargeVideoParticipant(evt.id);
         }
       }
 
