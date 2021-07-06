@@ -430,8 +430,11 @@ const CowBell = ({ children }) => {
   }
 
   async function updateToken(evt, resp) {
+    console.log('update Token')
     const token = JSON.parse(resp)
+    console.log(token)
     const user = await actions.logIn(token.id_token)
+    console.log(user)
     setUser(user?.data)
   }
 

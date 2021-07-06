@@ -39,6 +39,7 @@ const actions = {
     let user
     try {
       user = await API.get(`/user`, resetHead())
+      console.log(user, 'got usersss;')
     } catch (err) {
       console.error("Failed to get user data please log in again", err)
       localStorage.removeItem("token")
@@ -48,9 +49,10 @@ const actions = {
   },
   logIn: async (tokenId) => {
     const options = resetHead()
-
+    console.log('loginfart', tokenId)
     options.headers['X-Google-Token'] = tokenId
     let res = await API.post('/login', '', options)
+    console.log(res)
     window.localStorage.setItem('googletoken', tokenId)
     if (res?.data?.token) window.localStorage.setItem('token', res?.data?.token)
     return res
@@ -117,12 +119,12 @@ const actions = {
 API.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error(error?.response?.data)
-    NotificationManager.error(String(error?.response?.data?.message || error?.response?.data?.msg))
-    if (error?.response?.status == 403 || error?.response?.status == 401) {
-      localStorage.removeItem("token")
-      localStorage.removeItem("googletoken")
-    }
+    console.error(error, ' woeey')
+    // NotificationManager.error(String(error?.response?.data?.message || error?.response?.data?.msg))
+    // if (error?.response?.status == 403 || error?.response?.status == 401) {
+    //   localStorage.removeItem("token")
+    //   localStorage.removeItem("googletoken")
+    // }
     
   }
 )
