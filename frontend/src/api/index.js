@@ -51,8 +51,13 @@ const actions = {
     const options = resetHead()
     console.log('loginfart', tokenId)
     options.headers['X-Google-Token'] = tokenId
+    try {
     let res = await API.post('/login', '', options)
     console.log(res)
+
+    } catch (err) {
+      console.error(' this is the dam nerr', err)
+    }
     window.localStorage.setItem('googletoken', tokenId)
     if (res?.data?.token) window.localStorage.setItem('token', res?.data?.token)
     return res
