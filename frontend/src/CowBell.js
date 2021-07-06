@@ -454,7 +454,7 @@ const CowBell = ({ children }) => {
       const googleToken = localStorage.getItem('googletoken')
       if (!googleToken) {
         setTimeout(function () {
-          console.log("is this is when i haves to clear localstorage?", googleToken, window.jitsiNodeAPI)
+          // console.log("is this is when i haves to clear localstorage?", googleToken, window.jitsiNodeAPI)
           reauth()
         }, 1000)
       } else {
