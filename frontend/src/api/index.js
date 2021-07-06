@@ -51,9 +51,10 @@ const actions = {
     const options = resetHead()
     console.log('loginfart', tokenId)
     options.headers['X-Google-Token'] = tokenId
+    let res;
     try {
-    let res = await API.post('/login', '', options)
-    console.log(res)
+      res = await API.post('/login', '', options)
+      console.log(res)
 
     } catch (err) {
       console.error(' this is the dam nerr', err)
