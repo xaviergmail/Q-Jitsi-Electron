@@ -9,7 +9,11 @@ import { connect } from 'react-redux';
 function Room({ jitsiApp, roomId, dispatch, location }) {
     console.log(location, roomId, 'weblack')
 
+
     useEffect(() => {
+
+
+
         //Change song that i want to play
         dispatch(push('/'))
         requestAnimationFrame(() => gotoRoom(dispatch, roomId))
@@ -35,6 +39,7 @@ function gotoRoom(dispatch, roomID) {
 
     const conference = createConferenceObjectFromURL(process.env.ELECTRON_WEBPACK_APP_JITSI_URL + "/" + roomID + "#config.startWithVideoMuted=true");
     conference.jwt = localStorage.token
+    console.log('conference', conference)
 
     window._conference = conference
     window._push = push

@@ -61,6 +61,8 @@ const Room = ({ room, id }) => {
     setPosts(updatedPosts)
   }
 
+  console.log(room?.activeUsers, room?.activeUsers?.length, ' active youuuuuuusers')
+
   // let host = room.activeUsers.some(x => x.email == user.email)
   return (
     <div>

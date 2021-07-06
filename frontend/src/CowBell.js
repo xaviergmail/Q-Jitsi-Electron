@@ -30,6 +30,7 @@ import NewQuestion from './components/NewQuestion'
 import NewMessage from './components/NewMessage'
 import Search from './components/Search'
 import User from './components/User'
+import Wut from './components/Wut'
 
 import 'react-notifications/lib/notifications.css'
 import 'semantic-ui-css/semantic.min.css'
@@ -86,9 +87,13 @@ const socket = io(baseURL, {
 
 console.log(socket, ' to me ', baseURL)
 
+
+
 const MemoizedRoom = React.memo(
+
   function ({ room, children }) {
     //console.log('RECREATING ROOM IFRAME!', room, children)
+
     if (window.jitsiNodeAPI) {
       //If its electron
       return <Room roomId={room} jitsiApp={children} />
@@ -370,6 +375,10 @@ const CowBell = ({ children }) => {
 
         })
 
+      },
+
+      screenShot(feed) {
+        console.log('screen - shot', feed)
       }
     }
 
@@ -445,6 +454,7 @@ const CowBell = ({ children }) => {
       const googleToken = localStorage.getItem('googletoken')
       if (!googleToken) {
         setTimeout(function () {
+          console.log("is this is when i haves to clear localstorage?", googleToken, window.jitsiNodeAPI)
           reauth()
         }, 1000)
       } else {
@@ -500,8 +510,12 @@ const CowBell = ({ children }) => {
 
   const [littleVideo, setLittleVideo] = useState(false)
 
+
   const video = <VideoPreview setLittleVideo={setLittleVideo} />
 
+  const wut = <Wut />
+
+  console.log(video, ' video')
 
   let [bounty, setBounty] = useState(10)
   const [style, setStyle] = useState({ width: `${window.innerWidth / 4}px` })
@@ -514,6 +528,9 @@ const CowBell = ({ children }) => {
   let [open, setOpen] = useState('rooms')
 
   console.log(lobby_id, 'lobby_id')
+
+
+
 
 
 
@@ -594,7 +611,7 @@ const CowBell = ({ children }) => {
 
               <Route path="/settings" component={Settings} />
               {/**WUT**/}
-              <Route path="/room/:roomName" render={(props) => <div>HMMMMM</div>} />
+              <Route path="/room/:roomName">{wut}</Route>
 
               {/* <Route path="/room/:roomName" render={(props) => <JitsiRoom {...props} />} /> */}
 
@@ -630,6 +647,8 @@ export default function CowBellWithRouter(props) {
     </HashRouter>
   )
 }
+
+
 
 
 

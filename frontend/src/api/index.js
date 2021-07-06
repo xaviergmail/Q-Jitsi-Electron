@@ -106,7 +106,11 @@ const actions = {
   },
   findPreviousChat: async (users) => {
     return await API.post(`/find-previous-chat`, users, resetHead())
-  }
+  },
+  shareScreenShot: async (feed) => {
+    console.log("shareVideo", feed)
+    return await API.post(`/share-screenshot`, feed, resetHead())
+  },
 
 }
 
