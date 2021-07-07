@@ -110,17 +110,17 @@ const actions = {
 
 }
 
-API.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    console.error(error?.response?.data)
-    NotificationManager.error(String(error?.response?.data?.message || error?.response?.data?.msg))
-    if (error?.response?.status == 403 || error?.response?.status == 401) {
-      localStorage.removeItem("token")
-      localStorage.removeItem("googletoken")
-    }
+// API.interceptors.response.use(
+//   (response) => response,
+//   (error) => {
+//     console.error(error?.response?.data)
+//     NotificationManager.error(String(error?.response?.data?.message || error?.response?.data?.msg))
+//     if (error?.response?.status == 403 || error?.response?.status == 401) {
+//       localStorage.removeItem("token")
+//       localStorage.removeItem("googletoken")
+//     }
     
-  }
-)
+//   }
+// )
 
 export default actions

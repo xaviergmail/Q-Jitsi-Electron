@@ -273,7 +273,7 @@ function createJitsiMeetWindow() {
     // }, 10000)
 
     //Lets see
-    //mainWindow.webContents.openDevTools() //This don't seem to do nothing
+    //mainWindow.webContents.openDevTools() 
 
     //NOTIFIICATIONS 
     mainWindow.webContents
