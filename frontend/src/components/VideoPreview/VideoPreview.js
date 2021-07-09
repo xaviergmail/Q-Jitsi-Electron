@@ -63,10 +63,10 @@ export default function VideoPreview({ setLittleVideo }) {
           }
         },
 
-        dominantSpeakerChanged: (evt) => {
-          console.log('dominant speaker chnaged?', evt)
-          api.setLargeVideoParticipant(evt.id);
-        }
+        // dominantSpeakerChanged: (evt) => {
+        //   console.log('dominant speaker chnaged?', evt)
+        //   api.setLargeVideoParticipant(evt.id);
+        // }
       }
 
       listeners.speakerChanged()

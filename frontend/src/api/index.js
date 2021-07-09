@@ -28,10 +28,15 @@ let resetHead = () => {
   }
 }
 
+
+axios.defaults.adapter = require('axios/lib/adapters/xhr');
+
+
 const API = axios.create({
   withCredentials: true,
   baseURL: baseURL + '/api',
   headers: { Authorization: `Bearer ${token}` },
+  timeout: 5000,
 })
 
 const actions = {
