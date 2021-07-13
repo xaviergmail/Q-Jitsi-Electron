@@ -6,6 +6,8 @@ import EmojiPicker from './EmojiPicker'
 import moment from 'moment'
 import User from './User'
 import { Picker, emojiIndex, store, Emoji } from 'emoji-mart'
+import Linkify from 'react-linkify';
+import DragDrop from './DragDrop'
 
 
 
@@ -117,6 +119,7 @@ function Chat(props) {
 
         }
         return (
+            <Linkify>
             <li key={createdAt} className="message" onMouseLeave={() => setShowReactions(false)}>
                 <Image onClick={() => history.push(`/chat/${userId?.postId}`)} avatar src={userId?.avatar} style={{ background: 'white' }} />
                 <div className="msg">
@@ -141,6 +144,7 @@ function Chat(props) {
 
 
             </li>
+            </Linkify>
         )
     }
 
@@ -277,9 +281,9 @@ function Chat(props) {
                     }
 
                 </div>
+                {/* <DragDrop /> */}
 
             </main>
-
 
 
 
