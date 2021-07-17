@@ -125,7 +125,7 @@ const CowBell = ({ children }) => {
   let [nConnections, setNConnections] = useState(0)
   const { pathname } = useLocation()
 
-  console.log('cool yeah i should do it', posts)
+  // console.log('cool yeah i should do it', posts)
 
 
   _setPosts = setPosts
@@ -209,7 +209,7 @@ const CowBell = ({ children }) => {
           return
         }
 
-        console.log('post:', post, ' kiwi')
+        // console.log('post:', post, ' kiwi')
 
 
         _setPosts(function (posts) {
@@ -235,7 +235,7 @@ const CowBell = ({ children }) => {
         if (window.location.hash.split('/').pop() === last?.postId) {
           return
         }
-        console.log(post.event, 'event')
+        // console.log(post.event, 'event')
         if (post.event === "muc-occupant-joined" || post.event === "muc-occupant-left" || post.event === "muc-room-destroyed") {
           return
         }
@@ -294,7 +294,7 @@ const CowBell = ({ children }) => {
       },
 
       liveUsers: (data) => {
-        console.log(data, 'liveUser')
+        // console.log(data, 'liveUser')
         // let users = [...]
         setLiveUsers(data)
       },
@@ -336,13 +336,13 @@ const CowBell = ({ children }) => {
       },
 
       sendToRoom(room) {
-        console.log('sendToRoom', room)
+        // console.log('sendToRoom', room)
         gotoRoom(room)
       },
 
       typing({ who, where, what }) {
-        console.log('tpying')
-        console.log(posts, myPosts, _posts, Object.keys(_posts).length)
+        // console.log('tpying')
+        // console.log(posts, myPosts, _posts, Object.keys(_posts).length)
         if (_posts[where].typing) {
           return
         }
@@ -515,7 +515,7 @@ const CowBell = ({ children }) => {
   // const [className, setStyle] = useState({ width: `${window.innerWidth / 4}px` })
   let [open, setOpen] = useState('rooms')
 
-  console.log(lobby_id, 'lobby_id')
+  // console.log(lobby_id, 'lobby_id')
 
 
 
@@ -637,7 +637,7 @@ export default function CowBellWithRouter(props) {
 
 function notify(title, message, icon, redirect) {
 
-  console.log("notify puppy")
+  // console.log("notify puppy")
   // Let's check if the browser supports notifications
   if (!("Notification" in window)) {
     alert("This browser does not support desktop notification");

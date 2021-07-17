@@ -15,15 +15,15 @@ export default function VideoPreview({ setLittleVideo }) {
   const ref = createRef()
 
   useEffect(() => {
-    console.log(window, ' window')
+    // console.log(window, ' window')
     const api = window.jitsiMeetExternalAPI
 
     if (api) {
       const listeners = {
         speakerChanged: (evt) => {
-          console.log('evt', evt, api)
+          // console.log('evt', evt, api)
           let largeVideo = api._getLargeVideo()
-          console.log(largeVideo, 'largeVideo')
+          // console.log(largeVideo, 'largeVideo')
           // const avatarURL = api.getAvatarURL()
           // const displayName = api.getDisplayName()
           // const formattedDisplayName = api._getFormattedDisplayName(user._id)
@@ -31,8 +31,8 @@ export default function VideoPreview({ setLittleVideo }) {
           //api.setLargeVideoParticipant(participantId);
           // api.dominantSpeakerChanged()
 
-          console.log(api.getVideoQuality(), ' !!!okdokey in view preview')
-          console.log(api.setLargeVideoParticipant)
+          // console.log(api.getVideoQuality(), ' !!!okdokey in view preview')
+          // console.log(api.setLargeVideoParticipant)
 
           // api.captureLargeVideoScreenshot().then(data => {
           //   // data is an Object with only one param, dataURL
@@ -97,7 +97,7 @@ export default function VideoPreview({ setLittleVideo }) {
 
   }, [stream, transform])
 
-  console.log('stream', stream, hasVideo)
+  // console.log('stream', stream, hasVideo)
 
   return (
     <div className="videobottomright">

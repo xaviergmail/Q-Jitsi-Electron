@@ -20,11 +20,12 @@
 //     )
 // }
 
-import React, { useMemo, useState, useEffect } from 'react';
-import { Divider, Header, Icon, Image, List, Menu, Sidebar } from 'semantic-ui-react'
+import React, { useMemo, useState, useEffect, createRef } from 'react';
+import { Divider, Header, Icon, Image, List, Sidebar } from 'semantic-ui-react'
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 import actions from '../api'
+import ScreenRecorder from './ScreenRecorder'
 
 const baseStyle = {
     flex: 1,
@@ -115,6 +116,7 @@ const ImageUpload = ({ files, onDrop, typeMessage, message, channel, setMessage,
 
         files.forEach(file => {
             const formData = new FormData();
+            console.log(file.type, ' ya>')
             formData.append('file', file);
             formData.append('upload_preset', uploadPreset);
             promises.push(axios({
@@ -205,13 +207,15 @@ const ImageUpload = ({ files, onDrop, typeMessage, message, channel, setMessage,
                     <input type="text" value={message} placeholder="Say something... Earn a CowBell" onChange={typeMessage} />
                     <input {...getInputProps()} />
                     {/* <p>Drag 'n' drop some files here, or click to select files</p> */}
-                    <div><button id="addMessage" disabled={false}><Icon name="add" /> <label></label></button>
+                    <div>
+                        <button id="addMessage" disabled={false}><Icon name="add" /> <label></label></button>
                         <Icon name="image" {...getRootProps()} />
                     </div>
                 </form>
 
 
 
+                <ScreenRecorder files={files} setFiles={setFiles} />
 
 
             </div>
@@ -244,3 +248,187 @@ const App = ({ typeMessage, message, channel, setMessage }) => {
 }
 
 export default App;
+
+
+
+
+
+
+
+// const { desktopCapturer, remote } = require('electron')
+// const { Menu } = remote;
+
+// const ScreenRecorder2 = () => {
+
+//     const [source, setSource] = useState({})
+//     const [stream, setStream] = useState(null)
+//     const ref = createRef()
+//     // console.log(ref, ref.current)
+//     //    ref.current.srcObject = stream
+
+
+//     useEffect(() => {
+//         console.log(stream, ref, 'thugs')
+//         // ref.current.srcObject = stream
+//         // ref.current.style.transform = transform
+//         if (ref.current) {
+
+//             ref.current.srcObject = stream
+//             ref.current.play()
+//         }
+//     }, [stream])
+
+
+
+
+
+
+//     async function getVideoSources() {
+//         const inputSources = await desktopCapturer.getSources({
+//             types: ['window', 'screen']
+//         });
+
+//         const videoOptionsMenu = Menu.buildFromTemplate(
+//             inputSources.map(source => {
+//                 return {
+//                     label: source.name,
+//                     click: () => selectSource(source)
+//                 };
+//             })
+//         );
+
+
+//         videoOptionsMenu.popup();
+//     }
+
+
+
+
+//     let mediaRecorder; // MediaRecorder instance to capture footage
+//     const recordedChunks = [];
+
+
+//     // Captures all recorded chunks
+//     function handleDataAvailable(e) {
+//         console.log('video data available');
+//         recordedChunks.push(e.data);
+//     }
+
+//     // Saves the video file on stop
+//     async function handleStop(e) {
+//         const blob = new Blob(recordedChunks, {
+//             type: 'video/webm; codecs=vp9'
+//         });
+
+//         const buffer = Buffer.from(await blob.arrayBuffer());
+
+//         const { filePath } = await dialog.showSaveDialog({
+
+//             buttonLabel: 'Save video',
+//             defaultPath: `vid-${Date.now()}.webm`
+//         });
+
+//         console.log(filePath);
+//     }
+
+//     // Change the videoSource window to record
+//     async function selectSource(source) {
+//         setSource(source)
+
+//         // videoSelectBtn.innerText = source.name;
+
+//         const constraints = {
+//             audio: false,
+//             video: {
+//                 mandatory: {
+//                     chromeMediaSource: 'desktop',
+//                     chromeMediaSourceId: source.id
+//                 }
+//             }
+//         };
+
+//         // Create a Stream
+//         const stream = await navigator.mediaDevices
+//             .getUserMedia(constraints);
+
+//         if (!stream)
+//             setStream(stream)
+
+
+
+
+//         // Preview the source in a video element
+//         // videoElement.srcObject = stream;
+//         // videoElement.play();
+//         // useEffect(() => {
+//         //     ref.current.srcObject = stream
+//         //     // ref.current.style.transform = transform
+//         //     ref.current.play()
+//         // }, [stream])
+
+
+//         // Create the Media Recorder
+//         const options = { mimeType: 'video/webm; codecs=vp9' };
+//         mediaRecorder = new MediaRecorder(stream, options);
+
+//         // Register Event Handlers
+//         mediaRecorder.ondataavailable = handleDataAvailable;
+//         mediaRecorder.onstop = handleStop;
+//     }
+
+//     return (
+//         <div>
+//             {source?.name}
+//             <Icon name="video" onClick={getVideoSources} />
+//             <video
+//                 autoPlay=""
+//                 id="video"
+//                 ref={ref} />
+
+//             <button onClick={mediaRecorder?.start}>Start</button>
+//             <button onClick={mediaRecorder?.stop}>Stop</button>
+//         </div>
+//     )
+
+// }
+
+
+// // In the renderer process.
+
+
+// // desktopCapturer.getSources({ types: ['window', 'screen'] }).then(async sources => {
+// //     for (const source of sources) {
+// //         if (source.name === 'Electron') {
+// //             try {
+// //                 const stream = await navigator.mediaDevices.getUserMedia({
+// //                     audio: false,
+// //                     video: {
+// //                         mandatory: {
+// //                             chromeMediaSource: 'desktop',
+// //                             chromeMediaSourceId: source.id,
+// //                             minWidth: 1280,
+// //                             maxWidth: 1280,
+// //                             minHeight: 720,
+// //                             maxHeight: 720
+// //                         }
+// //                     }
+// //                 })
+// //                 handleStream(stream)
+// //             } catch (e) {
+// //                 handleError(e)
+// //             }
+// //             return
+// //         }
+// //     }
+// // })
+
+// // function handleStream(stream) {
+// //     console.log('streaggggggg', stream)
+// //     const video = document.querySelector('#wtfvideo')
+// //     video.srcObject = stream
+// //     video.onloadedmetadata = (e) => video.play()
+// // }
+
+// // function handleError(e) {
+// //     console.log(e, ' what is happening??')
+// // }

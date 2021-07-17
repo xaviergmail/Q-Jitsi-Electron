@@ -26,7 +26,6 @@ function Chat(props) {
     let typeTimeout = null;
 
 
-    console.log(posts[props.match.params.id], 'this post', user)
 
     useEffect(() => {
 
@@ -42,12 +41,7 @@ function Chat(props) {
 
         socket.emit('typing', { where: props.match.params.id, who: user, what: e.target.value })
 
-        // setTyping(true)
-        // if (typeTimeout)
-        //     clearTimeout(typeTimout)
-        // typeTimeout = setTimeout(() => {
-        //     setTyping(false)
-        // }, 2000)
+
     }
     // console.log(typing)
     //DO I Need this?? 
@@ -90,7 +84,7 @@ function Chat(props) {
         const [emojis, setEmojis] = useState(reactions || [])
         const [showReactions, setShowReactions] = useState(false)
 
-        console.log(message, ' mes', images)
+        // console.log(message, ' mes', images)
 
         const saveReaction = (emoji) => {
             let alreadyThere = false
@@ -129,7 +123,7 @@ function Chat(props) {
                             let t = img.split('.').pop()
                             if (t === 'jpg' || t === 'png' || t === "jpeg") {
                                 return <a target="_blank" href={img}><img className="messageImage" src={img} /></a>
-                            } else if (t === 'mov' || t === 'mp3' || t === 'mp4') { // More file types can be dealt with here
+                            } else if (t === 'mov' || t === 'mp3' || t === 'mp4' || t === 'webm') { // More file types can be dealt with here
                                 return (
                                     <video className="messageImage" controls>
                                         <source src={img} />
@@ -240,6 +234,7 @@ function Chat(props) {
 
                 <div id="messages">
                     <header className="message-title">
+
                         {channel?.isLobby ? null :
                             <h4 className="bounty"><span>💰</span><span>{channel?.bounty}</span></h4>
                         }

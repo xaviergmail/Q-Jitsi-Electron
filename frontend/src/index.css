@@ -1989,7 +1989,7 @@ ul.showPosts {
 
 .header.item.otherItem.menu-item-sidebar {
   white-space: nowrap;
-  height: 67px;
+  min-height: 67px;
 
 }
 
