@@ -93,8 +93,8 @@ const Room = ({ room, id }) => {
         {yourRoom && <button className="close-room" onClick={() => console.log('Send everyone to lobby')} >X</button>}
 
           </Header>
-
-          {room.typing ? <div> {room.whoTyping.name} ...</div> : null}
+          {room.typing ? <div className="whoTyping"> <span>{room.whoTyping.name} </span>           <span className="dot-pulse"></span>
+          </div> : null}
 
 
         {room?.activeUsers?.length !== 0 &&

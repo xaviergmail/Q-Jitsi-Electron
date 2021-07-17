@@ -33,8 +33,8 @@ import User from './components/User'
 
 import 'react-notifications/lib/notifications.css'
 import 'semantic-ui-css/semantic.min.css'
+import './threedots.css'
 import './index.css'
-
 import actions from './api/index'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 import io from 'socket.io-client'
@@ -343,7 +343,9 @@ const CowBell = ({ children }) => {
       typing({ who, where, what }) {
         console.log('tpying')
         console.log(posts, myPosts, _posts, Object.keys(_posts).length)
-
+        if (_posts[where].typing) {
+          return
+        }
         _setPosts(function (posts) {
           let newPosts = { ...posts }
 

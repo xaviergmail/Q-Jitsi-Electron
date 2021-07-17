@@ -8,7 +8,7 @@ import User from './User'
 import { Picker, emojiIndex, store, Emoji } from 'emoji-mart'
 import Linkify from 'react-linkify';
 import DragDrop from './DragDrop'
-
+import MyEditor from './MyEditor'
 
 
 
@@ -26,6 +26,7 @@ function Chat(props) {
     let typeTimeout = null;
 
 
+    console.log(posts[props.match.params.id], 'this post', user)
 
     useEffect(() => {
 
@@ -207,6 +208,16 @@ function Chat(props) {
         }
     }
 
+    const ShowTyping = () => {
+        let thisPost = posts[props.match.params.id]
+        if (thisPost?.typing && thisPost.whoTyping._id != user._id) {
+            return <div id="showTyping">{thisPost?.whoTyping.name} is typing  <span className="dot-bricks"></span></div>
+        } else {
+            return null
+        }
+
+    }
+
     return (
         <section id="chat">
 
@@ -271,12 +282,21 @@ function Chat(props) {
                                 </li>
                             </ul>
 
-                            {posts[props.match.params.id]?.typing ? posts[props.match.params.id]?.whoTyping.name : 'no one typing'}
+                            {/* {posts[props.match.params.id]?.typing ? posts[props.match.params.id]?.whoTyping.name : 'no one typing'} */}
+                            {/* <MyEditor /> */}
+
+
                             <form className="addNewMessage" onSubmit={submitMessage}>
                                 <input type="text" value={message} placeholder="Say something... Earn a CowBell" onChange={typeMessage} />
                                 {/* <button>+</button> */}
                                 <button id="addMessage" disabled={false}><Icon name="add" /> <label></label></button>
                             </form>
+
+
+                            <ShowTyping />
+
+
+
                         </>
                     }
 

@@ -1759,7 +1759,7 @@ i.icon{
   /* height:calc(100vh - 215px) !important; */
   /* height:calc(100vh - 330px) !important; */
   height: calc(100vh - 25vw - 100px) !important;
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 
 #users.open .panelHeader,#rooms.open .panelHeader,#direct-messages.open .panelHeader{
@@ -1959,9 +1959,48 @@ ul.showPosts {
   color: rgb(109, 109, 109);
 } 
 
+.scrollathon h5 span.messageCount  {
+  /* text-decoration: underline;
+  color:black !important; */
+  color: black;
+} 
+
 .scrollathon h5:hover {
   text-decoration: underline;
   color: rgb(109, 109, 109) !important;
   /* color: whitesmoke !important; */
   /* background: red !important; */
 } 
+
+
+#showTyping {
+  position: absolute;
+  z-index: 1232;
+  bottom: 12vh;
+  width: 100%;
+  font-family: 'Futura';
+}
+
+.whoTyping{
+  margin-top:5px;
+  font-family: 'Futura';
+  font-size:10px;
+}
+
+.header.item.otherItem.menu-item-sidebar {
+  white-space: nowrap;
+  height: 67px;
+
+}
+
+.dot-pulse{
+  position:absolute;
+  margin-left: 50%;
+}
+
+.dot-bricks {
+  position: absolute;
+  margin-left: 50%;
+  top: -10px;
+  /* color: #6DAEDB !important; */
+}
