@@ -85,10 +85,12 @@ function Chat(props) {
     }
     // console.log('mostUsedEmojis,', mostUsedEmojis)
 
-    const ShowMessage = ({ message, userId, createdAt, _id, reactions }) => {
+    const ShowMessage = ({ message, userId, createdAt, _id, reactions, images }) => {
         const [chosenEmoji, setChosenEmoji] = useState(null);
         const [emojis, setEmojis] = useState(reactions || [])
         const [showReactions, setShowReactions] = useState(false)
+
+        console.log(message, ' mes', images)
 
         const saveReaction = (emoji) => {
             let alreadyThere = false
@@ -115,6 +117,9 @@ function Chat(props) {
             })
 
 
+            const enlargeImage = () => {
+            }
+
 
 
 
@@ -125,7 +130,8 @@ function Chat(props) {
                 <Image onClick={() => history.push(`/chat/${userId?.postId}`)} avatar src={userId?.avatar} style={{ background: 'white' }} />
                 <div className="msg">
                     <b className="name">{userId?.name} <i>{moment(createdAt).fromNow()}</i></b>
-                    <p className="text">{message}</p>
+                        {images.map(img => <a target="_blank" href={img}><img className="messageImage" src={img} /></a>)}
+                        <p className="text">{message}</p>
                     <div className="reactions">
                         <div className="emojis-picked">{emojis.map(reaction => reaction.users.length > 0 && <span onClick={() => saveReaction(reaction.emoji)}>{reaction.emoji.native} <sub>{reaction.users.length}</sub></span>)}</div>
                         {showReactions ?
@@ -150,15 +156,15 @@ function Chat(props) {
     }
 
 
-    const submitMessage = e => {
-        e.preventDefault()
-        actions
-            .addMessage({ channel, message })
-            .then(res => {
-                setMessage('')
-            })
-            .catch(console.error)
-    }
+    // const submitMessage = e => {
+    //     e.preventDefault()
+    //     actions
+    //         .addMessage({ channel, message })
+    //         .then(res => {
+    //             setMessage('')
+    //         })
+    //         .catch(console.error)
+    // }
 
 
     const showActiveUsers = () => {
@@ -284,24 +290,23 @@ function Chat(props) {
 
                             {/* {posts[props.match.params.id]?.typing ? posts[props.match.params.id]?.whoTyping.name : 'no one typing'} */}
                             {/* <MyEditor /> */}
-
+                            {/*
 
                             <form className="addNewMessage" onSubmit={submitMessage}>
                                 <input type="text" value={message} placeholder="Say something... Earn a CowBell" onChange={typeMessage} />
-                                {/* <button>+</button> */}
                                 <button id="addMessage" disabled={false}><Icon name="add" /> <label></label></button>
-                            </form>
+                            </form> */}
 
 
                             <ShowTyping />
 
+                            <DragDrop typeMessage={typeMessage} message={message} setMessage={setMessage} channel={channel} />
 
 
                         </>
                     }
 
                 </div>
-                {/* <DragDrop /> */}
 
             </main>
 

@@ -2004,3 +2004,17 @@ ul.showPosts {
   top: -10px;
   /* color: #6DAEDB !important; */
 }
+
+.addNewMessage aside{
+  display: flex;
+  background: white;
+}
+
+.messageImage {
+
+  width: 200px;
+  object-fit: contain;
+  display: block;
+  display: inline;
+  height: 200px;
+}
