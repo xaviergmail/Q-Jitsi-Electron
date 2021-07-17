@@ -101,7 +101,7 @@ const ImageUpload = ({ files, onDrop, typeMessage, message, channel, setMessage,
         isDragAccept,
         isDragReject
     } = useDropzone({
-        accept: 'image/*',
+        // accept: 'image/*',
         onDrop: onDrop
     });
 
@@ -109,7 +109,7 @@ const ImageUpload = ({ files, onDrop, typeMessage, message, channel, setMessage,
 
 
     const upload = () => {
-        const uploadURL = 'https://api.cloudinary.com/v1_1/dcoxlanri/image/upload';
+        const uploadURL = 'https://api.cloudinary.com/v1_1/dcoxlanri/raw/upload';
         const uploadPreset = 'rgw5s8ai';
         const promises = [];
 

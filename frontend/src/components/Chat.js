@@ -117,11 +117,6 @@ function Chat(props) {
             })
 
 
-            const enlargeImage = () => {
-            }
-
-
-
 
         }
         return (
@@ -130,7 +125,20 @@ function Chat(props) {
                 <Image onClick={() => history.push(`/chat/${userId?.postId}`)} avatar src={userId?.avatar} style={{ background: 'white' }} />
                 <div className="msg">
                     <b className="name">{userId?.name} <i>{moment(createdAt).fromNow()}</i></b>
-                        {images.map(img => <a target="_blank" href={img}><img className="messageImage" src={img} /></a>)}
+                        {images.map(img => {
+                            let t = img.split('.').pop()
+                            if (t === 'jpg' || t === 'png' || t === "jpeg") {
+                                return <a target="_blank" href={img}><img className="messageImage" src={img} /></a>
+                            } else if (t === 'mov' || t === 'mp3' || t === 'mp4') { // More file types can be dealt with here
+                                return (
+                                    <video className="messageImage" controls>
+                                        <source src={img} />
+                                    </video>
+                                )
+                            } else {
+                                return <span>Not sure how to show {img}</span>
+                            }
+                        })}
                         <p className="text">{message}</p>
                     <div className="reactions">
                         <div className="emojis-picked">{emojis.map(reaction => reaction.users.length > 0 && <span onClick={() => saveReaction(reaction.emoji)}>{reaction.emoji.native} <sub>{reaction.users.length}</sub></span>)}</div>
