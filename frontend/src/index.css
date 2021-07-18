@@ -572,7 +572,18 @@ button#createRoom:hover i::before{
 }
 
 
+#addMessage{
+  display:flex;
+}
+ #addMessage button{
+  outline:none;
+  border: none;
+  /* background:black; */
+}
 
+#addMessage button:hover{
+  background: #bbb !important;
+}
 
 
 .top-nav div.search{

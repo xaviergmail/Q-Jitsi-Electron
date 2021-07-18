@@ -79,7 +79,7 @@ function Chat(props) {
     }
     // console.log('mostUsedEmojis,', mostUsedEmojis)
 
-    const ShowMessage = ({ message, userId, createdAt, _id, reactions, images }) => {
+    const ShowMessage = ({ message, userId, createdAt, _id, reactions, files }) => {
         const [chosenEmoji, setChosenEmoji] = useState(null);
         const [emojis, setEmojis] = useState(reactions || [])
         const [showReactions, setShowReactions] = useState(false)
@@ -119,7 +119,7 @@ function Chat(props) {
                 <Image onClick={() => history.push(`/chat/${userId?.postId}`)} avatar src={userId?.avatar} style={{ background: 'white' }} />
                 <div className="msg">
                     <b className="name">{userId?.name} <i>{moment(createdAt).fromNow()}</i></b>
-                        {images.map(img => {
+                        {files.map(img => {
                             let t = img.split('.').pop()
                             if (t === 'jpg' || t === 'png' || t === "jpeg") {
                                 return <a target="_blank" href={img}><img className="messageImage" src={img} /></a>

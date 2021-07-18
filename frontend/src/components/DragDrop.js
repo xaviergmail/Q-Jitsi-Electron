@@ -147,10 +147,10 @@ const ImageUpload = ({ files, onDrop, typeMessage, message, channel, setMessage,
 
         Promise.all(promises).then(res => {
             console.log(res, 'finsihed', message)
-            const images = res.map(image => image.data.secure_url)
-            console.log(images)
+            const newFiles = res.map(file => file.data.secure_url)
+            console.log(newFiles)
             actions
-                .addMessage({ channel, message, images })
+                .addMessage({ channel, message, files: newFiles })
                 .then(res => {
                     setMessage('')
                     setFiles([])
@@ -207,9 +207,9 @@ const ImageUpload = ({ files, onDrop, typeMessage, message, channel, setMessage,
                     <input type="text" value={message} placeholder="Say something... Earn a CowBell" onChange={typeMessage} />
                     <input {...getInputProps()} />
                     {/* <p>Drag 'n' drop some files here, or click to select files</p> */}
-                    <div>
-                        <button id="addMessage" disabled={false}><Icon name="add" /> <label></label></button>
-                        <Icon name="image" {...getRootProps()} />
+                    <div id="addMessage">
+                        <button disabled={false}><Icon name="add" /> <label></label></button>
+                        <button><Icon name="image" {...getRootProps()} /></button>
                     </div>
                 </form>
 

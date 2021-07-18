@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 // import "./App.scss";
 
 function App({ files, setFiles }) {
-    const [selectContent, setSelectContent] = useState("Select Source");
+    const [selectContent, setSelectContent] = useState("Screen Record");
     const [isRecording, setIsRecording] = useState(false);
     const videoPreview = useRef(null);
     const { desktopCapturer, remote } = window.require("electron");
@@ -53,7 +53,7 @@ function App({ files, setFiles }) {
     const selectSource = async (source) => {
         setSelectContent(source.name);
 
-        const contstraints = {
+        const constraints = {
             audio: false,
             video: {
                 mandatory: {
@@ -64,7 +64,7 @@ function App({ files, setFiles }) {
         };
 
         await navigator.mediaDevices
-            .getUserMedia(contstraints)
+            .getUserMedia(constraints)
             .then((stream) => {
                 videoPreview.current.srcObject = stream;
                 videoPreview.current.play();
@@ -74,6 +74,7 @@ function App({ files, setFiles }) {
                 mediaRecorder.ondataavailable = handleDataAvailable;
                 mediaRecorder.onstop = handleStop;
                 setMediaRecorder(mediaRecorder);
+                startVideo()
             })
             .catch((err) => console.error(err));
     };
@@ -93,7 +94,7 @@ function App({ files, setFiles }) {
 
         let date = Date.now()
 
-        let file = new File([blob], `vid-${Date.now()}.webm`, { type: blob.type, lastModified: 1534584790000 })
+        let file = new File([blob], `vid-${Date.now()}.webm`, { type: blob.type, lastModified: 1534584790000 }) //Why must this be a number
 
         console.log("high")
         console.log(file, ' file')
@@ -101,54 +102,50 @@ function App({ files, setFiles }) {
         let newFiles = [...files]
         newFiles.push(file)
         setFiles(newFiles)
-        // getRootProps()
 
-        const { filePath } = await dialog.showSaveDialog({
-            buttonLabel: "Save video",
-            defaultPath: `vid-${Date.now()}.webm`,
-        });
+        //SAVE FILE LOCALLY
+        // const { filePath } = await dialog.showSaveDialog({
+        //     buttonLabel: "Save video",
+        //     defaultPath: `vid-${Date.now()}.webm`,
+        // });
 
-        writeFile(filePath, buffer, (err) => {
-            console.log("Video saved successfully", err, file, files);
-            // let file = new File(buffer, ' whhhhhhaaat ')
-            // console.log(file, ' file')
-            // console.log(files)
+        // writeFile(filePath, buffer, (err) => {
+        //     console.log("Video saved successfully", err, file, files);
 
-        });
+        // });
 
 
     };
 
+    console.log(isRecording, ' is it recording')
     return (
-        <div className="App">
-            <main>
-                <h1>
-                    ERDesktop
+        <div>
+            {/* <h1>
                     {selectContent === "Select Source" ? "" : ` - ${selectContent}`}
-                </h1>
-
-                <video id="videoPreview" style={{ width: 200 }} autoPlay ref={videoPreview}></video>
-
-                <div className="button-container">
-                    <button
+                </h1> */}
+            <div id="screenRecorder" className="button-container">
+                {/* <button
                         id="startVideo"
                         onClick={startVideo}
                         style={{ backgroundColor: isRecording ? "gray" : "white" }}
                     >
                         Start
-                    </button>
+                    </button> */}
+                {isRecording &&
                     <button
                         id="stopVideo"
                         onClick={stopVideo}
                         style={{ backgroundColor: isRecording ? "white" : "gray" }}
                     >
-                        Stop
-                    </button>
+                    Stop Recording
+                </button>
+                }
                     <button id="selectVideo" onClick={getSources}>
-                        Source: {selectContent}
+                    {selectContent}
                     </button>
-                </div>
-            </main>
+            </div>
+            <video id="videoPreview" style={{ width: 300, display: !isRecording && 'none' }} autoPlay ref={videoPreview}></video>
+
         </div>
     );
 }
