@@ -50,9 +50,13 @@ b.name{
   flex-direction: column;
   overflow: auto;
 }
+#app{
+  background: #171717;
 
+}
 #app, .container, .room, .room>* {
   height: 100%;
+  
 }
 
 html,
@@ -2035,8 +2039,9 @@ ul.showPosts {
 
 header#titlebar{
   display:flex;
-  background: #171717;
+  /* background: #171717; */
   position: fixed;
+  z-index: 100;
   width: 100%;
 }
 
@@ -2146,4 +2151,14 @@ header#titlebar{
     width: 14px;
     height: 14px;
     font-size: 9pt;
+}
+
+
+#titlebar {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+#titlebar .button {
+  -webkit-app-region: no-drag;
 }

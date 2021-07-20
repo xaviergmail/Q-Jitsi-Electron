@@ -350,7 +350,7 @@ const CowBell = ({ children }) => {
       },
 
       typing({ who, where, what }) {
-        // console.log('tpying')
+        console.log('tpying', who, where, what)
         // console.log(posts, myPosts, _posts, Object.keys(_posts).length)
         if (_posts[where].typing) {
           return
@@ -381,7 +381,30 @@ const CowBell = ({ children }) => {
 
         })
 
+      },
+
+      startTyping({ who, where, what }) {
+
+        console.log('start', who, where, what)
+        _setPosts(function (posts) {
+          let newPosts = { ...posts }
+          newPosts[where].typing = true
+          newPosts[where].whoTyping = who
+          return (newPosts)
+        })
+      },
+
+
+      stopTyping({ who, where, what }) {
+        console.log('stop', who, where, what)
+        _setPosts(function (posts) {
+          let newPosts = { ...posts }
+          newPosts[where].typing = false
+          newPosts[where].whoTyping = null
+          return (newPosts)
+        })
       }
+
     }
 
     for (const [k, v] of Object.entries(socketEvents)) {
@@ -721,7 +744,7 @@ function notify(title, message, icon, redirect) {
     }
     let audio = new Audio('../resources/cowbell.wav')
     audio.volume = 0.5;
-    setTimeout(() => audio.play(), 500)
+    setTimeout(() => audio.play(), 1000)
 
     var notification = new Notification(title, options);
     notification.onclick = redirect

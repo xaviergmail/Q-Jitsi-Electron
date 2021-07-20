@@ -93,8 +93,11 @@ const img = {
 // files: File[],
 // onDrop: (acceptedFiles: File[]) => void
 // }
+let typingTimeout = null
+let typingNow = false
 
-const ImageUpload = ({ files, onDrop, typeMessage, message, channel, setMessage, setFiles }) => {
+
+const ImageUpload = ({ files, onDrop, channel, socket, setFiles, user }) => {
     const {
         getRootProps,
         getInputProps,
@@ -107,6 +110,35 @@ const ImageUpload = ({ files, onDrop, typeMessage, message, channel, setMessage,
     });
 
     let [loading, setLoading] = useState(false)
+    let [message, setMessage] = useState('')
+
+
+    const typeMessage = e => {
+        let msg = e.target.value
+        setMessage(msg)
+        if (!typingNow) {
+            socket.emit('startTyping', {
+                where: channel._id,//props.match.params.id, 
+                who: user, what: msg
+            })
+            typingNow = true
+        }
+
+        clearTimeout(typingTimeout)
+        typingTimeout = setTimeout(() => {
+            socket.emit('stopTyping', {
+                where: channel._id,//props.match.params.id, 
+                who: user, what: msg
+            })
+            typingNow = false
+        }, 2000)
+
+
+        console.log(typingNow, 'typingNow')
+
+    }
+
+
 
 
     const upload = () => {
@@ -227,7 +259,7 @@ const ImageUpload = ({ files, onDrop, typeMessage, message, channel, setMessage,
 // export default ImageUpload;
 
 
-const App = ({ typeMessage, message, channel, setMessage }) => {
+const App = ({ channel, socket, user }) => {
     const [files, setFiles] = useState([]);
 
     const onDrop = (acceptedFiles) => {
@@ -240,7 +272,7 @@ const App = ({ typeMessage, message, channel, setMessage }) => {
 
     return (
         <div className="App">
-            <ImageUpload setFiles={setFiles} files={files} onDrop={onDrop} typeMessage={typeMessage} message={message} channel={channel} setMessage={setMessage} />
+            <ImageUpload setFiles={setFiles} files={files} onDrop={onDrop} channel={channel} socket={socket} user={user} />
             {/* <button onClick={() => upload()}>Upload</button> */}
 
         </div>

@@ -34,15 +34,15 @@ function Chat(props) {
     }, [props.match.params.id])
 
 
-    const typeMessage = e => {
+    // const typeMessage = e => {
 
-        setMessage(e.target.value)
-
-
-        socket.emit('typing', { where: props.match.params.id, who: user, what: e.target.value })
+    //     setMessage(e.target.value)
 
 
-    }
+    //     socket.emit('typing', { where: props.match.params.id, who: user, what: e.target.value })
+
+
+    // }
     // console.log(typing)
     //DO I Need this?? 
     const fetchChannel = async (id) => {
@@ -303,7 +303,7 @@ function Chat(props) {
 
                             <ShowTyping />
 
-                            <DragDrop typeMessage={typeMessage} message={message} setMessage={setMessage} channel={channel} />
+                            <DragDrop socket={socket} channel={channel} user={user} />
 
 
                         </>

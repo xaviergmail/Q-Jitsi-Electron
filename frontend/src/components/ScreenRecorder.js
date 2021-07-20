@@ -117,7 +117,7 @@ function App({ files, setFiles }) {
 
     };
 
-    console.log(isRecording, ' is it recording')
+    // console.log(isRecording, ' is it recording')
     return (
         <div>
             {/* <h1>
