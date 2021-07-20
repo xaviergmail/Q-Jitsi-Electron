@@ -51,13 +51,22 @@ export function NavBar({ user }) {
   // console.log('chat room ==> ', pathname.split('/').pop() === lobby_id ? 'lobby' : pathname)
 
   return (<>
-    <header id="titlebar"
-      onClick={() => {
+    <header id="titlebar">
+      <button onClick={() => {
         console.log(win);
         // win.setPosition(0, 0, true)
         win.hide()
-      }}
-    >where is this </header>
+      }}>
+        Hidee </button>
+
+
+      <button onClick={() => {
+        console.log(win);
+        // win.setPosition(0, 0, true)
+        win.minimize()
+      }}>
+        Minimize </button>
+    </header>
     <nav className="top-nav">
 
 

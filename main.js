@@ -312,11 +312,12 @@ function createJitsiMeetWindow() {
 
                     return notifier.notify({
                         title: `🏡 ${post.user.name}`,
-                        message: post.message,
+                        message: `main ${post.message}`,
                         // icon: post.user.avatar,
                         // sound: true,
                         // wait: true
                     }, (err, response, metadata) => {
+                        mainWindow.open()
                         // console.log("callback", post._id, err, response, metadata, response.activationType, metadata.activationType)
                         //history.push(`/chat/${post._id}`)
                     }
@@ -333,7 +334,7 @@ function createJitsiMeetWindow() {
 
                     return notifier.notify({
                         title: `${icon} ${last.userId.name}`,
-                        message: last.message,
+                        message: `main ${last.message}`,
                         // icon: path.resolve(basePath, './resources/icon.png'),
                         // sound: true,
                         // wait: true
@@ -341,7 +342,8 @@ function createJitsiMeetWindow() {
                         //console.log("callback", post._id, err, response, metadata, response.activationType, metadata.activationType)
                         //history.push(`/chat/${post._id}`)
                         //if (metadata.activationType === 'contentsClicked') {
-                            console.log(post._id, 'redirect')
+                        console.log(post._id, 'redirect');
+                        mainWindow.open()
                             //createWindow()
                             if (!mainWindow) {
                                 createJitsiMeetWindow()
