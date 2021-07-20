@@ -491,9 +491,9 @@ app.on('second-instance', (event, commandLine) => {
 app.on('window-all-closed', () => {
     // Don't quit the application on macOS.
     console.log('process.platform', process.platform)
-    // if (process.platform !== 'darwin') {
-    //     app.quit();
-    // }
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
 });
 // app.on('window-all-closed', () => {
 //     app.dock.hide() // for macOS
@@ -514,7 +514,10 @@ function createTray() {
         {
             label: 'Show App',
             click: () => {
+                console.log('THIS WAS CLCIKED CRAP')
+                mainWindow.open()
                 createWindow()
+
             }
         },
         {
