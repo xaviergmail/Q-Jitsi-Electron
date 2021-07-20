@@ -243,7 +243,7 @@ function createJitsiMeetWindow() {
             webSecurity: true,
             preload: path.resolve(basePath, './build/preload.js')
         },
-        // frame: true
+        // frame: false
     };
 
     mainWindow = new BrowserWindow(options);
@@ -290,7 +290,7 @@ function createJitsiMeetWindow() {
                 // if (!isMounted) {
                 //   return
                 // }
-                console.log(post, ' i love u?', post.event)
+                console.log(post, ' i love u?')
 
                 if (mainWindow) { //Only run if app is "closed"
                     return
@@ -364,8 +364,14 @@ function createJitsiMeetWindow() {
         });
 
 
-    mainWindow.on('closed', () => {
+    mainWindow.on('closed', (event) => {
+
         mainWindow = null;
+
+        // event.preventDefault(); //this prevents it from closing. The `closed` event will not fire now
+        // mainWindow.hide();
+
+
     });
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();
@@ -438,7 +444,10 @@ if (!gotInstanceLock) {
 app.on('activate', () => {
     if (mainWindow === null) {
         createJitsiMeetWindow();
+
     }
+    console.log("ACTIVATE Penguin !!! ", mainWindow);
+    mainWindow.show()
 });
 
 app.on('certificate-error',
@@ -480,21 +489,23 @@ app.on('second-instance', (event, commandLine) => {
 app.on('window-all-closed', () => {
     // Don't quit the application on macOS.
     console.log('process.platform', process.platform)
-    if (process.platform !== 'darwin') {
-        app.quit();
-    }
+    // if (process.platform !== 'darwin') {
+    //     app.quit();
+    // }
 });
 // app.on('window-all-closed', () => {
 //     app.dock.hide() // for macOS
 //     // use same logic for other OSes you want
 // })
 
+// global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 
 let tray = null
 function createTray() {
-    console.log('create Tray ', __dirname, ' no directoyrrt name?')
-    // const icon = path.join(__dirname, './resources/icon.png') // required.
-    const icon = path.join(__dirname, 'resources', 'icon.png')
+    // console.log('create Tray ', __dirname, ' no directoyrrt name?', __static)
+
+    const icon = path.join(__dirname, './resources/icon.png') // required.
+    // const icon = path.resolve(__static, 'icon.png') /// path.join(__dirname, 'resources', 'icon.png')
     const trayicon = nativeImage.createFromPath(icon)
     tray = new Tray(trayicon.resize({ width: 22 }))
     const contextMenu = Menu.buildFromTemplate([
