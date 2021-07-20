@@ -5,12 +5,8 @@ import Search from './Search'
 import TheContext from '../TheContext'
 import SideBar from './SideBar'
 import { version } from '../../../package.json'
-console.log(version, ' version number: ');
-const remote = require('electron').remote;
+console.log(version, ' version number: ', process);
 
-
-const win = remote.getCurrentWindow();
-console.log(remote, win)
 // sound.play(path.join(__dirname, "resources/cowbell.wav"))
 
 
@@ -51,22 +47,7 @@ export function NavBar({ user }) {
   // console.log('chat room ==> ', pathname.split('/').pop() === lobby_id ? 'lobby' : pathname)
 
   return (<>
-    <header id="titlebar">
-      <button onClick={() => {
-        console.log(win);
-        // win.setPosition(0, 0, true)
-        win.hide()
-      }}>
-        Hidee </button>
 
-
-      <button onClick={() => {
-        console.log(win);
-        // win.setPosition(0, 0, true)
-        win.minimize()
-      }}>
-        Minimize </button>
-    </header>
     <nav className="top-nav">
 
 

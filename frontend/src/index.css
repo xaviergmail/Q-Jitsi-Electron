@@ -1745,6 +1745,7 @@ i.icon{
 }
 .ui.inverted.vertical.labeled.icon.ui.overlay.left.visible.sidebar.style-3.menu{
   overflow-x:hidden;
+  top: 28px;
 }
 
 .scrollathon{
@@ -1761,7 +1762,7 @@ i.icon{
 
 .open {
 
-  height:calc(100vh - 195px) !important;
+  height:calc(100vh - 225px) !important;
 
 }
 
@@ -2028,4 +2029,121 @@ ul.showPosts {
   display: block;
   display: inline;
   height: 200px;
+}
+
+
+
+header#titlebar{
+  display:flex;
+  background: #171717;
+  position: fixed;
+  width: 100%;
+}
+
+
+.button a:hover{
+}
+
+.button a {
+  color:black;
+}
+.button a strong{
+  color:black;
+}
+.buttons a{
+  outline:none;
+}
+.buttons {
+  display: flex;
+  width: 8rem;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: .5rem .1rem;
+}
+
+.buttons:hover a {
+  visibility: visible;
+}
+
+.close {
+  background: #ff5c5c;
+  border: 1px solid #e33e41;
+  border-radius: 50%;
+  line-height: 11px;
+
+  display: inline-block;
+}
+
+.close:active {
+  background: #c14645;
+  border: 1px solid #b03537;
+}
+
+.close:active .closebutton {
+  color: #4e0002;
+}
+
+.closebutton {
+  color: #820005;
+  visibility: hidden;
+  cursor: default;
+}
+
+.minimize {
+  background: #ffbd4c;
+  
+  line-height: 11px;
+  
+  border: 1px solid #e09e3e;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.minimize:active {
+  background: #c08e38;
+  border: 1px solid #af7c33;
+}
+
+.minimize:active .minimizebutton {
+  color: #5a2607;
+}
+
+.minimizebutton {
+  color: #9a5518;
+  visibility: hidden;
+  cursor: default;
+}
+
+.zoom {
+  background: #00ca56;
+  
+  line-height: 11px;
+  
+  border: 1px solid #14ae46;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.zoom:active {
+  background: #029740;
+  border: 1px solid #128435;
+}
+
+.zoom:active .zoombutton {
+  color: #003107;
+}
+
+.zoombutton {
+  color: #006519;
+  visibility: hidden;
+  cursor: default;
+}
+
+.minimize, .close, .zoom {
+  display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 14px;
+    height: 14px;
+    font-size: 9pt;
 }

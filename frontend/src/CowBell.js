@@ -42,7 +42,11 @@ import io from 'socket.io-client'
 //Make connection to server just once on page load.
 import baseURL from './api/config'
 
+const remote = require('electron').remote;
 
+
+const win = remote.getCurrentWindow();
+console.log(remote, win)
 
 
 
@@ -209,8 +213,9 @@ const CowBell = ({ children }) => {
           return
         }
 
-        // console.log('post:', post, ' kiwi')
-
+        console.log('post:', post, ' kiwi')
+        const [yourBrowserWindow] = remote.BrowserWindow.getAllWindows();
+        console.log(yourBrowserWindow.isFocused(), ' in focused');
 
         _setPosts(function (posts) {
           let newPosts = { ...posts }
@@ -232,7 +237,11 @@ const CowBell = ({ children }) => {
         // console.log(pathname, last?.postId, 'pathname', pathname.split('/')[2], pathname.split('/')[2] === last?.postId, window.location)
 
         //You're in that chat room so don't notify
-        if (window.location.hash.split('/').pop() === last?.postId) {
+
+
+
+        if (window.location.hash.split('/').pop() === last?.postId && yourBrowserWindow.isFocused()) {
+          console.log('YOURE IN THE CHAT ROOM')
           return
         }
         // console.log(post.event, 'event')
@@ -554,6 +563,63 @@ const CowBell = ({ children }) => {
 
   return user ? (
     <TheContext.Provider value={context}>
+      <header id="titlebar">
+
+        <div className="buttons">
+          <div className="close">
+            <a onClick={() => {
+              console.log(process.platform)
+              process.platform === "darwin" ? win.hide() : win.minimize()
+            }} className="closebutton" href="#"><span><strong>x</strong></span></a>
+
+          </div>
+          <div className="minimize">
+            <a onClick={() => {
+              win.minimize()
+            }} className="minimizebutton" href="#"><span><strong>&ndash;</strong></span></a>
+
+          </div>
+          <div className="zoom">
+            <a onClick={() => {
+              console.log(win.fullScreen)
+              win.setFullScreen(!win.fullScreen)
+            }} className="zoombutton" href="#"><span><strong>+</strong></span></a>
+
+          </div>
+        </div>
+
+
+        {/* 
+        <button onClick={() => {
+          console.log(win);
+          // win.setPosition(0, 0, true)
+          win.hide()
+        }}>
+          Hidee </button>
+
+
+        <button onClick={() => {
+          console.log(win);
+          // win.setPosition(0, 0, true)
+          win.minimize()
+        }}>
+          Minimize </button>
+
+
+        <button onClick={() => {
+          console.log(win);
+          // win.setPosition(0, 0, true)
+          win.setFullScreen(true);
+        }}>
+          Max </button>
+
+        <button onClick={() => {
+          console.log(win);
+          // win.setPosition(0, 0, true)
+          win.setFullScreen(false);
+        }}>
+          Back </button> */}
+      </header>
       <SideBar isInRoomRoute={isInRoomRoute} littleVideo={littleVideo} video={!isInRoomRoute && video} />
       <div style={style.container} className="container">
         <NavBar history={history} user={user} />
