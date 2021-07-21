@@ -584,7 +584,7 @@ const CowBell = ({ children }) => {
   }
   window._context = context
 
-  let drag = {} // process.platform === "darswin" ? { webkitAppRegion: 'drag' } : {}
+  let drag = process.platform === "darwin" ? { webkitAppRegion: 'drag' } : {}
   console.log('dtag ,', drag)
   return user ? (
     <TheContext.Provider value={context}>
