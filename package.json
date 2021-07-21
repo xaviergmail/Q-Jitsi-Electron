@@ -1,6 +1,6 @@
 {
   "name": "CowBellClub",
-  "version": "1.8.6",
+  "version": "1.8.7",
   "description": "Electron application for Cowbell Club",
   "main": "./build/main.js",
   "productName": "CowbellClub",

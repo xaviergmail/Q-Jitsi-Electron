@@ -584,11 +584,11 @@ const CowBell = ({ children }) => {
   }
   window._context = context
 
-  let drag = process.platform === "darwin" ? { webkitAppRegion: 'drag' } : {}
-  console.log('dtag ,', drag)
+  // let drag = process.platform === "darwin" ? { webkitAppRegion: 'drag' } : {}
+  // console.log('dtag ,', drag)
   return user ? (
     <TheContext.Provider value={context}>
-      <header id="titlebar" style={drag}>
+      <header id="titlebar">
 
         <div className="buttons">
           <div className="close">

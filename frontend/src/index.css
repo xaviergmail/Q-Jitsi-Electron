@@ -2154,12 +2154,12 @@ header#titlebar{
 }
 
 
-/* #titlebar {
-  -webkit-user-select: none;
+#titlebar {
+  /* -webkit-user-select: none; */
   -webkit-app-region: drag;
 }
 
-#titlebar .button {
+#titlebar .buttons {
   -webkit-app-region: no-drag;
-} */
+}
 
