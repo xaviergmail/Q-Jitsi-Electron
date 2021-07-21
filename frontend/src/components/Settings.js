@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 function Settings(props) {
     console.log(props, Notification, Notification.permission)
 
@@ -38,7 +39,10 @@ function Settings(props) {
             <button onClick={notifyMe}>Enable Notifications</button>
 
 
-
+            <button onClick={
+                // () => require('electron').remote.getCurrentWindow().close()
+                window.close
+            }>Close App</button>
 
 
         </div>

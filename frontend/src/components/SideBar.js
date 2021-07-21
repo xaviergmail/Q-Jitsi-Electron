@@ -5,8 +5,6 @@ import { Divider, Header, Icon, Image, List, Menu, Sidebar } from 'semantic-ui-r
 import Search from './Search'
 import { Link, useLocation } from 'react-router-dom'
 
-import Chat from './Chat'
-
 
 const Participant = ({ participant, host, yourRoom }) => {
   const { user, socket, gotoRoom, liveUsers } = useContext(TheContext)
@@ -25,20 +23,33 @@ const Participant = ({ participant, host, yourRoom }) => {
 
               
 const Room = ({ room, id }) => {
+  const { pathname } = useLocation()
 
-  const { gotoRoom, user, liveUsers, posts, setPosts } = useContext(TheContext)
+  const { gotoRoom, user, liveUsers, posts, setPosts, channel } = useContext(TheContext)
 
   let count = room.messageIds.reduce((acc, cur) => { 
     if(cur.read){
       return !cur.read.includes(user._id) ? 1 + acc : 0
     }
   }, 0)
-  // const [count, setCount] = useState()
-  // // console.log(room.message, room.messageIds.reduce((acc, cur) => !cur.read.includes(user._id) ? 1 + acc : 0, 0), room)
+
+  console.log('dracula', pathname.split('/').pop() === room._id)
+  if (pathname.split('/').pop() === room._id) {
+    count = 0
+  }
+  // let [count, setCount] = useState(0)
+
   // useEffect(() => {
-  //   setCount(room.messageIds.reduce((acc, cur) => !cur.read.includes(user._id) ? 1 + acc : 0, 0))
-  // }, [room.messageIds])
-  // console.log('ROOM', room, liveUsers, liveUsers.includes(room?.user?._id))
+  //   let cnt = room.messageIds.reduce((acc, cur) => {
+  //     if (cur.read) {
+  //       return !cur.read.includes(user._id) ? 1 + acc : 0
+  //     }
+  //   }, 0)
+  //   setCount(cnt)
+  //   console.log(cnt, 'cnt')
+  // }, [room])
+
+
   const style = {}
   const yourRoom = room?.user?.email == user?.email
   const currentRoom = room?._id === location.hash.split('/').pop()
@@ -160,18 +171,6 @@ export default function SideBar({ video, littleVideo, isInRoomRoute }) {
   }, 0)
 
 
-  // const userChannels = []
-
-  // for (let channel of Object.values(posts)) {
-  //   if (
-  //     channel?.userChannel && 
-  //     !userChannels.some(c => c?._id == channel?._id) && 
-  //     channel?.message.toLowerCase().includes(query.toLowerCase()) && 
-  //     channel.user?._id !== user?._id
-  //   ) {  //Unique user channels 
-  //     userChannels.push(channel)
-  //   }
-  // }
   const userChannels = []
 
   for (let channel of Object.values(posts)) {
@@ -205,13 +204,7 @@ export default function SideBar({ video, littleVideo, isInRoomRoute }) {
     // window.jitsiNodeAPI.ipc.send('update-badge', 55);
 
   }
-  // {path: "/room/:id", url: "/room/60ce707725c93448a526d659", isExact: true, params: {…}}
-  // isExact: true
-  // params: {id: "60ce707725c93448a526d659"}
-  // path: "/room/:id"
-  // url: "/room/60ce707725c93448a526d659"
 
-  // console.log(userChannels, ' bb')
   return (
     <>
     <Sidebar
