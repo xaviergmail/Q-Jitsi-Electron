@@ -13,13 +13,25 @@ const smp = new SpeedMeasurePlugin();
 module.exports = {
     // The renderer code runs in BrowserWindow without node support so we must
     // target a web platform.
-    //target: 'electron-renderer',
+    //target: 'electron-renderer', //I uncommented this out 
+    // target: 'node',
     entry: { app: './app/index-browser.js' },
+
+    // node: {
+    //     fs: 'empty',
+    // },
+    // resolve: {
+    //     fallback: {
+    //         "fs": false
+    //     },
+    // },
+
     // devtool: 'source-map',
     // performance: {
     //     maxAssetSize: 1.5 * 1024 * 1024,
     //     maxEntrypointSize: 1.5 * 1024 * 1024
     // },
+    // mode: 'development',
     devServer: {
         contentBase: path.resolve('./build-browser'),
         allowedHosts: ['local.cowbell.club'],

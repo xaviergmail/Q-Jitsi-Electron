@@ -231,8 +231,8 @@ function createJitsiMeetWindow() {
         width: windowState.width,
         height: windowState.height,
         icon: path.resolve(basePath, './resources/icon.png'),
-        minWidth: 800,
-        minHeight: 800,
+        minWidth: 600,
+        minHeight: 600,
         show: false,
         webPreferences: {
             enableBlinkFeatures: 'RTCInsertableStreams,WebAssemblySimd',
