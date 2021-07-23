@@ -285,9 +285,9 @@ function Chat(props) {
 
 
 
-
+                                    {console.log(channel?.user?._id, user?._id, !channel?.userChannel, channel, 'english chunnel')}
                                     <p>This is the beginning of your chat history...</p>
-                                    <p>{channel?.user == user?._id && !channel?.userChannel ? <button onClick={closeRoom} className="remove">Close Room</button> : null}</p>
+                                    <p>{channel?.user?._id == user?._id && !channel?.userChannel ? <button onClick={closeRoom} className="remove">Close Room</button> : null}</p>
                                 </li>
                             </ul>
 
