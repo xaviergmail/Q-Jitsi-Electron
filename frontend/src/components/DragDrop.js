@@ -169,9 +169,11 @@ const ImageUpload = ({ files, onDrop, channel, socket, setFiles, user }) => {
 
 
     const submitMessage = e => {
+
+        console.log("SUBMITTTTTY")
         setLoading(true)
         e.preventDefault()
-        console.log(channel, message, files)
+        // console.log(channel, message, files)
         let promises = []
         if (files.length > 0) {
             promises = upload()
@@ -182,7 +184,7 @@ const ImageUpload = ({ files, onDrop, channel, socket, setFiles, user }) => {
             const newFiles = res.map(file => file.data.secure_url)
             console.log(newFiles)
             actions
-                .addMessage({ channel, message, files: newFiles })
+                .addMessage({ channel: { _id: channel?._id }, message, files: newFiles })
                 .then(res => {
                     setMessage('')
                     setFiles([])
@@ -236,19 +238,22 @@ const ImageUpload = ({ files, onDrop, channel, socket, setFiles, user }) => {
                     <aside>
                         {thumbs}
                     </aside>
-                    <input type="text" value={message} placeholder="Say something... Earn a CowBell" onChange={typeMessage} />
+                    <input required type="text" value={message} placeholder="Say something... Earn a CowBell" onChange={typeMessage} />
                     <input {...getInputProps()} />
                     {/* <p>Drag 'n' drop some files here, or click to select files</p> */}
                     <div id="addMessage">
                         <button disabled={false}><Icon name="add" /> <label></label></button>
-                        <button><Icon name="image" {...getRootProps()} /></button>
                     </div>
                 </form>
 
 
 
-                <ScreenRecorder files={files} setFiles={setFiles} />
 
+                <div id="chat-options">
+                    <Icon name="image" {...getRootProps()} />
+
+                    <ScreenRecorder files={files} setFiles={setFiles} />
+                </div>
 
             </div>
 

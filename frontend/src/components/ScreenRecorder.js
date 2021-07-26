@@ -1,4 +1,6 @@
 import React, { useState, useRef } from "react";
+import { Divider, Header, Icon, Image, List, Menu, Sidebar } from 'semantic-ui-react'
+
 // import "./App.scss";
 
 function App({ files, setFiles }) {
@@ -131,7 +133,15 @@ function App({ files, setFiles }) {
                     >
                         Start
                     </button> */}
+
+
+                <Icon name="dot circle outline">{selectContent}</Icon>
+
                 {isRecording &&
+
+
+
+
                     <button
                         id="stopVideo"
                         onClick={stopVideo}
