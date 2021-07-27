@@ -185,7 +185,7 @@ function setApplicationMenu() {
 /**
  * Opens new window with index.html(Jitsi Meet is loaded in iframe there).
  */
-function createJitsiMeetWindow() {
+function createJitsiMeetWindow(event, redirectUrl) {
     // Application menu.
     setApplicationMenu();
 
@@ -203,13 +203,18 @@ function createJitsiMeetWindow() {
     // Path to root directory.
     const basePath = isDev ? __dirname : app.getAppPath();
 
+    console.log(basePath, 'basePathbasePath', redirectUrl)
+
+
+    //file:///Users/niko/Documents/Code/Q-Jitsi-Electron/build/index.html#/chat/60ff2980a76ffd0cdb131291
     // URL for index.html which will be our entry point.
-    const indexURL = URL.format({
-        pathname: path.resolve(basePath, './build/index.html'),
+    let indexURL = URL.format({
+        pathname: path.resolve(basePath, './build/index.html?chat=60ff2980a76ffd0cdb131292'),
         protocol: 'file:',
         slashes: true
     });
 
+    indexURL = `file://${path.resolve(basePath, `./build/index.html#${redirectUrl}`)}`
     /* Enable only if you desperately need react / redux devtools
     if (process.env.NODE_ENV !== 'production') {
         const host = 'local.cowbell.club'; // process.env.ELECTRON_WEBPACK_WDS_HOST;
@@ -368,6 +373,8 @@ function createJitsiMeetWindow() {
 
     mainWindow.on('closed', (event) => {
 
+        console.log(app, ' all so mayn lies', event)
+
         mainWindow = null;
 
         // event.preventDefault(); //this prevents it from closing. The `closed` event will not fire now
@@ -490,6 +497,7 @@ app.on('second-instance', (event, commandLine) => {
 
 app.on('window-all-closed', () => {
     // Don't quit the application on macOS.
+    // console.log(app, ' all closeds')
     console.log('process.platform', process.platform)
     if (process.platform !== 'darwin') {
         app.quit();
@@ -662,6 +670,17 @@ ipcMain.on('set-counter', function (count, data) {
     winBadge.update(data.count)
     app.setBadgeCount(data.count)
 
+})
+
+ipcMain.on('notification-clicked', function (event, data) {
+    console.log("notnificationn clikced", event, data, ' back down?', data.redirect)
+    // app.open()
+    // event.sender.loadURL(data.redirect)
+    // mainWindow.loadURL(indexURL);
+    createJitsiMeetWindow(event, data.redirect)
+
+    // const win = new BrowserWindow({ width: 800, height: 1500 })
+    // win.loadURL('file:///Users/niko/Documents/Code/Q-Jitsi-Electron/build/index.html#/chat/60ff2980a76ffd0cdb131291')
 })
 
 

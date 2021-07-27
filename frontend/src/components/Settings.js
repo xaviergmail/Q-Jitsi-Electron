@@ -14,6 +14,7 @@ function Settings(props) {
         else if (Notification.permission === "granted") {
             // If it's okay let's create a notification
             var notification = new Notification("Notifications are already granted");
+            notification.onclick = () => props.history.push('/')
         }
 
         // Otherwise, we need to ask the user for permission

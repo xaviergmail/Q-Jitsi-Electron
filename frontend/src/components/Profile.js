@@ -212,6 +212,7 @@ export default Profile;
 
 
 
+console.log(global.location.search, 'peanuy');
 
 // const ShowResolvedPosts = ({ posts }) => {
 //     return posts.filter(p => p.paid).map((post) => {

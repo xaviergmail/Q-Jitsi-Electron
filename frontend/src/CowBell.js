@@ -252,7 +252,9 @@ const CowBell = ({ children }) => {
         //New Room - Message everyone except you
         if (post.messageIds.length === 0) {
           // console.log('newRoom', last?.userId?.name, last?.message, last?.userId?.avatar)
-          return notify(`🏡 ${post?.user?.name}`, post?.message, post?.user?.avatar, () => history.push(`/chat/${post._id}`))
+          // setTimeout(() => {
+          return notify(`🏡 ${post?.user?.name}`, post?.message, post?.user?.avatar, `/chat/${post._id}`) ///() => history.push(`/chat/${post._id}`)
+        // }, 2000)
         }
 
 
@@ -265,7 +267,7 @@ const CowBell = ({ children }) => {
             // console.log(member, user._id, member != user._id, 'fire')
             if (last?.message && member == user._id) {
               let icon = post.userChannel ? `🧐` : post.dmChannel ? `💬` : `🏡`
-              return notify(`${icon} ${last?.userId?.name}`, last?.message, last?.userId?.avatar, () => history.push(`/chat/${post._id}`))
+              return notify(`${icon} ${last?.userId?.name}`, last?.message, last?.userId?.avatar, `/chat/${post._id}`)
             }
           }
         }
@@ -424,6 +426,9 @@ const CowBell = ({ children }) => {
       for (const [k, v] of Object.entries(socketEvents)) {
         socket.removeListener(k, v)
       }
+
+
+
     }
   }, [window.jitsiMeetExternalAPI, history, socket, user, room])
 
@@ -728,7 +733,11 @@ export default function CowBellWithRouter(props) {
 
 function notify(title, message, icon, redirect) {
 
-  // console.log("notify puppy")
+  console.log("notify puppy dreams", redirect);
+
+  // window.jitsiNodeAPI.ipc.send('notification-clicked', { redirect })
+
+  // window.open("google.com", "_blank");
   // Let's check if the browser supports notifications
   if (!("Notification" in window)) {
     alert("This browser does not support desktop notification");
@@ -749,7 +758,10 @@ function notify(title, message, icon, redirect) {
     setTimeout(() => audio.play(), 1000)
 
     var notification = new Notification(title, options);
-    notification.onclick = redirect
+    //notification.onclick = () => history.push(redirect)
+
+    notification.onclick = () => window.jitsiNodeAPI.ipc.send('notification-clicked', { redirect })
+
   }
 
   // Otherwise, we need to ask the user for permission

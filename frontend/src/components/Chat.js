@@ -79,7 +79,7 @@ function Chat(props) {
     }
     // console.log('mostUsedEmojis,', mostUsedEmojis)
 
-    const ShowMessage = ({ message, userId, createdAt, _id, reactions, files }) => {
+    const ShowMessage = ({ message, userId, createdAt, _id, reactions, files, format }) => {
         const [chosenEmoji, setChosenEmoji] = useState(null);
         const [emojis, setEmojis] = useState(reactions || [])
         const [showReactions, setShowReactions] = useState(false)
@@ -133,7 +133,7 @@ function Chat(props) {
                                 return <span>Not sure how to show {img}</span>
                             }
                         })}
-                        <p className="text">{message}</p>
+                        <p className={`text ${format}`}>{message}</p>
                     <div className="reactions">
                         <div className="emojis-picked">{emojis.map(reaction => reaction.users.length > 0 && <span onClick={() => saveReaction(reaction.emoji)}>{reaction.emoji.native} <sub>{reaction.users.length}</sub></span>)}</div>
                         {showReactions ?

@@ -86,13 +86,13 @@ const Room = ({ room, id }) => {
         <Header key={room._id} as="h5" inverted>
             {/* } className={room?.activeUsers?.length !== 0 && 'liveUser'} */}
             <span className={
-              (room.userChannel && liveUsers.includes(room?.user?._id) || room?.activeUsers?.length !== 0) ? "liveUser" : null}>{room?.message}</span>
+              (room.userChannel && liveUsers.includes(room?.user?._id) || room?.activeUsers?.length !== 0) ? "liveUser" : null}><span className="bounties">{!room.isLobby && `💰 ${room.bounty}`}</span> {room?.message}</span>
             {/* {room?.activeUsers.length !== 0 && <span className='activeUsers'>{room?.activeUsers?.length}</span>} */}
 
             {count ?
               <span className='badges'>
                 <span></span>
-                <span className='messageCount'>  {count} </span>
+                <span className='messageCount'> {count}</span>
 
               </span> : null
             }
@@ -104,7 +104,7 @@ const Room = ({ room, id }) => {
         {yourRoom && <button className="close-room" onClick={() => console.log('Send everyone to lobby')} >X</button>}
 
           </Header>
-          {room.typing ? <div className="whoTyping"> <span>{room.whoTyping.name} </span>           <span className="dot-pulse"></span>
+          {room.typing ? <div className="whoTyping"> <span>{room.whoTyping.name} </span><span className="dot-pulse"></span>
           </div> : null}
 
 

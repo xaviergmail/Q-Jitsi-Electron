@@ -1,24 +1,4 @@
-// import React, { useCallback } from 'react'
-// import { useDropzone } from 'react-dropzone'
 
-// export default function DragDrop() {
-//     const onDrop = useCallback(acceptedFiles => {
-//         // Do something with the files
-//         console.log(acceptedFiles, 'dropped')
-//     }, [])
-//     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
-
-//     return (
-//         <div {...getRootProps()}>
-//             <input {...getInputProps()} />
-//             {
-//                 isDragActive ?
-//                     <p>Drop the files here ...</p> :
-//                     <p>Drag 'n' drop some files here, or click to select files</p>
-//             }
-//         </div>
-//     )
-// }
 
 import React, { useMemo, useState, useEffect, createRef } from 'react';
 import { Divider, Header, Icon, Image, List, Sidebar } from 'semantic-ui-react'
@@ -71,28 +51,30 @@ const thumb = {
     width: 100,
     height: 100,
     padding: 4,
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    // backgroundImage: `url(https://blog.majestic.com/wp-content/uploads/2010/10/Video-Icon-crop.png)`,
+    // backgroundSize: 'cover',
+    // backgroundPosition: 'center',
+    // textIndent: `-10000px`
 };
 
 const thumbInner = {
     display: 'flex',
     minWidth: 0,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    objectFit: 'contain',
+    justifyContent: 'center'
 };
 
 const img = {
     display: 'block',
     width: 'auto',
-    height: '100%'
+    height: '100%',
+    objectFit: 'contain'
 };
 
 
 
-
-// interface IImageUpload {
-// files: File[],
-// onDrop: (acceptedFiles: File[]) => void
-// }
 let typingTimeout = null
 let typingNow = false
 
@@ -111,11 +93,13 @@ const ImageUpload = ({ files, onDrop, channel, socket, setFiles, user }) => {
 
     let [loading, setLoading] = useState(false)
     let [message, setMessage] = useState('')
-
+    let [codeBlock, setCodeBlock] = useState(false)
+    let [shiftDown, setShiftDown] = useState(false)
 
     const typeMessage = e => {
         let msg = e.target.value
         setMessage(msg)
+
         if (!typingNow) {
             socket.emit('startTyping', {
                 where: channel._id,//props.match.params.id, 
@@ -137,6 +121,7 @@ const ImageUpload = ({ files, onDrop, channel, socket, setFiles, user }) => {
         console.log(typingNow, 'typingNow')
 
     }
+
 
 
 
@@ -169,8 +154,7 @@ const ImageUpload = ({ files, onDrop, channel, socket, setFiles, user }) => {
 
 
     const submitMessage = e => {
-
-        console.log("SUBMITTTTTY")
+        console.log(e)
         setLoading(true)
         e.preventDefault()
         // console.log(channel, message, files)
@@ -182,13 +166,15 @@ const ImageUpload = ({ files, onDrop, channel, socket, setFiles, user }) => {
         Promise.all(promises).then(res => {
             console.log(res, 'finsihed', message)
             const newFiles = res.map(file => file.data.secure_url)
-            console.log(newFiles)
+            console.log(codeBlock && 'code-block', ' code ???')
+
             actions
-                .addMessage({ channel: { _id: channel?._id }, message, files: newFiles })
+                .addMessage({ channel: { _id: channel?._id }, message, files: newFiles, format: codeBlock && 'code-block' })
                 .then(res => {
                     setMessage('')
                     setFiles([])
                     setLoading(false)
+                    setCodeBlock(false)
                 })
                 .catch(console.error)
         })
@@ -206,22 +192,50 @@ const ImageUpload = ({ files, onDrop, channel, socket, setFiles, user }) => {
         isDragReject
     ]);
 
-    const thumbs = files.map(file => (
-        <div style={thumb} key={file.name}>
+    const thumbs = files.map(file => {
+        console.log('waht the file rocket main')
+        console.log(file)
+        console.log(file.type)
+        if (file.type.includes('video')) {
+            return (
+                <div onClick={() => console.log('yo')} style={thumb} key={file.name}>
+                    <div style={thumbInner}>
+                        <img
+                            alt={file.name}
+                            src="https://blog.majestic.com/wp-content/uploads/2010/10/Video-Icon-crop.png"
+                            style={img}
+
+                        />
+                    </div>
+                </div>
+            )
+        }
+
+        return (
+            <div onClick={() => console.log('yo')} style={thumb} key={file.name}>
             <div style={thumbInner}>
                 <img
                     alt={file.name}
                     src={file.preview}
                     style={img}
-                />
+                    />
             </div>
         </div>
-    ));
+        )
+    });
 
     useEffect(() => () => {
         // Make sure to revoke the data uris to avoid memory leaks
         files.forEach(file => URL.revokeObjectURL(file.preview));
+
     }, [files]);
+
+    const handleEnter = e => {
+        if (e.key == "Enter" && !shiftDown) {
+
+            submitMessage(e)
+        }
+    }
 
     return (
         <div className="">
@@ -238,7 +252,11 @@ const ImageUpload = ({ files, onDrop, channel, socket, setFiles, user }) => {
                     <aside>
                         {thumbs}
                     </aside>
-                    <input required type="text" value={message} placeholder="Say something... Earn a CowBell" onChange={typeMessage} />
+
+                    <textarea className={codeBlock ? 'codeBlock' : ''} required type="text" value={message} placeholder={`${codeBlock ? 'Code' : 'Say'} something... Earn a CowBell`} onChange={typeMessage} onKeyPress={handleEnter} onKeyDown={(e) => e.key == "Shift" ? setShiftDown(true) : null} onKeyUp={(e) => e.key == "Shift" ? setShiftDown(false) : null} />
+
+                    {/* <input className={codeBlock ? 'codeBlock' : ''} required type="text" value={message} placeholder="Say something... Earn a CowBell" onChange={typeMessage} /> */}
+
                     <input {...getInputProps()} />
                     {/* <p>Drag 'n' drop some files here, or click to select files</p> */}
                     <div id="addMessage">
@@ -250,8 +268,16 @@ const ImageUpload = ({ files, onDrop, channel, socket, setFiles, user }) => {
 
 
                 <div id="chat-options">
-                    <Icon name="image" {...getRootProps()} />
+                    <button onClick={() => setCodeBlock(!codeBlock)}>
+                        <span className="tooltip">Code Block</span>
+                        <Icon name="code" />
+                    </button>
+                    <button {...getRootProps()} >
+                        {/* <b>Upload</b> */}
+                        <span className="tooltip">Upload File</span>
 
+                        <Icon name="file" />
+                    </button>
                     <ScreenRecorder files={files} setFiles={setFiles} />
                 </div>
 
@@ -268,9 +294,14 @@ const App = ({ channel, socket, user }) => {
     const [files, setFiles] = useState([]);
 
     const onDrop = (acceptedFiles) => {
-        setFiles(acceptedFiles.map(file => Object.assign(file, {
+        console.log(acceptedFiles, ' like a child')
+        setFiles(acceptedFiles.map(file => {
+            console.log(file, 'smile')
+
+            return Object.assign(file, {
             preview: URL.createObjectURL(file)
-        })));
+            })
+        }));
     }
 
 

@@ -4,7 +4,7 @@ import { Divider, Header, Icon, Image, List, Menu, Sidebar } from 'semantic-ui-r
 // import "./App.scss";
 
 function App({ files, setFiles }) {
-    const [selectContent, setSelectContent] = useState("Screen Record");
+    const [selectContent, setSelectContent] = useState("");
     const [isRecording, setIsRecording] = useState(false);
     const videoPreview = useRef(null);
     const { desktopCapturer, remote } = window.require("electron");
@@ -135,9 +135,8 @@ function App({ files, setFiles }) {
                     </button> */}
 
 
-                <Icon name="dot circle outline">{selectContent}</Icon>
 
-                {isRecording &&
+                {isRecording ?
 
 
 
@@ -147,12 +146,25 @@ function App({ files, setFiles }) {
                         onClick={stopVideo}
                         style={{ backgroundColor: isRecording ? "white" : "gray" }}
                     >
-                    Stop Recording
+                        <span className="tooltip">Record Screen</span>
+
+                        <b>{selectContent}</b>
+
+                        <Icon name="stop circle"></Icon>
+
                 </button>
-                }
+                    :
                     <button id="selectVideo" onClick={getSources}>
-                    {selectContent}
+                        <span className="tooltip">Record Screen</span>
+
+                        <b>{selectContent}</b>
+
+                        <Icon name="dot circle"></Icon>
                     </button>
+
+                }
+
+
             </div>
             <video id="videoPreview" style={{ width: 300, display: !isRecording && 'none' }} autoPlay ref={videoPreview}></video>
 
