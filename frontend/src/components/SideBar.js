@@ -33,7 +33,7 @@ const Room = ({ room, id }) => {
     }
   }, 0)
 
-  console.log('dracula', pathname.split('/').pop() === room._id)
+  // console.log('dracula', pathname.split('/').pop() === room._id)
   if (pathname.split('/').pop() === room._id) {
     count = 0
   }

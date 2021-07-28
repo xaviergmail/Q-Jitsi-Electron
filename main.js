@@ -206,10 +206,12 @@ function createJitsiMeetWindow(event, redirectUrl) {
     console.log(basePath, 'basePathbasePath', redirectUrl)
 
 
+
+
     //file:///Users/niko/Documents/Code/Q-Jitsi-Electron/build/index.html#/chat/60ff2980a76ffd0cdb131291
     // URL for index.html which will be our entry point.
     let indexURL = URL.format({
-        pathname: path.resolve(basePath, './build/index.html?chat=60ff2980a76ffd0cdb131292'),
+        pathname: path.resolve(basePath, './build/index.html'),
         protocol: 'file:',
         slashes: true
     });
@@ -497,12 +499,17 @@ app.on('second-instance', (event, commandLine) => {
 
 app.on('window-all-closed', () => {
     // Don't quit the application on macOS.
-    // console.log(app, ' all closeds')
+    console.log(app, ' all closeds')
     console.log('process.platform', process.platform)
     if (process.platform !== 'darwin') {
         app.quit();
     }
 });
+
+app.on('before-quit', () => { console.log('before quit') })
+
+
+app.on('will-quit', () => { console.log('will quit') })
 // app.on('window-all-closed', () => {
 //     app.dock.hide() // for macOS
 //     // use same logic for other OSes you want
@@ -677,7 +684,10 @@ ipcMain.on('notification-clicked', function (event, data) {
     // app.open()
     // event.sender.loadURL(data.redirect)
     // mainWindow.loadURL(indexURL);
-    createJitsiMeetWindow(event, data.redirect)
+    console.log('main window', mainWindow)
+    if (!mainWindow) {
+        createJitsiMeetWindow(event, data.redirect)
+    }
 
     // const win = new BrowserWindow({ width: 800, height: 1500 })
     // win.loadURL('file:///Users/niko/Documents/Code/Q-Jitsi-Electron/build/index.html#/chat/60ff2980a76ffd0cdb131291')

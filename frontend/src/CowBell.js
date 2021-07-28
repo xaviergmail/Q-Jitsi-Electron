@@ -251,10 +251,10 @@ const CowBell = ({ children }) => {
 
         //New Room - Message everyone except you
         if (post.messageIds.length === 0) {
-          // console.log('newRoom', last?.userId?.name, last?.message, last?.userId?.avatar)
-          // setTimeout(() => {
+          console.log('newRoom', last?.userId?.name, last?.message, last?.userId?.avatar)
+        // setTimeout(() => {
           return notify(`🏡 ${post?.user?.name}`, post?.message, post?.user?.avatar, `/chat/${post._id}`) ///() => history.push(`/chat/${post._id}`)
-        // }, 2000)
+        // }, 2500)
         }
 
 
@@ -536,6 +536,76 @@ const CowBell = ({ children }) => {
   //   // (x) => (x.active && x.activeUsers.length) || x.id == 'lobby' || x.isLobby
   // )
 
+  function notify(title, message, icon, redirect) {
+
+    console.log("notify puppy dreams", redirect);
+
+    // window.jitsiNodeAPI.ipc.send('notification-clicked', { redirect })
+
+    // window.open("google.com", "_blank");
+    // Let's check if the browser supports notifications
+    if (!("Notification" in window)) {
+      alert("This browser does not support desktop notification");
+    }
+
+    // Let's check whether notification permissions have already been granted
+    else if (Notification.permission === "granted") {
+      // If it's okay let's create a notification
+      var options = {
+        body: message,
+        // icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+        //icon: 'https://images.vexels.com/media/users/3/185580/isolated/preview/4481c0a89970cd7107424bb018900f2a-cool-hipster-pineapple-by-vexels.png'
+        icon: icon?.replace('svg', 'png'),//`https://avatars.dicebear.com/4.5/api/avataaars/0.33511928838302496.png`
+        silent: true
+      }
+      let audio = new Audio('../resources/cowbell.wav')
+      audio.volume = 0.5;
+      setTimeout(() => audio.play(), 1000)
+
+
+      var notification = new Notification(title, options);
+
+
+
+      console.log(remote, win)
+      console.log(win.isVisible(), ' visible?>')
+      // console.log(win.hide)
+      // console.log(win.isMinimized)
+      // console.log(win.isHidden)
+
+
+      notification.onclick = () => {
+        // win.show()
+        // win.maximize()
+        if (!win.isVisible()) {
+          win.restore()
+          // win.show()
+        }
+        history.push(redirect)
+        // window.jitsiNodeAPI.ipc.send('notification-clicked', { redirect })
+      }
+
+
+
+
+    }
+
+    // Otherwise, we need to ask the user for permission
+    else if (Notification.permission !== "denied") {
+      Notification.requestPermission().then(function (permission) {
+        // If the user accepts, let's create a notification
+        if (permission === "granted") {
+          var notification = new Notification(message);
+
+        }
+      });
+    }
+
+    // At last, if the user has denied notifications, and you
+    // want to be respectful there is no need to bother them any more.
+  }
+
+
 
   const [littleVideo, setLittleVideo] = useState(false)
 
@@ -721,6 +791,9 @@ const CowBell = ({ children }) => {
   )
 }
 
+
+
+
 export default function CowBellWithRouter(props) {
   return (
     <HashRouter>
@@ -731,51 +804,4 @@ export default function CowBellWithRouter(props) {
 
 
 
-function notify(title, message, icon, redirect) {
-
-  console.log("notify puppy dreams", redirect);
-
-  // window.jitsiNodeAPI.ipc.send('notification-clicked', { redirect })
-
-  // window.open("google.com", "_blank");
-  // Let's check if the browser supports notifications
-  if (!("Notification" in window)) {
-    alert("This browser does not support desktop notification");
-  }
-
-  // Let's check whether notification permissions have already been granted
-  else if (Notification.permission === "granted") {
-    // If it's okay let's create a notification
-    var options = {
-      body: message,
-      // icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
-      //icon: 'https://images.vexels.com/media/users/3/185580/isolated/preview/4481c0a89970cd7107424bb018900f2a-cool-hipster-pineapple-by-vexels.png'
-      icon: icon?.replace('svg', 'png'),//`https://avatars.dicebear.com/4.5/api/avataaars/0.33511928838302496.png`
-      silent: true
-    }
-    let audio = new Audio('../resources/cowbell.wav')
-    audio.volume = 0.5;
-    setTimeout(() => audio.play(), 1000)
-
-    var notification = new Notification(title, options);
-    //notification.onclick = () => history.push(redirect)
-
-    notification.onclick = () => window.jitsiNodeAPI.ipc.send('notification-clicked', { redirect })
-
-  }
-
-  // Otherwise, we need to ask the user for permission
-  else if (Notification.permission !== "denied") {
-    Notification.requestPermission().then(function (permission) {
-      // If the user accepts, let's create a notification
-      if (permission === "granted") {
-        var notification = new Notification(message);
-
-      }
-    });
-  }
-
-  // At last, if the user has denied notifications, and you
-  // want to be respectful there is no need to bother them any more.
-}
 
