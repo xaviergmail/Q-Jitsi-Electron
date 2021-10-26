@@ -14,7 +14,7 @@ const Badge = require('electron-windows-badge');
 // const { app, BrowserWindow, Menu, nativeImage, Tray } = require('electron')
 
 const contextMenu = require('electron-context-menu');
-const debug = require('electron-debug');
+// const debug = require('electron-debug');
 const isDev = require('electron-is-dev');
 const { autoUpdater } = require('electron-updater');
 const windowStateKeeper = require('electron-window-state');
@@ -88,10 +88,10 @@ contextMenu({
 
 // Enable DevTools also on release builds to help troubleshoot issues. Don't
 // show them automatically though.
-debug({
-    isEnabled: true,
-    showDevTools
-});
+// debug({
+//     isEnabled: true,
+//     showDevTools
+// });
 
 /**
  * When in development mode:
@@ -302,9 +302,9 @@ function createJitsiMeetWindow(event, redirectUrl) {
     // }, 10000)
 
     //Lets see
-    //mainWindow.webContents.openDevTools() 
+    //mainWindow.webContents.openDevTools()
 
-    //NOTIFIICATIONS 
+    //NOTIFIICATIONS
     mainWindow.webContents
         .executeJavaScript('({...localStorage});', true)
         .then(localStorage => {
@@ -639,7 +639,7 @@ app.on('ready', () => {
     });
 });
 
-import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer';
+import ElectronGoogleOAuth2 from '@getstation/electron-google-oauth2';
 async function installExtensions() {
     // const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
     // installExtension(REACT_DEVELOPER_TOOLS)
@@ -650,7 +650,6 @@ async function installExtensions() {
     //     .then(name => console.log(`[REDUX_DEVTOOLS] Added Extension:  ${name}`))
     //     .catch(err => console.log('[REDUX_DEVTOOLS] An error occurred: ', err));
 }
-import ElectronGoogleOAuth2 from '@getstation/electron-google-oauth2';
 
 const myApiOauth = new ElectronGoogleOAuth2(
     process.env.ELECTRON_WEBPACK_APP_GOOGLEID,
