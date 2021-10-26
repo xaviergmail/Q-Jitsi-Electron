@@ -1,46 +1,40 @@
 
 
-import React, { Fragment, useState, useEffect, useMemo, createRef, useContext } from 'react'
-import {
-  Switch,
-  Route,
-  NavLink,
-  useHistory,
-  Link,
-  HashRouter,
-  useRouteMatch,
-  useLocation
-} from 'react-router-dom'
-import TheContext from './TheContext'
-import { NavBar } from './components/NavBar'
-import NotFound from './components/NotFound.js'
-import CreateRoom from './components/CreateRoom'
-import CallEnded from './components/CallEnded'
-import Post from './components/Post'
-import Dashboard from './components/Dashboard'
-import Settings from './components/Settings'
+import React, { useEffect, useState } from 'react'
 import ReactLoading from 'react-loading'
-import Room from './components/Room'
-import SideBar from './components/SideBar'
-import GoogleAuth from './components/GoogleAuth'
-import VideoPreview from './components/VideoPreview/VideoPreview'
-import Profile from './components/Profile'
-import Chat from './components/Chat'
-import NewQuestion from './components/NewQuestion'
-import NewMessage from './components/NewMessage'
-import Search from './components/Search'
-import User from './components/User'
-
+import { NotificationContainer } from 'react-notifications'
 import 'react-notifications/lib/notifications.css'
+import {
+  HashRouter, Route, Switch, useHistory, useLocation, useRouteMatch
+} from 'react-router-dom'
 import 'semantic-ui-css/semantic.min.css'
-import './threedots.css'
-import './index.css'
-import actions from './api/index'
-import { NotificationContainer, NotificationManager } from 'react-notifications'
 import io from 'socket.io-client'
-
+//Styled components && semantic UI ?? WUT
+import styled from 'styled-components'
 //Make connection to server just once on page load.
 import baseURL from './api/config'
+import actions from './api/index'
+import CallEnded from './components/CallEnded'
+import Chat from './components/Chat'
+import Dashboard from './components/Dashboard'
+import GoogleAuth from './components/GoogleAuth'
+import JitsiRoom from './components/JitsiRoom'
+import { NavBar } from './components/NavBar'
+import NewMessage from './components/NewMessage'
+import NewQuestion from './components/NewQuestion'
+import NotFound from './components/NotFound.js'
+import Post from './components/Post'
+import Profile from './components/Profile'
+import Room from './components/Room'
+import Settings from './components/Settings'
+import SideBar from './components/SideBar'
+import User from './components/User'
+import VideoPreview from './components/VideoPreview/VideoPreview'
+import './index.css'
+import TheContext from './TheContext'
+import './threedots.css'
+
+
 
 const remote = require('electron').remote;
 
@@ -55,9 +49,6 @@ let _setPosts = function () { }
 let _setMyTransactions = function () { }
 let _posts = []
 
-//Styled components && semantic UI ?? WUT
-import styled from 'styled-components'
-import JitsiRoom from './components/JitsiRoom'
 
 const StackLayer = styled.div`
   position: relative;
@@ -260,7 +251,7 @@ const CowBell = ({ children }) => {
 
 
 
-        //Message all members of a group DM unless the message came from yourself. 
+        //Message all members of a group DM unless the message came from yourself.
         if (post && post?.members) {
 
           for (let member of post?.members) {
@@ -279,11 +270,11 @@ const CowBell = ({ children }) => {
 
       event: ({ event }) => {
         //console.log('event', event)
-        let inTheRoom = event.participants.some((x) => x.email == user.email)//You are in this room 
+        let inTheRoom = event.participants.some((x) => x.email == user.email)//You are in this room
         if (inTheRoom) {
 
           if (event.type === 'muc-occupant-joined' || event.type === 'muc-occupant-created') {
-            if (event.post.user._id != user._id && event.post.hostPresent) { //You are not the host and the host is there. 
+            if (event.post.user._id != user._id && event.post.hostPresent) { //You are not the host and the host is there.
               //if (event.post.hostPresent) { //You are not the host and the host is there.
               // console.log(event, ' crystal')
               setClock(true)
@@ -294,7 +285,7 @@ const CowBell = ({ children }) => {
         }
         if (event.type === 'muc-occupant-left' || event.type === 'muc-occupant-destroyed') {
 
-          if (event.user.email == user.email || (!event.post.hostPresent && inTheRoom)) { //I left or the host is not there and I'm in this room. 
+          if (event.user.email == user.email || (!event.post.hostPresent && inTheRoom)) { //I left or the host is not there and I'm in this room.
             setClock(false)
           }
         }
@@ -689,7 +680,7 @@ const CowBell = ({ children }) => {
         </div>
 
 
-        {/* 
+        {/*
         <button onClick={() => {
           console.log(win);
           // win.setPosition(0, 0, true)
@@ -780,10 +771,12 @@ const CowBell = ({ children }) => {
   ) : jwt ? (
     <ReactLoading type="bars" color="rgb(0, 117, 255)" height="128px" width="128px" />
   ) : window.jitsiNodeAPI ? (
-    <p>
-      Please sign in through google using the popup window. <a onClick={reauth}>Click here</a> if
-      the window did not open.{' '}
-    </p>
+    <div class="please-log-in">
+      <p>
+        Please sign in through google using the popup window. <a onClick={reauth}>Click here</a> if
+        the window did not open.{' '}
+      </p>
+    </div>
   ) : (
     <p>
       <GoogleAuth setJwt={setJwt} />{' '}

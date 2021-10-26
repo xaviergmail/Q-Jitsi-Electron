@@ -3,7 +3,6 @@ import baseURL from './config.js'
 
 
 
-import { /*NotificationContainer, */ NotificationManager } from 'react-notifications'
 // import * as notificationHandler from '../notificationHandler'
 
 console.log(baseURL)
@@ -50,6 +49,7 @@ const actions = {
     } catch (err) {
       console.error("Failed to get user data please log in again", err)
       localStorage.removeItem("token")
+      window.location.reload()
     }
     // await notificationHandler.register()
     return user
@@ -83,7 +83,7 @@ const actions = {
     return await API.get('/all-posts', resetHead())
   },
   getPost: async (id) => {
-    //How do i not need this? 
+    //How do i not need this?
     let res = await API.get(`/post?id=${id}`, resetHead())
     return res
   },
@@ -127,7 +127,7 @@ const actions = {
 //       localStorage.removeItem("token")
 //       localStorage.removeItem("googletoken")
 //     }
-    
+
 //   }
 // )
 
