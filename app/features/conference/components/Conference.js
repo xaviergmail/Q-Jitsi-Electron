@@ -214,6 +214,15 @@ class Conference extends Component<Props, State> {
         const jwt = this._conference.jwt;
         const host = this._conference.serverURL.replace(/https?:\/\//, '');
         const searchParameters = Object.fromEntries(url.searchParams);
+        const hashParameters = url.hash.substring(1).split('&')
+            .reduce((res, item) => {
+                const parts = item.split('=');
+
+                res[parts[0]] = parts[1];
+
+                return res;
+            }, {});
+
         const locale = { lng: i18n.language };
         const urlParameters = {
             ...searchParameters,
@@ -227,6 +236,14 @@ class Conference extends Component<Props, State> {
             startWithAudioMuted: true,
             startWithVideoMuted: true,
         };
+
+        Object.entries(hashParameters).forEach(([ key, value ]) => {
+            if (key.startsWith('config.')) {
+                const configKey = key.substring('config.'.length);
+
+                configOverwrite[configKey] = value;
+            }
+        });
 
         const options = {
             configOverwrite,

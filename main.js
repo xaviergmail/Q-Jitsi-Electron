@@ -66,7 +66,9 @@ app.commandLine.appendSwitch('disable-features', 'IOSurfaceCapturer');
 app.commandLine.appendSwitch('force-fieldtrials', 'WebRTC-Audio-Red-For-Opus/Enabled/');
 
 // Enable optional PipeWire support.
-app.commandLine.appendSwitch('enable-features', 'WebRTCPipeWireCapturer');
+if (!app.commandLine.hasSwitch('enable-features')) {
+    app.commandLine.appendSwitch('enable-features', 'WebRTCPipeWireCapturer');
+}
 
 // Needed until robot.js is fixed: https://github.com/octalmage/robotjs/issues/580
 app.allowRendererProcessReuse = false;
@@ -263,7 +265,7 @@ function createJitsiMeetWindow(event, redirectUrl) {
         minHeight: 600,
         show: false,
         webPreferences: {
-            enableBlinkFeatures: 'RTCInsertableStreams,WebAssemblySimd',
+            enableBlinkFeatures: 'RTCInsertableStreams,WebAssemblySimd,WebAssemblyCSP',
             enableRemoteModule: true,
             contextIsolation: false,
             nativeWindowOpen: true,
@@ -716,6 +718,8 @@ ipcMain.on('notification-clicked', function (event, data) {
 })
 
 
-
+ipcMain.on('electron-store-exists', event => {
+    event.returnValue = existsSync(path.join(app.getPath('userData'), 'config.json'));
+});
 
 console.log('Wooooo we loaded!!!');

@@ -22,7 +22,7 @@
     "browser": "webpack serve --config ./webpack.browser.js"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "build": {
     "afterSign": "notarize.js",
@@ -32,7 +32,7 @@
     "extends": null,
     "afterPack": "./linux-sandbox-fix.js",
     "files": [
-      "**/*",
+      "build",
       "resources",
       "!app",
       "!main.js"
@@ -88,6 +88,16 @@
         }
       ]
     },
+    "deb": {
+      "depends": [
+        "libgtk-3-0",
+        "libnss3",
+        "libxtst6",
+        "xdg-utils",
+        "libatspi2.0-0",
+        "libuuid1"
+      ]
+    },
     "win": {
       "artifactName": "cowbell.club.${ext}",
       "target": [
@@ -133,6 +143,11 @@
   "readmeFilename": "README.md",
   "license": "Apache-2.0",
   "dependencies": {
+    "electron-debug": "^3.2.0",
+    "electron-reload": "^1.5.0",
+    "jitsi-meet-electron-utils": "github:jitsi/jitsi-meet-electron-utils#64477b82008c25b203903568ec11bdac1a284b06"
+  },
+  "devDependencies": {
     "@atlaskit/button": "^10.1.3",
     "@atlaskit/css-reset": "^3.0.8",
     "@atlaskit/droplist": "^7.0.17",
@@ -203,8 +218,6 @@
     "sound-play": "^1.1.0",
     "source-map-support": "^0.5.20",
     "styled-components": "^3.4.10"
-  },
-  "devDependencies": {
     "@babel/core": "7.9.0",
     "@babel/plugin-proposal-class-properties": "7.8.3",
     "@babel/plugin-proposal-export-namespace-from": "7.8.3",
@@ -222,13 +235,16 @@
     "concurrently": "5.1.0",
     "css-loader": "3.5.0",
     "dotenv-webpack": "^5.0.0",
-    "electron": "12.0.11",
-    "electron-builder": "22.10.5",
-    "electron-devtools-installer": "^3.1.1",
-    "electron-packager": "^15.2.0",
-    "electron-react-devtools": "^0.5.3",
-    "electron-webpack": "^2.8.2",
-    "electron-windows-store": "^2.1.0",
+    "electron": "13.0.11",
+    "electron": "13.5.2",
+    "electron-builder": "22.11.11",
+    "electron-context-menu": "^2.5.0",
+    "electron-is-dev": "^1.2.0",
+    "electron-log": "^4.3.2",
+    "electron-react-devtools": "0.5.3",
+    "electron-store": "^5.2.0",
+    "electron-updater": "^4.4.3",
+    "electron-window-state": "^5.0.3",
     "eslint": "6.5.1",
     "eslint-config-jitsi": "github:jitsi/eslint-config-jitsi#1.0.2",
     "eslint-plugin-flowtype": "4.7.0",
@@ -237,10 +253,15 @@
     "eslint-plugin-react": "7.19.0",
     "file-loader": "^6.2.0",
     "flow-bin": "0.109.0",
+    "history": "^4.10.1",
     "html-webpack-plugin": "4.0.4",
+    "i18next": "^19.9.2",
+    "moment": "^2.29.1",
+    "mousetrap": "^1.6.5",
     "patch-package": "6.2.2",
     "speed-measure-webpack-plugin": "^1.4.2",
     "style-loader": "1.1.3",
+    "styled-components": "^3.4.10",
     "webpack": "4.42.1",
     "webpack-cli": "^4.5.0",
     "webpack-dev-server": "^3.11.2",
