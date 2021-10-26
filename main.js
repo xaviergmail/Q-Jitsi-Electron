@@ -30,6 +30,7 @@ const URL = require('url');
 const config = require('./app/features/config');
 const { openExternalLink } = require('./app/features/utils/openExternalLink');
 const pkgJson = require('./package.json');
+const { existsSync } = require('fs');
 
 const showDevTools = Boolean(process.env.SHOW_DEV_TOOLS) || (process.argv.indexOf('--show-dev-tools') > -1);
 
@@ -57,8 +58,15 @@ ipcMain.on('get-env', event => {
 // We need this because of https://github.com/electron/electron/issues/18214
 app.commandLine.appendSwitch('disable-site-isolation-trials');
 
-// We need to disable hardware acceleration because its causes the screenshare to flicker.
-app.commandLine.appendSwitch('disable-gpu');
+// This allows BrowserWindow.setContentProtection(true) to work on macOS.
+// https://github.com/electron/electron/issues/19880
+app.commandLine.appendSwitch('disable-features', 'IOSurfaceCapturer');
+
+// Enable Opus RED field trial.
+app.commandLine.appendSwitch('force-fieldtrials', 'WebRTC-Audio-Red-For-Opus/Enabled/');
+
+// Enable optional PipeWire support.
+app.commandLine.appendSwitch('enable-features', 'WebRTCPipeWireCapturer');
 
 // Needed until robot.js is fixed: https://github.com/octalmage/robotjs/issues/580
 app.allowRendererProcessReuse = false;
@@ -190,7 +198,9 @@ function createJitsiMeetWindow(event, redirectUrl) {
     setApplicationMenu();
 
     // Check for Updates.
-    autoUpdater.checkForUpdatesAndNotify();
+    if (!process.mas) {
+        autoUpdater.checkForUpdatesAndNotify();
+    }
 
     // Load the previous window state with fallback to defaults.
     const windowState = windowStateKeeper({
@@ -201,7 +211,18 @@ function createJitsiMeetWindow(event, redirectUrl) {
 
 
     // Path to root directory.
-    const basePath = isDev ? __dirname : app.getAppPath();
+    let basePath = isDev ? __dirname : app.getAppPath();
+
+    // runtime detection on mac if this is a universal build with app-arm64.asar'
+    // as prepared in https://github.com/electron/universal/blob/master/src/index.ts
+    // if universal build, load the arch-specific real asar as the app does not load otherwise
+    if (process.platform === 'darwin' && existsSync(path.join(app.getAppPath(), '..', 'app-arm64.asar'))) {
+        if (process.arch === 'arm64') {
+            basePath = app.getAppPath().replace('app.asar', 'app-arm64.asar');
+        } else if (process.arch === 'x64') {
+            basePath = app.getAppPath().replace('app.asar', 'app-x64.asar');
+        }
+    }
 
     console.log(basePath, 'basePathbasePath', redirectUrl)
 
@@ -244,6 +265,7 @@ function createJitsiMeetWindow(event, redirectUrl) {
         webPreferences: {
             enableBlinkFeatures: 'RTCInsertableStreams,WebAssemblySimd',
             enableRemoteModule: true,
+            contextIsolation: false,
             nativeWindowOpen: true,
             nodeIntegration: true,
             plugins: true,
@@ -440,8 +462,9 @@ function handleProtocolCall(fullProtocolCall) {
 
 /**
  * Force Single Instance Application.
+ * Handle this on darwin via LSMultipleInstancesProhibited in Info.plist as below does not work on MAS
  */
-const gotInstanceLock = app.requestSingleInstanceLock();
+const gotInstanceLock = process.platform === 'darwin' ? true : app.requestSingleInstanceLock();
 
 if (!gotInstanceLock) {
     app.quit();
